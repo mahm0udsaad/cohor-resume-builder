@@ -1,0 +1,64 @@
+{
+  "templates": [
+    {
+      "id": "1",
+      "name": "Professional",
+      "sections": [
+        {
+          "type": "header",
+          "data": {
+            "name": "John Doe",
+            "title": "Software Engineer",
+            "contact": "johndoe@example.com"
+          }
+        },
+        {
+          "type": "experience",
+          "data": [
+            {
+              "company": "Tech Corp",
+              "role": "Frontend Developer",
+              "duration": "Jan 2020 - Present",
+              "details": "Developed modern web applications using React and Next.js"
+            }
+          ]
+        },
+        {
+          "type": "education",
+          "data": [
+            {
+              "institution": "University of Tech",
+              "degree": "BSc Computer Science",
+              "graduationYear": 2019
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Creative",
+      "sections": [
+        {
+          "type": "header",
+          "data": {
+            "name": "Jane Doe",
+            "title": "Product Designer",
+            "contact": "janedoe@example.com"
+          }
+        },
+        {
+          "type": "experience",
+          "data": [
+            {
+              "company": "Creative Agency",
+              "role": "Lead Designer",
+              "duration": "Feb 2018 - Present",
+              "details": "Led a team of designers in creating UX/UI for various clients"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
