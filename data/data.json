@@ -1,0 +1,269 @@
+{
+  "template-0": {
+    "theme": {
+      "primaryColor": "#FF0000",
+      "secondaryColor": "#666666",
+      "textColor": "#000000"
+    },
+    "sections": [
+      {
+        "type": "header",
+        "content": {
+          "name": "John Doe",
+          "position": "Software Engineer"
+        },
+        "style": {
+          "fontSize": "24px",
+          "fontWeight": "bold",
+          "color": "{theme.primaryColor}",
+          "backgroundColor": "#2E3B4E",
+          "textAlign": "center",
+          "border": {
+            "color": "#FF0000",
+            "width": "2px",
+            "style": "solid"
+          },
+          "padding": "20px"
+        }
+      },
+      {
+        "type": "contact_info",
+        "content": {
+          "email": "john.doe@example.com",
+          "phone": "123-456-7890",
+          "address": "123 Main St, Anytown, USA"
+        },
+        "style": {
+          "fontSize": "14px",
+          "color": "{theme.secondaryColor}",
+          "layout": "vertical",
+          "spacing": "10px",
+          "border": {
+            "color": "#000000",
+            "width": "1px",
+            "style": "solid"
+          }
+        }
+      },
+      {
+        "type": "experience",
+        "content": [
+          {
+            "company": "Tech Solutions",
+            "position": "Software Engineer",
+            "start_date": "July 2020",
+            "end_date": "Present",
+            "description": "Developing and maintaining web applications using React and Node.js.",
+            "style": {
+              "companyStyle": {
+                "fontSize": "16px",
+                "color": "{theme.primaryColor}",
+                "fontWeight": "bold"
+              },
+              "positionStyle": {
+                "fontSize": "14px",
+                "color": "{theme.textColor}"
+              },
+              "descriptionStyle": {
+                "fontSize": "12px",
+                "color": "{theme.secondaryColor}"
+              }
+            }
+          }
+        ],
+        "style": {
+          "sectionTitleStyle": {
+            "fontSize": "18px",
+            "color": "{theme.primaryColor}",
+            "textDecoration": "underline"
+          },
+          "itemSpacing": "10px"
+        }
+      },
+      {
+        "type": "education",
+        "content": [
+          {
+            "degree": "Bachelor of Science in Computer Science",
+            "institution": "University of Example",
+            "start_date": "2016",
+            "end_date": "2020"
+          }
+        ],
+        "style": {
+          "fontSize": "14px",
+          "color": "{theme.textColor}",
+          "marginBottom": "15px"
+        }
+      }
+    ]
+  },
+  "template-1": {
+    "theme": {
+      "primaryColor": "#800000",
+      "secondaryColor": "#000000",
+      "backgroundColor": "#FFFFFF"
+    },
+    "sections": [
+      {
+        "type": "header",
+        "content": {
+          "name": "محمد عبدالله",
+          "contact": {
+            "email": "m.abdullah@gmail.com",
+            "phone": "٠٥٠٠ ٠٠ ٠٠٠٠"
+          }
+        },
+        "style": {
+          "nameStyle": {
+            "fontSize": "24px",
+            "fontWeight": "bold",
+            "color": "{theme.primaryColor}",
+            "textAlign": "center"
+          },
+          "contactStyle": {
+            "fontSize": "14px",
+            "color": "{theme.secondaryColor}",
+            "textAlign": "center"
+          }
+        }
+      },
+      {
+        "type": "summary",
+        "content": {
+          "title": "الملخص",
+          "text": "مشرف عام وحدة العلاقات العامة والإعلام في مركز التواصل الوطني وذوي خبرة تزيد عن خمس سنوات في مجال الإعلام الرقمي والتواصل. حاصل على ماجستير في الإعلام الرقمي من جامعة الملك سعود. أمتلك مهارات متقدمة في إدارة الحملات الإعلامية الرقمية وبناء العلاقات مع وسائل الإعلام وتطوير المحتوى كما أني متخصص في تطوير استراتيجيات الاتصال الفعالة التي تعزز سمعة المؤسسة وتحسين العلاقات وإدارة الأزمات."
+        },
+        "style": {
+          "titleStyle": {
+            "fontSize": "18px",
+            "fontWeight": "bold",
+            "color": "{theme.primaryColor}"
+          },
+          "textStyle": {
+            "fontSize": "14px",
+            "color": "{theme.secondaryColor}"
+          }
+        }
+      },
+      {
+        "type": "experience",
+        "content": {
+          "title": "الخبرات",
+          "items": [
+            {
+              "position": "أخصائي علاقات عامة",
+              "company": "وزارة الصحة - الرياض",
+              "period": "حتى الآن - حتى الآن",
+              "responsibilities": [
+                "تنسيق وتنفيذ حملات العلاقات العامة والاتصال لدعم مبادرات الوزارة",
+                "تطوير العلاقات مع وسائل الإعلام الوطنية والدولية",
+                "إعداد وتحرير البيانات الصحفية والمواد الإعلامية الأخرى",
+                "تنفيذ مهام التنسيق والتواصل مع الشركاء الاستراتيجيين",
+                "تنظيم وإدارة المؤتمرات الصحفية والفعاليات الإعلامية الأخرى",
+                "إعداد التقارير الدورية عن أنشطة العلاقات العامة وتأثيرها"
+              ]
+            }
+          ]
+        },
+        "style": {
+          "titleStyle": {
+            "fontSize": "18px",
+            "fontWeight": "bold",
+            "color": "{theme.primaryColor}"
+          },
+          "itemStyle": {
+            "fontSize": "14px",
+            "color": "{theme.secondaryColor}"
+          }
+        }
+      },
+      {
+        "type": "skills",
+        "content": {
+          "title": "المهارات",
+          "items": [
+            "كتابة البيانات الصحفية والخطب والمنشورات",
+            "إدارة المشاريع وتنفيذ حملات العلاقات العامة",
+            "إعداد وتحرير محتوى وسائل التواصل الاجتماعي",
+            "الكتابة في الصحافة والإذاعة",
+            "مهارات التحدث أمام الجمهور",
+            "تدريب الموظفين",
+            "التخطيط والتنظيم"
+          ]
+        },
+        "style": {
+          "titleStyle": {
+            "fontSize": "18px",
+            "fontWeight": "bold",
+            "color": "{theme.primaryColor}"
+          },
+          "itemStyle": {
+            "fontSize": "14px",
+            "color": "{theme.secondaryColor}"
+          }
+        }
+      },
+      {
+        "type": "education",
+        "content": {
+          "title": "التعليم",
+          "items": [
+            {
+              "degree": "ماجستير إعلام تخصص إعلام رقمي",
+              "institution": "جامعة الملك سعود - الرياض",
+              "year": "٢٠١٩"
+            }
+          ]
+        },
+        "style": {
+          "titleStyle": {
+            "fontSize": "18px",
+            "fontWeight": "bold",
+            "color": "{theme.primaryColor}"
+          },
+          "itemStyle": {
+            "fontSize": "14px",
+            "color": "{theme.secondaryColor}"
+          }
+        }
+      },
+      {
+        "type": "additional_info",
+        "content": {
+          "title": "معلومات إضافية",
+          "items": ["مسجل لدى المجلس السعودي للإعلام"]
+        },
+        "style": {
+          "titleStyle": {
+            "fontSize": "18px",
+            "fontWeight": "bold",
+            "color": "{theme.primaryColor}"
+          },
+          "itemStyle": {
+            "fontSize": "14px",
+            "color": "{theme.secondaryColor}"
+          }
+        }
+      },
+      {
+        "type": "certifications",
+        "content": {
+          "title": "الشهادات",
+          "items": ["شهادة دولية في تنظيم الندوات والمؤتمرات"]
+        },
+        "style": {
+          "titleStyle": {
+            "fontSize": "18px",
+            "fontWeight": "bold",
+            "color": "{theme.primaryColor}"
+          },
+          "itemStyle": {
+            "fontSize": "14px",
+            "color": "{theme.secondaryColor}"
+          }
+        }
+      }
+    ]
+  }
+}

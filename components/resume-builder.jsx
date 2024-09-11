@@ -23,6 +23,8 @@ import {
   ArrowLeft,
   Trash2,
 } from "lucide-react";
+import templateData from "../data/data.json";
+import JsonTemplateRenderer from "./templateRender";
 
 const getLevelLabel = (level) => {
   switch (level) {
@@ -267,7 +269,7 @@ export function ResumeBuilder() {
   const [courses, setCourses] = useState([]);
   const [customSections, setCustomSections] = useState([]);
 
-  const [selectedTemplate, setSelectedTemplate] = useState(templates[0]);
+  const [selectedTemplate, setSelectedTemplate] = useState("template-1");
   const [showTemplates, setShowTemplates] = useState(false);
   const [activeTab, setActiveTab] = useState("personal");
   const [showLanguages, setShowLanguages] = useState(false);
@@ -1155,7 +1157,10 @@ export function ResumeBuilder() {
                 </Tooltip>
               </TooltipProvider>
             </div>
-            <SelectedTemplateComponent data={resumeData} />
+            <JsonTemplateRenderer
+              initialTemplateData={templateData[selectedTemplate]}
+              userData={resumeData}
+            />{" "}
           </div>
         </div>
       </div>
