@@ -6,3 +6,5 @@
 ## Todo tomorrow
 
 - Resume Gallary
+- Taps In URL
+- make the resume preiviw template hight is constant

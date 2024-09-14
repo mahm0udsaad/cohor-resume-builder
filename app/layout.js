@@ -1,14 +1,20 @@
+import Nav from "@/components/component/nav";
 import "./globals.css";
+import { Footer } from "@/components/component/footer";
 
 export const metadata = {
-  title: "Resume Builder",
+  title: "Cohor | Resume Builder",
   description: "Generate Your Resume",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="">
+        <Nav />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
