@@ -1,4 +1,4 @@
-"use client";
+import React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,7 +9,26 @@ import { Wand2 } from "lucide-react";
 export function PersonalInfoForm({ data, updateData }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    updateData("personalInfo", { ...data, [name]: value });
+
+    if (name === "contactEmail") {
+      updateData({
+        type: "UPDATE",
+        path: ["personalInfo", "contact", 0],
+        value: value,
+      });
+    } else if (name === "phone") {
+      updateData({
+        type: "UPDATE",
+        path: ["personalInfo", "contact", 1],
+        value: value,
+      });
+    } else {
+      updateData({
+        type: "UPDATE",
+        path: ["personalInfo", name],
+        value: value,
+      });
+    }
   };
 
   const generateWithAI = (field) => {
@@ -39,14 +58,14 @@ export function PersonalInfoForm({ data, updateData }) {
               />
             </div>
             <div>
-              <Label htmlFor="email" className="text-[#20133E]">
+              <Label htmlFor="contactEmail" className="text-[#20133E]">
                 Email
               </Label>
               <Input
-                id="email"
-                name="email"
+                id="contactEmail"
+                name="contactEmail"
                 type="email"
-                value={data.email}
+                value={data.contact[0]}
                 onChange={handleChange}
                 placeholder="john@example.com"
                 className="border-[#3B51A3] focus:ring-[#3B51A3]"
@@ -54,13 +73,13 @@ export function PersonalInfoForm({ data, updateData }) {
             </div>
           </div>
           <div>
-            <Label htmlFor="Title" className="text-[#20133E]">
+            <Label htmlFor="jobTitle" className="text-[#20133E]">
               Job Title
             </Label>
             <Input
-              id="title"
-              name="title"
-              value={data.title}
+              id="jobTitle"
+              name="jobTitle"
+              value={data.jobTitle}
               onChange={handleChange}
               placeholder="Job Title"
               className="border-[#3B51A3] focus:ring-[#3B51A3]"
@@ -73,7 +92,7 @@ export function PersonalInfoForm({ data, updateData }) {
             <Input
               id="phone"
               name="phone"
-              value={data.phone}
+              value={data.contact[1]}
               onChange={handleChange}
               placeholder="(123) 456-7890"
               className="border-[#3B51A3] focus:ring-[#3B51A3]"

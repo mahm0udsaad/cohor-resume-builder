@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Select,
   SelectTrigger,
@@ -10,9 +8,14 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
-export default function SelectWithSearch() {
+export default function SelectWithSearch({ value, onChange, placeholder }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [selectedSkill, setSelectedSkill] = useState(value || "");
+
+  useEffect(() => {
+    setSelectedSkill(value || "");
+  }, [value]);
+
   const skills = [
     "JavaScript",
     "React",
@@ -35,43 +38,41 @@ export default function SelectWithSearch() {
     "Git",
     "Agile",
   ];
+
   const filteredSkills = skills.filter((skill) =>
     skill.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
   const handleSkillSelect = (skill) => {
-    if (selectedSkills.includes(skill)) {
-      setSelectedSkills(selectedSkills.filter((s) => s !== skill));
-    } else {
-      setSelectedSkills([skill]);
-    }
+    setSelectedSkill(skill);
+    onChange(skill);
   };
+
   return (
     <Select
-      value={selectedSkills[0] || ""}
+      value={selectedSkill}
       onValueChange={handleSkillSelect}
       className="w-full"
     >
       <SelectTrigger
         className={`justify-between border-[#3b51a3] ${
-          selectedSkills.length > 0
-            ? "bg-[#3b51a338] text-[#3b51a3] font-bold"
-            : ""
+          selectedSkill ? "bg-[#3b51a338] text-[#3b51a3] font-bold" : ""
         }`}
       >
-        <SelectValue placeholder="Select skills" className="text-black">
-          {selectedSkills.length > 0 ? `${selectedSkills[0]}` : "Select Skills"}
+        <SelectValue placeholder={placeholder} className="text-black">
+          {selectedSkill || placeholder}
         </SelectValue>
       </SelectTrigger>
-      <SelectContent className="w-[300px] p-4">
+      <SelectContent className="w-full p-4">
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-2">
-            <SearchIcon className="h-4 w-4 text-muted-foreground" />
+          <div className="relative p-1 rounded-md border flex items-center gap-2">
+            <SearchIcon className="size-4 ml-2 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search skills..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full"
+              className="w-full border-none"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -80,7 +81,7 @@ export default function SelectWithSearch() {
                 key={skill}
                 value={skill}
                 className={`justify-start border-[#3b51a3] ${
-                  selectedSkills.includes(skill)
+                  selectedSkill === skill
                     ? "bg-[#3b51a3] text-primary-foreground"
                     : ""
                 }`}
@@ -92,25 +93,6 @@ export default function SelectWithSearch() {
         </div>
       </SelectContent>
     </Select>
-  );
-}
-
-function ChevronDownIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
   );
 }
 

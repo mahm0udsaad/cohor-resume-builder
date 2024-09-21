@@ -1,71 +1,70 @@
 "use client";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Plus, Trash2 } from "lucide-react";
 import {
   Select,
-  SelectContent,
-  SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectContent,
+  SelectItem,
 } from "@/components/ui/select";
-import { Plus, Trash2 } from "lucide-react";
-import { Label } from "./ui/label";
-
-const languageProficiencyOptions = [
-  "Elementary proficiency",
-  "Limited working proficiency",
-  "Professional working proficiency",
-  "Full professional proficiency",
-  "Native or bilingual proficiency",
-];
 
 export function ReviewForm({ resumeData, updateData }) {
   const [showLanguages, setShowLanguages] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
 
+  const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
+
   const handleLanguageChange = (index, field, value) => {
-    const updatedLanguages = resumeData.languages.map((lang, i) =>
-      i === index ? { ...lang, [field]: value } : lang,
-    );
-    updateData("languages", updatedLanguages);
+    updateData({
+      type: "UPDATE",
+      path: ["languages", index, field],
+      value: value,
+    });
   };
 
   const handleCourseChange = (index, field, value) => {
-    const updatedCourses = resumeData.courses.map((course, i) =>
-      i === index ? { ...course, [field]: value } : course,
-    );
-    updateData("courses", updatedCourses);
+    updateData({
+      type: "UPDATE",
+      path: ["courses", index, field],
+      value: value,
+    });
   };
 
   const addLanguage = () => {
-    updateData("languages", [
-      ...resumeData.languages,
-      { name: "", proficiency: "" },
-    ]);
+    updateData({
+      type: "ADD",
+      path: ["languages"],
+      value: { name: "", proficiency: "" },
+    });
   };
 
   const addCourse = () => {
-    updateData("courses", [
-      ...resumeData.courses,
-      { name: "", institution: "", completionDate: "" },
-    ]);
+    updateData({
+      type: "ADD",
+      path: ["courses"],
+      value: { name: "", institution: "", completionDate: "" },
+    });
   };
 
   const deleteLanguage = (index) => {
-    updateData(
-      "languages",
-      resumeData.languages.filter((_, i) => i !== index),
-    );
+    updateData({
+      type: "REMOVE",
+      path: ["languages"],
+      index: index,
+    });
   };
 
   const deleteCourse = (index) => {
-    updateData(
-      "courses",
-      resumeData.courses.filter((_, i) => i !== index),
-    );
+    updateData({
+      type: "REMOVE",
+      path: ["courses"],
+      index: index,
+    });
   };
 
   return (
@@ -113,6 +112,7 @@ export function ReviewForm({ resumeData, updateData }) {
                       Language
                     </Label>
                     <Input
+                      id={`languageName-${index}`}
                       value={lang.name}
                       onChange={(e) =>
                         handleLanguageChange(index, "name", e.target.value)
@@ -183,6 +183,7 @@ export function ReviewForm({ resumeData, updateData }) {
                       Course Name
                     </Label>
                     <Input
+                      id={`courseName-${index}`}
                       value={course.name}
                       onChange={(e) =>
                         handleCourseChange(index, "name", e.target.value)
@@ -199,6 +200,7 @@ export function ReviewForm({ resumeData, updateData }) {
                       Institution
                     </Label>
                     <Input
+                      id={`institution-${index}`}
                       value={course.institution}
                       onChange={(e) =>
                         handleCourseChange(index, "institution", e.target.value)
@@ -215,6 +217,7 @@ export function ReviewForm({ resumeData, updateData }) {
                       Completion Date
                     </Label>
                     <Input
+                      id={`completionDate-${index}`}
                       type="date"
                       value={course.completionDate}
                       onChange={(e) =>

@@ -4,27 +4,34 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Trash2 } from "lucide-react";
+import DatePicker from "../component/datePicker";
 
 export function EducationForm({ educations, updateData }) {
   const handleEducationChange = (index, field, value) => {
-    const updatedEducations = educations.map((edu, i) =>
-      i === index ? { ...edu, [field]: value } : edu,
-    );
-    updateData("educations", updatedEducations);
+    // Use the 'UPDATE' action and path to update a specific field
+    updateData({
+      type: "UPDATE",
+      path: ["educations", index, field],
+      value: value,
+    });
   };
 
   const addEducation = () => {
-    updateData("educations", [
-      ...educations,
-      { degree: "", institution: "", graduationDate: "" },
-    ]);
+    // Use the 'ADD' action to add a new education entry
+    updateData({
+      type: "ADD",
+      path: ["educations"],
+      value: { degree: "", institution: "", graduationDate: "" },
+    });
   };
 
   const deleteEducation = (index) => {
-    updateData(
-      "educations",
-      educations.filter((_, i) => i !== index),
-    );
+    // Use the 'REMOVE' action to remove an education entry by index
+    updateData({
+      type: "REMOVE",
+      path: ["educations"],
+      index: index,
+    });
   };
 
   return (
@@ -34,7 +41,7 @@ export function EducationForm({ educations, updateData }) {
           Education
         </h2>
         {educations.map((edu, index) => (
-          <div key={index} className="mb-4 p-4 rounded  relative">
+          <div key={index} className="mb-4 p-4 rounded relative">
             <div className="absolute top-0 right-0 mt-2 mr-2">
               <Button
                 onClick={() => deleteEducation(index)}
@@ -78,20 +85,12 @@ export function EducationForm({ educations, updateData }) {
               </div>
             </div>
             <div>
-              <Label
-                htmlFor={`graduationDate-${index}`}
-                className="text-[#20133E]"
-              >
-                Graduation Date
-              </Label>
-              <Input
-                id={`graduationDate-${index}`}
-                type="date"
+              <DatePicker
                 value={edu.graduationDate}
-                onChange={(e) =>
-                  handleEducationChange(index, "graduationDate", e.target.value)
+                onChange={(value) =>
+                  handleEducationChange(index, "graduationDate", value)
                 }
-                className="border-[#3B51A3] focus:ring-[#3B51A3]"
+                label="Graduation Date"
               />
             </div>
           </div>

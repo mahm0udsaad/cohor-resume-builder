@@ -3,24 +3,24 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft, LayoutTemplate, SquareX } from "lucide-react";
-import { PersonalInfoForm } from "@/components/personal-info-form";
-import { ExperienceForm } from "@/components/experience-form";
-import { EducationForm } from "@/components/education-form";
-import { SkillsForm } from "@/components/skills-form";
-import { ReviewForm } from "@/components/review-form";
+import { PersonalInfoForm } from "@/components/forms/personal-info-form";
+import { ExperienceForm } from "@/components/forms/experience-form";
+import { EducationForm } from "@/components/forms/education-form";
+import { SkillsForm } from "@/components/forms/skills-form";
+import { ReviewForm } from "@/components/forms/review-form";
 import { ThemeSelector } from "@/components/theme-selector";
 import { useResumeData } from "@/hooks/use-resume-data";
 import { useTheme } from "@/hooks/use-theme";
-import JsonTemplateRenderer from "./templateRender";
 import templateData from "@/data/data.json";
 import TemplateGallery from "./templates-gallery";
+import { motion, AnimatePresence } from "framer-motion";
+import Resume from "./component/resumePreview";
 
 export function ResumeBuilder() {
   const [activeTab, setActiveTab] = useState("personal");
   const { resumeData, updateResumeData } = useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState("template-4");
 
   const handleTabChange = (value) => {
     setActiveTab(value);
@@ -36,10 +36,6 @@ export function ResumeBuilder() {
     const tabs = ["personal", "experience", "education", "skills", "review"];
     const currentIndex = tabs.indexOf(activeTab);
     setActiveTab(tabs[Math.max(0, currentIndex - 1)]);
-  };
-
-  const handleSelectTemplate = (templateId) => {
-    setSelectedTemplate(templateId);
   };
 
   return (
@@ -97,38 +93,47 @@ export function ResumeBuilder() {
                       Review
                     </TabsTrigger>
                   </TabsList>
-                  <TabsContent value="personal">
-                    <PersonalInfoForm
-                      data={resumeData.personalInfo}
-                      updateData={updateResumeData}
-                    />
-                  </TabsContent>
-                  <TabsContent value="experience">
-                    <ExperienceForm
-                      experiences={resumeData.experiences}
-                      updateData={updateResumeData}
-                    />
-                  </TabsContent>
-                  <TabsContent value="education">
-                    <EducationForm
-                      educations={resumeData.educations}
-                      updateData={updateResumeData}
-                    />
-                  </TabsContent>
-                  <TabsContent value="skills">
-                    <SkillsForm
-                      skills={resumeData.skills || []}
-                      updateData={updateResumeData}
-                    />
-                  </TabsContent>
-                  <TabsContent value="review">
-                    <ReviewForm
-                      resumeData={resumeData}
-                      updateData={updateResumeData}
-                    />
-                  </TabsContent>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeTab}
+                      initial={{ x: 10, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      exit={{ x: -10, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <TabsContent value="personal">
+                        <PersonalInfoForm
+                          data={resumeData.personalInfo}
+                          updateData={updateResumeData}
+                        />
+                      </TabsContent>
+                      <TabsContent value="experience">
+                        <ExperienceForm
+                          experiences={resumeData.experiences}
+                          updateData={updateResumeData}
+                        />
+                      </TabsContent>
+                      <TabsContent value="education">
+                        <EducationForm
+                          educations={resumeData.educations}
+                          updateData={updateResumeData}
+                        />
+                      </TabsContent>
+                      <TabsContent value="skills">
+                        <SkillsForm
+                          skills={resumeData.skills || []}
+                          updateData={updateResumeData}
+                        />
+                      </TabsContent>
+                      <TabsContent value="review">
+                        <ReviewForm
+                          resumeData={resumeData}
+                          updateData={updateResumeData}
+                        />
+                      </TabsContent>
+                    </motion.div>
+                  </AnimatePresence>
                 </Tabs>
-
                 {activeTab !== "review" && (
                   <div className="flex justify-between pb-8">
                     <Button
@@ -150,7 +155,7 @@ export function ResumeBuilder() {
           </div>
 
           {/* Resume Preview Column */}
-          <div className="bg-gradient-to-br from-gray-100 to-gray-200  p-6 rounded-lg min-h-[90dvh] ">
+          <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg h-[90dvh] shadow-lg">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-semibold text-[#20133E]">
                 Resume Preview
@@ -168,7 +173,7 @@ export function ResumeBuilder() {
                     showTemplates
                       ? "bg-[#3B51A3] text-white"
                       : "bg-white text-black"
-                  }  border shadow-lg hover:shadow-none flex h-fit items-center rounded-md px-2 hover:bg-gray-200`}
+                  } border shadow-lg hover:shadow-none flex h-fit items-center rounded-md px-2 hover:bg-gray-200`}
                 >
                   {showTemplates ? (
                     <SquareX className="size-5" />
@@ -178,11 +183,7 @@ export function ResumeBuilder() {
                 </Button>
               </div>
             </div>
-            <JsonTemplateRenderer
-              userData={resumeData}
-              selectedTheme={selectedTheme}
-              templateData={templateData[selectedTemplate]}
-            />
+            <Resume resumeData={resumeData} />
           </div>
         </div>
       </div>
