@@ -12,7 +12,7 @@ import {
 import { Trash2, Plus } from "lucide-react";
 import SelectWithSearch from "@/components/component/selectWithSearch";
 
-export function SkillsForm({ skills, updateData }) {
+export default function SkillsForm({ skills, updateData }) {
   const [skillList, setSkillList] = useState(skills || []);
 
   const skillLevels = [
@@ -94,7 +94,7 @@ export function SkillsForm({ skills, updateData }) {
                 <Button
                   onClick={() => deleteSkill(index)}
                   size="icon"
-                  className="bg-[#3B51A3] hover:bg-white hover:text-black text-white"
+                  variant="ghost"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

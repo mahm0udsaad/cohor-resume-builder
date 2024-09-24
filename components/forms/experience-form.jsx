@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import DatePicker from "../component/datePicker";
 
-export function ExperienceForm({ experiences, updateData }) {
+export default function ExperienceForm({ experiences, updateData }) {
   const handleExperienceChange = (index, field, value) => {
     updateData({
       type: "UPDATE",

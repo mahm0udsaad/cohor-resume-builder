@@ -1,16 +1,13 @@
-import { useState } from "react";
-
-const defaultTheme = {
-  id: "default",
-  name: "Default",
-  primaryColor: "#3B51A3",
-  secondaryColor: "#542B72",
-  textColor: "#20133E",
-  backgroundColor: "#FFFFFF",
-};
+import { useEffect, useState } from "react";
 
 export function useTheme() {
-  const [selectedTheme, setSelectedTheme] = useState(null);
+  const [selectedTheme, setSelectedTheme] = useState(
+    JSON.parse(sessionStorage.getItem("selectedTheme")) || null,
+  );
+
+  useEffect(() => {
+    sessionStorage.setItem("selectedTheme", JSON.stringify(selectedTheme));
+  }, [selectedTheme]);
 
   return { selectedTheme, setSelectedTheme };
 }

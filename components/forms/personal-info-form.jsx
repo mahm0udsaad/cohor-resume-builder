@@ -4,31 +4,41 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Wand2 } from "lucide-react";
+import { Plus, Trash2, Wand2 } from "lucide-react";
 
-export function PersonalInfoForm({ data, updateData }) {
+export default function PersonalInfoForm({ data, updateData }) {
+  const { personalInfo } = data;
   const handleChange = (e) => {
     const { name, value } = e.target;
+    updateData({
+      type: "UPDATE",
+      path: ["personalInfo", name],
+      value: value,
+    });
+  };
 
-    if (name === "contactEmail") {
-      updateData({
-        type: "UPDATE",
-        path: ["personalInfo", "contact", 0],
-        value: value,
-      });
-    } else if (name === "phone") {
-      updateData({
-        type: "UPDATE",
-        path: ["personalInfo", "contact", 1],
-        value: value,
-      });
-    } else {
-      updateData({
-        type: "UPDATE",
-        path: ["personalInfo", name],
-        value: value,
-      });
-    }
+  const handleContactChange = (index, value) => {
+    updateData({
+      type: "UPDATE",
+      path: ["personalInfo", "contact", index],
+      value: value,
+    });
+  };
+
+  const addContact = () => {
+    updateData({
+      type: "ADD",
+      path: ["personalInfo", "contact"],
+      value: "",
+    });
+  };
+
+  const removeContact = (index) => {
+    updateData({
+      type: "REMOVE",
+      path: ["personalInfo", "contact"],
+      index: index,
+    });
   };
 
   const generateWithAI = (field) => {
@@ -58,45 +68,79 @@ export function PersonalInfoForm({ data, updateData }) {
               />
             </div>
             <div>
-              <Label htmlFor="contactEmail" className="text-[#20133E]">
+              <Label htmlFor="email" className="text-[#20133E]">
                 Email
               </Label>
               <Input
-                id="contactEmail"
-                name="contactEmail"
+                id="email"
+                name="email"
                 type="email"
                 value={data.contact[0]}
-                onChange={handleChange}
+                onChange={(e) => handleContactChange(0, e.target.value)}
                 placeholder="john@example.com"
                 className="border-[#3B51A3] focus:ring-[#3B51A3]"
               />
             </div>
           </div>
-          <div>
-            <Label htmlFor="jobTitle" className="text-[#20133E]">
-              Job Title
-            </Label>
-            <Input
-              id="jobTitle"
-              name="jobTitle"
-              value={data.jobTitle}
-              onChange={handleChange}
-              placeholder="Job Title"
-              className="border-[#3B51A3] focus:ring-[#3B51A3]"
-            />
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <Label htmlFor="jobTitle" className="text-[#20133E]">
+                Job Title
+              </Label>
+              <Input
+                id="jobTitle"
+                name="jobTitle"
+                value={data.jobTitle}
+                onChange={handleChange}
+                placeholder="Job Title"
+                className="border-[#3B51A3] focus:ring-[#3B51A3]"
+              />
+            </div>
+            <div>
+              <Label htmlFor="phone" className="text-[#20133E]">
+                Phone
+              </Label>
+              <Input
+                id="phone"
+                name="phone"
+                value={data.contact[1]}
+                onChange={(e) => handleContactChange(1, e.target.value)}
+                placeholder="(123) 456-7890"
+                className="border-[#3B51A3] focus:ring-[#3B51A3]"
+              />
+            </div>
           </div>
-          <div>
-            <Label htmlFor="phone" className="text-[#20133E]">
-              Phone
-            </Label>
-            <Input
-              id="phone"
-              name="phone"
-              value={data.contact[1]}
-              onChange={handleChange}
-              placeholder="(123) 456-7890"
-              className="border-[#3B51A3] focus:ring-[#3B51A3]"
-            />
+
+          <div className="grid grid-cols-2 gap-6">
+            {data.contact.slice(2).map((contact, index) => (
+              <div key={index + 2} className="flex items-center mb-2">
+                <Input
+                  value={contact}
+                  onChange={(e) =>
+                    handleContactChange(index + 2, e.target.value)
+                  }
+                  placeholder="https://example.com"
+                  className="border-[#3B51A3] focus:ring-[#3B51A3] flex-grow"
+                />
+                <Button
+                  onClick={() => removeContact(index + 2)}
+                  size="icon"
+                  variant="ghost"
+                  className="ml-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  <span className="sr-only">Remove contact</span>
+                </Button>
+              </div>
+            ))}
+            <Button
+              onClick={addContact}
+              variant="outline"
+              className="mt-2 main-border"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Contact
+            </Button>
           </div>
 
           <div>
@@ -119,6 +163,7 @@ export function PersonalInfoForm({ data, updateData }) {
                 className="absolute right-2 bottom-2 bg-[#3B51A3] hover:bg-white hover:text-black"
               >
                 <Wand2 className="h-4 w-4" />
+                <span className="sr-only">Generate with AI</span>
               </Button>
             </div>
           </div>

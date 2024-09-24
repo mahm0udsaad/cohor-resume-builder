@@ -1,54 +1,130 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft, LayoutTemplate, SquareX } from "lucide-react";
-import { PersonalInfoForm } from "@/components/forms/personal-info-form";
-import { ExperienceForm } from "@/components/forms/experience-form";
-import { EducationForm } from "@/components/forms/education-form";
-import { SkillsForm } from "@/components/forms/skills-form";
-import { ReviewForm } from "@/components/forms/review-form";
+
 import { ThemeSelector } from "@/components/theme-selector";
 import { useResumeData } from "@/hooks/use-resume-data";
 import { useTheme } from "@/hooks/use-theme";
-import templateData from "@/data/data.json";
-import TemplateGallery from "./templates-gallery";
 import { motion, AnimatePresence } from "framer-motion";
-import Resume from "./component/resumePreview";
+import { useRouter, useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
+import { Skeleton } from "./ui/skeleton";
+
+const DynamicPersonalInfoForm = dynamic(
+  () => import("@/components/forms/personal-info-form"),
+  {
+    loading: () => <Skeleton className={"w-full h-full"} />,
+  },
+);
+const DynamicExperienceForm = dynamic(
+  () => import("@/components/forms/experience-form"),
+  {
+    loading: () => <Skeleton className={"w-full h-full"} />,
+  },
+);
+const DynamicEducationForm = dynamic(
+  () => import("@/components/forms/education-form"),
+  {
+    loading: () => <Skeleton className={"w-full h-full"} />,
+  },
+);
+const DynamicSkillsForm = dynamic(
+  () => import("@/components/forms/skills-form"),
+  {
+    loading: () => <Skeleton className={"w-full h-full"} />,
+  },
+);
+const DynamicReviewForm = dynamic(
+  () => import("@/components/forms/review-form"),
+  {
+    loading: () => <Skeleton className={"w-full h-full"} />,
+  },
+);
+const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
+  loading: () => <Skeleton className={"w-full h-full"} />,
+  ssr: false,
+});
+const DynamicResumeComponent = dynamic(
+  () => import("@/components/templates/classic.jsx"),
+  {
+    loading: () => <Skeleton className={"w-full h-full bg-gray-800"} />,
+    ssr: false,
+  },
+);
+const DynamicModifiedResumeComponent = dynamic(
+  () => import("@/components/templates/modern.jsx"),
+  {
+    loading: () => <Skeleton className={"w-full h-full"} />,
+    ssr: false,
+  },
+);
 
 export function ResumeBuilder() {
-  const [activeTab, setActiveTab] = useState("personal");
   const { resumeData, updateResumeData } = useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState("Classic");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const tabs = ["personal", "experience", "education", "skills", "review"];
+
+  const [activeTab, setActiveTab] = useState(() => {
+    const tabFromUrl = searchParams.get("tab");
+    return tabs.includes(tabFromUrl) ? tabFromUrl : "personal";
+  });
+
+  useEffect(() => {
+    const tabFromUrl = searchParams.get("tab");
+    if (tabFromUrl && tabs.includes(tabFromUrl)) {
+      setActiveTab(tabFromUrl);
+    }
+  }, [searchParams]);
+
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams],
+  );
 
   const handleTabChange = (value) => {
     setActiveTab(value);
+    router.push(`?${createQueryString("tab", value)}`, { scroll: false });
   };
 
   const handleNextTab = () => {
-    const tabs = ["personal", "experience", "education", "skills", "review"];
     const currentIndex = tabs.indexOf(activeTab);
-    setActiveTab(tabs[Math.min(tabs.length - 1, currentIndex + 1)]);
+    const nextTab = tabs[Math.min(tabs.length - 1, currentIndex + 1)];
+    handleTabChange(nextTab);
   };
 
   const handlePreviousTab = () => {
-    const tabs = ["personal", "experience", "education", "skills", "review"];
     const currentIndex = tabs.indexOf(activeTab);
-    setActiveTab(tabs[Math.max(0, currentIndex - 1)]);
+    const prevTab = tabs[Math.max(0, currentIndex - 1)];
+    handleTabChange(prevTab);
   };
+  const ResumeComponent =
+    selectedTemplate === "Classic"
+      ? DynamicResumeComponent
+      : DynamicModifiedResumeComponent;
 
+  const handleSelectTemplate = (templateName) => {
+    setSelectedTemplate(templateName);
+    setShowTemplates(false);
+  };
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto p-4">
+    <div className="min-h-screen ">
+      <div className="container-xl mx-auto p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Resume Form Column */}
           <div className="space-y-6 flex flex-col justify-between">
             {showTemplates ? (
-              <TemplateGallery
-                templateData={templateData}
-                onSelect={handleSelectTemplate}
-              />
+              <DynamicGallery onSelect={handleSelectTemplate} />
             ) : (
               <>
                 <Tabs
@@ -99,34 +175,34 @@ export function ResumeBuilder() {
                       initial={{ x: 10, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       exit={{ x: -10, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ duration: 0.1 }}
                     >
                       <TabsContent value="personal">
-                        <PersonalInfoForm
+                        <DynamicPersonalInfoForm
                           data={resumeData.personalInfo}
                           updateData={updateResumeData}
                         />
                       </TabsContent>
                       <TabsContent value="experience">
-                        <ExperienceForm
+                        <DynamicExperienceForm
                           experiences={resumeData.experiences}
                           updateData={updateResumeData}
                         />
                       </TabsContent>
                       <TabsContent value="education">
-                        <EducationForm
+                        <DynamicEducationForm
                           educations={resumeData.educations}
                           updateData={updateResumeData}
                         />
                       </TabsContent>
                       <TabsContent value="skills">
-                        <SkillsForm
+                        <DynamicSkillsForm
                           skills={resumeData.skills || []}
                           updateData={updateResumeData}
                         />
                       </TabsContent>
                       <TabsContent value="review">
-                        <ReviewForm
+                        <DynamicReviewForm
                           resumeData={resumeData}
                           updateData={updateResumeData}
                         />
@@ -155,7 +231,7 @@ export function ResumeBuilder() {
           </div>
 
           {/* Resume Preview Column */}
-          <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg h-[90dvh] shadow-lg">
+          <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg h-[90dvh] shadow-lg ">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-semibold text-[#20133E]">
                 Resume Preview
@@ -183,7 +259,10 @@ export function ResumeBuilder() {
                 </Button>
               </div>
             </div>
-            <Resume resumeData={resumeData} />
+            <ResumeComponent
+              resumeData={resumeData}
+              selectedTheme={selectedTheme}
+            />
           </div>
         </div>
       </div>

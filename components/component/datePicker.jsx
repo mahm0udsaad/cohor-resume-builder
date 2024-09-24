@@ -1,19 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
-import {
-  Calendar as CalendarIcon,
-  Minus,
-  Plus,
-  Trash2,
-  Wand2,
-} from "lucide-react";
+import { format, parseISO } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -22,8 +14,28 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-// Modified DatePicker component
-const DatePicker = ({ value, onChange, label }) => {
+const DatePicker = ({
+  value,
+  onChange,
+  label,
+  displayFormat = "MMM yyyy",
+  inputFormat = "yyyy-MM-dd",
+}) => {
+  const formatDate = (date, dateFormat) => {
+    if (!date) return "";
+    try {
+      const parsedDate = typeof date === "string" ? parseISO(date) : date;
+      return format(parsedDate, dateFormat);
+    } catch (error) {
+      console.error("Invalid date:", date);
+      return "";
+    }
+  };
+
+  const handleSelect = (date) => {
+    onChange(date ? format(date, inputFormat) : "");
+  };
+
   return (
     <div>
       <Label className="text-[#20133E]">{label}</Label>
@@ -37,14 +49,18 @@ const DatePicker = ({ value, onChange, label }) => {
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {value ? format(new Date(value), "PPP") : <span>Pick a date</span>}
+            {value ? (
+              formatDate(value, displayFormat)
+            ) : (
+              <span>Pick a date</span>
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
-            selected={value ? new Date(value) : undefined}
-            onSelect={(date) => onChange(date ? date.toISOString() : "")}
+            selected={value ? parseISO(value) : undefined}
+            onSelect={handleSelect}
             initialFocus
           />
         </PopoverContent>

@@ -20,7 +20,6 @@ const initialState = {
   skills: [{ name: "", level: "beginner" }],
   languages: [{ name: "", proficiency: "" }],
   courses: [{ name: "", institution: "", completionDate: "" }],
-  customSections: [{ title: "", content: "" }],
 };
 
 function resumeReducer(state, action) {

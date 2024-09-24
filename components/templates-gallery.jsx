@@ -1,78 +1,75 @@
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationEllipsis,
-  PaginationNext,
-} from "@/components/ui/pagination";
+import React from "react";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Resume from "@/components/templates/classic"; // Direct import for Classic template
+import ModifiedResumeTemplate from "@/components/templates/modern"; // Direct import for Modern template
 
-export default function TemplateGallery({ templateData, onSelect }) {
+const dummyData = {
+  personalInfo: {
+    name: "John Doe",
+    summary:
+      "Experienced software engineer with skills in JavaScript, React, Node.js, HTML, and CSS. Proficient in developing web applications with React and Node.js.",
+    contact: ["john@example.com", "123-456-7890", "New York, NY"],
+  },
+  experiences: [
+    {
+      title: "Software Engineer",
+      company: "Tech Corp",
+      startDate: "2020-01",
+      endDate: "Present",
+      responsibilities: "Developed web applications using React and Node.js",
+    },
+  ],
+  educations: [
+    {
+      degree: "Bachelor of Science in Computer Science",
+      institution: "University of Technology",
+      graduationDate: "2019-05",
+    },
+  ],
+  skills: [
+    { name: "JavaScript", level: "advanced" },
+    { name: "React", level: "intermediate" },
+    { name: "Node.js", level: "intermediate" },
+    { name: "HTML", level: "basic" },
+    { name: "CSS", level: "basic" },
+  ],
+};
+
+const TemplateGallery = ({ onSelect, main }) => {
+  const templates = [
+    { name: "Classic", Component: Resume },
+    { name: "Modern", Component: ModifiedResumeTemplate },
+  ];
+
   return (
-    <div className="py-8 sm:px-6 lg:px-8 rounded-md">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold tracking-tight text-[#3b51a3] dark:text-gray-100">
-          Resume Template Gallery
-        </h2>
-        <p className="mt-2 text-lg text-gray-500 dark:text-gray-400">
-          Browse our collection of professional resume templates.
-        </p>
-      </div>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
-        {Object.entries(templateData).map(([templateId, template]) => (
-          <div
-            key={templateId}
-            onClick={() => onSelect(templateId)}
-            className="group relative cursor-pointer overflow-hidden rounded-lg bg-white shadow-lg dark:bg-gray-800"
-          >
-            <div className="aspect-w-4 aspect-h-3">
-              <img
-                src="/placeholder.svg"
-                alt={templateId}
-                width={600}
-                height={450}
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                style={{ aspectRatio: "600/450", objectFit: "cover" }}
-              />
-            </div>
-            <div className="p-4">
-              <h3 className="text-lg font-semibold text-[#3b51a3] dark:text-gray-100">
-                {templateId}
-              </h3>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                A clean and contemporary resume template.
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="mt-8 flex justify-center">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" className="bg-[#3b51a3] text-white">
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+    <div
+      className={`grid ${
+        main ? "md:grid-cols-2" : ""
+      } grid-cols-1 gap-6 h-screen overflow-y-auto notfs`}
+    >
+      {templates.map((template, index) => {
+        const { name, Component } = template;
+
+        return (
+          <Card key={index}>
+            <CardContent className="p-4">
+              <h3 className="text-lg font-semibold mb-2">{name} Template</h3>
+              <div
+                className="group border rounded hover:border-none hover:shadow-xl hover:scale-103 hover:opacity-60 cursor-pointer transition-all duration-150 relative"
+                onClick={() => onSelect(name)}
+              >
+                <Component resumeData={dummyData} />
+                <div className="bg-main z-10 rounded text-white p-2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg font-semibold  opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                  Select Template
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
-}
+};
+
+export default TemplateGallery;

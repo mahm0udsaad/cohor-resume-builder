@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Trash2 } from "lucide-react";
 import DatePicker from "../component/datePicker";
 
-export function EducationForm({ educations, updateData }) {
+export default function EducationForm({ educations, updateData }) {
   const handleEducationChange = (index, field, value) => {
     // Use the 'UPDATE' action and path to update a specific field
     updateData({
@@ -46,7 +46,8 @@ export function EducationForm({ educations, updateData }) {
               <Button
                 onClick={() => deleteEducation(index)}
                 size="icon"
-                className="bg-[#3B51A3] hover:bg-white hover:text-black text-white"
+                variant="ghost"
+                className="ml-2"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
