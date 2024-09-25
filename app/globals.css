@@ -118,3 +118,10 @@ html.dark .notfs::-webkit-scrollbar-track {
   background-color: var(--main-color);
   border-radius: 3rem;
 }
+
+.container-xl {
+  @media (min-width: 1536px) {
+    max-width: 75vw !important;
+    height: 50dvh !important;
+  }
+}

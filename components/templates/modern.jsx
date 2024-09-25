@@ -1,6 +1,6 @@
 const ModernTemplate = ({ resumeData, selectedTheme }) => {
   return (
-    <div className="flex w-full max-w-4xl mx-auto bg-white shadow-lg notfs">
+    <div className="flex w-full max-w-4xl mx-auto bg-white h-[90%] overflow-auto notfs">
       <div
         style={{ backgroundColor: selectedTheme?.primaryColor }}
         className="w-[8%] bg-orange-600 flex justify-center items-center text-white text-lg font-bold rounded-r-md"

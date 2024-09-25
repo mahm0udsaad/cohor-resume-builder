@@ -42,30 +42,16 @@ const DynamicReviewForm = dynamic(
     loading: () => <Skeleton className={"w-full h-full"} />,
   },
 );
+
 const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
   loading: () => <Skeleton className={"w-full h-full"} />,
   ssr: false,
 });
-const DynamicResumeComponent = dynamic(
-  () => import("@/components/templates/classic.jsx"),
-  {
-    loading: () => <Skeleton className={"w-full h-full bg-gray-800"} />,
-    ssr: false,
-  },
-);
-const DynamicModifiedResumeComponent = dynamic(
-  () => import("@/components/templates/modern.jsx"),
-  {
-    loading: () => <Skeleton className={"w-full h-full"} />,
-    ssr: false,
-  },
-);
 
-export function ResumeBuilder() {
+export function ResumeBuilder({ ResumeComponent }) {
   const { resumeData, updateResumeData } = useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState("Classic");
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -108,23 +94,15 @@ export function ResumeBuilder() {
     const prevTab = tabs[Math.max(0, currentIndex - 1)];
     handleTabChange(prevTab);
   };
-  const ResumeComponent =
-    selectedTemplate === "Classic"
-      ? DynamicResumeComponent
-      : DynamicModifiedResumeComponent;
 
-  const handleSelectTemplate = (templateName) => {
-    setSelectedTemplate(templateName);
-    setShowTemplates(false);
-  };
   return (
     <div className="min-h-screen ">
-      <div className="container-xl mx-auto p-4">
+      <div className="container-xl  mx-auto p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Resume Form Column */}
           <div className="space-y-6 flex flex-col justify-between">
             {showTemplates ? (
-              <DynamicGallery onSelect={handleSelectTemplate} />
+              <DynamicGallery />
             ) : (
               <>
                 <Tabs
@@ -353,25 +331,6 @@ function CpuIcon(props) {
       <path d="M20 9h2" />
       <path d="M9 2v2" />
       <path d="M9 20v2" />
-    </svg>
-  );
-}
-
-function MountainIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
     </svg>
   );
 }

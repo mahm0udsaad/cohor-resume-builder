@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Trash2, Wand2 } from "lucide-react";
 
 export default function PersonalInfoForm({ data, updateData }) {
-  const { personalInfo } = data;
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateData({
@@ -136,7 +135,7 @@ export default function PersonalInfoForm({ data, updateData }) {
             <Button
               onClick={addContact}
               variant="outline"
-              className="mt-2 main-border"
+              className="main-border"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Contact

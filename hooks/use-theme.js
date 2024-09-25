@@ -1,13 +1,17 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 
 export function useTheme() {
   const [selectedTheme, setSelectedTheme] = useState(
-    JSON.parse(sessionStorage.getItem("selectedTheme")) || null,
+    (typeof window !== "undefined" &&
+      JSON.parse(sessionStorage.getItem("selectedTheme"))) ||
+      null,
   );
 
   useEffect(() => {
-    sessionStorage.setItem("selectedTheme", JSON.stringify(selectedTheme));
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("selectedTheme", JSON.stringify(selectedTheme));
+    }
   }, [selectedTheme]);
 
   return { selectedTheme, setSelectedTheme };

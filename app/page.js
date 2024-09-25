@@ -1,8 +1,8 @@
-import { ResumeBuilder } from "@/components/resume-builder";
+import { LandingPageComponent } from "@/components/landing-page";
 
 // In your component
 const ResumeBuilderPage = () => {
-  return <ResumeBuilder />;
+  return <LandingPageComponent />;
 };
 
 export default ResumeBuilderPage;
