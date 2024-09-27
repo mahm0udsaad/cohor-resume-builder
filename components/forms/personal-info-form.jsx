@@ -1,11 +1,11 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Trash2, Wand2 } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
+import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
 
 export default function PersonalInfoForm({ data, updateData, lng }) {
   const { t } = useTranslation(lng, "forms");
@@ -151,32 +151,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
           </div>
 
           <div>
-            <Label htmlFor="summary" className="text-[#20133E]">
-              {t("personalInfo.summary")}{" "}
-              {/* Translation for "Professional Summary" */}
-            </Label>
-            <div className="relative">
-              <Textarea
-                id="summary"
-                name="summary"
-                value={data.summary}
-                onChange={handleChange}
-                placeholder={t("personalInfo.summaryPlaceholder")}
-                rows={4}
-                className="border-[#3B51A3] focus:ring-[#3B51A3] w-full pr-10"
-              />
-              <Button
-                onClick={() => generateWithAI("summary")}
-                size="icon"
-                className="absolute right-2 bottom-2 bg-[#3B51A3] hover:bg-white hover:text-black"
-              >
-                <Wand2 className="h-4 w-4" />
-                <span className="sr-only">
-                  {t("personalInfo.generateAI")}
-                </span>{" "}
-                {/* Translation for "Generate with AI" */}
-              </Button>
-            </div>
+            <AiSuggestionTextarea lng={lng} data={data} />
           </div>
         </div>
       </CardContent>

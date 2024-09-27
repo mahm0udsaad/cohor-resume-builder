@@ -13,6 +13,10 @@ const templateComponents = {
     loading: () => <Skeleton className="w-full h-full" />,
     ssr: false,
   }),
+  bold: dynamic(() => import("@/components/templates/bold"), {
+    loading: () => <Skeleton className="w-full h-full" />,
+    ssr: false,
+  }),
 };
 
 const TemplatePage = ({ params: { template, lng } }) => {

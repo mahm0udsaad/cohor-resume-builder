@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
 import dynamic from "next/dynamic";
+import BoldTemplate from "@/components/templates/bold";
 const SearchForm = dynamic(() => import("@/components/forms/search"), {
   ssr: false,
 });
@@ -16,6 +17,7 @@ export default async function TemplateGallery({ params: { lng } }) {
   const templates = [
     { category: "classic", name: "classic", Component: Resume },
     { category: "modern", name: "modern", Component: ModifiedResumeTemplate },
+    { name: "bold", Component: BoldTemplate },
   ];
 
   return (

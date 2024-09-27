@@ -3,11 +3,13 @@ import Resume from "@/components/templates/classic"; // Direct import for Classi
 import ModifiedResumeTemplate from "@/components/templates/modern"; // Direct import for Modern template
 import { dummyData } from "@/data/data";
 import Link from "next/link";
+import BoldTemplate from "./templates/bold";
 
 const TemplateGallery = ({ main }) => {
   const templates = [
     { name: "classic", Component: Resume },
     { name: "modern", Component: ModifiedResumeTemplate },
+    { name: "bold", Component: BoldTemplate },
   ];
 
   return (
