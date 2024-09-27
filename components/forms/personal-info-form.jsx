@@ -43,9 +43,12 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
     });
   };
 
-  const generateWithAI = (field) => {
-    console.log(`Generating content for ${field} with AI`);
-    alert(`AI generation for ${field} would happen here.`);
+  const handleSummaryChange = (value) => {
+    updateData({
+      type: "UPDATE",
+      path: ["personalInfo", "summary"],
+      value: value,
+    });
   };
 
   return (
@@ -151,7 +154,11 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
           </div>
 
           <div>
-            <AiSuggestionTextarea lng={lng} data={data} />
+            <AiSuggestionTextarea
+              lng={lng}
+              data={data}
+              onChange={handleSummaryChange}
+            />
           </div>
         </div>
       </CardContent>

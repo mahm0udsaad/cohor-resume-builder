@@ -13,7 +13,7 @@ import { Label } from "./ui/label";
 import { useTranslation } from "@/app/i18n/client";
 import { generateSuggestions } from "@/actions/suggestions";
 
-export function AiSuggestionTextarea({ data, lng }) {
+export function AiSuggestionTextarea({ data, lng, onChange }) {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [textContent, setTextContent] = useState("");
@@ -37,11 +37,24 @@ export function AiSuggestionTextarea({ data, lng }) {
     }
   }, [data.jobTitle]);
 
-  const handleSuggestionClick = useCallback((suggestion) => {
-    setTextContent(suggestion.text);
-    setShowSuggestions(false);
-    setSuggestions([]);
-  }, []);
+  const handleSuggestionClick = useCallback(
+    (suggestion) => {
+      setTextContent(suggestion.text);
+      setShowSuggestions(false);
+      setSuggestions([]);
+      onChange(suggestion.text);
+    },
+    [onChange],
+  );
+
+  const handleTextChange = useCallback(
+    (e) => {
+      const newText = e.target.value;
+      setTextContent(newText);
+      onChange(newText);
+    },
+    [onChange],
+  );
 
   return (
     <div className="w-full ">
@@ -53,7 +66,7 @@ export function AiSuggestionTextarea({ data, lng }) {
           id="summary"
           name="summary"
           value={textContent}
-          onChange={(e) => setTextContent(e.target.value)}
+          onChange={handleTextChange}
           placeholder="Enter your text here..."
           rows={4}
           className="border-[#3B51A3] focus:ring-[#3B51A3] w-full pr-10"
