@@ -1,22 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
-import {
-  Calendar as CalendarIcon,
-  Minus,
-  Plus,
-  Trash2,
-  Wand2,
-} from "lucide-react";
+import { Calendar as Minus, Plus, Wand2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import DatePicker from "../component/datePicker";
+import { useTranslation } from "@/app/i18n/client";
 
-export default function ExperienceForm({ experiences, updateData }) {
+export default function ExperienceForm({ experiences, updateData, lng }) {
+  const { t } = useTranslation(lng, "forms"); // Initialize the translation hook
   const handleExperienceChange = (index, field, value) => {
     updateData({
       type: "UPDATE",
@@ -56,7 +51,7 @@ export default function ExperienceForm({ experiences, updateData }) {
     <Card>
       <CardContent className="p-6">
         <h2 className="text-2xl font-semibold mb-4 text-[#20133E]">
-          Work Experience
+          {t("workExperience.title")}
         </h2>
         {experiences.length > 0 &&
           experiences.map((exp, index) => (
@@ -67,7 +62,7 @@ export default function ExperienceForm({ experiences, updateData }) {
                     htmlFor={`jobTitle-${index}`}
                     className="text-[#20133E]"
                   >
-                    Job Title
+                    {t("workExperience.jobTitle")}
                   </Label>
                   <Input
                     id={`jobTitle-${index}`}
@@ -75,7 +70,7 @@ export default function ExperienceForm({ experiences, updateData }) {
                     onChange={(e) =>
                       handleExperienceChange(index, "jobTitle", e.target.value)
                     }
-                    placeholder="Software Engineer"
+                    placeholder={t("workExperience.jobTitlePlaceholder")}
                     className="border-[#3B51A3] focus:ring-[#3B51A3]"
                   />
                 </div>
@@ -84,7 +79,7 @@ export default function ExperienceForm({ experiences, updateData }) {
                     htmlFor={`company-${index}`}
                     className="text-[#20133E]"
                   >
-                    Company
+                    {t("workExperience.company")}
                   </Label>
                   <Input
                     id={`company-${index}`}
@@ -92,7 +87,7 @@ export default function ExperienceForm({ experiences, updateData }) {
                     onChange={(e) =>
                       handleExperienceChange(index, "company", e.target.value)
                     }
-                    placeholder="Tech Corp"
+                    placeholder={t("workExperience.companyPlaceholder")}
                     className="border-[#3B51A3] focus:ring-[#3B51A3]"
                   />
                 </div>
@@ -103,14 +98,14 @@ export default function ExperienceForm({ experiences, updateData }) {
                   onChange={(value) =>
                     handleExperienceChange(index, "startDate", value)
                   }
-                  label="Start Date"
+                  label={t("workExperience.startDate")}
                 />
                 <DatePicker
                   value={exp.endDate}
                   onChange={(value) =>
                     handleExperienceChange(index, "endDate", value)
                   }
-                  label="End Date"
+                  label={t("workExperience.endDate")}
                 />
               </div>
               <div>
@@ -118,7 +113,7 @@ export default function ExperienceForm({ experiences, updateData }) {
                   htmlFor={`responsibilities-${index}`}
                   className="text-[#20133E]"
                 >
-                  Responsibilities
+                  {t("workExperience.responsibilities")}
                 </Label>
                 <div className="relative">
                   <Textarea
@@ -131,7 +126,9 @@ export default function ExperienceForm({ experiences, updateData }) {
                         e.target.value,
                       )
                     }
-                    placeholder="Describe your key responsibilities and achievements"
+                    placeholder={t(
+                      "workExperience.responsibilitiesPlaceholder",
+                    )}
                     rows={3}
                     className="border-[#3B51A3] focus:ring-[#3B51A3] w-full pr-10"
                   />
@@ -151,14 +148,16 @@ export default function ExperienceForm({ experiences, updateData }) {
             onClick={addExperience}
             className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
           >
-            <Plus className="h-4 w-4 mr-2" /> Add Experience
+            <Plus className="h-4 w-4 mr-2" />{" "}
+            {t("workExperience.addExperience")}
           </Button>
           {experiences.length > 0 && (
             <Button
               onClick={() => deleteExperience(experiences.length - 1)}
               className="mt-2 bg-gray-200 hover:bg-white text-black"
             >
-              <Minus className="h-4 w-4 mr-2" /> Remove Last
+              <Minus className="h-4 w-4 mr-2" />{" "}
+              {t("workExperience.removeExperience")}
             </Button>
           )}
         </div>

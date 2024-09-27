@@ -1,4 +1,5 @@
 "use client";
+import { useTranslation } from "@/app/i18n/client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -6,9 +7,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Trash2 } from "lucide-react";
 import DatePicker from "../component/datePicker";
 
-export default function EducationForm({ educations, updateData }) {
+export default function EducationForm({ educations, updateData, lng }) {
+  const { t } = useTranslation(lng, "forms"); // Initialize the translation hook
+
   const handleEducationChange = (index, field, value) => {
-    // Use the 'UPDATE' action and path to update a specific field
     updateData({
       type: "UPDATE",
       path: ["educations", index, field],
@@ -17,7 +19,6 @@ export default function EducationForm({ educations, updateData }) {
   };
 
   const addEducation = () => {
-    // Use the 'ADD' action to add a new education entry
     updateData({
       type: "ADD",
       path: ["educations"],
@@ -26,7 +27,6 @@ export default function EducationForm({ educations, updateData }) {
   };
 
   const deleteEducation = (index) => {
-    // Use the 'REMOVE' action to remove an education entry by index
     updateData({
       type: "REMOVE",
       path: ["educations"],
@@ -38,7 +38,7 @@ export default function EducationForm({ educations, updateData }) {
     <Card>
       <CardContent className="p-6">
         <h2 className="text-2xl font-semibold mb-4 text-[#20133E]">
-          Education
+          {t("education")} {/* Translation for 'Education' */}
         </h2>
         {educations.map((edu, index) => (
           <div key={index} className="mb-4 p-4 rounded relative">
@@ -55,7 +55,7 @@ export default function EducationForm({ educations, updateData }) {
             <div className="grid grid-cols-2 gap-4 mb-2 mt-8">
               <div>
                 <Label htmlFor={`degree-${index}`} className="text-[#20133E]">
-                  Degree
+                  {t("degree")} {/* Translation for 'Degree' */}
                 </Label>
                 <Input
                   id={`degree-${index}`}
@@ -63,7 +63,7 @@ export default function EducationForm({ educations, updateData }) {
                   onChange={(e) =>
                     handleEducationChange(index, "degree", e.target.value)
                   }
-                  placeholder="Bachelor of Science"
+                  placeholder={t("degreePlaceholder")}
                   className="border-[#3B51A3] focus:ring-[#3B51A3]"
                 />
               </div>
@@ -72,7 +72,7 @@ export default function EducationForm({ educations, updateData }) {
                   htmlFor={`institution-${index}`}
                   className="text-[#20133E]"
                 >
-                  Institution
+                  {t("institution")} {/* Translation for 'Institution' */}
                 </Label>
                 <Input
                   id={`institution-${index}`}
@@ -80,7 +80,7 @@ export default function EducationForm({ educations, updateData }) {
                   onChange={(e) =>
                     handleEducationChange(index, "institution", e.target.value)
                   }
-                  placeholder="University Name"
+                  placeholder={t("institutionPlaceholder")}
                   className="border-[#3B51A3] focus:ring-[#3B51A3]"
                 />
               </div>
@@ -91,7 +91,7 @@ export default function EducationForm({ educations, updateData }) {
                 onChange={(value) =>
                   handleEducationChange(index, "graduationDate", value)
                 }
-                label="Graduation Date"
+                label={t("graduationDate")}
               />
             </div>
           </div>
@@ -100,7 +100,7 @@ export default function EducationForm({ educations, updateData }) {
           onClick={addEducation}
           className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
         >
-          <Plus className="h-4 w-4 mr-2" /> Add Education
+          <Plus className="h-4 w-4 mr-2" /> {t("addEducation")}
         </Button>
       </CardContent>
     </Card>

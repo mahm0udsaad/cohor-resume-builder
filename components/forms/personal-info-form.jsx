@@ -5,8 +5,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Trash2, Wand2 } from "lucide-react";
+import { useTranslation } from "@/app/i18n/client";
 
-export default function PersonalInfoForm({ data, updateData }) {
+export default function PersonalInfoForm({ data, updateData, lng }) {
+  const { t } = useTranslation(lng, "forms");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateData({
@@ -49,26 +52,27 @@ export default function PersonalInfoForm({ data, updateData }) {
     <Card>
       <CardContent className="p-6">
         <h2 className="text-2xl font-semibold mb-4 text-[#20133E]">
-          Personal Information
+          {t("personalInfo.title")}{" "}
+          {/* Translation for "Personal Information" */}
         </h2>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-6">
             <div>
               <Label htmlFor="name" className="text-[#20133E]">
-                Full Name
+                {t("personalInfo.fullName")} {/* Translation for "Full Name" */}
               </Label>
               <Input
                 id="name"
                 name="name"
                 value={data.name}
                 onChange={handleChange}
-                placeholder="John Doe"
+                placeholder={t("personalInfo.fullNamePlaceholder")}
                 className="border-[#3B51A3] focus:ring-[#3B51A3]"
               />
             </div>
             <div>
               <Label htmlFor="email" className="text-[#20133E]">
-                Email
+                {t("personalInfo.email")} {/* Translation for "Email" */}
               </Label>
               <Input
                 id="email"
@@ -76,7 +80,7 @@ export default function PersonalInfoForm({ data, updateData }) {
                 type="email"
                 value={data.contact[0]}
                 onChange={(e) => handleContactChange(0, e.target.value)}
-                placeholder="john@example.com"
+                placeholder={t("personalInfo.emailPlaceholder")}
                 className="border-[#3B51A3] focus:ring-[#3B51A3]"
               />
             </div>
@@ -84,27 +88,27 @@ export default function PersonalInfoForm({ data, updateData }) {
           <div className="grid grid-cols-2 gap-6">
             <div>
               <Label htmlFor="jobTitle" className="text-[#20133E]">
-                Job Title
+                {t("personalInfo.jobTitle")} {/* Translation for "Job Title" */}
               </Label>
               <Input
                 id="jobTitle"
                 name="jobTitle"
                 value={data.jobTitle}
                 onChange={handleChange}
-                placeholder="Job Title"
+                placeholder={t("personalInfo.jobTitlePlaceholder")}
                 className="border-[#3B51A3] focus:ring-[#3B51A3]"
               />
             </div>
             <div>
               <Label htmlFor="phone" className="text-[#20133E]">
-                Phone
+                {t("personalInfo.phone")} {/* Translation for "Phone" */}
               </Label>
               <Input
                 id="phone"
                 name="phone"
                 value={data.contact[1]}
                 onChange={(e) => handleContactChange(1, e.target.value)}
-                placeholder="(123) 456-7890"
+                placeholder={t("personalInfo.phonePlaceholder")}
                 className="border-[#3B51A3] focus:ring-[#3B51A3]"
               />
             </div>
@@ -118,7 +122,7 @@ export default function PersonalInfoForm({ data, updateData }) {
                   onChange={(e) =>
                     handleContactChange(index + 2, e.target.value)
                   }
-                  placeholder="https://example.com"
+                  placeholder={t("personalInfo.contactPlaceholder")}
                   className="border-[#3B51A3] focus:ring-[#3B51A3] flex-grow"
                 />
                 <Button
@@ -128,7 +132,10 @@ export default function PersonalInfoForm({ data, updateData }) {
                   className="ml-2"
                 >
                   <Trash2 className="h-4 w-4" />
-                  <span className="sr-only">Remove contact</span>
+                  <span className="sr-only">
+                    {t("personalInfo.removeContact")}
+                  </span>{" "}
+                  {/* Translation for "Remove contact" */}
                 </Button>
               </div>
             ))}
@@ -138,13 +145,15 @@ export default function PersonalInfoForm({ data, updateData }) {
               className="main-border"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add Contact
+              {t("personalInfo.addContact")}{" "}
+              {/* Translation for "Add Contact" */}
             </Button>
           </div>
 
           <div>
             <Label htmlFor="summary" className="text-[#20133E]">
-              Professional Summary
+              {t("personalInfo.summary")}{" "}
+              {/* Translation for "Professional Summary" */}
             </Label>
             <div className="relative">
               <Textarea
@@ -152,7 +161,7 @@ export default function PersonalInfoForm({ data, updateData }) {
                 name="summary"
                 value={data.summary}
                 onChange={handleChange}
-                placeholder="Brief overview of your professional background and key strengths"
+                placeholder={t("personalInfo.summaryPlaceholder")}
                 rows={4}
                 className="border-[#3B51A3] focus:ring-[#3B51A3] w-full pr-10"
               />
@@ -162,7 +171,10 @@ export default function PersonalInfoForm({ data, updateData }) {
                 className="absolute right-2 bottom-2 bg-[#3B51A3] hover:bg-white hover:text-black"
               >
                 <Wand2 className="h-4 w-4" />
-                <span className="sr-only">Generate with AI</span>
+                <span className="sr-only">
+                  {t("personalInfo.generateAI")}
+                </span>{" "}
+                {/* Translation for "Generate with AI" */}
               </Button>
             </div>
           </div>

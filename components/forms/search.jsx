@@ -1,4 +1,5 @@
 "use client";
+import { useTranslation } from "@/app/i18n/client";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -17,7 +18,9 @@ const SearchForm = React.forwardRef(
       selectedCategory: selectedCategoryProp = "",
     },
     ref,
+    lng,
   ) => {
+    const { t } = useTranslation(lng, "builder");
     const [searchTerm, setSearchTerm] = React.useState(searchTermProp);
     const [selectedCategory, setSelectedCategory] =
       React.useState(selectedCategoryProp);
@@ -56,7 +59,7 @@ const SearchForm = React.forwardRef(
         <div className="relative flex-grow">
           <Input
             type="text"
-            placeholder="Search templates..."
+            placeholder={t("searchForm.placeholder")}
             value={searchTerm}
             onChange={handleSearchTermChange}
             className="pl-10"
@@ -68,12 +71,12 @@ const SearchForm = React.forwardRef(
         </div>
         <Select value={selectedCategory} onValueChange={handleCategoryChange}>
           <SelectTrigger className="w-full md:w-[180px]">
-            <SelectValue placeholder="Select category" />
+            <SelectValue placeholder={t("searchForm.selectCategory")} />
           </SelectTrigger>
           <SelectContent>
             {categories.map((category) => (
               <SelectItem key={category} value={category}>
-                {category}
+                {t(`categories.${category.toLocaleLowerCase()}`)}
               </SelectItem>
             ))}
           </SelectContent>

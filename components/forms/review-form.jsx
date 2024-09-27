@@ -15,10 +15,11 @@ import {
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import DatePicker from "../component/datePicker";
-export default function ReviewForm({ resumeData, updateData }) {
+import { useTranslation } from "@/app/i18n/client";
+export default function ReviewForm({ resumeData, updateData, lng }) {
   const [showLanguages, setShowLanguages] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
-
+  const { t } = useTranslation(lng, "forms");
   const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
 
   const handleLanguageChange = (index, field, value) => {
@@ -88,26 +89,30 @@ export default function ReviewForm({ resumeData, updateData }) {
     <Card>
       <CardContent className="p-6">
         <h2 className="text-2xl font-semibold mb-4 text-[#20133E]">
-          Review Your Resume
+          {t("reviewResume.title")}
         </h2>
         <div className="mb-4">
           <Button
             onClick={() => setShowLanguages(!showLanguages)}
             className="mr-2 bg-[#3B51A3] hover:bg-white hover:text-black"
           >
-            {showLanguages ? "Hide Languages" : "Add Languages"}
+            {showLanguages
+              ? t("reviewResume.hideLanguages")
+              : t("reviewResume.addLanguages")}
           </Button>
           <Button
             onClick={() => setShowCourses(!showCourses)}
             className="mr-2 bg-[#3B51A3] hover:bg-white hover:text-black"
           >
-            {showCourses ? "Hide Courses" : "Add Courses"}
+            {showCourses
+              ? t("reviewResume.hideCourses")
+              : t("reviewResume.addCourses")}
           </Button>
         </div>
         {showLanguages && (
           <div className="p-4">
             <h3 className="text-xl font-semibold mb-4 text-[#20133E]">
-              Languages
+              {t("reviewResume.languagesTitle")}
             </h3>
             {resumeData?.languages.map((lang, index) => (
               <div key={index} className="mb-4 rounded relative">
@@ -118,7 +123,7 @@ export default function ReviewForm({ resumeData, updateData }) {
                         htmlFor={`languageName-${index}`}
                         className="text-[#20133E]"
                       >
-                        Language
+                        {t("reviewResume.language")}
                       </Label>
                       <Input
                         id={`languageName-${index}`}
@@ -126,7 +131,7 @@ export default function ReviewForm({ resumeData, updateData }) {
                         onChange={(e) =>
                           handleLanguageChange(index, "name", e.target.value)
                         }
-                        placeholder="Language"
+                        placeholder={t("reviewResume.languagePlaceholder")}
                         className="border-[#3B51A3] focus:ring-[#3B51A3]"
                       />
                     </div>
@@ -135,7 +140,7 @@ export default function ReviewForm({ resumeData, updateData }) {
                         htmlFor={`languageProficiency-${index}`}
                         className="text-[#20133E]"
                       >
-                        Proficiency
+                        {t("reviewResume.proficiency")}
                       </Label>
                       <Select
                         value={lang.proficiency}
@@ -144,7 +149,9 @@ export default function ReviewForm({ resumeData, updateData }) {
                         }
                       >
                         <SelectTrigger className="border-[#3B51A3] focus:ring-[#3B51A3]">
-                          <SelectValue placeholder="Select proficiency" />
+                          <SelectValue
+                            placeholder={t("reviewResume.selectProficiency")}
+                          />
                         </SelectTrigger>
                         <SelectContent>
                           {languageProficiencyOptions.map((option) => (
@@ -172,7 +179,7 @@ export default function ReviewForm({ resumeData, updateData }) {
               onClick={addLanguage}
               className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
             >
-              <Plus className="h-4 w-4 mr-2" /> Add Language
+              <Plus className="h-4 w-4 mr-2" /> {t("reviewResume.addLanguage")}
             </Button>
           </div>
         )}
@@ -180,7 +187,7 @@ export default function ReviewForm({ resumeData, updateData }) {
         {showCourses && (
           <>
             <h3 className="text-xl font-semibold text-[#20133E]">
-              Courses & Training
+              {t("reviewResume.coursesTitle")}
             </h3>
             {resumeData?.courses.map((course, index) => (
               <div key={index} className="flex flex-col mb-4 p-4 rounded ">
@@ -199,7 +206,7 @@ export default function ReviewForm({ resumeData, updateData }) {
                       htmlFor={`courseName-${index}`}
                       className="text-[#20133E]"
                     >
-                      Course Name
+                      {t("reviewResume.courseName")}
                     </Label>
                     <Input
                       id={`courseName-${index}`}
@@ -207,7 +214,7 @@ export default function ReviewForm({ resumeData, updateData }) {
                       onChange={(e) =>
                         handleCourseChange(index, "name", e.target.value)
                       }
-                      placeholder="Course Name"
+                      placeholder={t("reviewResume.courseNamePlaceholder")}
                       className="border-[#3B51A3] focus:ring-[#3B51A3]"
                     />
                   </div>
@@ -216,7 +223,7 @@ export default function ReviewForm({ resumeData, updateData }) {
                       htmlFor={`institution-${index}`}
                       className="text-[#20133E]"
                     >
-                      Institution
+                      {t("reviewResume.institution")}
                     </Label>
                     <Input
                       id={`institution-${index}`}
@@ -224,7 +231,7 @@ export default function ReviewForm({ resumeData, updateData }) {
                       onChange={(e) =>
                         handleCourseChange(index, "institution", e.target.value)
                       }
-                      placeholder="Institution"
+                      placeholder={t("reviewResume.institutionPlaceholder")}
                       className="border-[#3B51A3] focus:ring-[#3B51A3]"
                     />
                   </div>
@@ -234,14 +241,14 @@ export default function ReviewForm({ resumeData, updateData }) {
                     htmlFor={`completionDate-${index}`}
                     className="text-[#20133E]"
                   >
-                    Completion Date
+                    {t("reviewResume.completionDate")}
                   </Label>
                   <DatePicker
                     value={course.completionDate}
                     onChange={(value) =>
                       handleCourseChange(index, "completionDate", value)
                     }
-                    label="Graduation Date"
+                    label={t("reviewResume.graduationDate")}
                   />
                 </div>
               </div>
@@ -250,7 +257,7 @@ export default function ReviewForm({ resumeData, updateData }) {
               onClick={addCourse}
               className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
             >
-              <Plus className="h-4 w-4 mr-2" /> Add Course
+              <Plus className="h-4 w-4 mr-2" /> {t("reviewResume.addCourse")}
             </Button>
           </>
         )}
@@ -260,7 +267,7 @@ export default function ReviewForm({ resumeData, updateData }) {
             onClick={handleDownload}
             className="w-full bg-[#3B51A3] hover:bg-white hover:text-black"
           >
-            Download PDF
+            {t("reviewResume.downloadPDF")}
           </Button>
         </div>
       </CardContent>

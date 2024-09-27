@@ -15,7 +15,7 @@ const templateComponents = {
   }),
 };
 
-const TemplatePage = ({ params: { template } }) => {
+const TemplatePage = ({ params: { template, lng } }) => {
   const TemplateComponent = templateComponents[template];
 
   if (!TemplateComponent) {
@@ -24,7 +24,7 @@ const TemplatePage = ({ params: { template } }) => {
 
   return (
     <div className="bg-gray-25">
-      <ResumeBuilder ResumeComponent={TemplateComponent} />
+      <ResumeBuilder lng={lng} ResumeComponent={TemplateComponent} />
     </div>
   );
 };

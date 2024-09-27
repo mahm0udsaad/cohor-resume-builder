@@ -1,0 +1,33 @@
+{
+  "tabs": {
+    "personal": "Personal",
+    "experience": "Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "review": "Review"
+  },
+  "buttons": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "searchForm": {
+    "placeholder": "Search templates...",
+    "selectCategory": "Select category"
+  },
+  "categories": {
+    "all": "All",
+    "technology": "Technology",
+    "design": "Design",
+    "marketing": "Marketing",
+    "sales": "Sales",
+    "finance": "Finance",
+    "management": "Management",
+    "healthcare": "Healthcare",
+    "education": "Education",
+    "legal": "Legal",
+    "hospitality": "Hospitality",
+    "foodAndBeverage": "Food & Beverage",
+    "retail": "Retail"
+  },
+  "resumePreview": "Resume Preview"
+}

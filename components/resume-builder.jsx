@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Skeleton } from "./ui/skeleton";
+import { useTranslation } from "@/app/i18n/client";
 
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
@@ -47,7 +48,8 @@ const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
   ssr: false,
 });
 
-export function ResumeBuilder({ ResumeComponent }) {
+export function ResumeBuilder({ ResumeComponent, lng }) {
+  const { t } = useTranslation(lng, "builder"); // Initialize the translation hook
   const { resumeData, updateResumeData } = useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
@@ -94,8 +96,8 @@ export function ResumeBuilder({ ResumeComponent }) {
   };
 
   return (
-    <div className="min-h-screen ">
-      <div className="container-xl  mx-auto p-4">
+    <div className="min-h-screen">
+      <div className="container-xl mx-auto p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Resume Form Column */}
           <div className="space-y-6 flex flex-col justify-between">
@@ -108,41 +110,42 @@ export function ResumeBuilder({ ResumeComponent }) {
                   onValueChange={handleTabChange}
                   className="w-full"
                 >
-                  <TabsList className="grid grid-cols-5  mb-8">
+                  <TabsList className="grid grid-cols-5 mb-8">
                     <TabsTrigger
                       value="personal"
                       className="text-[#20133E] data-[state=active]:bg-[#3B51A3] data-[state=active]:text-white"
                     >
                       <UserIcon className="mr-2 h-4 w-4" />
-                      Personal
+                      {t("tabs.personal")} {/* Translation for 'Personal' */}
                     </TabsTrigger>
                     <TabsTrigger
                       value="experience"
                       className="text-[#20133E] data-[state=active]:bg-[#3B51A3] data-[state=active]:text-white"
                     >
                       <BriefcaseIcon className="mr-2 h-4 w-4" />
-                      Experience
+                      {t("tabs.experience")}{" "}
+                      {/* Translation for 'Experience' */}
                     </TabsTrigger>
                     <TabsTrigger
                       value="education"
                       className="text-[#20133E] data-[state=active]:bg-[#3B51A3] data-[state=active]:text-white"
                     >
                       <BookIcon className="mr-2 h-4 w-4" />
-                      Education
+                      {t("tabs.education")} {/* Translation for 'Education' */}
                     </TabsTrigger>
                     <TabsTrigger
                       value="skills"
                       className="text-[#20133E] data-[state=active]:bg-[#3B51A3] data-[state=active]:text-white"
                     >
                       <CpuIcon className="mr-2 h-4 w-4" />
-                      Skills
+                      {t("tabs.skills")} {/* Translation for 'Skills' */}
                     </TabsTrigger>
                     <TabsTrigger
                       value="review"
                       className="text-[#20133E] data-[state=active]:bg-[#3B51A3] data-[state=active]:text-white"
                     >
                       <CircleCheckIcon className="mr-2 h-4 w-4" />
-                      Review
+                      {t("tabs.review")} {/* Translation for 'Review' */}
                     </TabsTrigger>
                   </TabsList>
                   <AnimatePresence mode="wait">
@@ -155,30 +158,35 @@ export function ResumeBuilder({ ResumeComponent }) {
                     >
                       <TabsContent value="personal">
                         <DynamicPersonalInfoForm
+                          lng={lng}
                           data={resumeData.personalInfo}
                           updateData={updateResumeData}
                         />
                       </TabsContent>
                       <TabsContent value="experience">
                         <DynamicExperienceForm
+                          lng={lng}
                           experiences={resumeData.experiences}
                           updateData={updateResumeData}
                         />
                       </TabsContent>
                       <TabsContent value="education">
                         <DynamicEducationForm
+                          lng={lng}
                           educations={resumeData.educations}
                           updateData={updateResumeData}
                         />
                       </TabsContent>
                       <TabsContent value="skills">
                         <DynamicSkillsForm
+                          lng={lng}
                           skills={resumeData.skills || []}
                           updateData={updateResumeData}
                         />
                       </TabsContent>
                       <TabsContent value="review">
                         <DynamicReviewForm
+                          lng={lng}
                           resumeData={resumeData}
                           updateData={updateResumeData}
                         />
@@ -192,13 +200,15 @@ export function ResumeBuilder({ ResumeComponent }) {
                       onClick={handlePreviousTab}
                       className="bg-[#3B51A3] hover:bg-white hover:text-black"
                     >
-                      <ChevronLeft className="h-4 w-4 mr-2" /> Previous
+                      <ChevronLeft className="h-4 w-4 mr-2" />
+                      {t("buttons.previous")} {/* Translation for 'Previous' */}
                     </Button>
                     <Button
                       onClick={handleNextTab}
                       className="bg-[#3B51A3] hover:bg-white hover:text-black"
                     >
-                      Next <ChevronLeft className="h-4 w-4 ml-2 rotate-180" />
+                      {t("buttons.next")} {/* Translation for 'Next' */}
+                      <ChevronLeft className="h-4 w-4 ml-2 rotate-180" />
                     </Button>
                   </div>
                 )}
@@ -210,7 +220,7 @@ export function ResumeBuilder({ ResumeComponent }) {
           <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg h-[90dvh] shadow-lg ">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-semibold text-[#20133E]">
-                Resume Preview
+                {t("resumePreview")} {/* Translation for 'Resume Preview' */}
               </h2>
               <div className="flex items-center gap-4">
                 <ThemeSelector

@@ -7,8 +7,10 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import Logo from "./logo";
+import { useTranslation } from "../../app/i18n/client"; // Import translation hook
 
-export function SignInPageComponent() {
+export function SignInPageComponent({ lng }) {
+  const { t } = useTranslation(lng, "auth"); // Initialize translation hook
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -22,7 +24,7 @@ export function SignInPageComponent() {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     setIsLoading(false);
-    setMessage("Magic link sent! Check your email to sign in.");
+    setMessage(t("magicLinkSent"));
     setEmail("");
   };
 
@@ -34,20 +36,21 @@ export function SignInPageComponent() {
           className="flex justify-center mr-6 items-center mb-5 text-[#3b51a3] hover:text-[#2a3b7a]"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Home
+          {t("backToHome")} {/* Back to Home translation */}
         </Link>
         <div className="flex justify-center items-center">
           <Logo />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
+          {t("signInTitle")} {/* Sign in to your account translation */}
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <Label htmlFor="email">Email address</Label>
+              <Label htmlFor="email">{t("emailLabel")}</Label>{" "}
+              {/* Email address translation */}
               <div className="mt-1">
                 <Input
                   id="email"
@@ -68,7 +71,8 @@ export function SignInPageComponent() {
                 disabled={isLoading}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#3b51a3] hover:bg-[#2a3b7a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3b51a3]"
               >
-                {isLoading ? "Sending..." : "Send Magic Link"}
+                {isLoading ? t("sending") : t("sendMagicLink")}{" "}
+                {/* Sending... / Send Magic Link translation */}
               </Button>
             </div>
           </form>
@@ -86,7 +90,7 @@ export function SignInPageComponent() {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-gray-500">
-                  Or continue with
+                  {t("orContinueWith")} {/* Or continue with translation */}
                 </span>
               </div>
             </div>
@@ -94,7 +98,8 @@ export function SignInPageComponent() {
             <div className="mt-6 grid grid-cols-2 gap-3">
               <div>
                 <Button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                  <span className="sr-only">Sign in with Google</span>
+                  <span className="sr-only">{t("signInWithGoogle")}</span>{" "}
+                  {/* Google Sign In translation */}
                   <svg
                     className="w-5 h-5"
                     aria-hidden="true"
@@ -108,7 +113,8 @@ export function SignInPageComponent() {
 
               <div>
                 <Button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                  <span className="sr-only">Sign in with LinkedIn</span>
+                  <span className="sr-only">{t("signInWithLinkedIn")}</span>{" "}
+                  {/* LinkedIn Sign In translation */}
                   <svg
                     className="w-5 h-5"
                     aria-hidden="true"

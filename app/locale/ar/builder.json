@@ -1,0 +1,33 @@
+{
+  "tabs": {
+    "personal": "شخصي",
+    "experience": "الخبرة",
+    "education": "التعليم",
+    "skills": "المهارات",
+    "review": "مراجعة"
+  },
+  "buttons": {
+    "previous": "السابق",
+    "next": "التالي"
+  },
+  "searchForm": {
+    "placeholder": "ابحث عن القوالب...",
+    "selectCategory": "اختر الفئة"
+  },
+  "categories": {
+    "all": "الكل",
+    "technology": "التكنولوجيا",
+    "design": "التصميم",
+    "marketing": "التسويق",
+    "sales": "المبيعات",
+    "finance": "المالية",
+    "management": "الإدارة",
+    "healthcare": "الرعاية الصحية",
+    "education": "التعليم",
+    "legal": "القانون",
+    "hospitality": "الضيافة",
+    "foodAndBeverage": "الطعام والمشروبات",
+    "retail": "التجزئة"
+  },
+  "resumePreview": "معاينة السيرة الذاتية"
+}

@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/select";
 import { Trash2, Plus } from "lucide-react";
 import SelectWithSearch from "@/components/component/selectWithSearch";
+import { useTranslation } from "@/app/i18n/client";
 
-export default function SkillsForm({ skills, updateData }) {
+export default function SkillsForm({ skills, updateData, lng }) {
   const [skillList, setSkillList] = useState(skills || []);
-
+  const { t } = useTranslation(lng, "forms");
   const skillLevels = [
     { value: "beginner", label: "Beginner" },
     { value: "skillful", label: "Skillful" },
@@ -48,19 +49,21 @@ export default function SkillsForm({ skills, updateData }) {
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-[#20133E]">Skills</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-[#20133E]">
+          {t("skills.title")}
+        </h2>
         {skillList.map((skill, index) => (
-          <div key={index} className=" rounded relative">
+          <div key={index} className="rounded relative">
             <div className="flex items-center gap-4 mb-2 mt-8">
               <div className="flex-1">
                 <Label
                   htmlFor={`skillName-${index}`}
                   className="text-[#20133E]"
                 >
-                  Skill Name
+                  {t("skills.skillName")}
                 </Label>
                 <SelectWithSearch
-                  placeholder="Select or type a skill"
+                  placeholder={t("skills.selectOrTypeSkill")}
                   value={skill.name}
                   onChange={(value) => handleSkillChange(index, "name", value)}
                 />
@@ -70,7 +73,7 @@ export default function SkillsForm({ skills, updateData }) {
                   htmlFor={`skillLevel-${index}`}
                   className="text-[#20133E]"
                 >
-                  Skill Level
+                  {t("skills.skillLevel")}
                 </Label>
                 <Select
                   value={skill.level || "beginner"}
@@ -79,12 +82,12 @@ export default function SkillsForm({ skills, updateData }) {
                   }
                 >
                   <SelectTrigger className="border-[#3B51A3] focus:ring-[#3B51A3]">
-                    <SelectValue placeholder="Select skill level" />
+                    <SelectValue placeholder={t("skills.selectSkillLevel")} />
                   </SelectTrigger>
                   <SelectContent>
                     {skillLevels.map((level) => (
                       <SelectItem key={level.value} value={level.value}>
-                        {level.label}
+                        {t(`skills.${level.label.toLowerCase()}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -105,9 +108,9 @@ export default function SkillsForm({ skills, updateData }) {
         <div className="flex justify-end">
           <Button
             onClick={addSkill}
-            className=" self-end mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
+            className="self-end mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
           >
-            <Plus className="h-4 w-4 mr-2" /> Add Skill
+            <Plus className="h-4 w-4 mr-2" /> {t("skills.addSkill")}
           </Button>
         </div>
       </CardContent>
