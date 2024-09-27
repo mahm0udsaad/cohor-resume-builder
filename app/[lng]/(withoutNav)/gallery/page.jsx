@@ -1,19 +1,20 @@
 import { Badge } from "@/components/ui/badge";
-import { Download } from "lucide-react";
 import Resume from "@/components/templates/classic"; // Direct import for Classic template
 import ModifiedResumeTemplate from "@/components/templates/modern"; // Direct import for Modern template
 import { dummyData } from "@/data/data";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import SearchForm from "@/components/forms/search";
 import { useTranslation } from "@/app/i18n";
+import dynamic from "next/dynamic";
+const SearchForm = dynamic(() => import("@/components/forms/search"), {
+  ssr: false,
+});
 
-const TemplateGallery = async ({ params: { lng } }) => {
+export default async function TemplateGallery({ params: { lng } }) {
   const { t } = await useTranslation(lng, "common");
+
   const templates = [
     { category: "classic", name: "classic", Component: Resume },
-    { category: "classic", name: "classic", Component: Resume },
-    { category: "modern", name: "modern", Component: ModifiedResumeTemplate },
     { category: "modern", name: "modern", Component: ModifiedResumeTemplate },
   ];
 
@@ -39,8 +40,9 @@ const TemplateGallery = async ({ params: { lng } }) => {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {templates.map((template) => (
               <Link
+                key={template.name} // Ensure this is unique and stable
                 href={`/builder/${template.name}`}
-                className="group "
+                className="group"
                 prefetch={false}
               >
                 <div className="overflow-hidden rounded-lg bg-background shadow transition-all">
@@ -66,6 +68,4 @@ const TemplateGallery = async ({ params: { lng } }) => {
       </main>
     </div>
   );
-};
-
-export default TemplateGallery;
+}
