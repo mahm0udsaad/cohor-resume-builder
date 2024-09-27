@@ -12,7 +12,9 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import DatePicker from "../component/datePicker";
 export default function ReviewForm({ resumeData, updateData }) {
   const [showLanguages, setShowLanguages] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
@@ -66,6 +68,21 @@ export default function ReviewForm({ resumeData, updateData }) {
       index: index,
     });
   };
+  const handleDownload = () => {
+    const input = document.getElementById("ResumePreview");
+
+    html2canvas(input, { scale: 1 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: [canvas.width, canvas.height], // Scale the PDF to canvas size
+      });
+
+      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+      pdf.save("resume.pdf");
+    });
+  };
 
   return (
     <Card>
@@ -92,7 +109,7 @@ export default function ReviewForm({ resumeData, updateData }) {
             <h3 className="text-xl font-semibold mb-4 text-[#20133E]">
               Languages
             </h3>
-            {resumeData.languages.map((lang, index) => (
+            {resumeData?.languages.map((lang, index) => (
               <div key={index} className="mb-4 rounded relative">
                 <div className="flex gap-4 mb-2 mt-8">
                   <div className="flex w-full">
@@ -165,7 +182,7 @@ export default function ReviewForm({ resumeData, updateData }) {
             <h3 className="text-xl font-semibold text-[#20133E]">
               Courses & Training
             </h3>
-            {resumeData.courses.map((course, index) => (
+            {resumeData?.courses.map((course, index) => (
               <div key={index} className="flex flex-col mb-4 p-4 rounded ">
                 <div className="flex w-full items-center justify-end ">
                   <Button
@@ -219,18 +236,12 @@ export default function ReviewForm({ resumeData, updateData }) {
                   >
                     Completion Date
                   </Label>
-                  <Input
-                    id={`completionDate-${index}`}
-                    type="date"
+                  <DatePicker
                     value={course.completionDate}
-                    onChange={(e) =>
-                      handleCourseChange(
-                        index,
-                        "completionDate",
-                        e.target.value,
-                      )
+                    onChange={(value) =>
+                      handleCourseChange(index, "completionDate", value)
                     }
-                    className="border-[#3B51A3] focus:ring-[#3B51A3]"
+                    label="Graduation Date"
                   />
                 </div>
               </div>
@@ -245,7 +256,10 @@ export default function ReviewForm({ resumeData, updateData }) {
         )}
 
         <div className="mt-6">
-          <Button className="w-full bg-[#3B51A3] hover:bg-white hover:text-black">
+          <Button
+            onClick={handleDownload}
+            className="w-full bg-[#3B51A3] hover:bg-white hover:text-black"
+          >
             Download PDF
           </Button>
         </div>

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
 const defaultTheme = {
@@ -7,7 +8,7 @@ const defaultTheme = {
   backgroundColor: "#EBF8FF",
 };
 
-const Resume = ({ resumeData, selectedTheme }) => {
+const Resume = ({ resumeData, selectedTheme, className }) => {
   let theme = selectedTheme || defaultTheme;
   const renderSection = (title, content) => {
     if (!content || (Array.isArray(content) && content.length === 0)) {
@@ -22,7 +23,6 @@ const Resume = ({ resumeData, selectedTheme }) => {
       </section>
     );
   };
-
   const renderExperiences = () =>
     resumeData.experiences?.map((exp, index) => (
       <div key={index} className="mt-4 ">
@@ -34,7 +34,6 @@ const Resume = ({ resumeData, selectedTheme }) => {
         <p className="text-gray-700 mt-2">{exp.responsibilities}</p>
       </div>
     ));
-
   const renderEducation = () =>
     resumeData.educations?.map((edu, index) => (
       <div key={index} className="mt-4">
@@ -43,7 +42,6 @@ const Resume = ({ resumeData, selectedTheme }) => {
         <p className="text-sm text-gray-600">{edu.graduationDate}</p>
       </div>
     ));
-
   const renderSkills = () => (
     <ul className="text-gray-700 mt-2">
       {resumeData.skills[0]?.name &&
@@ -54,7 +52,6 @@ const Resume = ({ resumeData, selectedTheme }) => {
         ))}
     </ul>
   );
-
   const renderLanguages = () => (
     <ul className="text-gray-700 mt-2">
       {resumeData.languages?.map((lang, index) => (
@@ -64,7 +61,6 @@ const Resume = ({ resumeData, selectedTheme }) => {
       ))}
     </ul>
   );
-
   const renderCourses = () =>
     resumeData.courses?.map((course, index) => (
       <div key={index} className="mt-2">
@@ -73,8 +69,9 @@ const Resume = ({ resumeData, selectedTheme }) => {
         <p className="text-sm text-gray-600">{course.completionDate}</p>
       </div>
     ));
+
   return (
-    <div className="bg-white h-[93%] w-full max-w-4xl p-6 overflow-auto notfs">
+    <div className={cn("bg-white w-full max-w-4xl p-6 ", className)}>
       <div className="flex justify-between items-start">
         {/* Left Column */}
         <div className="w-2/3 pr-6">

@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "featuresTitle": "Features",
+    "stepsTitle": "How It Works",
+    "pricingTitle": "Pricing",
+    "toggleMenu": "Toggle Menu",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "header": {
+    "title": "Create a Professional Resume in Minutes",
+    "description": "With our advanced and flexible tools, you can create a professional resume in just minutes and seize new job opportunities.",
+    "ctaStartBuilding": "Start Building Now",
+    "ctaLearnMore": "Learn More"
+  },
+  "featuresTitle": "Key Features",
+  "features": [
+    {
+      "title": "Professional Templates",
+      "description": "Choose from a variety of ATS-optimized templates designed by career experts."
+    },
+    {
+      "title": "Easy Customization",
+      "description": "Personalize your resume with our user-friendly interface and real-time preview."
+    },
+    {
+      "title": "Instant Download",
+      "description": "Export your resume in multiple formats, ready to send to potential employers."
+    }
+  ],
+  "stepsTitle": "How It Works",
+  "steps": [
+    {
+      "title": "Choose Your Template",
+      "description": "Browse 30+ professionally designed resume templates to find the one that speaks to your style, industry, and experience."
+    },
+    {
+      "title": "Follow the Prompts",
+      "description": "Automation walks you through each step and suggests prewritten, customizable text targeted to the job."
+    },
+    {
+      "title": "Finalize, Save, and Send",
+      "description": "Save your resume as a PDF or Word Doc to your computer, ready to apply for your desired job."
+    }
+  ],
+  "stepsCta": "Start Building Now",
+  "pricingTitle": "Pricing Plans",
+  "pricingPlans": [
+    {
+      "name": "Basic",
+      "price": "$9.99",
+      "description": "Perfect for creating a single resume",
+      "features": [
+        "1 Resume Template",
+        "Basic Customization",
+        "PDF Download",
+        "24/7 Email Support"
+      ]
+    },
+    {
+      "name": "Pro",
+      "price": "$19.99",
+      "description": "Ideal for job seekers wanting more options",
+      "features": [
+        "5 Resume Templates",
+        "Advanced Customization",
+        "PDF & Word Download",
+        "Cover Letter Builder",
+        "Priority Email Support"
+      ]
+    },
+    {
+      "name": "Premium",
+      "price": "$29.99",
+      "description": "Best value for serious career advancement",
+      "features": [
+        "All Resume Templates",
+        "Full Customization",
+        "All Format Downloads",
+        "Cover Letter Builder",
+        "LinkedIn Profile Optimization",
+        "24/7 Priority Phone Support"
+      ]
+    }
+  ],
+  "pricingRecommended": "Recommended",
+  "pricingCta": "Choose Plan"
+}

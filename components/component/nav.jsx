@@ -1,58 +1,48 @@
-"use client";
-import { User } from "lucide-react";
 import { Button } from "../ui/button";
-import Image from "next/image";
 import Link from "next/link";
+import { Menu } from "lucide-react";
+import Logo from "./logo";
+import { useTranslation } from "@/app/i18n"; // assuming you're using react-i18next
 
-export default function Nav() {
+export default async function Nav({ lng }) {
+  const { t } = await useTranslation(lng, "common");
+
   return (
-    <nav className="bg-[#3b51a3] shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex-shrink-0 flex items-center">
-            <Link href="/">
-              <Image
-                priority
-                src={"/cogor-logo.svg"}
-                width={100}
-                height={120}
-              />
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto flex h-14 items-center">
+        <div className="mx-4 hidden md:flex">
+          <Logo />
+          <nav className="mx-6 flex items-center gap-6 text-sm font-medium">
+            <Link className="hover:text-blue-800" href="#features">
+              {t("nav.featuresTitle")}{" "}
             </Link>
-          </div>
-          <nav className="flex flex-col justify-center">
-            <ul className="flex justify-center items-center space-x-6">
-              <li>
-                <Link href="#" className="text-white hover:text-gray-900">
-                  Features
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-white hover:text-gray-900">
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-white hover:text-gray-900">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-white hover:text-gray-900">
-                  Contact
-                </Link>
-              </li>
-            </ul>
+            <Link className="hover:text-blue-800" href="#how-it-works">
+              {t("nav.stepsTitle")}{" "}
+            </Link>
+            <Link className="hover:text-blue-800" href="#pricing">
+              {t("nav.pricingTitle")}
+            </Link>
           </nav>
-          <div className="flex items-center">
-            <Button
-              variant="outline"
-              className=" border-white hover:bg-[#3B51A3] hover:text-white"
-            >
-              <User className="h-4 w-4 mr-2" /> Sign In
-            </Button>
-          </div>
+        </div>
+        <button className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-10 w-10 px-0 md:hidden">
+          <Menu className="h-6 w-6" />
+          <span className="sr-only">{t("nav.toggleMenu")}</span>{" "}
+          {/* For accessibility */}
+        </button>
+        <div className="flex flex-1 items-center space-x-2 justify-end">
+          <nav className="flex gap-2 items-center">
+            <Link href="/auth">
+              <Button variant="ghost">{t("nav.signIn")}</Button>
+            </Link>
+            <Link href="/auth">
+              <Button className="bg-[#3b51a3] hover:bg-[#2a3b7a] text-white">
+                {t("nav.signUp")}
+                {/* Dynamic translation for "Sign Up" */}
+              </Button>
+            </Link>{" "}
+          </nav>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }

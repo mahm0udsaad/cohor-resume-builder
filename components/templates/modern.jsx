@@ -1,6 +1,11 @@
-const ModernTemplate = ({ resumeData, selectedTheme }) => {
+import { cn } from "@/lib/utils";
+
+const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
   return (
-    <div className="flex w-full max-w-4xl mx-auto bg-white h-[90%] overflow-auto notfs">
+    <div
+      id="ResumePreview"
+      className={cn("flex w-full mx-auto bg-white ", className)}
+    >
       <div
         style={{ backgroundColor: selectedTheme?.primaryColor }}
         className="w-[8%] bg-orange-600 flex justify-center items-center text-white text-lg font-bold rounded-r-md"

@@ -15,36 +15,35 @@ import { Skeleton } from "./ui/skeleton";
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full"} />,
+    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
   },
 );
 const DynamicExperienceForm = dynamic(
   () => import("@/components/forms/experience-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full"} />,
+    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
   },
 );
 const DynamicEducationForm = dynamic(
   () => import("@/components/forms/education-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full"} />,
+    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
   },
 );
 const DynamicSkillsForm = dynamic(
   () => import("@/components/forms/skills-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full"} />,
+    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
   },
 );
 const DynamicReviewForm = dynamic(
   () => import("@/components/forms/review-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full"} />,
+    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
   },
 );
-
 const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
-  loading: () => <Skeleton className={"w-full h-full"} />,
+  loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
   ssr: false,
 });
 
@@ -54,7 +53,6 @@ export function ResumeBuilder({ ResumeComponent }) {
   const [showTemplates, setShowTemplates] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const tabs = ["personal", "experience", "education", "skills", "review"];
 
   const [activeTab, setActiveTab] = useState(() => {
@@ -240,6 +238,7 @@ export function ResumeBuilder({ ResumeComponent }) {
             <ResumeComponent
               resumeData={resumeData}
               selectedTheme={selectedTheme}
+              className={"scale-[0.6] transform translate-y-[-5rem] "}
             />
           </div>
         </div>
