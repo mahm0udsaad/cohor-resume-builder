@@ -98,9 +98,9 @@ export function ResumeBuilder({ ResumeComponent, lng }) {
   return (
     <div className="min-h-screen">
       <div className="container-xl mx-auto p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 ">
           {/* Resume Form Column */}
-          <div className="space-y-6 flex flex-col justify-between">
+          <div className="space-y-6 flex flex-col ">
             {showTemplates ? (
               <DynamicGallery />
             ) : (
@@ -195,7 +195,7 @@ export function ResumeBuilder({ ResumeComponent, lng }) {
                   </AnimatePresence>
                 </Tabs>
                 {activeTab !== "review" && (
-                  <div className="flex justify-between pb-8">
+                  <div className="flex justify-between mb-8">
                     <Button
                       onClick={handlePreviousTab}
                       className="bg-[#3B51A3] hover:bg-white hover:text-black"
@@ -217,7 +217,7 @@ export function ResumeBuilder({ ResumeComponent, lng }) {
           </div>
 
           {/* Resume Preview Column */}
-          <div className="bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg h-[90dvh] shadow-lg ">
+          <div className="overflow-auto notfs bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg min-h-[90dvh] max-h-screen  shadow-lg ">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-semibold text-[#20133E]">
                 {t("resumePreview")} {/* Translation for 'Resume Preview' */}
@@ -248,7 +248,7 @@ export function ResumeBuilder({ ResumeComponent, lng }) {
             <ResumeComponent
               resumeData={resumeData}
               selectedTheme={selectedTheme}
-              className={"scale-[0.6] transform translate-y-[-5rem] "}
+              className={"scale-[0.6] transform -translate-y-[20%]"}
             />
           </div>
         </div>
