@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 import Logo from "./logo";
 import { useTranslation } from "@/app/i18n"; // assuming you're using react-i18next
+import UserBtn from "./userBtn";
 
 export default async function Nav({ lng }) {
   const { t } = await useTranslation(lng, "common");
@@ -29,19 +30,7 @@ export default async function Nav({ lng }) {
           <span className="sr-only">{t("nav.toggleMenu")}</span>{" "}
           {/* For accessibility */}
         </button>
-        <div className="flex flex-1 items-center space-x-2 justify-end">
-          <nav className="flex gap-2 items-center">
-            <Link href="/auth">
-              <Button variant="ghost">{t("nav.signIn")}</Button>
-            </Link>
-            <Link href="/auth">
-              <Button className="bg-[#3b51a3] hover:bg-[#2a3b7a] text-white">
-                {t("nav.signUp")}
-                {/* Dynamic translation for "Sign Up" */}
-              </Button>
-            </Link>{" "}
-          </nav>
-        </div>
+        <UserBtn lng={lng} />
       </div>
     </header>
   );

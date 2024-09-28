@@ -7,25 +7,64 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import Logo from "./logo";
-import { useTranslation } from "../../app/i18n/client"; // Import translation hook
+import { useTranslation } from "../../app/i18n/client";
+import {
+  auth,
+  googleProvider,
+  sendEmailVerification,
+} from "../../firebase/client"; // Import Firebase auth methods
+import { signInWithPopup, sendSignInLinkToEmail } from "firebase/auth";
+import { storeUser } from "@/actions/auth/actions";
+import { useAuth } from "@/context/auth";
+import { useRouter } from "next/navigation";
 
 export function SignInPageComponent({ lng }) {
-  const { t } = useTranslation(lng, "auth"); // Initialize translation hook
+  const { t } = useTranslation(lng, "auth");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
-
-  const handleSubmit = async (e) => {
+  const { user } = useAuth();
+  const router = useRouter();
+  if (user) {
+    router.push("/");
+  }
+  // Handle email verification
+  const handleEmailSignIn = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setMessage("");
 
-    // Simulating API call for magic link
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const actionCodeSettings = {
+        url: "http://localhost:3000/verify", // Your verification URL
+        handleCodeInApp: true,
+      };
+      // Send sign-in link to email
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email); // Store the email locally
+      setMessage(t("magicLinkSent")); // Message after sending verification link
+    } catch (error) {
+      console.error("Error sending email link", error);
+      setMessage(error.message);
+    }
 
     setIsLoading(false);
-    setMessage(t("magicLinkSent"));
-    setEmail("");
+  };
+
+  // Handle Google Sign-In
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      // If user’s email isn’t verified, send email verification
+      await storeUser(user);
+      setMessage(t("emailVerificationSent"));
+    } catch (error) {
+      console.error("Error during Google Sign-In", error.mess);
+      setMessage(error.message);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -36,21 +75,20 @@ export function SignInPageComponent({ lng }) {
           className="flex justify-center mr-6 items-center mb-5 text-[#3b51a3] hover:text-[#2a3b7a]"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          {t("backToHome")} {/* Back to Home translation */}
+          {t("backToHome")}
         </Link>
         <div className="flex justify-center items-center">
           <Logo />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          {t("signInTitle")} {/* Sign in to your account translation */}
+          {t("signInTitle")}
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleEmailSignIn}>
             <div>
-              <Label htmlFor="email">{t("emailLabel")}</Label>{" "}
-              {/* Email address translation */}
+              <Label htmlFor="email">{t("emailLabel")}</Label>
               <div className="mt-1">
                 <Input
                   id="email"
@@ -71,8 +109,7 @@ export function SignInPageComponent({ lng }) {
                 disabled={isLoading}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#3b51a3] hover:bg-[#2a3b7a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3b51a3]"
               >
-                {isLoading ? t("sending") : t("sendMagicLink")}{" "}
-                {/* Sending... / Send Magic Link translation */}
+                {isLoading ? t("sending") : t("sendMagicLink")}
               </Button>
             </div>
           </form>
@@ -90,16 +127,19 @@ export function SignInPageComponent({ lng }) {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-gray-500">
-                  {t("orContinueWith")} {/* Or continue with translation */}
+                  {t("orContinueWith")}
                 </span>
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
               <div>
-                <Button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                  <span className="sr-only">{t("signInWithGoogle")}</span>{" "}
-                  {/* Google Sign In translation */}
+                <Button
+                  type="button"
+                  onClick={handleGoogleSignIn}
+                  className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                >
+                  <span className="sr-only">{t("signInWithGoogle")}</span>
                   <svg
                     className="w-5 h-5"
                     aria-hidden="true"
@@ -107,25 +147,6 @@ export function SignInPageComponent({ lng }) {
                     viewBox="0 0 24 24"
                   >
                     <path d="M12.120 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.120 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.120z" />
-                  </svg>
-                </Button>
-              </div>
-
-              <div>
-                <Button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                  <span className="sr-only">{t("signInWithLinkedIn")}</span>{" "}
-                  {/* LinkedIn Sign In translation */}
-                  <svg
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    fill="#3b51a3"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.2120H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.5120 1.5120 0 11-.003-3.096 1.5120 1.5120 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
-                      clipRule="evenodd"
-                    />
                   </svg>
                 </Button>
               </div>
