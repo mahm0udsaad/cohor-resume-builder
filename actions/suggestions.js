@@ -8,11 +8,29 @@ const groq = createOpenAI({
   baseURL: "https://api.groq.com/openai/v1",
   apiKey: process.env.GROQ_API_KEY,
 });
+// Define the prompts
+const ExperiencePrompt = (jobTitle, company) =>
+  `Generate 3 detailed suggestions for professional responsibilities and tasks for someone with the job title "${jobTitle}". Each suggestion should reflect key responsibilities, achievements, or common duties associated with this role in his last experince at ${company} talk as you are that person.`;
 
-export async function generateSuggestions(jobTitle) {
-  if (!jobTitle) {
+const AboutPrompt = (field) =>
+  `Generate 3 suggestions for a summary (About) for a user's resume based on their job Title. The summary should be 4 lines long and in the same language as the Job Title. Job Title: ${JSON.stringify(
+    field,
+  )}`;
+
+export async function generateSuggestions(
+  field,
+  isExperience = false,
+  company,
+) {
+  if (!field) {
     return;
   }
+  console.log(field, company);
+
+  const prompt = isExperience
+    ? ExperiencePrompt(field, company) // Use experience-related prompt
+    : AboutPrompt(field); // Use summary/about-related prompt
+
   try {
     const { object } = await generateObject({
       model: groq("llama-3.1-70b-versatile"),
@@ -23,10 +41,7 @@ export async function generateSuggestions(jobTitle) {
           }),
         ),
       }),
-      prompt: `Generate 3 suggestions for a summary (About) for a user's resume based on their job Title. The summary should be 4 lines long return 
-      the suggestions with the same language as the jobTitle. Job Title: ${JSON.stringify(
-        jobTitle,
-      )}`,
+      prompt,
     });
 
     return object.suggestions;

@@ -13,14 +13,33 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, User } from "lucide-react";
 import { useState } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase/client";
+import { useRouter } from "next/navigation";
 const UserBtn = ({ lng }) => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const { t } = useTranslation(lng, "common");
   const [open, setOpen] = useState(false);
-  const handleLogout = () => {
-    // Implement logout logic here
-    console.log("Logging out...");
+  const router = useRouter();
+  const handleLogout = async () => {
+    try {
+      // Sign out from Firebase
+      await signOut(auth);
+
+      // Clear the user from your auth context
+      setUser(null);
+
+      // Clear any user-related data from localStorage if you're storing any
+      localStorage.removeItem("user");
+
+      router.push("/");
+
+      console.log("Logged out successfully");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
+
   if (!user) {
     return (
       <div className="flex flex-1 items-center space-x-2 justify-end">

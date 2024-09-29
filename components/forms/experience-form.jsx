@@ -1,17 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { Calendar as Minus, Plus, Wand2 } from "lucide-react";
+import { Calendar as Minus, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import DatePicker from "../component/datePicker";
 import { useTranslation } from "@/app/i18n/client";
+import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
 
 export default function ExperienceForm({ experiences, updateData, lng }) {
   const { t } = useTranslation(lng, "forms"); // Initialize the translation hook
+
   const handleExperienceChange = (index, field, value) => {
     updateData({
       type: "UPDATE",
@@ -40,11 +41,6 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
       path: ["experiences"],
       index: index,
     });
-  };
-
-  const generateWithAI = (field) => {
-    console.log(`Generating content for ${field} with AI`);
-    alert(`AI generation for ${field} would happen here.`);
   };
 
   return (
@@ -115,31 +111,14 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
                 >
                   {t("workExperience.responsibilities")}
                 </Label>
-                <div className="relative">
-                  <Textarea
-                    id={`responsibilities-${index}`}
-                    value={exp.responsibilities}
-                    onChange={(e) =>
-                      handleExperienceChange(
-                        index,
-                        "responsibilities",
-                        e.target.value,
-                      )
-                    }
-                    placeholder={t(
-                      "workExperience.responsibilitiesPlaceholder",
-                    )}
-                    rows={3}
-                    className="border-[#3B51A3] focus:ring-[#3B51A3] w-full pr-10"
-                  />
-                  <Button
-                    onClick={() => generateWithAI(`experience-${index}`)}
-                    size="icon"
-                    className="absolute right-2 bottom-2 bg-[#3B51A3] hover:bg-white hover:text-black"
-                  >
-                    <Wand2 className="h-4 w-4" />
-                  </Button>
-                </div>
+                <AiSuggestionTextarea
+                  isExperince
+                  data={exp}
+                  lng={lng}
+                  onChange={(value) =>
+                    handleExperienceChange(index, "responsibilities", value)
+                  }
+                />
               </div>
             </div>
           ))}

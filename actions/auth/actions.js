@@ -1,34 +1,29 @@
-// app/auth/actions.js
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@/prisma/generated/client";
 
 const prisma = new PrismaClient();
 
 export async function storeUser(userData) {
-  console.log(userData);
   try {
-    const { email, uid, displayName, photoURL } = userData;
+    const { email, displayName, photoURL } = userData;
 
-    const user = await prisma.users.upsert({
-      where: { uid: uid },
+    const user = await prisma.user.upsert({
+      where: { email }, // Lookup user by email
       update: {
-        email: email,
-        displayName: displayName,
+        name: displayName,
         photoURL: photoURL,
         emailVerified: true,
-        lastLoginAt: new Date(),
       },
       create: {
-        uid: uid,
         email: email,
-        displayName: displayName,
+        name: displayName,
         photoURL: photoURL,
         emailVerified: true,
-        lastLoginAt: new Date(),
       },
     });
 
+    console.log(user);
     return { success: true, user };
   } catch (error) {
     console.error("Error storing user:", error);

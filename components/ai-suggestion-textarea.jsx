@@ -13,10 +13,10 @@ import { Label } from "./ui/label";
 import { useTranslation } from "@/app/i18n/client";
 import { generateSuggestions } from "@/actions/suggestions";
 
-export function AiSuggestionTextarea({ data, lng, onChange }) {
+export function AiSuggestionTextarea({ data, lng, onChange, isExperince }) {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [textContent, setTextContent] = useState("");
+  const [textContent, setTextContent] = useState(data.summary);
   const [suggestions, setSuggestions] = useState([]);
   const { t } = useTranslation(lng, "forms");
 
@@ -27,7 +27,12 @@ export function AiSuggestionTextarea({ data, lng, onChange }) {
       return;
     }
     try {
-      const result = await generateSuggestions(data.jobTitle);
+      const company = data.company ? data.company : null;
+      const result = await generateSuggestions(
+        data.jobTitle,
+        isExperince,
+        company,
+      );
       setSuggestions(result);
       setShowSuggestions(true);
     } catch (error) {
@@ -88,7 +93,9 @@ export function AiSuggestionTextarea({ data, lng, onChange }) {
             </Button>
           </PopoverTrigger>
           <PopoverContent
-            className={`${suggestions.length > 0 ? "w-[20%]" : "hidden w-0"}`}
+            className={`${
+              suggestions.length > 0 ? "w-full sm:w-[20%]" : "hidden w-0"
+            }`}
             side="right"
             align="start"
             alignOffset={-40}
@@ -99,7 +106,7 @@ export function AiSuggestionTextarea({ data, lng, onChange }) {
               {suggestions?.map((suggestion, index) => (
                 <li
                   key={index}
-                  className="p-2 bg-gray-50 rounded-md hover:bg-gray-100 cursor-pointer transition-colors duration-200"
+                  className="p-2 bg-gray-50 rounded-md hover:bg-gray-200 cursor-pointer transition-colors duration-200"
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
                   {suggestion.text}

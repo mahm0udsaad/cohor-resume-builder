@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "./logo";
 import { useTranslation } from "../../app/i18n/client";
 import {
@@ -25,9 +25,13 @@ export function SignInPageComponent({ lng }) {
   const [message, setMessage] = useState("");
   const { user } = useAuth();
   const router = useRouter();
-  if (user) {
-    router.push("/");
-  }
+
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [user, router]);
+
   // Handle email verification
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
@@ -57,12 +61,23 @@ export function SignInPageComponent({ lng }) {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      // If user’s email isn’t verified, send email verification
-      await storeUser(user);
-      setMessage(t("emailVerificationSent"));
+      console.log("User signed in with Google:", user);
+
+      // Store user data in the database
+      await storeUser({
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      });
+
+      setMessage(t("signInSuccess"));
     } catch (error) {
-      console.error("Error during Google Sign-In", error.mess);
-      setMessage(error.message);
+      if (error.code === "auth/popup-closed-by-user") {
+        console.warn("User closed the Google Sign-In popup.");
+      } else {
+        console.error("Error during Google Sign-In", error);
+        setMessage(error.message);
+      }
     }
     setIsLoading(false);
   };

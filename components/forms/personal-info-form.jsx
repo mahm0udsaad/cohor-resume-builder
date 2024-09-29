@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Trash2, Wand2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
 import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
 

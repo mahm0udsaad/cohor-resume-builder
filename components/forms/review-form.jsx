@@ -69,20 +69,48 @@ export default function ReviewForm({ resumeData, updateData, lng }) {
       index: index,
     });
   };
-  const handleDownload = () => {
-    const input = document.getElementById("ResumePreview");
 
-    html2canvas(input, { scale: 1 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: [canvas.width, canvas.height], // Scale the PDF to canvas size
-      });
+  const handleDownload = async () => {
+    const element = document.getElementById("ResumePreview");
+    if (!element) {
+      throw new Error("Resume Preview element not found");
+    }
 
-      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-      pdf.save("resume.pdf");
+    // Capture the entire component
+    const canvas = await html2canvas(element, {
+      scale: 2, // Increase resolution to prevent pixelation
+      useCORS: true, // Enable cross-origin images if needed
     });
+
+    const imgData = canvas.toDataURL("image/png");
+
+    // Set up PDF size to match the content
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+
+    // Calculate image height and width
+    const imgWidth = 210; // A4 size in mm
+    const pageHeight = 297; // A4 height in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    // Add first image and subsequent pages if content overflows
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight; // Calculate position for new page
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    pdf.save("resume.pdf");
   };
 
   return (

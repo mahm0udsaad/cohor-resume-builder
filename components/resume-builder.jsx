@@ -12,6 +12,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Skeleton } from "./ui/skeleton";
 import { useTranslation } from "@/app/i18n/client";
+import { updateUserResumeData } from "@/actions/userInfo/action";
+import { useAuth } from "@/context/auth";
 
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
@@ -49,10 +51,11 @@ const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
 });
 
 export function ResumeBuilder({ ResumeComponent, lng }) {
-  const { t } = useTranslation(lng, "builder"); // Initialize the translation hook
+  const { t } = useTranslation(lng, "builder");
   const { resumeData, updateResumeData } = useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
+  const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabs = ["personal", "experience", "education", "skills", "review"];
@@ -84,6 +87,19 @@ export function ResumeBuilder({ ResumeComponent, lng }) {
   };
 
   const handleNextTab = () => {
+    if (!user) {
+      router.push("/auth");
+      return;
+    }
+    // Start the server action without waiting for it
+    updateUserResumeData(user.email, resumeData).then((result) => {
+      if (result.success) {
+        console.log("Data updated successfully");
+      } else {
+        console.error("Error updating data:", result.error);
+      }
+    });
+    // Immediately move to the next tab
     const currentIndex = tabs.indexOf(activeTab);
     const nextTab = tabs[Math.min(tabs.length - 1, currentIndex + 1)];
     handleTabChange(nextTab);
