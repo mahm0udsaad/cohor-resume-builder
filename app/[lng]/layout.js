@@ -15,10 +15,10 @@ export const icons = {
 };
 export default function RootLayout({ children, params: { lng } }) {
   return (
-    <AuthProvider>
-      <html lang={lng} dir={dir(lng)}>
+    <html lang={lng} dir={dir(lng)}>
+      <AuthProvider>
         <body className="">{children}</body>
-      </html>
-    </AuthProvider>
+      </AuthProvider>
+    </html>
   );
 }

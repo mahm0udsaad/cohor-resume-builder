@@ -12,6 +12,7 @@
     "@ai-sdk/openai": "^0.0.63",
     "@formatjs/intl-localematcher": "^0.5.4",
     "@prisma/client": "^5.20.0",
+    "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",

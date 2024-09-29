@@ -4,7 +4,7 @@ import { Footer } from "@/components/component/footer";
 export default function RootLayout({ children }) {
   return (
     <html>
-      <body className="">
+      <body>
         {children}
         <Footer />
       </body>
