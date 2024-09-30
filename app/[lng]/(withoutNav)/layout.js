@@ -1,11 +1,11 @@
 import "@/app/[lng]/globals.css";
 import { Footer } from "@/components/component/footer";
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html>
       <body>
-        {children}
+        <div className="min-h-screen">{children}</div>
         <Footer />
       </body>
     </html>

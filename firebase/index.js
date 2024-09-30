@@ -14,5 +14,13 @@ if (!admin.apps.length) {
 }
 
 export const auth = admin.auth(); // Export only the auth module for authentication
-
+export async function verifyIdToken(idToken) {
+  try {
+    const decodedToken = await auth.verifyIdToken(idToken);
+    return decodedToken;
+  } catch (error) {
+    console.error("Error verifying ID token:", error);
+    return null;
+  }
+}
 export default admin;

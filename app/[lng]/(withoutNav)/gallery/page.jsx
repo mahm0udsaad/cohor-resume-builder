@@ -7,13 +7,18 @@ import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
 import dynamic from "next/dynamic";
 import BoldTemplate from "@/components/templates/bold";
+import { getCurrentUser } from "@/actions/userInfo/action";
+import { redirect } from "next/navigation";
 const SearchForm = dynamic(() => import("@/components/forms/search"), {
   ssr: false,
 });
 
 export default async function TemplateGallery({ params: { lng } }) {
   const { t } = await useTranslation(lng, "common");
-
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/auth");
+  }
   const templates = [
     { category: "classic", name: "classic", Component: Resume },
     { category: "modern", name: "modern", Component: ModifiedResumeTemplate },

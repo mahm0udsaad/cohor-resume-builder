@@ -8,17 +8,16 @@ export async function storeUser(userData) {
   try {
     const { email, displayName, photoURL } = userData;
 
-    const user = await prisma.user.upsert({
-      where: { email }, // Lookup user by email
-      update: {
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      return;
+    }
+
+    const user = await prisma.user.create({
+      data: {
+        email,
         name: displayName,
-        photoURL: photoURL,
-        emailVerified: true,
-      },
-      create: {
-        email: email,
-        name: displayName,
-        photoURL: photoURL,
+        photoURL,
         emailVerified: true,
       },
     });

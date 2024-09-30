@@ -13,10 +13,11 @@ import {
   googleProvider,
   sendEmailVerification,
 } from "../../firebase/client"; // Import Firebase auth methods
-import { signInWithPopup, sendSignInLinkToEmail } from "firebase/auth";
+import { signInWithPopup, sendSignInLinkToEmail, getAuth } from "firebase/auth";
 import { storeUser } from "@/actions/auth/actions";
 import { useAuth } from "@/context/auth";
 import { useRouter } from "next/navigation";
+import { setTokenCookie } from "@/lib/tokens";
 
 export function SignInPageComponent({ lng }) {
   const { t } = useTranslation(lng, "auth");
@@ -62,7 +63,7 @@ export function SignInPageComponent({ lng }) {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       console.log("User signed in with Google:", user);
-
+      await setTokenCookie();
       // Store user data in the database
       await storeUser({
         email: user.email,

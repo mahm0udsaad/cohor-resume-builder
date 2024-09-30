@@ -36,67 +36,8 @@ import {
   Plus,
 } from "lucide-react";
 
-export function ResumeDashboard() {
-  const [userInfo, setUserInfo] = useState({
-    personalInfo: {
-      name: "John Doe",
-      jobTitle: "Software Engineer",
-      summary:
-        "Experienced software engineer with a passion for creating efficient and scalable applications.",
-      contact: ["johndoe@email.com", "+1 (555) 123-4567"],
-    },
-    experiences: [
-      {
-        jobTitle: "Senior Software Engineer",
-        company: "Tech Solutions Inc.",
-        startDate: "2020-01",
-        endDate: "Present",
-        responsibilities:
-          "Led development of cloud-based applications, mentored junior developers.",
-      },
-      {
-        jobTitle: "Software Engineer",
-        company: "Innovative Systems LLC",
-        startDate: "2017-06",
-        endDate: "2019-12",
-        responsibilities:
-          "Developed and maintained web applications using React and Node.js.",
-      },
-    ],
-    educations: [
-      {
-        degree: "Bachelor of Science in Computer Science",
-        institution: "University of Technology",
-        graduationDate: "2015-05",
-      },
-      {
-        degree: "Master of Science in Software Engineering",
-        institution: "Tech Institute",
-        graduationDate: "2017-05",
-      },
-    ],
-    skills: [
-      { name: "JavaScript", level: "advanced" },
-      { name: "React", level: "advanced" },
-      { name: "Node.js", level: "intermediate" },
-    ],
-    languages: [
-      { name: "English", proficiency: "Native" },
-      { name: "Spanish", proficiency: "Intermediate" },
-    ],
-    courses: [
-      {
-        name: "Advanced React Patterns",
-        institution: "Frontend Masters",
-        completionDate: "2022-06",
-      },
-      {
-        name: "Machine Learning Fundamentals",
-        institution: "Coursera",
-        completionDate: "2021-09",
-      },
-    ],
-  });
+export function ResumeDashboard({ initialUserInfo }) {
+  const [userInfo, setUserInfo] = useState(initialUserInfo);
 
   const [editItem, setEditItem] = useState({
     section: "personalInfo",
@@ -161,21 +102,25 @@ export function ResumeDashboard() {
   };
 
   const renderCardContent = (section, data) => {
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      return <p>No {section} available.</p>; // Handle empty or null sections
+    }
+
     switch (section) {
       case "personalInfo":
         return (
           <div className="space-y-2">
             <p>
-              <strong>Name:</strong> {data.name}
+              <strong>Name:</strong> {data.name || "N/A"}
             </p>
             <p>
-              <strong>Job Title:</strong> {data.jobTitle}
+              <strong>Job Title:</strong> {data.jobTitle || "N/A"}
+            </p>
+            <p className="w-11/12 text-justify">
+              <strong>Summary:</strong> {data.summary || "N/A"}
             </p>
             <p>
-              <strong>Summary:</strong> {data.summary}
-            </p>
-            <p>
-              <strong>Contact:</strong> {data.contact.join(", ")}
+              <strong>Contact:</strong> {data.contact?.join(", ") || "N/A"}
             </p>
           </div>
         );
@@ -189,16 +134,21 @@ export function ResumeDashboard() {
               >
                 <div>
                   <p>
-                    <strong>{exp.jobTitle}</strong> at {exp.company}
+                    <strong>{exp.jobTitle || "N/A"}</strong> at{" "}
+                    {exp.company || "N/A"}
                   </p>
                   <p>
-                    {exp.startDate} - {exp.endDate}
+                    {new Date(exp.startDate).toLocaleDateString() || "N/A"} -{" "}
+                    {new Date(exp.endDate).toLocaleDateString() || "N/A"}
                   </p>
-                  <p>{exp.responsibilities}</p>
+                  <p className="w-11/12 text-justify">
+                    {exp.responsibilities || "N/A"}
+                  </p>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
+                  className="m-4"
                   onClick={() => handleEdit("experiences", index)}
                 >
                   <Edit className="h-4 w-4" />
@@ -214,10 +164,11 @@ export function ResumeDashboard() {
               <li key={index} className="flex justify-between items-start">
                 <div>
                   <p>
-                    <strong>{edu.degree}</strong>
+                    <strong>{edu.degree || "N/A"}</strong>
                   </p>
                   <p>
-                    {edu.institution}, {edu.graduationDate}
+                    {edu.institution || "N/A"},{" "}
+                    {new Date(edu.graduationDate).toLocaleDateString() || "N/A"}
                   </p>
                 </div>
                 <Button
@@ -237,8 +188,8 @@ export function ResumeDashboard() {
             {data.map((skill, index) => (
               <li key={index} className="flex justify-between items-center">
                 <span>
-                  <span className="font-semibold">{skill.name}</span> -{" "}
-                  {skill.level}
+                  <span className="font-semibold">{skill.name || "N/A"}</span> -{" "}
+                  {skill.level || "N/A"}
                 </span>
                 <Button
                   variant="ghost"
@@ -257,8 +208,8 @@ export function ResumeDashboard() {
             {data.map((lang, index) => (
               <li key={index} className="flex justify-between items-center">
                 <span>
-                  <span className="font-semibold">{lang.name}</span> -{" "}
-                  {lang.proficiency}
+                  <span className="font-semibold">{lang.name || "N/A"}</span> -{" "}
+                  {lang.proficiency || "N/A"}
                 </span>
                 <Button
                   variant="ghost"
@@ -278,10 +229,11 @@ export function ResumeDashboard() {
               <li key={index} className="flex justify-between items-start">
                 <div>
                   <p>
-                    <strong>{course.name}</strong>
+                    <strong>{course.name || "N/A"}</strong>
                   </p>
                   <p>
-                    {course.institution}, {course.completionDate}
+                    {course.institution || "N/A"},{" "}
+                    {new Date(course.completionDate).toLocaleDateString()}
                   </p>
                 </div>
                 <Button

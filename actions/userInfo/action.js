@@ -1,6 +1,9 @@
 "use server";
 
+import { verifyIdToken } from "@/firebase";
 import { PrismaClient } from "@/prisma/generated/client";
+import { cookies } from "next/headers";
+import { cache } from "react";
 
 const prisma = new PrismaClient();
 
@@ -98,5 +101,73 @@ export async function updateUserResumeData(userEmail, resumeData) {
     return { success: false, error: error.message };
   } finally {
     await prisma.$disconnect();
+  }
+}
+export const getCurrentUser = cache(
+  async function getCurrentUser() {
+    const token = cookies().get("firebaseToken")?.value; // Retrieve token from cookies
+
+    if (!token) return null; // If there's no token, return null
+
+    const decodedToken = await verifyIdToken(token); // Verify the token
+    if (!decodedToken) return null; // If verification fails, return null
+
+    const { email } = decodedToken;
+
+    // Fetch the user from MongoDB using Prisma
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    return user;
+  },
+  {
+    // Cache for 1 hour
+    maxAge: 60 * 60 * 1000,
+  },
+);
+
+export async function getUserWithDetails() {
+  // Get the current authenticated user
+  const currentUser = await getCurrentUser();
+
+  // Check if the current user exists (e.g., not authenticated or invalid token)
+  if (!currentUser) {
+    return { success: false, error: "No authenticated user found" };
+  }
+
+  try {
+    // Fetch user data with related info from MongoDB
+    const user = await prisma.user.findUnique({
+      where: { email: currentUser.email },
+      include: {
+        personalInfo: true,
+        experiences: true,
+        educations: true,
+        skills: true,
+        languages: true,
+        courses: true,
+      },
+    });
+
+    if (!user) {
+      return { success: false, error: "User not found" };
+    }
+
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        photoURL: user.photoURL,
+      },
+      personalInfo: user.personalInfo,
+      experiences: user.experiences,
+      educations: user.educations,
+      skills: user.skills,
+      languages: user.languages,
+      courses: user.courses,
+    };
+  } catch (error) {
+    console.error("Error fetching user with details:", error);
+    return { success: false, error: error.message };
   }
 }
