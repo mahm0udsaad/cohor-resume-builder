@@ -16,6 +16,7 @@ import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/client";
 import { useRouter } from "next/navigation";
+
 const UserBtn = ({ lng }) => {
   const { user, setUser } = useAuth();
   const { t } = useTranslation(lng, "common");
@@ -63,8 +64,8 @@ const UserBtn = ({ lng }) => {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="size-fit">
             <Image
-              src={user.photoURL || "/avatar.svg"}
-              alt={user.displayName || "User"}
+              src={user.picture || "/avatar.svg"}
+              alt={user.name || "User"}
               width={40}
               height={40}
               className="rounded-full border main-border"

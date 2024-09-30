@@ -1,19 +1,14 @@
-import "server-only";
-
 import admin from "firebase-admin";
 
-// Check if Firebase Admin app is already initialized to avoid re-initializing
+// Check if the Firebase app has already been initialized
 if (!admin.apps.length) {
-  const serviceAccount = JSON.parse(
-    process.env.FIREBASE_SERVICE_ACCOUNT_KEY || "{}",
-  );
-
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount), // Auth setup using your service account
+    credential: admin.credential.cert("cohor-resume-builder-firebase.json"),
   });
 }
 
-export const auth = admin.auth(); // Export only the auth module for authentication
+export const auth = admin.auth();
+
 export async function verifyIdToken(idToken) {
   try {
     const decodedToken = await auth.verifyIdToken(idToken);
@@ -23,4 +18,5 @@ export async function verifyIdToken(idToken) {
     return null;
   }
 }
+
 export default admin;

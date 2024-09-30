@@ -22,6 +22,7 @@ model User {
   skills        Skill[]
   languages     Language[]
   courses       Course[]
+  resumes       Resumes[]
 
   @@map("users")
 }
@@ -91,4 +92,14 @@ model Course {
   userId         String    @db.ObjectId
 
   @@map("courses")
+}
+
+model Resumes {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String // Name of the resume template
+  modifiedAt DateTime @default(now()) // Time of modification
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @db.ObjectId
+
+  @@map("resumes")
 }

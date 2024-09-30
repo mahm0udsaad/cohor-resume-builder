@@ -60,17 +60,7 @@ export function SignInPageComponent({ lng }) {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      console.log("User signed in with Google:", user);
-      await setTokenCookie();
-      // Store user data in the database
-      await storeUser({
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-      });
-
+      await signInWithPopup(auth, googleProvider);
       setMessage(t("signInSuccess"));
     } catch (error) {
       if (error.code === "auth/popup-closed-by-user") {

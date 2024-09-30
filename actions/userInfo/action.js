@@ -103,24 +103,31 @@ export async function updateUserResumeData(userEmail, resumeData) {
     await prisma.$disconnect();
   }
 }
+
 export const getCurrentUser = cache(
   async function getCurrentUser() {
-    const token = cookies().get("firebaseToken")?.value; // Retrieve token from cookies
+    // Retrieve the session token from cookies
+    const token = cookies().get("session")?.value;
 
-    if (!token) return null; // If there's no token, return null
+    // If there's no token, return null
+    if (!token) return null;
 
-    const decodedToken = await verifyIdToken(token); // Verify the token
-    if (!decodedToken) return null; // If verification fails, return null
+    // Verify the token using Firebase Admin SDK
+    const decodedToken = await verifyIdToken(token);
+
+    // If token verification fails, return null
+    if (!decodedToken) return null;
 
     const { email } = decodedToken;
 
-    // Fetch the user from MongoDB using Prisma
+    // Fetch the user from your MongoDB (Prisma in this case)
     const user = await prisma.user.findUnique({ where: { email } });
 
+    // Return the user object, or null if not found
     return user;
   },
   {
-    // Cache for 1 hour
+    // Cache the result for 1 hour
     maxAge: 60 * 60 * 1000,
   },
 );
@@ -145,6 +152,7 @@ export async function getUserWithDetails() {
         skills: true,
         languages: true,
         courses: true,
+        resumes: true,
       },
     });
 
@@ -165,6 +173,7 @@ export async function getUserWithDetails() {
       skills: user.skills,
       languages: user.languages,
       courses: user.courses,
+      resumes: user.resumes,
     };
   } catch (error) {
     console.error("Error fetching user with details:", error);

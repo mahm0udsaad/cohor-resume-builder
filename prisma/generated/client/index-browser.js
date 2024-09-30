@@ -174,6 +174,13 @@ exports.Prisma.CourseScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.ResumesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  modifiedAt: 'modifiedAt',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -192,7 +199,8 @@ exports.Prisma.ModelName = {
   Education: 'Education',
   Skill: 'Skill',
   Language: 'Language',
-  Course: 'Course'
+  Course: 'Course',
+  Resumes: 'Resumes'
 };
 
 /**
