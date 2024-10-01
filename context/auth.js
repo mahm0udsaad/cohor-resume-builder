@@ -16,7 +16,8 @@ export function AuthProvider({ children }) {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       if (firebaseUser) {
         const token = await getIdToken(firebaseUser, true);
-        const { user: verifiedUser } = await verifyUserSession(token);
+        const verifiedUserResponse = await verifyUserSession(token);
+        const { user: verifiedUser } = verifiedUserResponse || {};
         Cookies.set("session", token, { expires: 1, secure: true }); // Set session cookie for 1 day
         setUser(verifiedUser);
       } else {
