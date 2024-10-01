@@ -1,9 +1,12 @@
 import admin from "firebase-admin";
 
+// Parse the environment variable containing the Firebase service account key
+const serviceAccountKey = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+
 // Check if the Firebase app has already been initialized
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert("cohor-resume-builder-firebase.json"),
+    credential: admin.credential.cert(serviceAccountKey),
   });
 }
 

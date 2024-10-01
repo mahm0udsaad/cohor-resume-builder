@@ -9,8 +9,15 @@ import dynamic from "next/dynamic";
 import BoldTemplate from "@/components/templates/bold";
 import { getCurrentUser } from "@/actions/userInfo/action";
 import { redirect } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
+
 const SearchForm = dynamic(() => import("@/components/forms/search"), {
   ssr: false,
+  loading: () => (
+    <div className="h-[50px] w-[300px]">
+      <Skeleton className="h-full w-full" />
+    </div>
+  ),
 });
 
 export default async function TemplateGallery({ params: { lng } }) {

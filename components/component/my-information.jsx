@@ -21,6 +21,7 @@ import {
   Edit,
   Plus,
 } from "lucide-react";
+import { formatDate } from "@/helper/date";
 
 export function MyInformationComponent({ initialUserInfo }) {
   const [userInfo, setUserInfo] = useState(
@@ -140,8 +141,8 @@ export function MyInformationComponent({ initialUserInfo }) {
                     {exp.company || "No company"}
                   </p>
                   <p>
-                    {exp.startDate || "No start date"} -{" "}
-                    {exp.endDate || "No end date"}
+                    {formatDate(exp.startDate) || "No start date"} -{" "}
+                    {formatDate(exp.endDate) || "No end date"}
                   </p>
                   <p>{exp.responsibilities || "No responsibilities"}</p>
                 </div>
@@ -166,7 +167,7 @@ export function MyInformationComponent({ initialUserInfo }) {
                     <strong>{edu.degree}</strong>
                   </p>
                   <p>
-                    {edu.institution}, {edu.graduationDate}
+                    {edu.institution}, {formatDate(edu.graduationDate)}
                   </p>
                 </div>
                 <Button
@@ -230,7 +231,7 @@ export function MyInformationComponent({ initialUserInfo }) {
                     <strong>{course.name}</strong>
                   </p>
                   <p>
-                    {course.institution}, {course.completionDate}
+                    {course.institution}, {formatDate(course.completionDate)}
                   </p>
                 </div>
                 <Button

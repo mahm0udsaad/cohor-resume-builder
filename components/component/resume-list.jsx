@@ -24,7 +24,7 @@ const ResumeList = async () => {
       {resumes &&
         resumes.map(({ name }) => (
           <Link href={`/builder/${name}`} key={name} className="block">
-            <Card className="h-full bg-white shadow-md hover:shadow-lg transition-shadow">
+            <Card className=" bg-white shadow-md hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="text-[#3b51a3]">Resume {name}</CardTitle>
                 <CardDescription>

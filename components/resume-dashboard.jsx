@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { format } from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -35,6 +36,7 @@ import {
   Edit,
   Plus,
 } from "lucide-react";
+import { formatDate } from "@/helper/date";
 
 export function ResumeDashboard({ initialUserInfo }) {
   const [userInfo, setUserInfo] = useState(initialUserInfo);
@@ -138,8 +140,7 @@ export function ResumeDashboard({ initialUserInfo }) {
                     {exp.company || "N/A"}
                   </p>
                   <p>
-                    {new Date(exp.startDate).toLocaleDateString() || "N/A"} -{" "}
-                    {new Date(exp.endDate).toLocaleDateString() || "N/A"}
+                    {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
                   </p>
                   <p className="w-11/12 text-justify">
                     {exp.responsibilities || "N/A"}
@@ -168,7 +169,7 @@ export function ResumeDashboard({ initialUserInfo }) {
                   </p>
                   <p>
                     {edu.institution || "N/A"},{" "}
-                    {new Date(edu.graduationDate).toLocaleDateString() || "N/A"}
+                    <p>{formatDate(edu.graduationDate)}</p>
                   </p>
                 </div>
                 <Button
@@ -233,7 +234,7 @@ export function ResumeDashboard({ initialUserInfo }) {
                   </p>
                   <p>
                     {course.institution || "N/A"},{" "}
-                    {new Date(course.completionDate).toLocaleDateString()}
+                    <p>{formatDate(course.completionDate)}</p>
                   </p>
                 </div>
                 <Button
@@ -390,9 +391,6 @@ export function ResumeDashboard({ initialUserInfo }) {
                   <CardTitle className="text-[#3b51a3]">
                     Resume {resume}
                   </CardTitle>
-                  <CardDescription>
-                    Last updated: {new Date().toLocaleDateString()}
-                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex justify-center">

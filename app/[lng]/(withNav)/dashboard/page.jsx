@@ -53,7 +53,7 @@ const DashboardPage = async () => {
                 </div>
               }
             >
-              <ResumeList resumes={[]} />
+              <ResumeList />
             </Suspense>
           </TabsContent>
         </Tabs>

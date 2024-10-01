@@ -11,7 +11,12 @@ const ClientResumeTemplate = ({ templateName }) => {
     return dynamic(() => Promise.resolve(Template), { ssr: false });
   }, [templateName]);
 
-  return <ResumeTemplate resumeData={dummyData} className="scale-[0.8]" />;
+  return (
+    <ResumeTemplate
+      resumeData={dummyData}
+      className="max-h-[300px] overflow-hidden"
+    />
+  );
 };
 
 export default ClientResumeTemplate;
