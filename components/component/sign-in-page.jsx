@@ -26,7 +26,7 @@ export function SignInPageComponent({ lng }) {
     if (user) {
       router.push("/dashboard");
     }
-  }, [user, router]);
+  }, [user]);
 
   // Handle email verification
   const handleEmailSignIn = async (e) => {
