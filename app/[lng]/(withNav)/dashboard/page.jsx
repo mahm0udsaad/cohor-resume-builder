@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { redirect } from "next/navigation";
 
 const ResumeList = dynamic(() => import("@/components/component/resume-list"), {
   loading: () => <Skeleton className={"w-full h-full"} />,
@@ -14,6 +15,8 @@ const ResumeList = dynamic(() => import("@/components/component/resume-list"), {
 const DashboardPage = async () => {
   const userInfo = await getUserWithDetails();
   const user = userInfo.user;
+
+  if (!user) redirect("/auth");
   const { personalInfo, experiences, educations, skills, languages, courses } =
     userInfo;
 
