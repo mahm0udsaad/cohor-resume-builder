@@ -1,8 +1,7 @@
 "use server";
 
-import { PrismaClient } from "@/prisma/generated/client";
+import prisma from "@/lib/prisma";
 
-const prisma = new PrismaClient();
 export async function addResumeToUser(email, resumeName) {
   try {
     // Find the user by ID to ensure they exist

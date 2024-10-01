@@ -1,11 +1,10 @@
 "use server";
 
 import { verifyIdToken } from "@/firebase";
+import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { cache } from "react";
-import { PrismaClient } from "@/prisma/generated/client";
 
-const prisma = new PrismaClient();
 export async function updateUserResumeData(userEmail, resumeData) {
   try {
     // First, find the user by email
