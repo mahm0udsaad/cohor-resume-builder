@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 
 export async function storeUser(userData) {
   try {
-    const { email, displayName, photoURL } = userData;
+    const { email, displayName, photoURL, picture } = userData;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -15,7 +15,7 @@ export async function storeUser(userData) {
       data: {
         email,
         name: displayName,
-        photoURL,
+        photoURL: photoURL || picture,
         emailVerified: true,
       },
     });

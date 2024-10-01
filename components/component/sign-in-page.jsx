@@ -8,16 +8,11 @@ import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import Logo from "./logo";
 import { useTranslation } from "../../app/i18n/client";
-import {
-  auth,
-  googleProvider,
-  sendEmailVerification,
-} from "../../firebase/client"; // Import Firebase auth methods
+import { auth, googleProvider } from "../../firebase/client"; // Import Firebase auth methods
 import { signInWithPopup, sendSignInLinkToEmail, getAuth } from "firebase/auth";
-import { storeUser } from "@/actions/auth/actions";
 import { useAuth } from "@/context/auth";
 import { useRouter } from "next/navigation";
-import { setTokenCookie } from "@/lib/tokens";
+import { storeUser } from "@/actions/auth/actions";
 
 export function SignInPageComponent({ lng }) {
   const { t } = useTranslation(lng, "auth");
@@ -26,12 +21,6 @@ export function SignInPageComponent({ lng }) {
   const [message, setMessage] = useState("");
   const { user } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      router.push("/dashboard");
-    }
-  }, [user, router]);
 
   // Handle email verification
   const handleEmailSignIn = async (e) => {
@@ -60,7 +49,10 @@ export function SignInPageComponent({ lng }) {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      await storeUser(user);
+      router.push("/dashboard");
       setMessage(t("signInSuccess"));
     } catch (error) {
       if (error.code === "auth/popup-closed-by-user") {
