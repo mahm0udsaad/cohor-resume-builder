@@ -1,6 +1,8 @@
 "use server";
 import { verifyIdToken } from "@/firebase";
-import prisma from "@/lib/prisma";
+import { PrismaClient } from "@/prisma/generated/client";
+
+const prisma = new PrismaClient();
 
 export async function storeUser(userData) {
   try {
