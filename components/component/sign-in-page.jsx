@@ -57,7 +57,7 @@ export function SignInPageComponent({ lng }) {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      await storeUser(user);
+      storeUser(user);
       router.refresh();
       setMessage(t("signInSuccess"));
     } catch (error) {
