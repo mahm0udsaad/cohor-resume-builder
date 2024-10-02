@@ -19,13 +19,14 @@ export function SignInPageComponent({ lng }) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
       console.log("we now about to push to /dashboard");
-      router.refresh();
+      console.log(user);
+      router.push("/dashboard");
     }
   }, [user]);
 
@@ -50,14 +51,14 @@ export function SignInPageComponent({ lng }) {
 
     setIsLoading(false);
   };
-
   // Handle Google Sign-In
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      await storeUser(user);
+      storeUser(user);
+      setUser(user);
       setMessage(t("signInSuccess"));
     } catch (error) {
       if (error.code === "auth/popup-closed-by-user") {
@@ -68,7 +69,7 @@ export function SignInPageComponent({ lng }) {
       }
     } finally {
       console.log("we now about to push to /dashboard");
-      router.push("/dashboard");
+      router.refresh();
     }
     setIsLoading(false);
   };
