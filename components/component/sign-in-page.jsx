@@ -57,7 +57,7 @@ export function SignInPageComponent({ lng }) {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      storeUser(user);
+      await storeUser(user);
       setMessage(t("signInSuccess"));
     } catch (error) {
       if (error.code === "auth/popup-closed-by-user") {
