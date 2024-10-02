@@ -18,7 +18,7 @@ import { auth } from "@/firebase/client";
 import { useRouter } from "next/navigation";
 
 const UserBtn = ({ lng }) => {
-  const { user, setUser } = useAuth();
+  const { user, setUser, isAuthenticated } = useAuth();
   const { t } = useTranslation(lng, "common");
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -44,7 +44,7 @@ const UserBtn = ({ lng }) => {
     }
   };
 
-  if (!user) {
+  if (!isAuthenticated) {
     return (
       <div className="flex flex-1 items-center space-x-2 justify-end">
         <nav className="flex gap-2 items-center">
