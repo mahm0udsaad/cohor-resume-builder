@@ -22,7 +22,12 @@ export function SignInPageComponent({ lng }) {
   const { user } = useAuth();
   const router = useRouter();
 
-  // Handle email verification
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [user]);
+
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -53,7 +58,6 @@ export function SignInPageComponent({ lng }) {
       const user = result.user;
       storeUser(user);
       router.refresh();
-      router.push("/dashboard");
       setMessage(t("signInSuccess"));
     } catch (error) {
       if (error.code === "auth/popup-closed-by-user") {

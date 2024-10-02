@@ -2,6 +2,7 @@
 
 - hight quality PDF
 - Add & modify the data on the Dashboard
+- switch languages for resume templates
 
 ## Done
 

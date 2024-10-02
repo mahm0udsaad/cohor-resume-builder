@@ -1,12 +1,12 @@
-import { Button } from "../ui/button";
+"use client";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import Logo from "./logo";
-import { useTranslation } from "@/app/i18n"; // assuming you're using react-i18next
+import { useTranslation } from "@/app/i18n/client"; // assuming you're using react-i18next
 import UserBtn from "./userBtn";
 
-export default async function Nav({ lng }) {
-  const { t } = await useTranslation(lng, "common");
+export default function Nav({ lng }) {
+  const { t } = useTranslation(lng, "common");
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

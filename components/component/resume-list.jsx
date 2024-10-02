@@ -32,7 +32,7 @@ const ResumeList = async () => {
           };
           return (
             <Link
-              href={`/builder/${resume.name}`}
+              href={`/review/${resume.name}`}
               key={resume.name}
               className="block"
             >
