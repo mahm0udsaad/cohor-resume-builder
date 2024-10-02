@@ -13,19 +13,41 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+    const handleAuthStateChanged = async (firebaseUser) => {
       if (firebaseUser) {
-        const token = await getIdToken(firebaseUser, true);
-        const verifiedUserResponse = await verifyUserSession(token);
-        const { user: verifiedUser } = verifiedUserResponse || {};
-        Cookies.set("session", token, { expires: 1, secure: true }); // Set session cookie
-        setUser(verifiedUser);
+        try {
+          // Force refresh the ID token to ensure it's up to date
+          const token = await getIdToken(firebaseUser, true);
+          const verifiedUserResponse = await verifyUserSession(token);
+          const { user: verifiedUser } = verifiedUserResponse || {};
+          Cookies.set("session", token, { expires: 1, secure: true });
+          setUser(verifiedUser);
+        } catch (error) {
+          console.error("Error verifying user session:", error);
+          setUser(null);
+        }
       } else {
         setUser(null);
       }
       setLoading(false);
-    });
-    return () => unsubscribe();
+    };
+
+    const unsubscribe = auth.onAuthStateChanged(handleAuthStateChanged);
+
+    // Optionally, refresh user data when token cookie changes
+    const interval = setInterval(async () => {
+      const token = Cookies.get("session");
+      if (token) {
+        const verifiedUserResponse = await verifyUserSession(token);
+        const { user: verifiedUser } = verifiedUserResponse || {};
+        setUser(verifiedUser); // Update user state if session cookie changes
+      }
+    }, 60000); // Refresh every 1 minute
+
+    return () => {
+      unsubscribe();
+      clearInterval(interval);
+    };
   }, []);
 
   return (

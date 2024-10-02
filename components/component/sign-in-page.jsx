@@ -19,7 +19,7 @@ export function SignInPageComponent({ lng }) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -58,7 +58,6 @@ export function SignInPageComponent({ lng }) {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       storeUser(user);
-      setUser(user);
       setMessage(t("signInSuccess"));
     } catch (error) {
       if (error.code === "auth/popup-closed-by-user") {
