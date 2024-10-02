@@ -19,35 +19,35 @@ import { updateUserResumeData } from "@/actions/resumes";
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
+    loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
   },
 );
 const DynamicExperienceForm = dynamic(
   () => import("@/components/forms/experience-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
+    loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
   },
 );
 const DynamicEducationForm = dynamic(
   () => import("@/components/forms/education-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
+    loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
   },
 );
 const DynamicSkillsForm = dynamic(
   () => import("@/components/forms/skills-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
+    loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
   },
 );
 const DynamicReviewForm = dynamic(
   () => import("@/components/forms/review-form"),
   {
-    loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
+    loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
   },
 );
 const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
-  loading: () => <Skeleton className={"w-full h-full bg-gray-200"} />,
+  loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
   ssr: false,
 });
 
