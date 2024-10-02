@@ -16,10 +16,23 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import DatePicker from "../component/datePicker";
 import { useTranslation } from "@/app/i18n/client";
-export default function ReviewForm({ resumeData, updateData, lng }) {
+import { useRouter } from "next/navigation";
+import { filterResumeData } from "@/helper/filters";
+import { updateUserResumeData } from "@/actions/resumes";
+import { useAuth } from "@/context/auth";
+export default function ReviewForm({
+  resumeData,
+  updateData,
+  resumeName,
+  lng,
+}) {
   const [showLanguages, setShowLanguages] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
   const { t } = useTranslation(lng, "forms");
+  const router = useRouter();
+  const { user } = useAuth();
+
   const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
 
   const handleLanguageChange = (index, field, value) => {
@@ -70,49 +83,58 @@ export default function ReviewForm({ resumeData, updateData, lng }) {
     });
   };
 
-  const handleDownload = async () => {
-    const element = document.getElementById("ResumePreview");
-    if (!element) {
-      throw new Error("Resume Preview element not found");
-    }
+  // const handleDownload = async () => {
+  //   const element = document.getElementById("ResumePreview");
+  //   if (!element) {
+  //     throw new Error("Resume Preview element not found");
+  //   }
 
-    // Capture the entire component
-    const canvas = await html2canvas(element, {
-      scale: 2, // Increase resolution to prevent pixelation
-      useCORS: true, // Enable cross-origin images if needed
-    });
+  //   // Capture the entire component
+  //   const canvas = await html2canvas(element, {
+  //     scale: 2, // Increase resolution to prevent pixelation
+  //     useCORS: true, // Enable cross-origin images if needed
+  //   });
 
-    const imgData = canvas.toDataURL("image/png");
+  //   const imgData = canvas.toDataURL("image/png");
 
-    // Set up PDF size to match the content
-    const pdf = new jsPDF({
-      orientation: "portrait",
-      unit: "mm",
-      format: "a4",
-    });
+  //   // Set up PDF size to match the content
+  //   const pdf = new jsPDF({
+  //     orientation: "portrait",
+  //     unit: "mm",
+  //     format: "a4",
+  //   });
 
-    // Calculate image height and width
-    const imgWidth = 210; // A4 size in mm
-    const pageHeight = 297; // A4 height in mm
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  //   // Calculate image height and width
+  //   const imgWidth = 210; // A4 size in mm
+  //   const pageHeight = 297; // A4 height in mm
+  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    let heightLeft = imgHeight;
-    let position = 0;
+  //   let heightLeft = imgHeight;
+  //   let position = 0;
 
-    // Add first image and subsequent pages if content overflows
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
+  //   // Add first image and subsequent pages if content overflows
+  //   pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+  //   heightLeft -= pageHeight;
 
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight; // Calculate position for new page
-      pdf.addPage();
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
+  //   while (heightLeft > 0) {
+  //     position = heightLeft - imgHeight; // Calculate position for new page
+  //     pdf.addPage();
+  //     pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+  //     heightLeft -= pageHeight;
+  //   }
 
-    pdf.save("resume.pdf");
+  //   pdf.save("resume.pdf");
+  // };
+  const handleReview = async () => {
+    setLoading(true);
+    const filteredData = filterResumeData(resumeData, "review");
+    console.log(filteredData);
+
+    // Start the server action without waiting for it
+    await updateUserResumeData(user.email, resumeName, filteredData, "review");
+    router.push(`/review/${resumeName}`);
+    setLoading(false);
   };
-
   return (
     <Card>
       <CardContent className="p-6">
@@ -292,10 +314,11 @@ export default function ReviewForm({ resumeData, updateData, lng }) {
 
         <div className="mt-6">
           <Button
-            onClick={handleDownload}
+            onClick={handleReview}
+            disabled={isLoading}
             className="w-full bg-[#3B51A3] hover:bg-white hover:text-black"
           >
-            {t("reviewResume.downloadPDF")}
+            {isLoading ? "Loading..." : t("reviewResume.downloadPDF")}
           </Button>
         </div>
       </CardContent>

@@ -125,56 +125,7 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.PersonalInfoScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  jobTitle: 'jobTitle',
-  summary: 'summary',
-  contact: 'contact',
-  userId: 'userId'
-};
-
-exports.Prisma.ExperienceScalarFieldEnum = {
-  id: 'id',
-  jobTitle: 'jobTitle',
-  company: 'company',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  responsibilities: 'responsibilities',
-  userId: 'userId'
-};
-
-exports.Prisma.EducationScalarFieldEnum = {
-  id: 'id',
-  degree: 'degree',
-  institution: 'institution',
-  graduationDate: 'graduationDate',
-  userId: 'userId'
-};
-
-exports.Prisma.SkillScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  level: 'level',
-  userId: 'userId'
-};
-
-exports.Prisma.LanguageScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  proficiency: 'proficiency',
-  userId: 'userId'
-};
-
-exports.Prisma.CourseScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  institution: 'institution',
-  completionDate: 'completionDate',
-  userId: 'userId'
-};
-
-exports.Prisma.ResumesScalarFieldEnum = {
+exports.Prisma.ResumeScalarFieldEnum = {
   id: 'id',
   name: 'name',
   modifiedAt: 'modifiedAt',
@@ -194,13 +145,7 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  PersonalInfo: 'PersonalInfo',
-  Experience: 'Experience',
-  Education: 'Education',
-  Skill: 'Skill',
-  Language: 'Language',
-  Course: 'Course',
-  Resumes: 'Resumes'
+  Resume: 'Resume'
 };
 
 /**

@@ -1,13 +1,12 @@
 import { cn } from "@/lib/utils";
 import React from "react";
-
+import { formatDate } from "@/helper/date";
 const defaultTheme = {
   id: "original",
   name: "Original",
   primaryColor: "#3B51A3",
   backgroundColor: "#EBF8FF",
 };
-
 const Resume = ({ resumeData, selectedTheme, className }) => {
   let theme = selectedTheme || defaultTheme;
   const renderSection = (title, content) => {
@@ -29,7 +28,7 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
         <h4 className="font-semibold text-gray-800">{exp.jobTitle}</h4>
         <p className="text-sm text-gray-600">{exp.company}</p>
         <p className="text-sm text-gray-600">
-          {exp.startDate} - {exp.endDate}
+          {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
         </p>
         <p className="text-gray-700 mt-2">{exp.responsibilities}</p>
       </div>
@@ -39,7 +38,9 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
       <div key={index} className="mt-4">
         <h4 className="font-semibold text-gray-800">{edu.degree}</h4>
         <p className="text-sm text-gray-600">{edu.institution}</p>
-        <p className="text-sm text-gray-600">{edu.graduationDate}</p>
+        <p className="text-sm text-gray-600">
+          {formatDate(edu.graduationDate)}
+        </p>
       </div>
     ));
   const renderSkills = () => (
@@ -66,10 +67,11 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
       <div key={index} className="mt-2">
         <h4 className="font-semibold text-gray-800">{course.name}</h4>
         <p className="text-sm text-gray-600">{course.institution}</p>
-        <p className="text-sm text-gray-600">{course.completionDate}</p>
+        <p className="text-sm text-gray-600">
+          {formatDate(course.completionDate)}
+        </p>
       </div>
     ));
-
   return (
     <div className={cn("bg-white w-full max-w-4xl p-6 ", className)}>
       <div className="flex justify-between items-start">

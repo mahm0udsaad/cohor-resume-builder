@@ -12,8 +12,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Skeleton } from "./ui/skeleton";
 import { useTranslation } from "@/app/i18n/client";
-import { updateUserResumeData } from "@/actions/userInfo/action";
 import { useAuth } from "@/context/auth";
+import { filterResumeData } from "@/helper/filters";
+import { updateUserResumeData } from "@/actions/resumes";
 
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
@@ -50,7 +51,7 @@ const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
   ssr: false,
 });
 
-export function ResumeBuilder({ ResumeComponent, lng }) {
+export function ResumeBuilder({ ResumeComponent, resumeName, lng }) {
   const { t } = useTranslation(lng, "builder");
   const { resumeData, updateResumeData } = useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
@@ -91,14 +92,10 @@ export function ResumeBuilder({ ResumeComponent, lng }) {
       router.push("/auth");
       return;
     }
+
+    const filteredData = filterResumeData(resumeData, activeTab);
     // Start the server action without waiting for it
-    updateUserResumeData(user.email, resumeData).then((result) => {
-      if (result.success) {
-        console.log("Data updated successfully");
-      } else {
-        console.error("Error updating data:", result.error);
-      }
-    });
+    updateUserResumeData(user.email, resumeName, filteredData, activeTab);
     // Immediately move to the next tab
     const currentIndex = tabs.indexOf(activeTab);
     const nextTab = tabs[Math.min(tabs.length - 1, currentIndex + 1)];
@@ -203,6 +200,7 @@ export function ResumeBuilder({ ResumeComponent, lng }) {
                       <TabsContent value="review">
                         <DynamicReviewForm
                           lng={lng}
+                          resumeName={resumeName}
                           resumeData={resumeData}
                           updateData={updateResumeData}
                         />

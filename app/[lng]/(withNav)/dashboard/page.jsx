@@ -16,7 +16,7 @@ const DashboardPage = async () => {
   const userInfo = await getUserWithDetails();
   const user = userInfo.user;
 
-  if (!user) redirect("/auth");
+  // if (!user) redirect("/auth");
   const { personalInfo, experiences, educations, skills, languages, courses } =
     userInfo;
 

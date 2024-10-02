@@ -44,11 +44,13 @@ const TemplatePage = ({ params: { template, lng } }) => {
     }
   }, [user, template]);
 
-  console.log(user);
-
   return (
     <div className="bg-gray-25">
-      <ResumeBuilder lng={lng} ResumeComponent={TemplateComponent} />
+      <ResumeBuilder
+        lng={lng}
+        resumeName={template}
+        ResumeComponent={TemplateComponent}
+      />
     </div>
   );
 };

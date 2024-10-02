@@ -10,7 +10,7 @@ const groq = createOpenAI({
 });
 // Define the prompts
 const ExperiencePrompt = (jobTitle, company) =>
-  `Generate 3 detailed suggestions for professional responsibilities and tasks for someone with the job title "${jobTitle}". Each suggestion should reflect key responsibilities, achievements, or common duties associated with this role in his last experince at ${company} talk as you are that person.`;
+  `Generate 3 detailed suggestions for professional responsibilities and tasks for someone with the job title "${jobTitle}". Each suggestion should reflect key responsibilities, achievements, or common duties associated with this role in his last experince at ## ${company} talk as you are that person.`;
 
 const AboutPrompt = (field) =>
   `Generate 3 suggestions for a summary (About) for a user's resume based on their job Title. The summary should be 4 lines long and in the same language as the Job Title. Job Title: ${JSON.stringify(

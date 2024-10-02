@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-
+import { formatDate } from "@/helper/date";
 const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
   return (
     <div
@@ -51,7 +51,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
             <div key={index} className="mb-5">
               <h3 className="text-xl font-semibold">{job.jobTitle}</h3>
               <p className="text-sm text-gray-600">
-                {job.company} | {job.startDate} - {job.endDate}
+                {job.company} | {formatDate(job.startDate)} -{" "}
+                {formatDate(job.endDate)}
               </p>
               <p className="text-sm text-gray-600 mt-2">
                 {job.responsibilities}
@@ -68,12 +69,27 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
             <div key={index} className="mb-3">
               <h3 className="text-xl font-semibold">{edu.degree}</h3>
               <p className="text-sm text-gray-600">
-                {edu.institution} | {edu.graduationDate}
+                {edu.institution} | {formatDate(edu.graduationDate)}
               </p>
             </div>
           ))}
         </section>
 
+        {resumeData.courses && (
+          <section className="mb-6">
+            <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+              Courses
+            </h2>
+            {resumeData.courses.map((course, index) => (
+              <div key={index} className="mb-3">
+                <h3 className="text-xl font-semibold">{course.name}</h3>
+                <p className="text-sm text-gray-600">
+                  {course.institution} | {formatDate(course.completionDate)}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
         <section className="mb-6">
           <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
             Skills
@@ -84,6 +100,19 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
             ))}
           </ul>
         </section>
+
+        {resumeData.languages?.length > 0 && (
+          <section className="mb-6">
+            <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+              Languages
+            </h2>
+            <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
+              {resumeData.languages?.map((lang, index) => (
+                <li key={index}>{lang.name}</li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
 
       {/* Sidebar (15% width) */}

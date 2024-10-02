@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-
+import { formatDate } from "@/helper/date";
 const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
   return (
     <div
@@ -48,7 +48,8 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
             <div key={index} className="mb-5">
               <h3 className="text-xl font-semibold">{job.jobTitle}</h3>
               <p className="text-sm font-semibold">
-                {job.company} // {job.startDate} - {job.endDate}
+                {job.company} // {formatDate(job.startDate)} -{" "}
+                {formatDate(job.endDate)}
               </p>
               <p className="text-sm mt-2">{job.responsibilities}</p>
               {job.achievements?.length > 0 && (
@@ -76,7 +77,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
             <div key={index} className="mb-3">
               <h3 className="text-xl font-semibold">{edu.degree}</h3>
               <p className="text-sm">
-                {edu.institution} // {edu.graduationDate}
+                {edu.institution} // {formatDate(edu.graduationDate)}
               </p>
             </div>
           ))}
@@ -116,7 +117,9 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
             <div key={index} className="mt-2">
               <h4 className="font-semibold text-gray-800">{course.name}</h4>
               <p className="text-sm text-gray-600">{course.institution}</p>
-              <p className="text-sm text-gray-600">{course.completionDate}</p>
+              <p className="text-sm text-gray-600">
+                {formatDate(course.completionDate)}
+              </p>
             </div>
           ))}
         </section>
