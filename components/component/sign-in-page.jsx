@@ -19,16 +19,30 @@ export function SignInPageComponent({ lng }) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (user) {
-      console.log("we now about to push to /dashboard");
-      console.log(user);
+    if (!loading && user) {
+      console.log("Redirecting to dashboard, user:", user);
       router.push("/dashboard");
     }
-  }, [user]);
+  }, [user, loading, router]);
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      await storeUser(user);
+      setMessage(t("signInSuccess"));
+    } catch (error) {
+      console.error("Google Sign-In error:", error);
+      setMessage(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
@@ -49,27 +63,6 @@ export function SignInPageComponent({ lng }) {
       setMessage(error.message);
     }
 
-    setIsLoading(false);
-  };
-  // Handle Google Sign-In
-  const handleGoogleSignIn = async () => {
-    setIsLoading(true);
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      storeUser(user);
-      setMessage(t("signInSuccess"));
-    } catch (error) {
-      if (error.code === "auth/popup-closed-by-user") {
-        console.warn("User closed the Google Sign-In popup.");
-      } else {
-        console.error("Error during Google Sign-In", error);
-        setMessage(error.message);
-      }
-    } finally {
-      console.log("we now about to push to /dashboard");
-      router.refresh();
-    }
     setIsLoading(false);
   };
 

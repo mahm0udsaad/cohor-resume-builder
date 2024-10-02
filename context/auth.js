@@ -1,5 +1,3 @@
-"use client";
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "@/firebase/client";
 import { verifyUserSession } from "@/actions/auth/actions";
@@ -14,27 +12,54 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      if (firebaseUser) {
-        const token = await getIdToken(firebaseUser, true);
-        const verifiedUserResponse = await verifyUserSession(token);
-        const { user: verifiedUser } = verifiedUserResponse || {};
-        Cookies.set("session", token, { expires: 1, secure: true }); // Set session cookie
-        setUser(verifiedUser);
-      } else {
+      try {
+        if (firebaseUser) {
+          console.log("Firebase user detected:", firebaseUser);
+          const token = await getIdToken(firebaseUser, true);
+
+          // Verify the user session
+          const verifiedUserResponse = await verifyUserSession(token);
+          console.log("Verified user response:", verifiedUserResponse);
+
+          if (verifiedUserResponse && verifiedUserResponse.user) {
+            const verifiedUser = {
+              ...verifiedUserResponse.user,
+              displayName: firebaseUser.displayName,
+              email: firebaseUser.email,
+              photoURL: firebaseUser.photoURL,
+            };
+
+            Cookies.set("session", token, { expires: 1, secure: true });
+            setUser(verifiedUser);
+            console.log("User set in context:", verifiedUser);
+          } else {
+            console.error("Failed to verify user session");
+            setUser(null);
+          }
+        } else {
+          console.log("No Firebase user");
+          Cookies.remove("session");
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Auth error:", error);
         setUser(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
-    console.log(user);
 
     return () => unsubscribe();
   }, []);
-  console.log(user);
-  return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
-      {children}
-    </AuthContext.Provider>
-  );
+
+  const value = {
+    user,
+    setUser,
+    loading,
+    isAuthenticated: !!user,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => useContext(AuthContext);

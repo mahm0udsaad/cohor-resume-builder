@@ -41,20 +41,24 @@ const UserBtn = ({ lng }) => {
     }
   };
 
-  !user ? (
-    <div className="flex flex-1 items-center space-x-2 justify-end">
-      <nav className="flex gap-2 items-center">
-        <Link href="/auth">
-          <Button variant="ghost">{t("nav.signIn")}</Button>
-        </Link>
-        <Link href="/auth">
-          <Button className="bg-[#3b51a3] hover:bg-[#2a3b7a] text-white">
-            {t("nav.signUp")}
-          </Button>
-        </Link>{" "}
-      </nav>
-    </div>
-  ) : (
+  if (!user) {
+    return (
+      <div className="flex flex-1 items-center space-x-2 justify-end">
+        <nav className="flex gap-2 items-center">
+          <Link href="/auth">
+            <Button variant="ghost">{t("nav.signIn")}</Button>
+          </Link>
+          <Link href="/auth">
+            <Button className="bg-[#3b51a3] hover:bg-[#2a3b7a] text-white">
+              {t("nav.signUp")}
+            </Button>
+          </Link>{" "}
+        </nav>
+      </div>
+    );
+  }
+
+  return (
     <div className="flex flex-1 items-center justify-end overflow-hidden">
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
