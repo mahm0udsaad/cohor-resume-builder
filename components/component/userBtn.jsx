@@ -22,6 +22,9 @@ const UserBtn = ({ lng }) => {
   const { t } = useTranslation(lng, "common");
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
+  console.log(user);
+
   const handleLogout = async () => {
     try {
       // Sign out from Firebase
