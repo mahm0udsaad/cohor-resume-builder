@@ -87,7 +87,7 @@ export function SignInPageComponent({ lng }) {
           <Logo />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          {t("signInTitle")}
+          {user ? `${t("welcomeBack")} ${user.name}` : t("signInTitle")}
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

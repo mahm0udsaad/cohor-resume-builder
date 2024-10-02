@@ -106,7 +106,7 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
         >
           <section className="mb-8">
             <h3 className="font-bold text-gray-800">Contact</h3>
-            {resumeData.personalInfo?.contact.map((contact, index) => (
+            {resumeData.personalInfo.contact?.map((contact, index) => (
               <p key={index} className="text-gray-700 mt-1">
                 {contact}
               </p>
