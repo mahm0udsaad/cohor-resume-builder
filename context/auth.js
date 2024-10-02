@@ -18,14 +18,13 @@ export function AuthProvider({ children }) {
         const token = await getIdToken(firebaseUser, true);
         const verifiedUserResponse = await verifyUserSession(token);
         const { user: verifiedUser } = verifiedUserResponse || {};
-        Cookies.set("session", token, { expires: 1, secure: true }); // Set session cookie for 1 day
+        Cookies.set("session", token, { expires: 1, secure: true }); // Set session cookie
         setUser(verifiedUser);
       } else {
         setUser(null);
       }
       setLoading(false);
     });
-
     return () => unsubscribe();
   }, []);
 

@@ -25,7 +25,7 @@ export function SignInPageComponent({ lng }) {
   useEffect(() => {
     if (user) {
       console.log("we now about to push to /dashboard");
-      router.push("/dashboard");
+      router.refresh();
     }
   }, [user]);
 
@@ -68,7 +68,7 @@ export function SignInPageComponent({ lng }) {
       }
     } finally {
       console.log("we now about to push to /dashboard");
-      router.refresh();
+      router.push("/dashboard");
     }
     setIsLoading(false);
   };
