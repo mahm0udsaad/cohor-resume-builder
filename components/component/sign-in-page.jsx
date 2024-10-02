@@ -24,6 +24,7 @@ export function SignInPageComponent({ lng }) {
 
   useEffect(() => {
     if (user) {
+      console.log("we now about to push to /dashboard");
       router.push("/dashboard");
     }
   }, [user]);
@@ -57,7 +58,6 @@ export function SignInPageComponent({ lng }) {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       storeUser(user);
-      router.refresh();
       setMessage(t("signInSuccess"));
     } catch (error) {
       if (error.code === "auth/popup-closed-by-user") {
@@ -66,6 +66,9 @@ export function SignInPageComponent({ lng }) {
         console.error("Error during Google Sign-In", error);
         setMessage(error.message);
       }
+    } finally {
+      console.log("we now about to push to /dashboard");
+      router.refresh();
     }
     setIsLoading(false);
   };
