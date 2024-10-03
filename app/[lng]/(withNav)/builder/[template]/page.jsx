@@ -2,9 +2,7 @@
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ResumeBuilder } from "@/components/resume-builder";
-import { useEffect } from "react";
-import { addResumeToUser } from "@/actions/resumes";
-import { useAuth } from "@/context/auth";
+import { useSession } from "next-auth/react";
 
 // Create a mapping of template names to their respective components
 const templateComponents = {
@@ -23,26 +21,13 @@ const templateComponents = {
 };
 
 const TemplatePage = ({ params: { template, lng } }) => {
+  const { data: session } = useSession();
+  const { user } = session || {};
+  if (!user) return;
   const TemplateComponent = templateComponents[template];
-  const { user } = useAuth();
-
   if (!TemplateComponent) {
     return <div>Template not found</div>;
   }
-
-  useEffect(() => {
-    if (user) {
-      addResumeToUser(user.email, template)
-        .then((response) => {
-          if (!response.success) {
-            console.error("Error adding resume:", response.error);
-          } else {
-            console.log("Resume added successfully:", response.resume);
-          }
-        })
-        .catch((error) => console.error("Error adding resume:", error));
-    }
-  }, [user, template]);
 
   return (
     <div className="bg-gray-25">

@@ -16,10 +16,10 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
       <div className="w-11/12 p-8">
         <header className="mb-6">
           <h1 className="text-5xl font-bold text-gray-800">
-            {resumeData.personalInfo.name}
+            {resumeData.personalInfo?.name}
           </h1>
           <div className="flex flex-wrap">
-            {resumeData.personalInfo.contact?.map((contact, index) => (
+            {resumeData.personalInfo?.contact?.map((contact, index) => (
               <p
                 key={index}
                 className="text-[11px] font-semibold pr-[3px] text-gray-600"

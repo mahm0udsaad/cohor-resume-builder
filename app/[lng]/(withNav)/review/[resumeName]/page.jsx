@@ -1,10 +1,10 @@
 import { getResume } from "@/actions/resumes";
-import { getCurrentUser } from "@/actions/userInfo/action";
 import ClientResumeTemplate from "@/components/component/render-template";
+import { auth } from "@/lib/auth";
 import Link from "next/link";
 
 export default async function ReviewPage({ params: { resumeName } }) {
-  const user = getCurrentUser();
+  const user = await auth();
   const resume = await getResume(user.id, resumeName);
 
   return (

@@ -7,9 +7,9 @@ import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
 import dynamic from "next/dynamic";
 import BoldTemplate from "@/components/templates/bold";
-import { getCurrentUser } from "@/actions/userInfo/action";
 import { redirect } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import { auth } from "@/lib/auth";
 
 const SearchForm = dynamic(() => import("@/components/forms/search"), {
   ssr: false,
@@ -22,7 +22,7 @@ const SearchForm = dynamic(() => import("@/components/forms/search"), {
 
 export default async function TemplateGallery({ params: { lng } }) {
   const { t } = await useTranslation(lng, "common");
-  const user = await getCurrentUser();
+  const { user } = await auth();
   if (!user) {
     redirect("/auth");
   }

@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/app/i18n/client";
-import { useAuth } from "@/context/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,38 +12,36 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, User } from "lucide-react";
 import { useState } from "react";
-import { signOut } from "firebase/auth";
-import { auth } from "@/firebase/client";
 import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 const UserBtn = ({ lng }) => {
-  const { user, setUser, isAuthenticated } = useAuth();
+  const { data: session, status } = useSession();
   const { t } = useTranslation(lng, "common");
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  console.log(user);
-
   const handleLogout = async () => {
     try {
-      // Sign out from Firebase
-      await signOut(auth);
-
-      // Clear the user from your auth context
-      setUser(null);
-
-      // Clear any user-related data from localStorage if you're storing any
-      localStorage.removeItem("user");
-
+      await signOut({ redirect: false });
       router.push("/");
-
       console.log("Logged out successfully");
     } catch (error) {
       console.error("Error logging out:", error);
     }
   };
 
-  if (!isAuthenticated) {
+  if (status === "loading") {
+    return (
+      <div className="flex flex-1 items-center justify-end">
+        <Button variant="ghost" disabled>
+          Loading...
+        </Button>
+      </div>
+    );
+  }
+
+  if (status === "unauthenticated") {
     return (
       <div className="flex flex-1 items-center space-x-2 justify-end">
         <nav className="flex gap-2 items-center">
@@ -55,7 +52,7 @@ const UserBtn = ({ lng }) => {
             <Button className="bg-[#3b51a3] hover:bg-[#2a3b7a] text-white">
               {t("nav.signUp")}
             </Button>
-          </Link>{" "}
+          </Link>
         </nav>
       </div>
     );
@@ -67,8 +64,8 @@ const UserBtn = ({ lng }) => {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="size-fit">
             <Image
-              src={user.picture || "/avatar.svg"}
-              alt={user.name || "User"}
+              src={session?.user?.image || "/avatar.svg"}
+              alt={session?.user?.name || "User"}
               width={40}
               height={40}
               className="rounded-full border main-border"
@@ -76,6 +73,19 @@ const UserBtn = ({ lng }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
+          <div className="flex items-center justify-start gap-2 p-2">
+            <div className="flex flex-col space-y-1 leading-none">
+              {session?.user?.name && (
+                <p className="font-medium">{session.user.name}</p>
+              )}
+              {session?.user?.email && (
+                <p className="w-[200px] truncate text-sm text-muted-foreground">
+                  {session.user.email}
+                </p>
+              )}
+            </div>
+          </div>
+          <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link href="/dashboard" className="flex items-center">
               <User className="mr-2 h-4 w-4" />

@@ -14,7 +14,7 @@ export async function addResumeToUser(email, resumeName) {
     }
 
     // Check if the user already has a resume with the given name
-    const existingResume = await prisma.resumes.findFirst({
+    const existingResume = await prisma.resume.findFirst({
       where: { name: resumeName, userId: user.id },
     });
 
@@ -23,7 +23,7 @@ export async function addResumeToUser(email, resumeName) {
     }
 
     // Add a new resume entry to the user's resumes list
-    const updatedUser = await prisma.resumes.create({
+    const updatedUser = await prisma.resume.create({
       data: {
         name: resumeName, // Set the name of the resume template
         user: {

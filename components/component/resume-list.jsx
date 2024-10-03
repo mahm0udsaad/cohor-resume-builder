@@ -11,11 +11,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Trash2 } from "lucide-react";
 import { getUserResumes } from "@/actions/resumes";
-import { getCurrentUser } from "@/actions/userInfo/action";
 import ClientResumeTemplate from "./render-template";
+import { auth } from "@/lib/auth";
 
 const ResumeList = async () => {
-  const user = await getCurrentUser();
+  const { user } = await auth();
   const resumes = await getUserResumes(user.id);
 
   return (
@@ -66,16 +66,16 @@ const ResumeList = async () => {
             </Link>
           );
         })}
-      <Card className="bg-white shadow-md flex items-center justify-center">
-        <Button
-          variant="ghost"
-          className="h-[200px] w-full flex flex-col items-center gap-2"
+      <Card className="hover:bg-accent hover:text-accent-foreground bg-white shadow-md flex items-center justify-center">
+        <Link
+          href="/gallery"
+          className="justify-center whitespace-nowrap rounded-md text-sm font-medium  px-4 py-2 h-[200px] w-full flex flex-col items-center gap-2"
         >
           <PlusCircle size={48} className="text-[#3b51a3]" />
           <span className="text-[#3b51a3] font-semibold">
             Create New Resume
           </span>
-        </Button>
+        </Link>
       </Card>
     </div>
   );

@@ -1,4 +1,4 @@
-import { getCurrentUser, getUserWithDetails } from "@/actions/userInfo/action";
+import { getUserWithDetails } from "@/actions/userInfo/action";
 import { ResumeDashboard } from "@/components/resume-dashboard";
 import { Button } from "@/components/ui/button";
 import { MyInformationComponent } from "@/components/component/my-information";
@@ -7,16 +7,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 
 const ResumeList = dynamic(() => import("@/components/component/resume-list"), {
   loading: () => <Skeleton className={"w-full h-full"} />,
   ssr: false,
 });
 const DashboardPage = async () => {
-  const userInfo = await getUserWithDetails();
-  const user = userInfo.user;
-
+  const { user } = await auth();
   if (!user) redirect("/auth");
+
+  const userInfo = await getUserWithDetails(user.email);
   const { personalInfo, experiences, educations, skills, languages, courses } =
     userInfo;
 

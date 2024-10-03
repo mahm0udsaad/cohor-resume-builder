@@ -12,9 +12,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Skeleton } from "./ui/skeleton";
 import { useTranslation } from "@/app/i18n/client";
-import { useAuth } from "@/context/auth";
 import { filterResumeData } from "@/helper/filters";
-import { updateUserResumeData } from "@/actions/resumes";
+import { addResumeToUser, updateUserResumeData } from "@/actions/resumes";
+import { useSession } from "next-auth/react";
 
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
@@ -56,7 +56,9 @@ export function ResumeBuilder({ ResumeComponent, resumeName, lng }) {
   const { resumeData, updateResumeData } = useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
-  const { user } = useAuth();
+  const { data: session, status } = useSession();
+
+  const { user } = session;
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabs = ["personal", "experience", "education", "skills", "review"];
@@ -72,6 +74,20 @@ export function ResumeBuilder({ ResumeComponent, resumeName, lng }) {
       setActiveTab(tabFromUrl);
     }
   }, [searchParams]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await addResumeToUser(user.email, resumeName);
+        if (!response.success) {
+          console.error("Error adding resume:", response.error);
+        } else {
+          console.log("Resume added successfully:", response.resume);
+        }
+      } catch (error) {
+        console.error("Error adding resume:", error);
+      }
+    })();
+  }, []);
 
   const createQueryString = useCallback(
     (name, value) => {

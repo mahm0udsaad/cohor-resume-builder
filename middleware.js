@@ -19,6 +19,10 @@ function getLocale(request) {
 }
 
 export function middleware(request) {
+  if (request.nextUrl.pathname.startsWith("/api")) {
+    return NextResponse.next();
+  }
+
   const pathname = request.nextUrl.pathname;
   const pathnameIsMissingLocale = languages.every(
     (locale) =>

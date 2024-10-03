@@ -1,26 +1,10 @@
 "use server";
 
-import { verifyIdToken } from "@/firebase";
 import prisma from "@/lib/prisma";
-import { cookies } from "next/headers";
 import { cache } from "react";
 
 export const getCurrentUser = cache(
   async function getCurrentUser() {
-    // Retrieve the session token from cookies
-    const token = cookies().get("session")?.value;
-
-    // If there's no token, return null
-    if (!token) return null;
-
-    // Verify the token using Firebase Admin SDK
-    const decodedToken = await verifyIdToken(token);
-
-    // If token verification fails, return null
-    if (!decodedToken) return null;
-
-    const { email } = decodedToken;
-
     // Fetch the user from your MongoDB (Prisma in this case)
     const user = await prisma.user.findUnique({ where: { email } });
 
@@ -33,19 +17,15 @@ export const getCurrentUser = cache(
   },
 );
 
-export async function getUserWithDetails() {
-  // Get the current authenticated user
-  const currentUser = await getCurrentUser();
-
-  // Check if the current user exists (e.g., not authenticated or invalid token)
-  if (!currentUser) {
+export async function getUserWithDetails(email) {
+  if (!email) {
     return { success: false, error: "No authenticated user found" };
   }
 
   try {
     // Fetch user data with related info from MongoDB
     const user = await prisma.user.findUnique({
-      where: { email: currentUser.email },
+      where: { email: email },
       include: {
         personalInfo: true,
         experiences: true,

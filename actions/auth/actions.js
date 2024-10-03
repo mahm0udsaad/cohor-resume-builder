@@ -1,40 +1,45 @@
 "use server";
-import { verifyIdToken } from "@/firebase";
 import prisma from "@/lib/prisma";
-
 export async function storeUser(userData) {
   try {
-    const { email, displayName, photoURL, picture } = userData;
+    const { email, name, image } = userData;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-      return;
+      return existingUser;
     }
 
     const user = await prisma.user.create({
       data: {
         email,
-        name: displayName,
-        photoURL: photoURL || picture,
+        name: name,
+        image: image,
         emailVerified: true,
       },
     });
 
-    console.log(user);
-    return { success: true, user };
+    return user;
   } catch (error) {
     console.error("Error storing user:", error);
     return { success: false, error: error.message };
   }
 }
 
-export async function verifyUserSession(token) {
-  if (!token) return { user: null };
+export async function getUserByEmail(email) {
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
 
-  const userData = await verifyIdToken(token);
-  if (userData) {
-    return { user: userData };
-  } else {
-    return { user: null };
+    if (user) {
+      return { success: true, user };
+    } else {
+      const newUser = await prisma.user.create({
+        data: { email },
+      });
+
+      return { success: true, user: newUser };
+    }
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return { success: false, error: error.message };
   }
 }

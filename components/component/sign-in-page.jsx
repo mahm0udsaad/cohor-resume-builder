@@ -1,41 +1,42 @@
-"use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowLeft, ChromeIcon } from "lucide-react";
+import { useState, useEffect } from "react";
 import Logo from "./logo";
-import { useTranslation } from "../../app/i18n/client";
-import { auth, googleProvider } from "../../firebase/client"; // Import Firebase auth methods
-import { signInWithPopup, sendSignInLinkToEmail, getAuth } from "firebase/auth";
-import { useAuth } from "@/context/auth";
+import { useTranslation } from "../../app/i18n";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { storeUser } from "@/actions/auth/actions";
 
-export function SignInPageComponent({ lng }) {
+export async function SignInPageComponent({ lng }) {
   const { t } = useTranslation(lng, "auth");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const { user, loading } = useAuth();
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (!loading && user) {
-      console.log("Redirecting to dashboard, user:", user);
+    if (status === "authenticated" && session) {
+      console.log("Redirecting to dashboard, user:", session.user);
       router.push("/dashboard");
     }
-  }, [user, loading, router]);
+  }, [session, status, router]);
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      await storeUser(user);
-      setMessage(t("signInSuccess"));
+      const result = await signIn("google", {
+        redirect: false,
+        callbackUrl: "/dashboard",
+      });
+
+      if (result?.error) {
+        setMessage(result.error);
+      } else {
+        setMessage(t("signInSuccess"));
+      }
     } catch (error) {
       console.error("Google Sign-In error:", error);
       setMessage(error.message);
@@ -50,14 +51,17 @@ export function SignInPageComponent({ lng }) {
     setMessage("");
 
     try {
-      const actionCodeSettings = {
-        url: "http://localhost:3000/verify", // Your verification URL
-        handleCodeInApp: true,
-      };
-      // Send sign-in link to email
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-      window.localStorage.setItem("emailForSignIn", email); // Store the email locally
-      setMessage(t("magicLinkSent")); // Message after sending verification link
+      const result = await signIn("email", {
+        email,
+        redirect: false,
+        callbackUrl: "/dashboard",
+      });
+
+      if (result?.error) {
+        setMessage(result.error);
+      } else {
+        setMessage(t("magicLinkSent"));
+      }
     } catch (error) {
       console.error("Error sending email link", error);
       setMessage(error.message);
@@ -80,8 +84,8 @@ export function SignInPageComponent({ lng }) {
           <Logo />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          {user
-            ? `${t("welcomeBack")} ${user.name || user.displayName}`
+          {session?.user
+            ? `${t("welcomeBack")} ${session.user.name}`
             : t("signInTitle")}
         </h2>
       </div>
@@ -138,17 +142,11 @@ export function SignInPageComponent({ lng }) {
                 <Button
                   type="button"
                   onClick={handleGoogleSignIn}
+                  disabled={isLoading}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
                   <span className="sr-only">{t("signInWithGoogle")}</span>
-                  <svg
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    fill="#e50000"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12.120 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.120 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.120z" />
-                  </svg>
+                  <ChromeIcon />
                 </Button>
               </div>
             </div>

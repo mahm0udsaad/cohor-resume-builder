@@ -1,7 +1,7 @@
 import "@/app/[lng]/globals.css";
 import { dir } from "i18next";
 import { languages } from "@/app/i18n/settings";
-import { AuthProvider } from "@/context/auth";
+import AuthProvider from "@/components/AuthProvider";
 export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }));
 }
@@ -15,10 +15,10 @@ export const icons = {
 };
 export default function RootLayout({ children, params: { lng } }) {
   return (
-    <html lang={lng} dir={dir(lng)}>
-      <AuthProvider>
+    <AuthProvider>
+      <html lang={lng} dir={dir(lng)}>
         <body className="">{children}</body>
-      </AuthProvider>
-    </html>
+      </html>
+    </AuthProvider>
   );
 }

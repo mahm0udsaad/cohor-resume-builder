@@ -19,7 +19,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { useRouter } from "next/navigation";
 import { filterResumeData } from "@/helper/filters";
 import { updateUserResumeData } from "@/actions/resumes";
-import { useAuth } from "@/context/auth";
+import { useSession } from "next-auth/react";
 export default function ReviewForm({
   resumeData,
   updateData,
@@ -31,8 +31,8 @@ export default function ReviewForm({
   const [showCourses, setShowCourses] = useState(false);
   const { t } = useTranslation(lng, "forms");
   const router = useRouter();
-  const { user } = useAuth();
-
+  const { data: session, status } = useSession();
+  const user = session.user;
   const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
 
   const handleLanguageChange = (index, field, value) => {
