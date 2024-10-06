@@ -1,4 +1,4 @@
-const { default: dynamic } = require("next/dynamic");
+import dynamic from "next/dynamic";
 
 const ClassicTemplate = dynamic(
   () => import("@/components/templates/classic"),
@@ -10,11 +10,15 @@ const ModernTemplate = dynamic(() => import("@/components/templates/modern"), {
 const BoldTemplate = dynamic(() => import("@/components/templates/bold"), {
   ssr: false,
 });
+const MinimalTemplate = dynamic(() => import("@/components/templates/minmal"), {
+  ssr: false,
+});
 
-const templateComponents = {
+export const templateComponents = {
   classic: ClassicTemplate,
   modern: ModernTemplate,
   bold: BoldTemplate,
+  minimal: MinimalTemplate,
 };
 
 export const getResumeTemplate = (templateName) => {

@@ -1,15 +1,12 @@
 import { Badge } from "@/components/ui/badge";
-import Resume from "@/components/templates/classic"; // Direct import for Classic template
-import ModifiedResumeTemplate from "@/components/templates/modern"; // Direct import for Modern template
+
 import { dummyData } from "@/data/data";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
 import dynamic from "next/dynamic";
-import BoldTemplate from "@/components/templates/bold";
-import { redirect } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { auth } from "@/lib/auth";
+import { templates } from "@/components/templates-holder";
 
 const SearchForm = dynamic(() => import("@/components/forms/search"), {
   ssr: false,
@@ -22,15 +19,6 @@ const SearchForm = dynamic(() => import("@/components/forms/search"), {
 
 export default async function TemplateGallery({ params: { lng } }) {
   const { t } = await useTranslation(lng, "common");
-  const { user } = await auth();
-  if (!user) {
-    redirect("/auth");
-  }
-  const templates = [
-    { category: "classic", name: "classic", Component: Resume },
-    { category: "modern", name: "modern", Component: ModifiedResumeTemplate },
-    { name: "bold", Component: BoldTemplate },
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -7,10 +7,10 @@ export const icons = {
 };
 export default function RootLayout({ children, params: { lng } }) {
   return (
-    <div className="">
+    <>
       <Nav lng={lng} />
-      {children}
+      <div className="min-h-screen">{children}</div>
       <Footer />
-    </div>
+    </>
   );
 }

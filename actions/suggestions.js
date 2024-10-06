@@ -28,8 +28,8 @@ export async function generateSuggestions(
   console.log(field, company);
 
   const prompt = isExperience
-    ? ExperiencePrompt(field, company) // Use experience-related prompt
-    : AboutPrompt(field); // Use summary/about-related prompt
+    ? ExperiencePrompt(field, company)
+    : AboutPrompt(field);
 
   try {
     const { object } = await generateObject({
@@ -47,6 +47,6 @@ export async function generateSuggestions(
     return object.suggestions;
   } catch (error) {
     console.error("Error generating suggestions:", error);
-    throw error;
+    return;
   }
 }

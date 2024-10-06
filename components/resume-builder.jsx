@@ -56,10 +56,12 @@ export function ResumeBuilder({ ResumeComponent, resumeName, lng }) {
   const { resumeData, updateResumeData } = useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
-  const { data: session, status } = useSession();
 
-  const { user } = session;
   const router = useRouter();
+  const { data: session } = useSession();
+  if (!session) router.push("/auth");
+  const user = session?.user;
+
   const searchParams = useSearchParams();
   const tabs = ["personal", "experience", "education", "skills", "review"];
 
@@ -117,6 +119,7 @@ export function ResumeBuilder({ ResumeComponent, resumeName, lng }) {
     const nextTab = tabs[Math.min(tabs.length - 1, currentIndex + 1)];
     handleTabChange(nextTab);
   };
+  console.log("resumeData");
 
   const handlePreviousTab = () => {
     const currentIndex = tabs.indexOf(activeTab);

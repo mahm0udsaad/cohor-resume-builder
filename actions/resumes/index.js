@@ -56,10 +56,18 @@ export async function getUserResumes(userId) {
   }
 }
 
-export async function getResume(userId, resumeName) {
+export async function getResume(email, resumeName) {
   try {
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+    });
+
+    if (!user) {
+      return { success: false, error: "User not found" };
+    }
+
     const resume = await prisma.resume.findFirst({
-      where: { userId, name: resumeName },
+      where: { userId: user.id, name: resumeName },
     });
 
     return resume || {};

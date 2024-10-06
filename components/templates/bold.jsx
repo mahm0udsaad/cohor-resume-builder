@@ -3,13 +3,12 @@ import { formatDate } from "@/helper/date";
 const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
   return (
     <div
-      id="ResumePreview"
+      id="resume-template"
       className={cn(
         "w-full mx-auto bg-white font-sans text-gray-700",
         className,
       )}
     >
-      {/* Header */}
       <header
         style={{ backgroundColor: selectedTheme?.primaryColor }}
         className="bg-gray-800 text-white p-6 flex justify-between"

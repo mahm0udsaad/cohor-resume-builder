@@ -159,7 +159,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\resume-builder\\prisma\\generated\\client",
+      "value": "E:\\resume-builder-v2\\prisma\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -173,12 +173,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\resume-builder\\prisma\\schema.prisma",
+    "sourceFilePath": "E:\\resume-builder-v2\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../..",
   "clientVersion": "5.20.0",
@@ -187,6 +186,7 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

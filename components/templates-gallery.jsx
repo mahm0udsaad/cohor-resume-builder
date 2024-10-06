@@ -1,17 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
-import Resume from "@/components/templates/classic"; // Direct import for Classic template
-import ModifiedResumeTemplate from "@/components/templates/modern"; // Direct import for Modern template
 import { dummyData } from "@/data/data";
 import Link from "next/link";
-import BoldTemplate from "./templates/bold";
+import { templates } from "./templates-holder";
 
 const TemplateGallery = ({ main }) => {
-  const templates = [
-    { name: "classic", Component: Resume },
-    { name: "modern", Component: ModifiedResumeTemplate },
-    { name: "bold", Component: BoldTemplate },
-  ];
-
   return (
     <div
       className={`grid ${

@@ -1,43 +1,40 @@
-"use client";
-import dynamic from "next/dynamic";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ResumeBuilder } from "@/components/resume-builder";
-import { useSession } from "next-auth/react";
+import { Suspense } from "react";
+import { auth } from "@/lib/auth";
+import ClientTemplateWrapper from "@/components/wrappers/Template-wrapper";
+import { ResumeSkeleton } from "@/components/skeleton/builder-loader";
+import { redirect } from "next/navigation";
 
-// Create a mapping of template names to their respective components
-const templateComponents = {
-  classic: dynamic(() => import("@/components/templates/classic"), {
-    loading: () => <Skeleton className="w-full h-full" />,
-    ssr: false,
-  }),
-  modern: dynamic(() => import("@/components/templates/modern"), {
-    loading: () => <Skeleton className="w-full h-full" />,
-    ssr: false,
-  }),
-  bold: dynamic(() => import("@/components/templates/bold"), {
-    loading: () => <Skeleton className="w-full h-full" />,
-    ssr: false,
-  }),
-};
+// This runs at build time
+export async function generateStaticParams() {
+  const languages = ["en", "ar"];
+  const templates = ["classic", "modern", "bold"];
 
-const TemplatePage = ({ params: { template, lng } }) => {
-  const { data: session } = useSession();
-  const { user } = session || {};
-  if (!user) return;
-  const TemplateComponent = templateComponents[template];
-  if (!TemplateComponent) {
-    return <div>Template not found</div>;
+  const params = [];
+  for (const lng of languages) {
+    for (const template of templates) {
+      params.push({
+        lng,
+        template,
+      });
+    }
+  }
+
+  return params;
+}
+
+// Server Component
+export default async function TemplatePage({ params: { template, lng } }) {
+  const session = await auth();
+
+  if (!session) {
+    redirect("/auth");
   }
 
   return (
     <div className="bg-gray-25">
-      <ResumeBuilder
-        lng={lng}
-        resumeName={template}
-        ResumeComponent={TemplateComponent}
-      />
+      <Suspense fallback={<ResumeSkeleton />}>
+        <ClientTemplateWrapper template={template} lng={lng} />
+      </Suspense>
     </div>
   );
-};
-
-export default TemplatePage;
+}

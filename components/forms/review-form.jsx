@@ -12,14 +12,13 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import DatePicker from "../component/datePicker";
 import { useTranslation } from "@/app/i18n/client";
 import { useRouter } from "next/navigation";
 import { filterResumeData } from "@/helper/filters";
 import { updateUserResumeData } from "@/actions/resumes";
 import { useSession } from "next-auth/react";
+import generatePDF, { Margin, Resolution } from "react-to-pdf";
 export default function ReviewForm({
   resumeData,
   updateData,
@@ -82,49 +81,39 @@ export default function ReviewForm({
       index: index,
     });
   };
+  const getTargetElement = () => document.getElementById("resume-template");
 
-  // const handleDownload = async () => {
-  //   const element = document.getElementById("ResumePreview");
-  //   if (!element) {
-  //     throw new Error("Resume Preview element not found");
-  //   }
+  const handleDownload = async () => {
+    setLoading(true);
+    const options = {
+      // default is `save`
+      method: "open",
+      // default is Resolution.MEDIUM = 3, which should be enough, higher values
+      // increases the image quality but also the size of the PDF, so be careful
+      // using values higher than 10 when having multiple pages generated, it
+      // might cause the page to crash or hang.
+      resolution: Resolution.HIGH,
+      page: {
+        // margin is in MM, default is Margin.NONE = 0
+        margin: Margin.SMALL,
+        // default is 'A4'
+        format: "B4",
+        // default is 'portrait'
+        orientation: "portrait",
+      },
+      canvas: {
+        // default is 'image/jpeg' for better size performance
+        mimeType: "image/png",
+        qualityRatio: 1,
+      },
+      // Customize any value passed to the jsPDF instance and html2canvas
+      // function. You probably will not need this and things can break,
+      // so use with caution.
+    };
+    await generatePDF(getTargetElement, options);
+    setLoading(false);
+  };
 
-  //   // Capture the entire component
-  //   const canvas = await html2canvas(element, {
-  //     scale: 2, // Increase resolution to prevent pixelation
-  //     useCORS: true, // Enable cross-origin images if needed
-  //   });
-
-  //   const imgData = canvas.toDataURL("image/png");
-
-  //   // Set up PDF size to match the content
-  //   const pdf = new jsPDF({
-  //     orientation: "portrait",
-  //     unit: "mm",
-  //     format: "a4",
-  //   });
-
-  //   // Calculate image height and width
-  //   const imgWidth = 210; // A4 size in mm
-  //   const pageHeight = 297; // A4 height in mm
-  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-  //   let heightLeft = imgHeight;
-  //   let position = 0;
-
-  //   // Add first image and subsequent pages if content overflows
-  //   pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-  //   heightLeft -= pageHeight;
-
-  //   while (heightLeft > 0) {
-  //     position = heightLeft - imgHeight; // Calculate position for new page
-  //     pdf.addPage();
-  //     pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-  //     heightLeft -= pageHeight;
-  //   }
-
-  //   pdf.save("resume.pdf");
-  // };
   const handleReview = async () => {
     setLoading(true);
     const filteredData = filterResumeData(resumeData, "review");

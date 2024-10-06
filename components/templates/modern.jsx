@@ -114,8 +114,6 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           </section>
         )}
       </div>
-
-      {/* Sidebar (15% width) */}
     </div>
   );
 };

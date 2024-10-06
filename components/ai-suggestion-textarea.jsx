@@ -28,8 +28,8 @@ export function AiSuggestionTextarea({ data, lng, onChange, isExperince }) {
     }
     try {
       const result = await generateSuggestions(
-        data.jobTitle,
         isExperince,
+        data.jobTitle,
         data.company,
       );
       setSuggestions(result);
