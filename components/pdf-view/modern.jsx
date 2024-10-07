@@ -82,105 +82,108 @@ const styles = StyleSheet.create({
   },
 });
 
-const Modern = ({ resumeData, selectedTheme }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View
-        style={[
-          styles.sidebar,
-          { backgroundColor: selectedTheme?.primaryColor || "#F97316" },
-        ]}
-      />
+const Modern = ({ resumeData }) => {
+  const selectedTheme = resumeData.theme || null;
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View
+          style={[
+            styles.sidebar,
+            { backgroundColor: selectedTheme?.primaryColor || "#F97316" },
+          ]}
+        />
 
-      <View style={styles.content}>
-        {/* Header Section */}
-        <View style={styles.header}>
-          <Text style={styles.name}>{resumeData.personalInfo?.name}</Text>
-          <View style={styles.contactInfo}>
-            {resumeData.personalInfo?.contact?.map((contact, index) => (
-              <Text key={index} style={styles.contactItem}>
-                {contact}
-                {index < resumeData.personalInfo.contact.length - 1
-                  ? " | "
-                  : ""}
-              </Text>
-            ))}
-          </View>
-        </View>
-
-        {/* Experience Section */}
-        <View>
-          <Text style={styles.sectionTitle}>Experience</Text>
-          {resumeData.experiences?.map((job, index) => (
-            <View key={index} style={styles.experienceItem}>
-              <Text style={styles.jobTitle}>{job.jobTitle}</Text>
-              <Text style={styles.companyInfo}>
-                {job.company} | {formatDate(job.startDate)} -{" "}
-                {formatDate(job.endDate)}
-              </Text>
-              <Text style={styles.responsibilities}>
-                {job.responsibilities}
-              </Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Education Section */}
-        <View>
-          <Text style={styles.sectionTitle}>Education</Text>
-          {resumeData.educations?.map((edu, index) => (
-            <View key={index} style={styles.educationItem}>
-              <Text style={styles.degree}>{edu.degree}</Text>
-              <Text style={styles.institution}>
-                {edu.institution} | {formatDate(edu.graduationDate)}
-              </Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Courses Section */}
-        {resumeData.courses && (
-          <View>
-            <Text style={styles.sectionTitle}>Courses</Text>
-            {resumeData.courses.map((course, index) => (
-              <View key={index} style={styles.educationItem}>
-                <Text style={styles.degree}>{course.name}</Text>
-                <Text style={styles.institution}>
-                  {course.institution} | {formatDate(course.completionDate)}
-                </Text>
-              </View>
-            ))}
-          </View>
-        )}
-
-        {/* Skills Section */}
-        <View>
-          <Text style={styles.sectionTitle}>Skills</Text>
-          <View style={styles.skillsGrid}>
-            {resumeData.skills?.map((skill, index) => (
-              <Text key={index} style={styles.skillItem}>
-                • {skill.name}
-              </Text>
-            ))}
-          </View>
-        </View>
-
-        {/* Languages Section */}
-        {resumeData.languages?.length > 0 && (
-          <View>
-            <Text style={styles.sectionTitle}>Languages</Text>
-            <View style={styles.skillsGrid}>
-              {resumeData.languages?.map((lang, index) => (
-                <Text key={index} style={styles.skillItem}>
-                  • {lang.name}
+        <View style={styles.content}>
+          {/* Header Section */}
+          <View style={styles.header}>
+            <Text style={styles.name}>{resumeData.personalInfo?.name}</Text>
+            <View style={styles.contactInfo}>
+              {resumeData.personalInfo?.contact?.map((contact, index) => (
+                <Text key={index} style={styles.contactItem}>
+                  {contact}
+                  {index < resumeData.personalInfo.contact.length - 1
+                    ? " | "
+                    : ""}
                 </Text>
               ))}
             </View>
           </View>
-        )}
-      </View>
-    </Page>
-  </Document>
-);
+
+          {/* Experience Section */}
+          <View>
+            <Text style={styles.sectionTitle}>Experience</Text>
+            {resumeData.experiences?.map((job, index) => (
+              <View key={index} style={styles.experienceItem}>
+                <Text style={styles.jobTitle}>{job.jobTitle}</Text>
+                <Text style={styles.companyInfo}>
+                  {job.company} | {formatDate(job.startDate)} -{" "}
+                  {formatDate(job.endDate)}
+                </Text>
+                <Text style={styles.responsibilities}>
+                  {job.responsibilities}
+                </Text>
+              </View>
+            ))}
+          </View>
+
+          {/* Education Section */}
+          <View>
+            <Text style={styles.sectionTitle}>Education</Text>
+            {resumeData.educations?.map((edu, index) => (
+              <View key={index} style={styles.educationItem}>
+                <Text style={styles.degree}>{edu.degree}</Text>
+                <Text style={styles.institution}>
+                  {edu.institution} | {formatDate(edu.graduationDate)}
+                </Text>
+              </View>
+            ))}
+          </View>
+
+          {/* Courses Section */}
+          {resumeData.courses && (
+            <View>
+              <Text style={styles.sectionTitle}>Courses</Text>
+              {resumeData.courses.map((course, index) => (
+                <View key={index} style={styles.educationItem}>
+                  <Text style={styles.degree}>{course.name}</Text>
+                  <Text style={styles.institution}>
+                    {course.institution} | {formatDate(course.completionDate)}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {/* Skills Section */}
+          <View>
+            <Text style={styles.sectionTitle}>Skills</Text>
+            <View style={styles.skillsGrid}>
+              {resumeData.skills?.map((skill, index) => (
+                <Text key={index} style={styles.skillItem}>
+                  • {skill.name}
+                </Text>
+              ))}
+            </View>
+          </View>
+
+          {/* Languages Section */}
+          {resumeData.languages?.length > 0 && (
+            <View>
+              <Text style={styles.sectionTitle}>Languages</Text>
+              <View style={styles.skillsGrid}>
+                {resumeData.languages?.map((lang, index) => (
+                  <Text key={index} style={styles.skillItem}>
+                    • {lang.name}
+                  </Text>
+                ))}
+              </View>
+            </View>
+          )}
+        </View>
+      </Page>
+    </Document>
+  );
+};
 
 export default memo(Modern);

@@ -154,11 +154,19 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.ThemeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  primaryColor: 'primaryColor',
+  backgroundColor: 'backgroundColor'
+};
+
 exports.Prisma.ResumeScalarFieldEnum = {
   id: 'id',
   name: 'name',
   modifiedAt: 'modifiedAt',
-  userId: 'userId'
+  userId: 'userId',
+  themeId: 'themeId'
 };
 
 exports.Prisma.SortOrder = {
@@ -177,6 +185,7 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   User: 'User',
   VerificationToken: 'VerificationToken',
+  Theme: 'Theme',
   Resume: 'Resume'
 };
 

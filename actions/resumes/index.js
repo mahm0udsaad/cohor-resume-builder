@@ -68,6 +68,9 @@ export async function getResume(email, resumeName) {
 
     const resume = await prisma.resume.findFirst({
       where: { userId: user.id, name: resumeName },
+      include: {
+        theme: true,
+      },
     });
 
     return resume || {};
@@ -79,144 +82,129 @@ export async function getResume(email, resumeName) {
   }
 }
 
-/**
- * Updates user resume data for a specific section
- * @param {string} userEmail - The email of the user
- * @param {string} resumeName - The name of the resume to update
- * @param {Object} resumeData - The data to update
- * @param {string} currentTab - The current tab being updated
- * @returns {Promise<Object>} - Object containing success status and updated resume or error
- */
+// Helper function to parse and validate dates
+const parseDate = (dateString) => {
+  const date = new Date(dateString);
+  return isNaN(date.getTime()) ? null : date.toISOString();
+};
 
-export async function updateUserResumeData(
+// Function to update or create user resume data
+export const updateUserResumeData = async (
   userEmail,
   resumeName,
-  resumeData,
-  currentTab,
-) {
+  updatedResumeData,
+) => {
   try {
+    // Find the user by email
     const user = await prisma.user.findUnique({
       where: { email: userEmail },
-      include: { resumes: true },
     });
 
     if (!user) {
-      return { success: false, error: "User not found" };
+      throw new Error("User not found");
     }
+    console.log(resumeName, updatedResumeData);
 
-    let resume = user.resumes.find((r) => r.name === resumeName);
-    if (!resume) {
-      resume = await prisma.resume.create({
-        data: {
-          name: resumeName,
-          userId: user.id,
-        },
-      });
-    }
-
-    // Prepare the update data based on the current tab
-    let updateData = {};
-    switch (currentTab) {
-      case "personal":
-        if (resumeData.personalInfo) {
-          updateData.personalInfo = {
-            upsert: {
-              set: resumeData.personalInfo,
-              update: resumeData.personalInfo,
-            },
-          };
-        }
-        break;
-
-      case "experience":
-        updateData.experiences = {
-          set: resumeData.experiences.map((exp) => ({
-            jobTitle: exp.jobTitle,
-            company: exp.company,
-            startDate: exp.startDate ? new Date(exp.startDate) : null,
-            endDate: exp.endDate ? new Date(exp.endDate) : null,
-            responsibilities: exp.responsibilities,
-          })),
-        };
-        break;
-
-      case "education":
-        updateData.educations = {
-          set: resumeData.educations.map((edu) => ({
-            degree: edu.degree,
-            institution: edu.institution,
-            graduationDate: edu.graduationDate
-              ? new Date(edu.graduationDate)
-              : null,
-          })),
-        };
-        break;
-
-      case "skills":
-        if (resumeData.skills) {
-          updateData.skills = {
-            set: resumeData.skills,
-          };
-        }
-        if (resumeData.languages) {
-          updateData.languages = {
-            set: resumeData.languages,
-          };
-        }
-        if (resumeData.courses) {
-          updateData.courses = {
-            set: resumeData.courses.map((course) => ({
-              name: course.name,
-              institution: course.institution,
-              completionDate: course.completionDate
-                ? new Date(course.completionDate)
-                : null,
-            })),
-          };
-        }
-        break;
-
-      case "review":
-        // Only handle languages and courses in review tab
-        if (resumeData.languages) {
-          updateData.languages = {
-            set: resumeData.languages,
-          };
-        }
-        if (resumeData.courses) {
-          updateData.courses = {
-            set: resumeData.courses.map((course) => ({
-              name: course.name,
-              institution: course.institution,
-              completionDate: course.completionDate
-                ? new Date(course.completionDate)
-                : null,
-            })),
-          };
-        }
-        break;
-
-      default:
-        return { success: false, error: "Invalid tab" };
-    }
-
-    // Update the resume
-    const updatedResume = await prisma.resume.update({
-      where: { id: resume.id },
-      data: updateData,
-      include: {
-        personalInfo: true,
-        experiences: true,
-        educations: true,
-        skills: true,
-        languages: true,
-        courses: true,
+    // Check if the resume already exists for the user
+    const existingResume = await prisma.resume.findFirst({
+      where: {
+        userId: user.id,
+        name: resumeName,
       },
     });
 
-    return { success: true, resume: updatedResume };
+    // Ensure date fields are properly formatted
+    const formattedResumeData = {
+      ...updatedResumeData,
+      experiences: updatedResumeData.experiences?.map((experience) => ({
+        ...experience,
+        startDate: parseDate(experience.startDate),
+        endDate: parseDate(experience.endDate),
+      })),
+      educations: updatedResumeData.educations?.map((education) => ({
+        ...education,
+        graduationDate: parseDate(education.graduationDate),
+      })),
+      courses: updatedResumeData.courses?.map((course) => ({
+        ...course,
+        completionDate: parseDate(course.completionDate),
+      })),
+    };
+
+    const updateResume = async () => {
+      if (existingResume) {
+        // If the resume exists, update it
+        await prisma.resume.update({
+          where: {
+            id: existingResume.id,
+          },
+          data: {
+            ...formattedResumeData,
+            modifiedAt: new Date(),
+            ...(updatedResumeData.theme &&
+            Object.keys(updatedResumeData.theme).length > 0
+              ? {
+                  theme: {
+                    create: {
+                      name: updatedResumeData.theme.name,
+                      primaryColor: updatedResumeData.theme.primaryColor,
+                      backgroundColor: updatedResumeData.theme.backgroundColor,
+                    },
+                  },
+                }
+              : {}),
+          },
+        });
+      } else {
+        // If no resume exists, create a new one
+        await prisma.resume.create({
+          data: {
+            name: resumeName,
+            userId: user.id,
+            ...formattedResumeData,
+            modifiedAt: new Date(),
+            theme: updatedResumeData.theme
+              ? {
+                  connectOrCreate: {
+                    where: {
+                      name: updatedResumeData.theme.name,
+                    },
+                    create: updatedResumeData.theme,
+                  },
+                }
+              : undefined,
+          },
+        });
+      }
+    };
+
+    // Retry logic
+    const maxRetries = 3;
+    let attempt = 0;
+    while (attempt < maxRetries) {
+      try {
+        await updateResume();
+        console.log("Resume updated successfully");
+        return; // Exit on success
+      } catch (error) {
+        if (error.code === "P2002" || error.code === "P2025") {
+          // Retry on write conflict or deadlock
+          attempt++;
+          console.warn(
+            `Attempt ${attempt} failed: ${error.message}. Retrying...`,
+          );
+          if (attempt >= maxRetries) {
+            throw new Error(
+              "Failed to update resume data after multiple attempts",
+            );
+          }
+        } else {
+          throw error; // Rethrow non-retryable errors
+        }
+      }
+    }
   } catch (error) {
-    console.error("Error updating user resume data:", error);
-    return { success: false, error: error.message };
+    console.error("Error updating resume data:", error.message);
+    throw new Error("Failed to update resume data");
   }
-}
+};

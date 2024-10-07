@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,14 +14,13 @@ import {
 import DatePicker from "../component/datePicker";
 import { useTranslation } from "@/app/i18n/client";
 import { useRouter } from "next/navigation";
-import { filterResumeData } from "@/helper/filters";
 import { updateUserResumeData } from "@/actions/resumes";
 import { useSession } from "next-auth/react";
-import generatePDF, { Margin, Resolution } from "react-to-pdf";
 export default function ReviewForm({
   resumeData,
   updateData,
   resumeName,
+  theme,
   lng,
 }) {
   const [showLanguages, setShowLanguages] = useState(false);
@@ -30,7 +28,7 @@ export default function ReviewForm({
   const [showCourses, setShowCourses] = useState(false);
   const { t } = useTranslation(lng, "forms");
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const user = session.user;
   const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
 
@@ -81,49 +79,33 @@ export default function ReviewForm({
       index: index,
     });
   };
-  const getTargetElement = () => document.getElementById("resume-template");
-
-  const handleDownload = async () => {
-    setLoading(true);
-    const options = {
-      // default is `save`
-      method: "open",
-      // default is Resolution.MEDIUM = 3, which should be enough, higher values
-      // increases the image quality but also the size of the PDF, so be careful
-      // using values higher than 10 when having multiple pages generated, it
-      // might cause the page to crash or hang.
-      resolution: Resolution.HIGH,
-      page: {
-        // margin is in MM, default is Margin.NONE = 0
-        margin: Margin.SMALL,
-        // default is 'A4'
-        format: "B4",
-        // default is 'portrait'
-        orientation: "portrait",
-      },
-      canvas: {
-        // default is 'image/jpeg' for better size performance
-        mimeType: "image/png",
-        qualityRatio: 1,
-      },
-      // Customize any value passed to the jsPDF instance and html2canvas
-      // function. You probably will not need this and things can break,
-      // so use with caution.
-    };
-    await generatePDF(getTargetElement, options);
-    setLoading(false);
-  };
 
   const handleReview = async () => {
     setLoading(true);
-    const filteredData = filterResumeData(resumeData, "review");
-    console.log(filteredData);
-
-    // Start the server action without waiting for it
-    await updateUserResumeData(user.email, resumeName, filteredData, "review");
-    router.push(`/review/${resumeName}`);
-    setLoading(false);
+    try {
+      // Construct the resume data, excluding the theme if it's null or undefined
+      const updatedResumeData = {
+        ...resumeData,
+        ...(theme
+          ? {
+              theme: {
+                name: theme.name,
+                primaryColor: theme.primaryColor,
+                backgroundColor: theme.backgroundColor,
+              },
+            }
+          : {}), // Do not include theme if it's null or undefined
+      };
+  
+      // Call the updateUserResumeData function with the updated resume data
+      await updateUserResumeData(user.email, resumeName, updatedResumeData);
+      setLoading(false);
+    } finally {
+      router.push(`/review/${resumeName}`);
+    }
   };
+  
+
   return (
     <Card>
       <CardContent className="p-6">

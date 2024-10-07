@@ -14,6 +14,7 @@ import { LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import { Skeleton } from "../ui/skeleton";
 
 const UserBtn = ({ lng }) => {
   const { data: session, status } = useSession();
@@ -34,9 +35,7 @@ const UserBtn = ({ lng }) => {
   if (status === "loading") {
     return (
       <div className="flex flex-1 items-center justify-end">
-        <Button variant="ghost" disabled>
-          Loading...
-        </Button>
+        <Skeleton className={"w-10 h-10"} />
       </div>
     );
   }

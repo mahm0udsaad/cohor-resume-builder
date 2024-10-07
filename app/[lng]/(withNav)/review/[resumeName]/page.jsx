@@ -37,7 +37,7 @@ export default async function ReviewPage({ params: { resumeName } }) {
           <DownloadBtn />
         </div>
         {resume && (
-          <ClientResumeTemplate templateName={resumeName} data={dummyData} />
+          <ClientResumeTemplate templateName={resumeName} data={resume} />
         )}
       </div>
     </div>

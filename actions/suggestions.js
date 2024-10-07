@@ -18,8 +18,8 @@ const AboutPrompt = (field) =>
   )}`;
 
 export async function generateSuggestions(
-  field,
   isExperience = false,
+  field,
   company,
 ) {
   if (!field) {

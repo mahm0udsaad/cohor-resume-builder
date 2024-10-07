@@ -148,104 +148,108 @@ const styles = StyleSheet.create({
   },
 });
 
-const MinimalTemplate = ({ resumeData }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <Text style={styles.name}>{resumeData.personalInfo.name}</Text>
-          <Text style={styles.jobTitle}>
-            {resumeData.personalInfo.jobTitle}
-          </Text>
-        </View>
-        {resumeData.personalInfo.image ? (
-          <Image
-            src={resumeData.personalInfo.image}
-            style={styles.profileImage}
-          />
-        ) : (
-          <View style={styles.placeholderImage} />
-        )}
-      </View>
+const MinimalTemplate = ({ resumeData }) => {
+  const selectedTheme = resumeData?.theme || null;
 
-      <View style={styles.sectionBorder} />
-
-      <View style={styles.content}>
-        <View style={styles.leftColumn}>
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Contact</Text>
-            {resumeData.personalInfo.contact?.map((item, index) => {
-              const Icon =
-                index === 0
-                  ? Phone
-                  : index === 1
-                  ? Mail
-                  : index === 2
-                  ? MapPin
-                  : Globe;
-              return (
-                <View key={index} style={styles.contactItem}>
-                  <Icon size={10} style={styles.icon} />
-                  <Text>{item}</Text>
-                </View>
-              );
-            })}
-          </View>
-
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Skills</Text>
-            <Text style={styles.subheading}>Professional</Text>
-            {resumeData.skills?.map((skill, index) => (
-              <View key={index} style={styles.skillItem}>
-                <Text style={styles.bullet}>•</Text>
-                <Text>{skill.name}</Text>
-              </View>
-            ))}
-          </View>
-
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Education</Text>
-            {resumeData.educations?.map((edu, index) => (
-              <View key={index} style={styles.educationItem}>
-                <Text style={styles.institutionName}>{edu.institution}</Text>
-                <Text style={styles.degree}>{edu.degree}</Text>
-                <Text style={styles.date}>
-                  {formatDate(edu.graduationDate)}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </View>
-
-        <View style={styles.rightColumn}>
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Summary</Text>
-            <Text style={styles.summary}>
-              {resumeData.personalInfo.summary}
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <Text style={styles.name}>{resumeData.personalInfo.name}</Text>
+            <Text style={styles.jobTitle}>
+              {resumeData.personalInfo.jobTitle}
             </Text>
           </View>
+          {resumeData.personalInfo.image ? (
+            <Image
+              src={resumeData.personalInfo.image}
+              style={styles.profileImage}
+            />
+          ) : (
+            <View style={styles.placeholderImage} />
+          )}
+        </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Working Experience</Text>
-            {resumeData.experiences?.map((exp, index) => (
-              <View key={index} style={styles.experienceItem}>
-                <View style={styles.experienceHeader}>
-                  <Text style={styles.jobTitleExp}>{exp.jobTitle}</Text>
+        <View style={styles.sectionBorder} />
+
+        <View style={styles.content}>
+          <View style={styles.leftColumn}>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Contact</Text>
+              {resumeData.personalInfo.contact?.map((item, index) => {
+                const Icon =
+                  index === 0
+                    ? Phone
+                    : index === 1
+                    ? Mail
+                    : index === 2
+                    ? MapPin
+                    : Globe;
+                return (
+                  <View key={index} style={styles.contactItem}>
+                    <Icon size={10} style={styles.icon} />
+                    <Text>{item}</Text>
+                  </View>
+                );
+              })}
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Skills</Text>
+              <Text style={styles.subheading}>Professional</Text>
+              {resumeData.skills?.map((skill, index) => (
+                <View key={index} style={styles.skillItem}>
+                  <Text style={styles.bullet}>•</Text>
+                  <Text>{skill.name}</Text>
+                </View>
+              ))}
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Education</Text>
+              {resumeData.educations?.map((edu, index) => (
+                <View key={index} style={styles.educationItem}>
+                  <Text style={styles.institutionName}>{edu.institution}</Text>
+                  <Text style={styles.degree}>{edu.degree}</Text>
                   <Text style={styles.date}>
-                    {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                    {formatDate(edu.graduationDate)}
                   </Text>
                 </View>
-                <Text style={styles.company}>{exp.company}</Text>
-                <View style={styles.responsibilityItem}>
-                  <Text>{exp.responsibilities.trim()}</Text>
+              ))}
+            </View>
+          </View>
+
+          <View style={styles.rightColumn}>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Summary</Text>
+              <Text style={styles.summary}>
+                {resumeData.personalInfo.summary}
+              </Text>
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Working Experience</Text>
+              {resumeData.experiences?.map((exp, index) => (
+                <View key={index} style={styles.experienceItem}>
+                  <View style={styles.experienceHeader}>
+                    <Text style={styles.jobTitleExp}>{exp.jobTitle}</Text>
+                    <Text style={styles.date}>
+                      {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                    </Text>
+                  </View>
+                  <Text style={styles.company}>{exp.company}</Text>
+                  <View style={styles.responsibilityItem}>
+                    <Text>{exp.responsibilities.trim()}</Text>
+                  </View>
                 </View>
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         </View>
-      </View>
-    </Page>
-  </Document>
-);
+      </Page>
+    </Document>
+  );
+};
 
 export default memo(MinimalTemplate);

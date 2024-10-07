@@ -1,5 +1,4 @@
 import { getUserWithDetails } from "@/actions/userInfo/action";
-import { ResumeDashboard } from "@/components/resume-dashboard";
 import { Button } from "@/components/ui/button";
 import { MyInformationComponent } from "@/components/component/my-information";
 import dynamic from "next/dynamic";
@@ -14,10 +13,10 @@ const ResumeList = dynamic(() => import("@/components/component/resume-list"), {
   ssr: false,
 });
 const DashboardPage = async () => {
-  const { user } = await auth();
-  if (!user) redirect("/auth");
+  const session = await auth();
+  if (!session) redirect("/auth");
 
-  const userInfo = await getUserWithDetails(user.email);
+  const userInfo = await getUserWithDetails(session.user.email);
   const { personalInfo, experiences, educations, skills, languages, courses } =
     userInfo;
 
@@ -29,7 +28,7 @@ const DashboardPage = async () => {
             Resume Dashboard
           </h1>
           <Button variant="outline" className="flex items-center gap-2">
-            <span>{user.name}</span>
+            <span>{session.user.name}</span>
           </Button>
         </div>
         <Tabs defaultValue="myInformation" className="w-full">

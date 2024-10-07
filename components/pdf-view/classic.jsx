@@ -64,8 +64,8 @@ const defaultTheme = {
   backgroundColor: "#EBF8FF",
 };
 
-const Classic = ({ resumeData, selectedTheme }) => {
-  let theme = selectedTheme || defaultTheme;
+const Classic = ({ resumeData }) => {
+  let theme = resumeData.theme || defaultTheme;
 
   const renderSection = (title, content) => {
     if (!content || (Array.isArray(content) && content.length === 0)) {

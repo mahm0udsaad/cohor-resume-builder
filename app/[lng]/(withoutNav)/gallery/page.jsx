@@ -1,21 +1,10 @@
 import { Badge } from "@/components/ui/badge";
-
 import { dummyData } from "@/data/data";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
-import dynamic from "next/dynamic";
-import { Skeleton } from "@/components/ui/skeleton";
 import { templates } from "@/components/templates-holder";
-
-const SearchForm = dynamic(() => import("@/components/forms/search"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[50px] w-[300px]">
-      <Skeleton className="h-full w-full" />
-    </div>
-  ),
-});
+import SearchForm from "@/components/forms/search";
 
 export default async function TemplateGallery({ params: { lng } }) {
   const { t } = await useTranslation(lng, "common");

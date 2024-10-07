@@ -1,8 +1,9 @@
 import { Suspense } from "react";
 import { auth } from "@/lib/auth";
-import ClientTemplateWrapper from "@/components/wrappers/Template-wrapper";
 import { ResumeSkeleton } from "@/components/skeleton/builder-loader";
 import { redirect } from "next/navigation";
+import { addResumeToUser } from "@/actions/resumes";
+import { ResumeBuilder } from "@/components/resume-builder";
 
 // This runs at build time
 export async function generateStaticParams() {
@@ -30,10 +31,12 @@ export default async function TemplatePage({ params: { template, lng } }) {
     redirect("/auth");
   }
 
+  addResumeToUser(session.user.email, template);
+
   return (
     <div className="bg-gray-25">
       <Suspense fallback={<ResumeSkeleton />}>
-        <ClientTemplateWrapper template={template} lng={lng} />
+        <ResumeBuilder resumeName={template} lng={lng} />
       </Suspense>
     </div>
   );

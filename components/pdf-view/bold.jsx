@@ -117,119 +117,124 @@ const styles = StyleSheet.create({
   },
 });
 
-const BoldTemplate = ({ resumeData, selectedTheme }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View
-        style={[
-          styles.header,
-          { backgroundColor: selectedTheme?.primaryColor || "#1F2937" },
-        ]}
-      >
-        <Text style={styles.headerName}>{resumeData.personalInfo.name}</Text>
-        <Text style={styles.headerTitle}>
-          {resumeData.personalInfo.jobTitle}
-        </Text>
-      </View>
-
-      <View style={styles.contactInfo}>
-        {resumeData.personalInfo.contact?.map((contact, index) => (
-          <Text key={index} style={styles.contactItem}>
-            {contact}
-            {index < resumeData.personalInfo.contact.length - 1 ? " | " : ""}
+const BoldTemplate = ({ resumeData }) => {
+  const selectedTheme = resumeData?.theme || null;
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View
+          style={[
+            styles.header,
+            { backgroundColor: selectedTheme?.primaryColor || "#1F2937" },
+          ]}
+        >
+          <Text style={styles.headerName}>{resumeData.personalInfo.name}</Text>
+          <Text style={styles.headerTitle}>
+            {resumeData.personalInfo.jobTitle}
           </Text>
-        ))}
-      </View>
-
-      <View style={styles.content}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Profile</Text>
-          <Text style={styles.summary}>{resumeData.personalInfo.summary}</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Experience</Text>
-          {resumeData.experiences?.map((job, index) => (
-            <View key={index} style={styles.experienceItem}>
-              <Text style={styles.jobTitle}>{job.jobTitle}</Text>
-              <Text style={styles.jobInfo}>
-                {job.company} // {formatDate(job.startDate)} -{" "}
-                {formatDate(job.endDate)}
-              </Text>
-              <Text style={styles.responsibilities}>
-                {job.responsibilities}
-              </Text>
-              {job.achievements?.length > 0 && (
-                <View>
-                  <Text style={styles.achievementsTitle}>
-                    Achievements & Highlights
-                  </Text>
-                  <View style={styles.achievementsList}>
-                    {job.achievements.map((achievement, index) => (
-                      <Text key={index} style={styles.achievementItem}>
-                        • {achievement}
-                      </Text>
-                    ))}
+        <View style={styles.contactInfo}>
+          {resumeData.personalInfo.contact?.map((contact, index) => (
+            <Text key={index} style={styles.contactItem}>
+              {contact}
+              {index < resumeData.personalInfo.contact.length - 1 ? " | " : ""}
+            </Text>
+          ))}
+        </View>
+
+        <View style={styles.content}>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Profile</Text>
+            <Text style={styles.summary}>
+              {resumeData.personalInfo.summary}
+            </Text>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Experience</Text>
+            {resumeData.experiences?.map((job, index) => (
+              <View key={index} style={styles.experienceItem}>
+                <Text style={styles.jobTitle}>{job.jobTitle}</Text>
+                <Text style={styles.jobInfo}>
+                  {job.company} // {formatDate(job.startDate)} -{" "}
+                  {formatDate(job.endDate)}
+                </Text>
+                <Text style={styles.responsibilities}>
+                  {job.responsibilities}
+                </Text>
+                {job.achievements?.length > 0 && (
+                  <View>
+                    <Text style={styles.achievementsTitle}>
+                      Achievements & Highlights
+                    </Text>
+                    <View style={styles.achievementsList}>
+                      {job.achievements.map((achievement, index) => (
+                        <Text key={index} style={styles.achievementItem}>
+                          • {achievement}
+                        </Text>
+                      ))}
+                    </View>
                   </View>
-                </View>
-              )}
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Education</Text>
-          {resumeData.educations?.map((edu, index) => (
-            <View key={index} style={styles.educationItem}>
-              <Text style={styles.degree}>{edu.degree}</Text>
-              <Text style={styles.institution}>
-                {edu.institution} // {formatDate(edu.graduationDate)}
-              </Text>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Skills</Text>
-          <View style={styles.skillsList}>
-            {resumeData.skills?.map((skill, index) => (
-              <Text key={index} style={styles.skillItem}>
-                • {skill.name}
-              </Text>
+                )}
+              </View>
             ))}
           </View>
-        </View>
 
-        {resumeData.languages?.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Languages</Text>
-            <View style={styles.skillsList}>
-              {resumeData.languages?.map((lang, index) => (
-                <Text key={index} style={styles.languageItem}>
-                  • {lang.name} - {lang.proficiency}
-                </Text>
-              ))}
-            </View>
-          </View>
-        )}
-
-        {resumeData.courses?.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Courses</Text>
-            {resumeData.courses?.map((course, index) => (
-              <View key={index} style={styles.courseItem}>
-                <Text style={styles.courseName}>{course.name}</Text>
-                <Text style={styles.courseInfo}>{course.institution}</Text>
-                <Text style={styles.courseInfo}>
-                  {formatDate(course.completionDate)}
+            <Text style={styles.sectionTitle}>Education</Text>
+            {resumeData.educations?.map((edu, index) => (
+              <View key={index} style={styles.educationItem}>
+                <Text style={styles.degree}>{edu.degree}</Text>
+                <Text style={styles.institution}>
+                  {edu.institution} // {formatDate(edu.graduationDate)}
                 </Text>
               </View>
             ))}
           </View>
-        )}
-      </View>
-    </Page>
-  </Document>
-);
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Skills</Text>
+            <View style={styles.skillsList}>
+              {resumeData.skills?.map((skill, index) => (
+                <Text key={index} style={styles.skillItem}>
+                  • {skill.name}
+                </Text>
+              ))}
+            </View>
+          </View>
+
+          {resumeData.languages?.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Languages</Text>
+              <View style={styles.skillsList}>
+                {resumeData.languages?.map((lang, index) => (
+                  <Text key={index} style={styles.languageItem}>
+                    • {lang.name} - {lang.proficiency}
+                  </Text>
+                ))}
+              </View>
+            </View>
+          )}
+
+          {resumeData.courses?.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Courses</Text>
+              {resumeData.courses?.map((course, index) => (
+                <View key={index} style={styles.courseItem}>
+                  <Text style={styles.courseName}>{course.name}</Text>
+                  <Text style={styles.courseInfo}>{course.institution}</Text>
+                  <Text style={styles.courseInfo}>
+                    {formatDate(course.completionDate)}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      </Page>
+    </Document>
+  );
+};
 
 export default BoldTemplate;
