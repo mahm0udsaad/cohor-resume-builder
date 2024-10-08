@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function addResumeToUser(email, resumeName) {
   try {
@@ -81,6 +82,42 @@ export async function getResume(email, resumeName) {
     console.error("Error getting resume:", error);
     return { success: false, error: error.message };
   } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export async function deleteResume(formData) {
+  try {
+    const resumeId = formData.get("resumeId");
+    const email = formData.get("email");
+
+    if (!resumeId || !email) {
+      return { success: false, error: "Invalid form data" };
+    }
+
+    const deletedResume = await prisma.resume.delete({
+      where: { id: resumeId },
+    });
+
+    await prisma.user.update({
+      where: { email: email },
+      data: {
+        resumes: {
+          set: {
+            id: {
+              notIn: [resumeId],
+            },
+          },
+        },
+      },
+    });
+
+    return deletedResume || {};
+  } catch (error) {
+    console.error("Error deleting resume:", error);
+    return { success: false, error: error.message };
+  } finally {
+    revalidatePath("/dashboard");
     await prisma.$disconnect();
   }
 }

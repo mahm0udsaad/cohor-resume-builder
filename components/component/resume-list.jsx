@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Trash2 } from "lucide-react";
-import { getUserResumes } from "@/actions/resumes";
+import { deleteResume, getUserResumes } from "@/actions/resumes";
 import ClientResumeTemplate from "./render-template";
 import { auth } from "@/lib/auth";
 
@@ -28,24 +28,23 @@ const ResumeList = async () => {
             skills: resume.skills || [],
             languages: resume.languages || [],
             courses: resume.courses || [],
-            theme: resume.theme || {},
+            theme: resume.theme || null,
           };
           return (
-            <Link
-              href={`/review/${resume.name}`}
-              key={resume.name}
-              className="block"
+            <Card
+              key={resume.id}
+              className="block bg-white shadow-md hover:shadow-lg transition-shadow"
             >
-              <Card className=" bg-white shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="text-[#3b51a3]">
-                    Resume {resume.name}
-                  </CardTitle>
-                  <CardDescription>
-                    Last updated: {new Date().toLocaleDateString()}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
+              <CardHeader>
+                <CardTitle className="text-[#3b51a3]">
+                  Resume {resume.name}
+                </CardTitle>
+                <CardDescription>
+                  Last updated: {new Date().toLocaleDateString()}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link href={`/review/${resume.name}`}>
                   <div className="flex justify-center  overflow-hidden">
                     <ClientResumeTemplate
                       list
@@ -53,17 +52,27 @@ const ResumeList = async () => {
                       data={resumeData}
                     />
                   </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button variant="outline" size="icon">
+                </Link>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <form
+                  action={`/api/download-resume?resumeName=${resume.name}`}
+                  method="POST"
+                  target="_blank"
+                >
+                  <Button variant="outline" size="icon" type="submit">
                     <Download className="h-4 w-4" />
                   </Button>
+                </form>
+                <form action={deleteResume}>
+                  <input type="hidden" name="resumeId" value={resume.id} />
+                  <input type="hidden" name="email" value={user.email} />
                   <Button variant="destructive" size="icon">
                     <Trash2 className="h-4 w-4" />
                   </Button>
-                </CardFooter>
-              </Card>
-            </Link>
+                </form>
+              </CardFooter>
+            </Card>
           );
         })}
       <Card className="hover:bg-accent hover:text-accent-foreground bg-white shadow-md flex items-center justify-center">

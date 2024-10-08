@@ -145,7 +145,7 @@ const Classic = ({ resumeData }) => {
 
             {renderSection(
               "Objective",
-              <Text>{resumeData.personalInfo.summary}</Text>,
+              <Text>{resumeData.personalInfo?.summary}</Text>,
             )}
 
             {renderSection("Experience", renderExperiences())}
@@ -159,7 +159,7 @@ const Classic = ({ resumeData }) => {
           <View style={styles.rightColumn}>
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Contact</Text>
-              {resumeData.personalInfo.contact?.map((contact, index) => (
+              {resumeData.personalInfo?.contact?.map((contact, index) => (
                 <Text key={index} style={styles.contact}>
                   {contact}
                 </Text>

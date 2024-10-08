@@ -11,12 +11,17 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Edit, Plus } from "lucide-react";
+import { Edit, Plus, Trash } from "lucide-react";
 import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
 import { useTranslation } from "@/app/i18n/client";
 import DatePicker from "../component/datePicker";
-import { addOrUpdateExperience } from "@/actions/userInfo/action";
+import {
+  addOrUpdateExperience,
+  deleteExperience,
+  updateExperience,
+} from "@/actions/userInfo/action";
 import { formatDate } from "@/helper/date";
+import Spinner from "../skeleton/spinner";
 
 export default function ExperienceCard({ user, lng }) {
   const { t } = useTranslation(lng, "forms");
@@ -64,10 +69,32 @@ export default function ExperienceCard({ user, lng }) {
   const saveExperience = async () => {
     startTransition(async () => {
       try {
-        await addOrUpdateExperience(user.id, currentExperience);
-        closeDialog();
+        if (currentExperienceIndex === null) {
+          addOrUpdateExperience(user.id, currentExperience);
+          setExperiences([...experiences, currentExperience]);
+        } else {
+          setExperiences(
+            experiences.map((exp, i) =>
+              i === currentExperienceIndex ? currentExperience : exp,
+            ),
+          );
+          updateExperience(user.id, currentExperienceIndex, currentExperience);
+        }
       } catch (error) {
         console.error("Error saving experience:", error);
+      } finally {
+        closeDialog();
+      }
+    });
+  };
+
+  const handleDelete = async (index) => {
+    startTransition(async () => {
+      try {
+        deleteExperience(user.id, index);
+        setExperiences(experiences.filter((_, i) => i !== index));
+      } catch (error) {
+        console.error("Error deleting experience:", error);
       }
     });
   };
@@ -167,12 +194,22 @@ export default function ExperienceCard({ user, lng }) {
                 <p>
                   {t("workExperience.responsibilities")}: {exp.responsibilities}
                 </p>
-                <Button
-                  onClick={() => openDialog(index)}
-                  className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
-                >
-                  <Edit className="h-4 w-4 " />
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => openDialog(index)}
+                    className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
+                  >
+                    <Edit className="h-4 w-4 " />
+                  </Button>
+                  <Button
+                    onClick={() => handleDelete(index)}
+                    disabled={isSaving}
+                    variant="ghost"
+                    className="mt-2 bg-rose-500 text-white hover:bg-white hover:text-rose-500"
+                  >
+                    {isSaving ? <Spinner /> : <Trash className="size-4 " />}
+                  </Button>
+                </div>
               </div>
             ))
           ) : (

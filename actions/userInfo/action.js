@@ -161,3 +161,127 @@ export async function addOrUpdateExperience(userId, experienceData) {
     revalidatePath("/dashboard");
   }
 }
+
+export async function deleteExperience(userId, experienceIndex) {
+  try {
+    console.log("Deleting experience:", userId, experienceIndex);
+
+    // Step 1: Fetch the user and their experiences
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { experiences: true }, // Fetch the user's experiences
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Step 2: Check if user has existing experiences
+    const existingExperiences = user.experiences || [];
+
+    if (experienceIndex < 0 || experienceIndex >= existingExperiences.length) {
+      throw new Error("Invalid experience index");
+    }
+
+    // Step 3: Remove the experience at the given index
+    const updatedExperiences = existingExperiences.filter(
+      (_, index) => index !== experienceIndex,
+    );
+
+    // Step 4: Update the user's experiences
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        experiences: {
+          set: updatedExperiences, // Use set to update the experiences field
+        },
+      },
+    });
+
+    return { success: true, updatedUser };
+  } catch (error) {
+    console.error("Error deleting experience:", error);
+    return { success: false, error: error.message };
+  } finally {
+    revalidatePath("/dashboard");
+  }
+}
+
+export async function updateExperience(
+  userId,
+  experienceIndex,
+  experienceData,
+) {
+  try {
+    console.log(
+      "Updating experience:",
+      userId,
+      experienceIndex,
+      experienceData,
+    );
+
+    // Validate and parse dates if provided
+    const { jobTitle, company, startDate, endDate, responsibilities } =
+      experienceData;
+
+    const formattedStartDate = startDate
+      ? new Date(startDate).toISOString()
+      : null;
+    const formattedEndDate = endDate ? new Date(endDate).toISOString() : null;
+
+    if (
+      isNaN(new Date(formattedStartDate)) ||
+      (formattedEndDate && isNaN(new Date(formattedEndDate)))
+    ) {
+      throw new Error("Invalid date format provided");
+    }
+
+    // Step 1: Fetch the user and their experiences
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { experiences: true }, // Fetch the user's experiences
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Step 2: Check if user has existing experiences
+    const existingExperiences = user.experiences || [];
+
+    if (experienceIndex < 0 || experienceIndex >= existingExperiences.length) {
+      throw new Error("Invalid experience index");
+    }
+
+    // Step 3: Update the experience at the given index
+    const updatedExperiences = existingExperiences.map((exp, index) =>
+      index === experienceIndex
+        ? {
+            ...exp,
+            jobTitle,
+            company,
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
+            responsibilities,
+          }
+        : exp,
+    );
+
+    // Step 4: Update the user's experiences
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        experiences: {
+          set: updatedExperiences, // Use set to update the experiences field
+        },
+      },
+    });
+
+    return { success: true, updatedUser };
+  } catch (error) {
+    console.error("Error updating experience:", error);
+    return { success: false, error: error.message };
+  } finally {
+    revalidatePath("/dashboard");
+  }
+}
