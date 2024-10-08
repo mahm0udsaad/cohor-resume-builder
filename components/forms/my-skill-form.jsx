@@ -1,3 +1,4 @@
+"use client";
 import { useState, useTransition } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -74,7 +75,7 @@ export default function SkillCard({ user, lng }) {
             skillData: newSkill,
           }),
         });
-            
+
         if (response.ok) {
           setSkills(updatedSkills);
           setSearchTerm("");
