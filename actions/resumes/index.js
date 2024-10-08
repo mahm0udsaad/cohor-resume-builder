@@ -45,6 +45,9 @@ export async function getUserResumes(userId) {
   try {
     const resumes = await prisma.resume.findMany({
       where: { userId },
+      include: {
+        theme: true,
+      },
     });
 
     return resumes || [];

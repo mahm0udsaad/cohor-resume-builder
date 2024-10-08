@@ -41,7 +41,7 @@ export default async function TemplateGallery({ params: { lng } }) {
                     <template.Component
                       resumeData={dummyData}
                       className={
-                        "scale-[0.7] transition-all group-hover:scale-[0.9] duration-300"
+                        "transition-all group-hover:scale-[0.9] duration-300"
                       }
                     />
                   </div>

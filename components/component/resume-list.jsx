@@ -28,6 +28,7 @@ const ResumeList = async () => {
             skills: resume.skills || [],
             languages: resume.languages || [],
             courses: resume.courses || [],
+            theme: resume.theme || {},
           };
           return (
             <Link

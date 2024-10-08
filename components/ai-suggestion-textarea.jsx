@@ -13,10 +13,15 @@ import { Label } from "./ui/label";
 import { useTranslation } from "@/app/i18n/client";
 import { generateSuggestions } from "@/actions/suggestions";
 
-export function AiSuggestionTextarea({ data, lng, onChange, isExperince }) {
+export function AiSuggestionTextarea({
+  data,
+  lng,
+  onChange,
+  isExperince = false,
+}) {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [textContent, setTextContent] = useState(data.summary);
+  const [textContent, setTextContent] = useState(data.summary || "");
   const [suggestions, setSuggestions] = useState([]);
   const { t } = useTranslation(lng, "forms");
 
@@ -26,6 +31,7 @@ export function AiSuggestionTextarea({ data, lng, onChange, isExperince }) {
       setIsLoading(false);
       return;
     }
+
     try {
       const result = await generateSuggestions(
         isExperince,
@@ -33,6 +39,7 @@ export function AiSuggestionTextarea({ data, lng, onChange, isExperince }) {
         data.company,
       );
       setSuggestions(result);
+      console.log(result[0]);
       setShowSuggestions(true);
     } catch (error) {
       console.error("Error generating suggestions:", error);
@@ -93,14 +100,16 @@ export function AiSuggestionTextarea({ data, lng, onChange, isExperince }) {
           </PopoverTrigger>
           <PopoverContent
             className={`${
-              suggestions.length > 0 ? "w-full sm:w-[20%]" : "hidden w-0"
+              suggestions.length > 0
+                ? "w-full sm:w-[20%] p-4 bg-white shadow-lg rounded-lg "
+                : "hidden"
             }`}
             side="right"
-            align="start"
+            align="end"
             alignOffset={-40}
             sideOffset={5}
           >
-            <h3 className="font-semibold mb-2">AI Suggestions</h3>
+            <h3 className="font-semibold mb-2 text-gray-800">AI Suggestions</h3>
             <ul className="space-y-2">
               {suggestions?.map((suggestion, index) => (
                 <li

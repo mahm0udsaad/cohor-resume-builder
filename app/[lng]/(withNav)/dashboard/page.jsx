@@ -1,6 +1,6 @@
 import { getUserWithDetails } from "@/actions/userInfo/action";
 import { Button } from "@/components/ui/button";
-import { MyInformationComponent } from "@/components/component/my-information";
+import MyInformation from "@/components/component/my-information";
 import dynamic from "next/dynamic";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Suspense } from "react";
@@ -12,7 +12,7 @@ const ResumeList = dynamic(() => import("@/components/component/resume-list"), {
   loading: () => <Skeleton className={"w-full h-full"} />,
   ssr: false,
 });
-const DashboardPage = async () => {
+const DashboardPage = async ({ params: { lng } }) => {
   const session = await auth();
   if (!session) redirect("/auth");
 
@@ -37,7 +37,9 @@ const DashboardPage = async () => {
             <TabsTrigger value="myResumes">My Resumes</TabsTrigger>
           </TabsList>
           <TabsContent value="myInformation">
-            <MyInformationComponent
+            <MyInformation
+              lng={lng}
+              user={session.user}
               initialUserInfo={{
                 personalInfo,
                 experiences,

@@ -143,7 +143,10 @@ const Classic = ({ resumeData }) => {
               {resumeData.personalInfo?.jobTitle || "Your Job Title"}
             </Text>
 
-            {renderSection("Objective", <Text>{resumeData.objective}</Text>)}
+            {renderSection(
+              "Objective",
+              <Text>{resumeData.personalInfo.summary}</Text>,
+            )}
 
             {renderSection("Experience", renderExperiences())}
 
@@ -161,14 +164,6 @@ const Classic = ({ resumeData }) => {
                   {contact}
                 </Text>
               ))}
-            </View>
-
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>About Me</Text>
-              <Text>
-                {resumeData.personalInfo.summary ||
-                  "Write about yourself here..."}
-              </Text>
             </View>
 
             {renderSection("Skills", renderSkills())}

@@ -17,7 +17,7 @@ const ClientResumeTemplate = ({ templateName, data, list }) => {
   return (
     <ResumeTemplate
       resumeData={data}
-      selectedTheme={data?.theme || null}
+      selectedTheme={data.theme || null}
       className={
         list ? "max-h-[300px] overflow-hidden" : "h-full w-4/5 mx-auto "
       }

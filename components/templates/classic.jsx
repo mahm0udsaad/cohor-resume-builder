@@ -89,7 +89,9 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
 
           {renderSection(
             "Objective",
-            <p className="text-gray-700 mt-2">{resumeData.objective}</p>,
+            <p className="text-gray-700 mt-2">
+              {resumeData.personalInfo.summary}
+            </p>,
           )}
 
           {renderSection("Experience", renderExperiences())}
@@ -102,7 +104,7 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
         {/* Right Column */}
         <div
           style={{ backgroundColor: theme.backgroundColor }}
-          className="w-1/3 p-4 rounded-md text-[12px]"
+          className="w-1/3 p-1 rounded-md text-[12px]"
         >
           <section className="mb-8">
             <h3 className="font-bold text-gray-800">Contact</h3>
@@ -111,14 +113,6 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
                 {contact}
               </p>
             ))}
-          </section>
-
-          <section className="mb-8">
-            <h3 className="font-bold text-gray-800">About Me</h3>
-            <p className="text-gray-700 mt-2">
-              {resumeData.personalInfo.summary ||
-                "Write about yourself here..."}
-            </p>
           </section>
 
           {renderSection("Skills", renderSkills())}
