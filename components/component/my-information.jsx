@@ -1,5 +1,6 @@
 import ExperienceForm from "../forms/my-experince-card";
 import MyPersonalInfoForm from "../forms/my-personal-info";
+import SkillCard from "../forms/my-skill-form";
 
 export default function MyInformation({ lng, initialUserInfo, user }) {
   return (
@@ -10,6 +11,7 @@ export default function MyInformation({ lng, initialUserInfo, user }) {
         initialExperiences={initialUserInfo.experiences}
         lng={lng}
       />
+      <SkillCard user={user} lng={lng} />
     </div>
   );
 }

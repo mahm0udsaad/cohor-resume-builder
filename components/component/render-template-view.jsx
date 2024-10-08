@@ -19,8 +19,8 @@ const ClientResumeTemplate = ({ templateName, data, list }) => {
   }
 
   return (
-    <div className="w-full h-screen">
-      <PDFViewer width="100%" height="100%">
+    <div className="w-full h-screen overflow-auto">
+      <PDFViewer className=" top-20 sticky " width="100%" height="100%">
         <ResumeTemplate resumeData={data} />
       </PDFViewer>
     </div>

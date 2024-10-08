@@ -54,7 +54,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-[#20133E]">
+        <h2 className="text-2xl font-semibold mb-4 text-[#20133E] pb-2 border-b">
           {t("personalInfo.title")}{" "}
           {/* Translation for "Personal Information" */}
         </h2>

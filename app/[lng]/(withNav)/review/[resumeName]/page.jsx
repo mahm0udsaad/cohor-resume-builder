@@ -5,7 +5,6 @@ import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { dummyData } from "@/data/data";
 
 const ClientResumeTemplate = dynamic(
   () => import("@/components/component/render-template-view"),
@@ -31,10 +30,11 @@ export default async function ReviewPage({ params: { resumeName } }) {
           >
             Back to Editing
           </Link>
-          <h1 className="text-3xl font-bold text-[#3b51a3]">
-            Review Resume: {resumeName}
-          </h1>
-          <DownloadBtn />
+          <div className="flex-1">
+            <h1 className="text-center text-3xl font-bold text-[#3b51a3]">
+              Review Resume: {resumeName}
+            </h1>
+          </div>
         </div>
         {resume && (
           <ClientResumeTemplate templateName={resumeName} data={resume} />

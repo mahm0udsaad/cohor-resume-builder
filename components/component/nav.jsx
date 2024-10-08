@@ -13,13 +13,13 @@ export default async function Nav({ lng }) {
         <div className="mx-4 hidden md:flex">
           <Logo />
           <nav className="mx-6 flex items-center gap-6 text-sm font-medium">
-            <Link className="hover:text-blue-800" href="#features">
+            <Link className="hover:text-blue-800" href="/#features">
               {t("nav.featuresTitle")}{" "}
             </Link>
-            <Link className="hover:text-blue-800" href="#how-it-works">
+            <Link className="hover:text-blue-800" href="/#how-it-works">
               {t("nav.stepsTitle")}{" "}
             </Link>
-            <Link className="hover:text-blue-800" href="#pricing">
+            <Link className="hover:text-blue-800" href="/#pricing">
               {t("nav.pricingTitle")}
             </Link>
           </nav>

@@ -1,37 +1,34 @@
 "use client";
 
-import { Button } from "./ui/button";
+import React, { useRef } from "react";
+import { getResumeTemplateView } from "@/helper/get-pdf-view";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
-export const DownloadBtn = () => (
-  <Button
-    variant="ghost"
-    className="bg-main sticky top-12 text-white"
-    onClick={() => {
-      const beforePrint = () => {
-        const { body } = document;
-        body.style.width = "257mm";
-        body.style.height = "364mm";
-        body.style.margin = "0";
-        body.style.overflow = "hidden";
-      };
+export const DownloadBtn = ({ templateName, data }) => {
+  const ResumeTemplate = getResumeTemplateView(templateName);
 
-      const afterPrint = () => {
-        const { body } = document;
-        body.style.width = "";
-        body.style.height = "";
-        body.style.margin = "";
-        body.style.overflow = "";
-      };
+  if (!ResumeTemplate) {
+    return <div>Template not found</div>;
+  }
 
-      window.addEventListener("beforeprint", beforePrint);
-      window.addEventListener("afterprint", afterPrint);
+  const pdfRef = useRef(null);
 
-      window.print();
-
-      window.removeEventListener("beforeprint", beforePrint);
-      window.removeEventListener("afterprint", afterPrint);
-    }}
-  >
-    Download PDF
-  </Button>
-);
+  return (
+    <div className="w-full h-screen">
+      <PDFDownloadLink
+        document={<ResumeTemplate ref={pdfRef} resumeData={data} />}
+        fileName="resume.pdf"
+      >
+        {({ blob, url, loading, error }) => (
+          <button
+            ref={pdfRef}
+            className="bg-main sticky top-12 text-white"
+            disabled={loading || error}
+          >
+            Download PDF
+          </button>
+        )}
+      </PDFDownloadLink>
+    </div>
+  );
+};

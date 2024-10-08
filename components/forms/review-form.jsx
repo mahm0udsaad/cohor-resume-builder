@@ -96,26 +96,31 @@ export default function ReviewForm({
             }
           : {}), // Do not include theme if it's null or undefined
       };
-  
+
       // Call the updateUserResumeData function with the updated resume data
-      await updateUserResumeData(user.email, resumeName, updatedResumeData);
-      setLoading(false);
+      const res = await updateUserResumeData(
+        user.email,
+        resumeName,
+        updatedResumeData,
+      );
+      if (res.success) {
+        router.push(`/review/${resumeName}`);
+      }
     } finally {
-      router.push(`/review/${resumeName}`);
+      setLoading(false);
     }
   };
-  
 
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-[#20133E]">
+        <h2 className="text-2xl font-semibold mb-4 text-black pb-2 border-b">
           {t("reviewResume.title")}
         </h2>
         <div className="mb-4">
           <Button
             onClick={() => setShowLanguages(!showLanguages)}
-            className="mr-2 bg-[#3B51A3] hover:bg-white hover:text-black"
+            className="mr-2 bg-gray-50 text-black hover:bg-white "
           >
             {showLanguages
               ? t("reviewResume.hideLanguages")
@@ -123,7 +128,7 @@ export default function ReviewForm({
           </Button>
           <Button
             onClick={() => setShowCourses(!showCourses)}
-            className="mr-2 bg-[#3B51A3] hover:bg-white hover:text-black"
+            className="mr-2 bg-gray-50 text-black hover:bg-white "
           >
             {showCourses
               ? t("reviewResume.hideCourses")
@@ -132,7 +137,7 @@ export default function ReviewForm({
         </div>
         {showLanguages && (
           <div className="p-4">
-            <h3 className="text-xl font-semibold mb-4 text-[#20133E]">
+            <h3 className="text-xl font-semibold mb-4 text-black">
               {t("reviewResume.languagesTitle")}
             </h3>
             {resumeData?.languages.map((lang, index) => (
@@ -142,7 +147,7 @@ export default function ReviewForm({
                     <div className="flex-1 pr-4 ">
                       <Label
                         htmlFor={`languageName-${index}`}
-                        className="text-[#20133E]"
+                        className="text-black"
                       >
                         {t("reviewResume.language")}
                       </Label>
@@ -159,7 +164,7 @@ export default function ReviewForm({
                     <div>
                       <Label
                         htmlFor={`languageProficiency-${index}`}
-                        className="text-[#20133E]"
+                        className="text-black"
                       >
                         {t("reviewResume.proficiency")}
                       </Label>
@@ -198,7 +203,7 @@ export default function ReviewForm({
             ))}
             <Button
               onClick={addLanguage}
-              className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
+              className="mt-2 bg-gray-50 text-black hover:bg-white "
             >
               <Plus className="h-4 w-4 mr-2" /> {t("reviewResume.addLanguage")}
             </Button>
@@ -207,7 +212,7 @@ export default function ReviewForm({
 
         {showCourses && (
           <>
-            <h3 className="text-xl font-semibold text-[#20133E]">
+            <h3 className="text-xl font-semibold text-black">
               {t("reviewResume.coursesTitle")}
             </h3>
             {resumeData?.courses.map((course, index) => (
@@ -225,7 +230,7 @@ export default function ReviewForm({
                   <div>
                     <Label
                       htmlFor={`courseName-${index}`}
-                      className="text-[#20133E]"
+                      className="text-black"
                     >
                       {t("reviewResume.courseName")}
                     </Label>
@@ -242,7 +247,7 @@ export default function ReviewForm({
                   <div>
                     <Label
                       htmlFor={`institution-${index}`}
-                      className="text-[#20133E]"
+                      className="text-black"
                     >
                       {t("reviewResume.institution")}
                     </Label>
@@ -258,12 +263,6 @@ export default function ReviewForm({
                   </div>
                 </div>
                 <div className="mt-2">
-                  <Label
-                    htmlFor={`completionDate-${index}`}
-                    className="text-[#20133E]"
-                  >
-                    {t("reviewResume.completionDate")}
-                  </Label>
                   <DatePicker
                     value={course.completionDate}
                     onChange={(value) =>
@@ -276,7 +275,7 @@ export default function ReviewForm({
             ))}
             <Button
               onClick={addCourse}
-              className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
+              className="mt-2 bg-gray-50 text-black hover:bg-white "
             >
               <Plus className="h-4 w-4 mr-2" /> {t("reviewResume.addCourse")}
             </Button>
@@ -287,9 +286,9 @@ export default function ReviewForm({
           <Button
             onClick={handleReview}
             disabled={isLoading}
-            className="w-full bg-[#3B51A3] hover:bg-white hover:text-black"
+            className="w-full bg-main"
           >
-            {isLoading ? "Loading..." : t("reviewResume.downloadPDF")}
+            {isLoading ? "Loading..." : t("reviewResume.title")}
           </Button>
         </div>
       </CardContent>

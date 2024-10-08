@@ -87,7 +87,7 @@ export function ThemeSelector({ selectedTheme, setSelectedTheme }) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.2 }}
-            className="absolute left-full ml-2 top-0 flex space-x-2 bg-background p-1.5 rounded-md shadow-md"
+            className="absolute left-full ml-2 top-0 flex space-x-2 bg-background p-1.5 z-50 rounded-md shadow-md"
           >
             {themes.map((theme) => (
               <TooltipProvider key={theme.id}>

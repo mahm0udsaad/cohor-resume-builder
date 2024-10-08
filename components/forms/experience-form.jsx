@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Calendar as Minus, Plus } from "lucide-react";
+import { Calendar as Minus, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -46,18 +46,24 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-[#20133E]">
+        <h2 className="text-2xl font-semibold mb-4 text-[#20133E] pb-2 border-b">
           {t("workExperience.title")}
         </h2>
         {experiences.length > 0 &&
           experiences.map((exp, index) => (
-            <div key={index} className="space-y-4 relative border-b">
-              <div className="grid grid-cols-2 gap-4 mb-2 mt-8">
+            <div key={index} className="flex flex-col mb-4 p-4 rounded ">
+              <div className="flex w-full items-center justify-end ">
+                <Button
+                  onClick={() => deleteExperience(index)}
+                  size="icon"
+                  variant="ghost"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label
-                    htmlFor={`jobTitle-${index}`}
-                    className="text-[#20133E]"
-                  >
+                  <Label htmlFor={`jobTitle-${index}`} className="text-black">
                     {t("workExperience.jobTitle")}
                   </Label>
                   <Input
@@ -71,10 +77,7 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
                   />
                 </div>
                 <div>
-                  <Label
-                    htmlFor={`company-${index}`}
-                    className="text-[#20133E]"
-                  >
+                  <Label htmlFor={`company-${index}`} className="text-black">
                     {t("workExperience.company")}
                   </Label>
                   <Input
@@ -107,7 +110,7 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
               <div>
                 <Label
                   htmlFor={`responsibilities-${index}`}
-                  className="text-[#20133E]"
+                  className="text-black"
                 >
                   {t("workExperience.responsibilities")}
                 </Label>
@@ -130,15 +133,6 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
             <Plus className="h-4 w-4 mr-2" />{" "}
             {t("workExperience.addExperience")}
           </Button>
-          {experiences.length > 0 && (
-            <Button
-              onClick={() => deleteExperience(experiences.length - 1)}
-              className="mt-2 bg-gray-200 hover:bg-white text-black"
-            >
-              <Minus className="h-4 w-4 mr-2" />{" "}
-              {t("workExperience.removeExperience")}
-            </Button>
-          )}
         </div>
       </CardContent>
     </Card>
