@@ -86,11 +86,8 @@ export async function getResume(email, resumeName) {
   }
 }
 
-export async function deleteResume(formData) {
+export async function deleteResume(resumeId, email) {
   try {
-    const resumeId = formData.get("resumeId");
-    const email = formData.get("email");
-
     if (!resumeId || !email) {
       return { success: false, error: "Invalid form data" };
     }

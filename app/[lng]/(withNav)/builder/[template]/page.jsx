@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { auth } from "@/lib/auth";
-import { ResumeSkeleton } from "@/components/skeleton/builder-loader";
+import BuilderSkeleton from "@/components/skeleton/builder-loader";
 import { redirect } from "next/navigation";
 import { addResumeToUser } from "@/actions/resumes";
 import { ResumeBuilder } from "@/components/resume-builder";
@@ -35,7 +35,7 @@ export default async function TemplatePage({ params: { template, lng } }) {
 
   return (
     <div className="bg-gray-25">
-      <Suspense fallback={<ResumeSkeleton />}>
+      <Suspense fallback={<BuilderSkeleton />}>
         <ResumeBuilder resumeName={template} lng={lng} />
       </Suspense>
     </div>

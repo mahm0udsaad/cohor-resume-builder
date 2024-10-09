@@ -27,10 +27,10 @@ export const templateComponents = {
   elegant: ElegantTemplate,
 };
 export const templates = [
-  { category: "classic", name: "classic", Component: ClassicTemplate },
+  { name: "bold", Component: BoldTemplate },
   { name: "elegant", Component: ElegantTemplate },
   { category: "modern", name: "modern", Component: ModernTemplate },
-  { name: "bold", Component: BoldTemplate },
+  { category: "classic", name: "classic", Component: ClassicTemplate },
   { name: "minimal", Component: MinimalTemplate },
 ];
 export const getResumeTemplate = (templateName) => {

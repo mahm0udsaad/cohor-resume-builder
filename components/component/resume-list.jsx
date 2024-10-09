@@ -12,6 +12,7 @@ import { PlusCircle, Download, Trash2 } from "lucide-react";
 import { deleteResume, getUserResumes } from "@/actions/resumes";
 import ClientResumeTemplate from "./render-template";
 import { auth } from "@/lib/auth";
+import { DeleteConfirmation } from "../btns/delete-dialog";
 
 const ResumeList = async () => {
   const { user } = await auth();
@@ -55,22 +56,10 @@ const ResumeList = async () => {
                 </Link>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <form
-                  action={`/api/download-resume?resumeName=${resume.name}`}
-                  method="POST"
-                  target="_blank"
-                >
-                  <Button variant="outline" size="icon" type="submit">
-                    <Download className="h-4 w-4" />
-                  </Button>
-                </form>
-                <form action={deleteResume}>
-                  <input type="hidden" name="resumeId" value={resume.id} />
-                  <input type="hidden" name="email" value={user.email} />
-                  <Button variant="destructive" size="icon">
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </form>
+                <Button variant="outline" size="icon">
+                  <Download className="h-4 w-4" />
+                </Button>
+                <DeleteConfirmation email={user.email} resumeId={resume.id} />
               </CardFooter>
             </Card>
           );

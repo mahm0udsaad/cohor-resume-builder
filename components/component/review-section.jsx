@@ -59,7 +59,7 @@ export function ResumePreview({
     }
     return (
       <Suspense fallback={<ResumePreviewSkeleton />}>
-        <div className="resume-preview-container">
+        <div className="resume-preview-container flex-1">
           <ResumeComponent
             resumeData={resumeData}
             selectedTheme={selectedTheme}
