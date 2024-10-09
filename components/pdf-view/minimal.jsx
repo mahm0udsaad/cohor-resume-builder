@@ -1,156 +1,148 @@
 import React from "react";
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Svg,
-} from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
-import { Phone, Mail, MapPin, Globe } from "lucide-react";
 
 // Create styles
-const styles = StyleSheet.create({
-  page: {
-    backgroundColor: "white",
-    padding: 40,
-    fontFamily: "Helvetica",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 32,
-  },
-  headerLeft: {
-    flexDirection: "column",
-  },
-  name: {
-    fontSize: 36,
-    fontWeight: 600,
-    marginBottom: 4,
-    textTransform: "uppercase",
-  },
-  jobTitle: {
-    fontSize: 12,
-    textTransform: "uppercase",
-    letterSpacing: 2,
-    color: "#4B5563",
-    fontWeight: 300,
-  },
-  profileImage: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    objectFit: "cover",
-  },
-  placeholderImage: {
-    width: 72,
-    height: 72,
-    backgroundColor: "#D1D5DB",
-    borderRadius: 36,
-  },
-  sectionBorder: {
-    borderTopWidth: 1,
-    borderTopColor: "#E5E7EB",
-    marginVertical: 16,
-  },
-  content: {
-    flexDirection: "row",
-    gap: 32,
-  },
-  leftColumn: {
-    width: "35%",
-  },
-  rightColumn: {
-    width: "65%",
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    marginBottom: 12,
-    textTransform: "uppercase",
-  },
-  contactItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    fontSize: 10,
-    marginBottom: 8,
-    color: "#6B7280",
-  },
-  icon: {
-    marginRight: 8,
-  },
-  subheading: {
-    fontSize: 10,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    marginBottom: 8,
-    color: "#374151",
-  },
-  skillItem: {
-    flexDirection: "row",
-    fontSize: 10,
-    marginBottom: 4,
-  },
-  educationItem: {
-    marginBottom: 16,
-  },
-  institutionName: {
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  degree: {
-    fontSize: 10,
-  },
-  date: {
-    fontSize: 8,
-    color: "#4B5563",
-  },
-  summary: {
-    fontSize: 10,
-    color: "#374151",
-    lineHeight: 1.4,
-  },
-  experienceItem: {
-    marginBottom: 24,
-  },
-  experienceHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 8,
-  },
-  jobTitleExp: {
-    fontSize: 10,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-  },
-  company: {
-    fontSize: 10,
-    fontWeight: "medium",
-    marginBottom: 4,
-  },
-  responsibilityItem: {
-    flexDirection: "row",
-    fontSize: 10,
-    marginBottom: 4,
-    color: "#6B7280",
-  },
-  bullet: {
-    paddingLeft: 3,
-    paddingRight: 3,
-  },
-});
+const createStyles = (isArabic) =>
+  StyleSheet.create({
+    page: {
+      backgroundColor: "white",
+      padding: 40,
+      fontFamily: isArabic ? "Cairo" : "Helvetica",
+    },
+    header: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 32,
+    },
+    headerLeft: {
+      flexDirection: "column",
+    },
+    name: {
+      fontSize: 36,
+      fontWeight: 600,
+      marginBottom: 4,
+      textTransform: "uppercase",
+    },
+    jobTitle: {
+      fontSize: 12,
+      textTransform: "uppercase",
+      letterSpacing: 2,
+      color: "#4B5563",
+      fontWeight: 300,
+    },
+    profileImage: {
+      width: 72,
+      height: 72,
+      borderRadius: 36,
+      objectFit: "cover",
+    },
+    placeholderImage: {
+      width: 72,
+      height: 72,
+      backgroundColor: "#D1D5DB",
+      borderRadius: 36,
+    },
+    sectionBorder: {
+      borderTopWidth: 1,
+      borderTopColor: "#E5E7EB",
+      marginVertical: 16,
+    },
+    content: {
+      flexDirection: "row",
+      gap: 32,
+    },
+    leftColumn: {
+      width: "35%",
+    },
+    rightColumn: {
+      width: "65%",
+    },
+    section: {
+      marginBottom: 24,
+    },
+    sectionTitle: {
+      fontSize: 12,
+      fontWeight: "bold",
+      marginBottom: 12,
+      textTransform: "uppercase",
+    },
+    contactItem: {
+      flexDirection: "row",
+      alignItems: "center",
+      fontSize: 10,
+      marginBottom: 8,
+      color: "#6B7280",
+    },
+    icon: {
+      marginRight: 8,
+    },
+    subheading: {
+      fontSize: 10,
+      fontWeight: "bold",
+      textTransform: "uppercase",
+      marginBottom: 8,
+      color: "#374151",
+    },
+    skillItem: {
+      flexDirection: "row",
+      fontSize: 10,
+      marginBottom: 4,
+    },
+    educationItem: {
+      marginBottom: 16,
+    },
+    institutionName: {
+      fontSize: 10,
+      fontWeight: "bold",
+    },
+    degree: {
+      fontSize: 10,
+    },
+    date: {
+      fontSize: 8,
+      color: "#4B5563",
+    },
+    summary: {
+      fontSize: 10,
+      color: "#374151",
+      lineHeight: 1.4,
+    },
+    experienceItem: {
+      marginBottom: 24,
+    },
+    experienceHeader: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: 8,
+    },
+    jobTitleExp: {
+      fontSize: 10,
+      fontWeight: "bold",
+      textTransform: "uppercase",
+    },
+    company: {
+      fontSize: 10,
+      fontWeight: "medium",
+      marginBottom: 4,
+    },
+    responsibilityItem: {
+      flexDirection: "row",
+      fontSize: 10,
+      marginBottom: 4,
+      color: "#6B7280",
+    },
+    bullet: {
+      paddingLeft: 3,
+      paddingRight: 3,
+    },
+  });
 
 const MinimalTemplate = ({ resumeData }) => {
-  const selectedTheme = resumeData?.theme || null;
-
+  const isArabic = resumeData?.lng === "ar";
+  const styles = createStyles(isArabic);
   return (
     <Document>
       <Page size="A4" style={styles.page}>

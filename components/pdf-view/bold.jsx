@@ -4,126 +4,127 @@ import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 
 // Create styles
-const styles = StyleSheet.create({
-  page: {
-    backgroundColor: "white",
-    fontFamily: "Helvetica",
-    color: "#374151", // text-gray-700
-  },
-  header: {
-    padding: 24,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    color: "white",
-  },
-  headerName: {
-    fontSize: 20,
-    fontWeight: "extrabold",
-  },
-  headerTitle: {
-    fontSize: 14,
-    marginTop: 8,
-  },
-  contactInfo: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    padding: 24,
-    borderBottom: 1,
-    borderBottomColor: "#D1D5DB", // border-gray-300
-  },
-  contactItem: {
-    fontSize: 10,
-    marginHorizontal: 4,
-  },
-  content: {
-    padding: 24,
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    letterSpacing: 1,
-    borderBottom: 1,
-    borderBottomColor: "#9CA3AF", // border-gray-400
-    paddingBottom: 8,
-    marginBottom: 16,
-  },
-  summary: {
-    fontSize: 10,
-    lineHeight: 1.5,
-  },
-  experienceItem: {
-    marginBottom: 20,
-  },
-  jobTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  jobInfo: {
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  responsibilities: {
-    fontSize: 10,
-    marginTop: 8,
-  },
-  achievementsTitle: {
-    fontSize: 10,
-    fontWeight: "bold",
-    textDecoration: "underline",
-    marginTop: 12,
-    marginBottom: 4,
-  },
-  achievementsList: {
-    marginLeft: 12,
-  },
-  achievementItem: {
-    fontSize: 10,
-  },
-  educationItem: {
-    marginBottom: 12,
-  },
-  degree: {
-    paddingBottom: 4,
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  institution: {
-    fontSize: 10,
-  },
-  skillsList: {
-    marginLeft: 12,
-  },
-  skillItem: {
-    fontSize: 10,
-    paddingTop: 4,
-  },
-  languageItem: {
-    fontSize: 10,
-  },
-  courseItem: {
-    marginTop: 8,
-  },
-  courseName: {
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  courseInfo: {
-    fontSize: 10,
-    color: "#4B5563", // text-gray-600
-  },
-});
+const createStyles = (isArabic) =>
+  StyleSheet.create({
+    page: {
+      backgroundColor: "white",
+      fontFamily: isArabic ? "Cairo" : "Helvetica",
+      color: "#374151", // text-gray-700
+    },
+    header: {
+      padding: 24,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      color: "white",
+    },
+    headerName: {
+      fontSize: 20,
+      fontWeight: "extrabold",
+    },
+    headerTitle: {
+      fontSize: 14,
+      marginTop: 8,
+    },
+    contactInfo: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "center",
+      padding: 24,
+      borderBottom: 1,
+      borderBottomColor: "#D1D5DB", // border-gray-300
+    },
+    contactItem: {
+      fontSize: 10,
+      marginHorizontal: 4,
+    },
+    content: {
+      padding: 24,
+    },
+    section: {
+      marginBottom: 24,
+    },
+    sectionTitle: {
+      fontSize: 14,
+      fontWeight: "bold",
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      borderBottom: 1,
+      borderBottomColor: "#9CA3AF", // border-gray-400
+      paddingBottom: 8,
+      marginBottom: 16,
+    },
+    summary: {
+      fontSize: 10,
+      lineHeight: 1.5,
+    },
+    experienceItem: {
+      marginBottom: 20,
+    },
+    jobTitle: {
+      fontSize: 14,
+      fontWeight: "bold",
+    },
+    jobInfo: {
+      fontSize: 10,
+      fontWeight: "bold",
+    },
+    responsibilities: {
+      fontSize: 10,
+      marginTop: 8,
+    },
+    achievementsTitle: {
+      fontSize: 10,
+      fontWeight: "bold",
+      textDecoration: "underline",
+      marginTop: 12,
+      marginBottom: 4,
+    },
+    achievementsList: {
+      marginLeft: 12,
+    },
+    achievementItem: {
+      fontSize: 10,
+    },
+    educationItem: {
+      marginBottom: 12,
+    },
+    degree: {
+      paddingBottom: 4,
+      fontSize: 14,
+      fontWeight: "bold",
+    },
+    institution: {
+      fontSize: 10,
+    },
+    skillsList: {
+      marginLeft: 12,
+    },
+    skillItem: {
+      fontSize: 10,
+      paddingTop: 4,
+    },
+    languageItem: {
+      fontSize: 10,
+    },
+    courseItem: {
+      marginTop: 8,
+    },
+    courseName: {
+      fontSize: 10,
+      fontWeight: "bold",
+    },
+    courseInfo: {
+      fontSize: 10,
+      color: "#4B5563", // text-gray-600
+    },
+  });
 
 const BoldTemplate = ({ resumeData }) => {
   const selectedTheme = resumeData?.theme || null;
-
   // Get translations based on the current language
   const t = translations[resumeData.lng] || translations.en;
   const isArabic = resumeData.lng === "ar";
+  const styles = createStyles(isArabic);
   const directionStyle = isArabic ? styles.rtl : {};
   return (
     <Document>
@@ -158,7 +159,7 @@ const BoldTemplate = ({ resumeData }) => {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t.experience}</Text>
+            <Text style={styles.sectionTitle}>{t.workExperience}</Text>
             {resumeData.experiences?.map((job, index) => (
               <View key={index} style={styles.experienceItem}>
                 <Text style={styles.jobTitle}>{job.jobTitle}</Text>

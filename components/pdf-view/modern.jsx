@@ -1,12 +1,20 @@
 import React, { memo } from "react";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
-import { translations } from "@/data/data"; // Import translations
+import { translations } from "@/data/data";
 
 // Create styles
 const createStyles = (isRTL) =>
   StyleSheet.create({
     page: {
+      fontFamily: isRTL ? "Cairo" : "",
       flexDirection: isRTL ? "row-reverse" : "row", // RTL Support
       backgroundColor: "white",
     },
@@ -20,7 +28,7 @@ const createStyles = (isRTL) =>
       padding: 30,
     },
     header: {
-      marginBottom: 20,
+      marginBottom: 10,
       textAlign: isRTL ? "right" : "left", // RTL Alignment
     },
     name: {
@@ -90,9 +98,6 @@ const createStyles = (isRTL) =>
       fontSize: 10,
       marginBottom: 5,
     },
-    rtl: {
-      // Additional RTL styles can go here if needed
-    },
   });
 
 const Modern = ({ resumeData }) => {
@@ -132,7 +137,7 @@ const Modern = ({ resumeData }) => {
           {/* Experience Section */}
           {resumeData.experiences?.length > 0 && (
             <View wrap={false}>
-              <Text style={styles.sectionTitle}>{t.experience}</Text>{" "}
+              <Text style={styles.sectionTitle}>{t.workExperience}</Text>{" "}
               {/* Use translation */}
               {resumeData.experiences.map((job, index) => (
                 <View key={index} style={styles.experienceItem}>

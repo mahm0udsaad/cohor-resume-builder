@@ -19,7 +19,10 @@ function getLocale(request) {
 }
 
 export function middleware(request) {
-  if (request.nextUrl.pathname.startsWith("/api")) {
+  if (
+    request.nextUrl.pathname.startsWith("/api") ||
+    request.nextUrl.pathname.startsWith("/fonts")
+  ) {
     return NextResponse.next();
   }
 

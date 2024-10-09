@@ -2,14 +2,15 @@
 import React, { memo } from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
+import { translations } from "@/data/data";
 
 // Create styles function for dynamic theming
-const createStyles = (theme) =>
+const createStyles = (theme, isArabic) =>
   StyleSheet.create({
     page: {
       flexDirection: "column",
       padding: 40,
-      fontFamily: "Helvetica",
+      fontFamily: isArabic ? "Cario" : "Helvetica",
     },
     header: {
       backgroundColor: theme.backgroundColor || "#EAEAEA",
@@ -109,11 +110,15 @@ const ElegantResume = ({ resumeData }) => {
     backgroundColor: "#F4F4F9",
   };
 
-  const styles = createStyles(theme);
+  const isArabic = resumeData.lng === "ar";
+  const styles = createStyles(theme, isArabic);
 
+  // Get translations based on the current language
+  const directionStyle = isArabic ? styles.rtl : {};
+  const t = isArabic ? translations.ar : translations.en;
   return (
     <Document>
-      <Page size="A4" style={styles.page} wrap={true}>
+      <Page size="A4" style={[styles.page, directionStyle]} wrap={true}>
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>{resumeData.personalInfo?.name}</Text>
@@ -132,7 +137,7 @@ const ElegantResume = ({ resumeData }) => {
 
         {/* Experience Section */}
         <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionTitle}>Professional Experience</Text>
+          <Text style={styles.sectionTitle}>{t.workExperience}</Text>
           {resumeData.experiences?.map((job, index) => (
             <View key={index} style={styles.experienceItem}>
               <Text style={styles.experienceTitle}>{job.jobTitle}</Text>
@@ -149,7 +154,7 @@ const ElegantResume = ({ resumeData }) => {
 
         {/* Education Section */}
         <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionTitle}>Education</Text>
+          <Text style={styles.sectionTitle}>{t.education}</Text>
           {resumeData.educations?.map((edu, index) => (
             <View key={index} style={styles.educationItem}>
               <Text style={styles.degree}>{edu.degree}</Text>
@@ -162,7 +167,7 @@ const ElegantResume = ({ resumeData }) => {
 
         {/* Skills Section */}
         <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionTitle}>Skills</Text>
+          <Text style={styles.sectionTitle}>{t.skills}</Text>
           <View style={styles.skillsGrid}>
             {resumeData.skills?.map((skill, index) => (
               <Text key={index} style={styles.skillItem}>
@@ -174,7 +179,7 @@ const ElegantResume = ({ resumeData }) => {
 
         {/* Languages Section */}
         <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionTitle}>Languages</Text>
+          <Text style={styles.sectionTitle}>{t.languages}</Text>
           <View style={styles.languagesGrid}>
             {resumeData.languages?.map((language, index) => (
               <Text key={index} style={styles.languageItem}>

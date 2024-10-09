@@ -4,59 +4,59 @@ import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 
 // Define styles using react-pdf's StyleSheet
-const styles = StyleSheet.create({
-  page: {
-    padding: 30,
-    fontSize: 12,
-    fontFamily: "Helvetica",
-  },
-  section: {
-    marginBottom: 16,
-  },
-  header: {
-    fontSize: 24,
-    color: "#3B51A3", // Primary color
-    marginBottom: 8,
-    fontWeight: "bold",
-  },
-  subheader: {
-    fontSize: 18,
-    color: "#3B51A3",
-    marginBottom: 6,
-    fontWeight: "bold",
-  },
-  text: {
-    marginBottom: 4,
-  },
-  contact: {
-    marginBottom: 8,
-    fontSize: 10,
-  },
-  rightColumn: {
-    backgroundColor: "#EBF8FF",
-    width: "30%",
-    padding: 10,
-    borderRadius: 8,
-    fontSize: 10,
-  },
-  bold: {
-    fontWeight: "bold",
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 4,
-    fontWeight: "bold",
-  },
-  primaryColor: {
-    color: "#3B51A3",
-  },
-  sectionTitle: {
-    color: "#3B51A3",
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-});
-
+const createStyles = (isArabic) =>
+  StyleSheet.create({
+    page: {
+      padding: 30,
+      fontSize: 12,
+      fontFamily: isArabic ? "Cairo" : "Helvetica",
+    },
+    section: {
+      marginBottom: 16,
+    },
+    header: {
+      fontSize: 24,
+      color: "#3B51A3", // Primary color
+      marginBottom: 8,
+      fontWeight: "bold",
+    },
+    subheader: {
+      fontSize: 18,
+      color: "#3B51A3",
+      marginBottom: 6,
+      fontWeight: "bold",
+    },
+    text: {
+      marginBottom: 4,
+    },
+    contact: {
+      marginBottom: 8,
+      fontSize: 10,
+    },
+    rightColumn: {
+      backgroundColor: "#EBF8FF",
+      width: "30%",
+      padding: 10,
+      borderRadius: 8,
+      fontSize: 10,
+    },
+    bold: {
+      fontWeight: "bold",
+    },
+    title: {
+      fontSize: 20,
+      marginBottom: 4,
+      fontWeight: "bold",
+    },
+    primaryColor: {
+      color: "#3B51A3",
+    },
+    sectionTitle: {
+      color: "#3B51A3",
+      fontWeight: "bold",
+      marginBottom: 4,
+    },
+  });
 // Default theme configuration
 const defaultTheme = {
   id: "original",
@@ -67,8 +67,10 @@ const defaultTheme = {
 
 const Classic = ({ resumeData }) => {
   const theme = resumeData.theme || defaultTheme;
-  // Get translations based on the current language
   const isArabic = resumeData.lng === "ar";
+  const styles = createStyles(isArabic); // Pass RTL flag to styles
+
+  // Get translations based on the current language
   const t = isArabic ? translations.ar : translations.en;
   const directionStyle = isArabic ? styles.rtl : {};
   const renderSection = (title, content) => {
