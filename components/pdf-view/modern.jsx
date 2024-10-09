@@ -1,102 +1,121 @@
 import React, { memo } from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
+import { translations } from "@/data/data"; // Import translations
 
 // Create styles
-const styles = StyleSheet.create({
-  page: {
-    height: "fit-content",
-    flexDirection: "row",
-    backgroundColor: "white",
-  },
-  sidebar: {
-    width: "8%",
-    height: "100%",
-  },
-  content: {
-    width: "92%",
-    padding: 30,
-  },
-  header: {
-    marginBottom: 20,
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  contactInfo: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    fontSize: 8,
-    color: "grey",
-  },
-  contactItem: {
-    marginRight: 5,
-  },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "grey",
-    borderBottomWidth: 1,
-    borderBottomColor: "#CBD5E0",
-    paddingBottom: 5,
-    marginBottom: 10,
-    marginTop: 15,
-  },
-  experienceItem: {
-    marginBottom: 10,
-  },
-  jobTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-  companyInfo: {
-    fontSize: 10,
-    color: "grey",
-  },
-  responsibilities: {
-    fontSize: 10,
-    marginTop: 5,
-    color: "grey",
-  },
-  educationItem: {
-    marginBottom: 8,
-  },
-  degree: {
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-  institution: {
-    fontSize: 10,
-    color: "grey",
-  },
-  skillsGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  skillItem: {
-    width: "50%",
-    fontSize: 10,
-    marginBottom: 5,
-  },
-});
+const createStyles = (isRTL) =>
+  StyleSheet.create({
+    page: {
+      flexDirection: isRTL ? "row-reverse" : "row", // RTL Support
+      backgroundColor: "white",
+    },
+    sidebar: {
+      width: "8%",
+      backgroundColor: "#F97316", // Default Fallback color
+      height: "100%",
+    },
+    content: {
+      width: "92%",
+      padding: 30,
+    },
+    header: {
+      marginBottom: 20,
+      textAlign: isRTL ? "right" : "left", // RTL Alignment
+    },
+    name: {
+      fontSize: 26,
+      fontWeight: "bold",
+      marginBottom: 5,
+    },
+    contactInfo: {
+      flexDirection: isRTL ? "row-reverse" : "row",
+      flexWrap: "wrap",
+      fontSize: 10,
+      color: "grey",
+      marginBottom: 10,
+    },
+    contactItem: {
+      marginRight: 5,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: "grey",
+      borderBottomWidth: 1,
+      borderBottomColor: "#CBD5E0",
+      marginTop: 5,
+      paddingBottom: 5,
+      marginBottom: 10,
+      textAlign: isRTL ? "right" : "left", // RTL Support
+    },
+    experienceItem: {
+      marginBottom: 15,
+      textAlign: isRTL ? "right" : "left", // RTL Support
+    },
+    jobTitle: {
+      fontSize: 12,
+      fontWeight: "bold",
+      marginBottom: 2,
+    },
+    companyInfo: {
+      fontSize: 10,
+      color: "grey",
+      marginBottom: 5,
+    },
+    responsibilities: {
+      fontSize: 10,
+      marginTop: 5,
+      color: "grey",
+    },
+    educationItem: {
+      marginBottom: 8,
+      textAlign: isRTL ? "right" : "left", // RTL Support
+    },
+    degree: {
+      fontSize: 12,
+      fontWeight: "bold",
+    },
+    institution: {
+      fontSize: 10,
+      color: "grey",
+    },
+    skillsGrid: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      marginTop: 5,
+    },
+    skillItem: {
+      width: "50%",
+      fontSize: 10,
+      marginBottom: 5,
+    },
+    rtl: {
+      // Additional RTL styles can go here if needed
+    },
+  });
 
 const Modern = ({ resumeData }) => {
+  const t = translations[resumeData.lng] || translations.en; // Get translations
+  const isRTL = resumeData.lng === "ar"; // Checking if the language is Arabic for RTL
+  const styles = createStyles(isRTL); // Pass RTL flag to styles
+
   const selectedTheme = resumeData.theme || null;
+  const primaryColor = selectedTheme?.primaryColor || "#F97316"; // Fallback color
+
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={styles.page} wrap={true}>
+        {/* Sidebar */}
         <View
-          style={[
-            styles.sidebar,
-            { backgroundColor: selectedTheme?.primaryColor || "#F97316" },
-          ]}
+          fixed
+          style={[styles.sidebar, { backgroundColor: primaryColor }]}
         />
 
+        {/* Main Content */}
         <View style={styles.content}>
           {/* Header Section */}
-          <View style={styles.header}>
+          <View wrap={false} style={styles.header}>
             <Text style={styles.name}>{resumeData.personalInfo?.name}</Text>
             <View style={styles.contactInfo}>
               {resumeData.personalInfo?.contact?.map((contact, index) => (
@@ -111,39 +130,46 @@ const Modern = ({ resumeData }) => {
           </View>
 
           {/* Experience Section */}
-          <View>
-            <Text style={styles.sectionTitle}>Experience</Text>
-            {resumeData.experiences?.map((job, index) => (
-              <View key={index} style={styles.experienceItem}>
-                <Text style={styles.jobTitle}>{job.jobTitle}</Text>
-                <Text style={styles.companyInfo}>
-                  {job.company} | {formatDate(job.startDate)} -{" "}
-                  {formatDate(job.endDate)}
-                </Text>
-                <Text style={styles.responsibilities}>
-                  {job.responsibilities}
-                </Text>
-              </View>
-            ))}
-          </View>
+          {resumeData.experiences?.length > 0 && (
+            <View wrap={false}>
+              <Text style={styles.sectionTitle}>{t.experience}</Text>{" "}
+              {/* Use translation */}
+              {resumeData.experiences.map((job, index) => (
+                <View key={index} style={styles.experienceItem}>
+                  <Text style={styles.jobTitle}>{job.jobTitle}</Text>
+                  <Text style={styles.companyInfo}>
+                    {job.company} | {formatDate(job.startDate)} -{" "}
+                    {formatDate(job.endDate)}
+                  </Text>
+                  <Text style={styles.responsibilities}>
+                    {job.responsibilities}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
 
           {/* Education Section */}
-          <View>
-            <Text style={styles.sectionTitle}>Education</Text>
-            {resumeData.educations?.map((edu, index) => (
-              <View key={index} style={styles.educationItem}>
-                <Text style={styles.degree}>{edu.degree}</Text>
-                <Text style={styles.institution}>
-                  {edu.institution} | {formatDate(edu.graduationDate)}
-                </Text>
-              </View>
-            ))}
-          </View>
+          {resumeData.educations?.length > 0 && (
+            <View wrap={false}>
+              <Text style={styles.sectionTitle}>{t.education}</Text>{" "}
+              {/* Use translation */}
+              {resumeData.educations.map((edu, index) => (
+                <View key={index} style={styles.educationItem}>
+                  <Text style={styles.degree}>{edu.degree}</Text>
+                  <Text style={styles.institution}>
+                    {edu.institution} | {formatDate(edu.graduationDate)}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
 
           {/* Courses Section */}
-          {resumeData.courses && (
-            <View>
-              <Text style={styles.sectionTitle}>Courses</Text>
+          {resumeData.courses?.length > 0 && (
+            <View wrap={false}>
+              <Text style={styles.sectionTitle}>{t.courses}</Text>{" "}
+              {/* Use translation */}
               {resumeData.courses.map((course, index) => (
                 <View key={index} style={styles.educationItem}>
                   <Text style={styles.degree}>{course.name}</Text>
@@ -156,23 +182,27 @@ const Modern = ({ resumeData }) => {
           )}
 
           {/* Skills Section */}
-          <View>
-            <Text style={styles.sectionTitle}>Skills</Text>
-            <View style={styles.skillsGrid}>
-              {resumeData.skills?.map((skill, index) => (
-                <Text key={index} style={styles.skillItem}>
-                  • {skill.name}
-                </Text>
-              ))}
+          {resumeData.skills?.length > 0 && (
+            <View wrap={false}>
+              <Text style={styles.sectionTitle}>{t.skills}</Text>{" "}
+              {/* Use translation */}
+              <View style={styles.skillsGrid}>
+                {resumeData.skills.map((skill, index) => (
+                  <Text key={index} style={styles.skillItem}>
+                    • {skill.name}
+                  </Text>
+                ))}
+              </View>
             </View>
-          </View>
+          )}
 
           {/* Languages Section */}
           {resumeData.languages?.length > 0 && (
-            <View>
-              <Text style={styles.sectionTitle}>Languages</Text>
+            <View wrap={false}>
+              <Text style={styles.sectionTitle}>{t.languages}</Text>{" "}
+              {/* Use translation */}
               <View style={styles.skillsGrid}>
-                {resumeData.languages?.map((lang, index) => (
+                {resumeData.languages.map((lang, index) => (
                   <Text key={index} style={styles.skillItem}>
                     • {lang.name}
                   </Text>

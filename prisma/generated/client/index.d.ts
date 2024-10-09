@@ -6548,6 +6548,7 @@ export namespace Prisma {
     name: string | null
     modifiedAt: Date | null
     userId: string | null
+    lng: string | null
     themeId: string | null
   }
 
@@ -6556,6 +6557,7 @@ export namespace Prisma {
     name: string | null
     modifiedAt: Date | null
     userId: string | null
+    lng: string | null
     themeId: string | null
   }
 
@@ -6564,6 +6566,7 @@ export namespace Prisma {
     name: number
     modifiedAt: number
     userId: number
+    lng: number
     themeId: number
     _all: number
   }
@@ -6574,6 +6577,7 @@ export namespace Prisma {
     name?: true
     modifiedAt?: true
     userId?: true
+    lng?: true
     themeId?: true
   }
 
@@ -6582,6 +6586,7 @@ export namespace Prisma {
     name?: true
     modifiedAt?: true
     userId?: true
+    lng?: true
     themeId?: true
   }
 
@@ -6590,6 +6595,7 @@ export namespace Prisma {
     name?: true
     modifiedAt?: true
     userId?: true
+    lng?: true
     themeId?: true
     _all?: true
   }
@@ -6671,6 +6677,7 @@ export namespace Prisma {
     name: string
     modifiedAt: Date
     userId: string
+    lng: string
     themeId: string | null
     _count: ResumeCountAggregateOutputType | null
     _min: ResumeMinAggregateOutputType | null
@@ -6696,6 +6703,7 @@ export namespace Prisma {
     name?: boolean
     modifiedAt?: boolean
     userId?: boolean
+    lng?: boolean
     personalInfo?: boolean | PersonalInfoDefaultArgs<ExtArgs>
     experiences?: boolean | ExperienceDefaultArgs<ExtArgs>
     educations?: boolean | EducationDefaultArgs<ExtArgs>
@@ -6713,6 +6721,7 @@ export namespace Prisma {
     name?: boolean
     modifiedAt?: boolean
     userId?: boolean
+    lng?: boolean
     themeId?: boolean
   }
 
@@ -6732,6 +6741,7 @@ export namespace Prisma {
       name: string
       modifiedAt: Date
       userId: string
+      lng: string
       themeId: string | null
     }, ExtArgs["result"]["resume"]>
     composites: {
@@ -7138,6 +7148,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Resume", 'String'>
     readonly modifiedAt: FieldRef<"Resume", 'DateTime'>
     readonly userId: FieldRef<"Resume", 'String'>
+    readonly lng: FieldRef<"Resume", 'String'>
     readonly themeId: FieldRef<"Resume", 'String'>
   }
     
@@ -7564,6 +7575,7 @@ export namespace Prisma {
     name: 'name',
     modifiedAt: 'modifiedAt',
     userId: 'userId',
+    lng: 'lng',
     themeId: 'themeId'
   };
 
@@ -7988,6 +8000,7 @@ export namespace Prisma {
     name?: StringFilter<"Resume"> | string
     modifiedAt?: DateTimeFilter<"Resume"> | Date | string
     userId?: StringFilter<"Resume"> | string
+    lng?: StringFilter<"Resume"> | string
     personalInfo?: XOR<PersonalInfoNullableCompositeFilter, PersonalInfoObjectEqualityInput> | null
     experiences?: ExperienceCompositeListFilter | ExperienceObjectEqualityInput[]
     educations?: EducationCompositeListFilter | EducationObjectEqualityInput[]
@@ -8004,6 +8017,7 @@ export namespace Prisma {
     name?: SortOrder
     modifiedAt?: SortOrder
     userId?: SortOrder
+    lng?: SortOrder
     personalInfo?: PersonalInfoOrderByInput
     experiences?: ExperienceOrderByCompositeAggregateInput
     educations?: EducationOrderByCompositeAggregateInput
@@ -8023,6 +8037,7 @@ export namespace Prisma {
     name?: StringFilter<"Resume"> | string
     modifiedAt?: DateTimeFilter<"Resume"> | Date | string
     userId?: StringFilter<"Resume"> | string
+    lng?: StringFilter<"Resume"> | string
     personalInfo?: XOR<PersonalInfoNullableCompositeFilter, PersonalInfoObjectEqualityInput> | null
     experiences?: ExperienceCompositeListFilter | ExperienceObjectEqualityInput[]
     educations?: EducationCompositeListFilter | EducationObjectEqualityInput[]
@@ -8039,6 +8054,7 @@ export namespace Prisma {
     name?: SortOrder
     modifiedAt?: SortOrder
     userId?: SortOrder
+    lng?: SortOrder
     themeId?: SortOrder
     _count?: ResumeCountOrderByAggregateInput
     _max?: ResumeMaxOrderByAggregateInput
@@ -8053,6 +8069,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Resume"> | string
     modifiedAt?: DateTimeWithAggregatesFilter<"Resume"> | Date | string
     userId?: StringWithAggregatesFilter<"Resume"> | string
+    lng?: StringWithAggregatesFilter<"Resume"> | string
     themeId?: StringNullableWithAggregatesFilter<"Resume"> | string | null
   }
 
@@ -8418,6 +8435,7 @@ export namespace Prisma {
     id?: string
     name: string
     modifiedAt?: Date | string
+    lng?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -8433,6 +8451,7 @@ export namespace Prisma {
     name: string
     modifiedAt?: Date | string
     userId: string
+    lng?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -8445,6 +8464,7 @@ export namespace Prisma {
   export type ResumeUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -8459,6 +8479,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -8473,6 +8494,7 @@ export namespace Prisma {
     name: string
     modifiedAt?: Date | string
     userId: string
+    lng?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -8485,6 +8507,7 @@ export namespace Prisma {
   export type ResumeUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -8497,6 +8520,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -8972,6 +8996,7 @@ export namespace Prisma {
     name?: SortOrder
     modifiedAt?: SortOrder
     userId?: SortOrder
+    lng?: SortOrder
     themeId?: SortOrder
   }
 
@@ -8980,6 +9005,7 @@ export namespace Prisma {
     name?: SortOrder
     modifiedAt?: SortOrder
     userId?: SortOrder
+    lng?: SortOrder
     themeId?: SortOrder
   }
 
@@ -8988,6 +9014,7 @@ export namespace Prisma {
     name?: SortOrder
     modifiedAt?: SortOrder
     userId?: SortOrder
+    lng?: SortOrder
     themeId?: SortOrder
   }
 
@@ -9807,6 +9834,7 @@ export namespace Prisma {
     id?: string
     name: string
     modifiedAt?: Date | string
+    lng?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -9820,6 +9848,7 @@ export namespace Prisma {
     id?: string
     name: string
     modifiedAt?: Date | string
+    lng?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -9972,6 +10001,7 @@ export namespace Prisma {
     name?: StringFilter<"Resume"> | string
     modifiedAt?: DateTimeFilter<"Resume"> | Date | string
     userId?: StringFilter<"Resume"> | string
+    lng?: StringFilter<"Resume"> | string
     themeId?: StringNullableFilter<"Resume"> | string | null
   }
 
@@ -9979,6 +10009,7 @@ export namespace Prisma {
     id?: string
     name: string
     modifiedAt?: Date | string
+    lng?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -9993,6 +10024,7 @@ export namespace Prisma {
     name: string
     modifiedAt?: Date | string
     userId: string
+    lng?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -10186,6 +10218,7 @@ export namespace Prisma {
     id?: string
     name: string
     modifiedAt?: Date | string
+    lng?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -10289,6 +10322,7 @@ export namespace Prisma {
   export type ResumeUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -10301,6 +10335,7 @@ export namespace Prisma {
   export type ResumeUncheckedUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -10313,6 +10348,7 @@ export namespace Prisma {
   export type ResumeUncheckedUpdateManyWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -10327,6 +10363,7 @@ export namespace Prisma {
     name: string
     modifiedAt?: Date | string
     userId: string
+    lng?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -10338,6 +10375,7 @@ export namespace Prisma {
   export type ResumeUpdateWithoutThemeInput = {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -10351,6 +10389,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -10363,6 +10402,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    lng?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]

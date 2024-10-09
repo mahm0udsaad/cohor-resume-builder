@@ -22,7 +22,7 @@ export const themes = [
     id: "dark",
     name: "Dark",
     primaryColor: "#1E293B",
-    backgroundColor: "#aac0f5",
+    backgroundColor: "#F4F4F9",
   },
   {
     id: "nature",

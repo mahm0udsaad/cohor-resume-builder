@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
+import { translations } from "@/data/data";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -119,9 +120,14 @@ const styles = StyleSheet.create({
 
 const BoldTemplate = ({ resumeData }) => {
   const selectedTheme = resumeData?.theme || null;
+
+  // Get translations based on the current language
+  const t = translations[resumeData.lng] || translations.en;
+  const isArabic = resumeData.lng === "ar";
+  const directionStyle = isArabic ? styles.rtl : {};
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, directionStyle]}>
         <View
           style={[
             styles.header,
@@ -145,14 +151,14 @@ const BoldTemplate = ({ resumeData }) => {
 
         <View style={styles.content}>
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Profile</Text>
+            <Text style={styles.sectionTitle}>{t.profile}</Text>
             <Text style={styles.summary}>
               {resumeData.personalInfo.summary}
             </Text>
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Experience</Text>
+            <Text style={styles.sectionTitle}>{t.experience}</Text>
             {resumeData.experiences?.map((job, index) => (
               <View key={index} style={styles.experienceItem}>
                 <Text style={styles.jobTitle}>{job.jobTitle}</Text>
@@ -166,7 +172,7 @@ const BoldTemplate = ({ resumeData }) => {
                 {job.achievements?.length > 0 && (
                   <View>
                     <Text style={styles.achievementsTitle}>
-                      Achievements & Highlights
+                      {t.achievements}
                     </Text>
                     <View style={styles.achievementsList}>
                       {job.achievements.map((achievement, index) => (
@@ -182,7 +188,7 @@ const BoldTemplate = ({ resumeData }) => {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Education</Text>
+            <Text style={styles.sectionTitle}>{t.education}</Text>
             {resumeData.educations?.map((edu, index) => (
               <View key={index} style={styles.educationItem}>
                 <Text style={styles.degree}>{edu.degree}</Text>
@@ -194,7 +200,7 @@ const BoldTemplate = ({ resumeData }) => {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Skills</Text>
+            <Text style={styles.sectionTitle}>{t.skills}</Text>
             <View style={styles.skillsList}>
               {resumeData.skills?.map((skill, index) => (
                 <Text key={index} style={styles.skillItem}>
@@ -206,7 +212,7 @@ const BoldTemplate = ({ resumeData }) => {
 
           {resumeData.languages?.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Languages</Text>
+              <Text style={styles.sectionTitle}>{t.languages}</Text>
               <View style={styles.skillsList}>
                 {resumeData.languages?.map((lang, index) => (
                   <Text key={index} style={styles.languageItem}>
@@ -219,7 +225,7 @@ const BoldTemplate = ({ resumeData }) => {
 
           {resumeData.courses?.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Courses</Text>
+              <Text style={styles.sectionTitle}>{t.courses}</Text>
               {resumeData.courses?.map((course, index) => (
                 <View key={index} style={styles.courseItem}>
                   <Text style={styles.courseName}>{course.name}</Text>
@@ -237,4 +243,4 @@ const BoldTemplate = ({ resumeData }) => {
   );
 };
 
-export default BoldTemplate;
+export default memo(BoldTemplate);

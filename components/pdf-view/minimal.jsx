@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import {
   Document,
   Page,
@@ -6,9 +6,10 @@ import {
   View,
   StyleSheet,
   Image,
+  Svg,
 } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
-import { Phone, Mail, MapPin, Globe } from "lucide-react"; // Import icons from lucide-react
+import { Phone, Mail, MapPin, Globe } from "lucide-react";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -17,7 +18,6 @@ const styles = StyleSheet.create({
     padding: 40,
     fontFamily: "Helvetica",
   },
-
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -154,6 +154,7 @@ const MinimalTemplate = ({ resumeData }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        {/* Header Section */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <Text style={styles.name}>{resumeData.personalInfo.name}</Text>
@@ -161,43 +162,29 @@ const MinimalTemplate = ({ resumeData }) => {
               {resumeData.personalInfo.jobTitle}
             </Text>
           </View>
-          {resumeData.personalInfo.image ? (
-            <Image
-              src={resumeData.personalInfo.image}
-              style={styles.profileImage}
-            />
-          ) : (
-            <View style={styles.placeholderImage} />
-          )}
         </View>
 
+        {/* Divider */}
         <View style={styles.sectionBorder} />
 
         <View style={styles.content}>
+          {/* Left Column */}
           <View style={styles.leftColumn}>
+            {/* Contact Section */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Contact</Text>
               {resumeData.personalInfo.contact?.map((item, index) => {
-                const Icon =
-                  index === 0
-                    ? Phone
-                    : index === 1
-                    ? Mail
-                    : index === 2
-                    ? MapPin
-                    : Globe;
                 return (
                   <View key={index} style={styles.contactItem}>
-                    <Icon size={10} style={styles.icon} />
                     <Text>{item}</Text>
                   </View>
                 );
               })}
             </View>
 
+            {/* Skills Section */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Skills</Text>
-              <Text style={styles.subheading}>Professional</Text>
               {resumeData.skills?.map((skill, index) => (
                 <View key={index} style={styles.skillItem}>
                   <Text style={styles.bullet}>•</Text>
@@ -206,6 +193,18 @@ const MinimalTemplate = ({ resumeData }) => {
               ))}
             </View>
 
+            {/* Languages Section */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Languages</Text>
+              {resumeData.languages?.map((lang, index) => (
+                <View key={index} style={styles.skillItem}>
+                  <Text>{lang.name}</Text>
+                  <Text> - {lang.proficiency}</Text>
+                </View>
+              ))}
+            </View>
+
+            {/* Education Section */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Education</Text>
               {resumeData.educations?.map((edu, index) => (
@@ -220,16 +219,19 @@ const MinimalTemplate = ({ resumeData }) => {
             </View>
           </View>
 
+          {/* Right Column */}
           <View style={styles.rightColumn}>
-            <View style={styles.section}>
+            {/* Summary Section */}
+            <View style={styles.section} wrap={false}>
               <Text style={styles.sectionTitle}>Summary</Text>
               <Text style={styles.summary}>
                 {resumeData.personalInfo.summary}
               </Text>
             </View>
 
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Working Experience</Text>
+            {/* Experience Section */}
+            <View style={styles.section} wrap={false}>
+              <Text style={styles.sectionTitle}>Work Experience</Text>
               {resumeData.experiences?.map((exp, index) => (
                 <View key={index} style={styles.experienceItem}>
                   <View style={styles.experienceHeader}>
@@ -239,9 +241,23 @@ const MinimalTemplate = ({ resumeData }) => {
                     </Text>
                   </View>
                   <Text style={styles.company}>{exp.company}</Text>
-                  <View style={styles.responsibilityItem}>
-                    <Text>{exp.responsibilities.trim()}</Text>
-                  </View>
+                  <Text style={styles.summary}>{exp.responsibilities}</Text>
+                </View>
+              ))}
+            </View>
+
+            {/* Courses Section */}
+            <View style={styles.section} wrap={false}>
+              <Text style={styles.sectionTitle}>Courses</Text>
+              {resumeData.courses?.map((course, index) => (
+                <View key={index} style={styles.experienceItem}>
+                  <Text style={styles.jobTitleExp}>{course.name}</Text>
+                  <Text style={styles.institutionName}>
+                    {course.institution}
+                  </Text>
+                  <Text style={styles.date}>
+                    {formatDate(course.completionDate)}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -252,4 +268,4 @@ const MinimalTemplate = ({ resumeData }) => {
   );
 };
 
-export default memo(MinimalTemplate);
+export default MinimalTemplate;

@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { dummyData } from "@/data/data";
+import { templates } from "@/helper/get-resume-engin";
 import Link from "next/link";
-import { templates } from "./templates-holder";
 
 const TemplateGallery = ({ main }) => {
   return (
@@ -15,7 +15,7 @@ const TemplateGallery = ({ main }) => {
 
         return (
           <Card key={index}>
-            <Link href={`/gallery/${name}`}>
+            <Link href={`/builder/${name}`}>
               <CardContent className="p-4 ">
                 <h3 className="text-lg font-semibold mb-2">{name} Template</h3>
                 <div className="overflow-hidden">

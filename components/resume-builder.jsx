@@ -52,7 +52,7 @@ const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
 
 export function ResumeBuilder({ resumeName, lng }) {
   const { t } = useTranslation(lng, "builder");
-  const { resumeData, updateResumeData } = useResumeData();
+  const { resumeData, updateResumeData, toggleLanguage } = useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
 
@@ -162,12 +162,12 @@ export function ResumeBuilder({ resumeName, lng }) {
           {/* Resume Preview Column */}
           <ResumePreview
             template={resumeName}
+            toggleLanguage={toggleLanguage}
             resumeData={resumeData}
             selectedTheme={selectedTheme}
             setSelectedTheme={setSelectedTheme}
             showTemplates={showTemplates}
             setShowTemplates={setShowTemplates}
-            lng={lng}
           />
         </div>
       </div>

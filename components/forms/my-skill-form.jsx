@@ -67,19 +67,17 @@ export default function SkillCard({ user, lng }) {
       const updatedSkills = [...skills, newSkill];
 
       try {
-        const response = await fetch("/api/user/skills/add", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: user.id,
-            skillData: newSkill,
-          }),
-        });
+        // const response = await fetch("/api/user/skills/add", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({
+        //     userId: user.id,
+        //     skillData: newSkill,
+        //   }),
+        // });
 
-        if (response.ok) {
-          setSkills(updatedSkills);
-          setSearchTerm("");
-        }
+        setSkills(updatedSkills);
+        setSearchTerm("");
       } catch (error) {
         console.error("Error saving skill:", error);
       }
@@ -184,7 +182,7 @@ export default function SkillCard({ user, lng }) {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-3 gap-6">
           {skills.map((skill, index) => (
             <div
               key={index}

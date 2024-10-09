@@ -1,9 +1,18 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/helper/date";
+import { translations } from "@/data/data"; // Import your translations
+
 const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
+  const isArabic = resumeData.lng === "ar";
+  const { lng } = resumeData;
+  const direction = isArabic ? "rtl" : "ltr";
+  const t = translations[lng] || translations["en"]; // Default to English if the language is not found
+
   return (
     <div
       id="resume-template"
+      style={{ direction }}
       className={cn(
         "w-full mx-auto bg-white font-sans text-gray-700",
         className,
@@ -31,7 +40,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
         {/* Profile Section */}
         <section className="mb-6">
           <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
-            Profile
+            {t.profile} {/* Use translation */}
           </h2>
           <p className="text-sm leading-relaxed">
             {resumeData.personalInfo.summary}
@@ -41,7 +50,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
         {/* Experience Section */}
         <section className="mb-6">
           <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
-            Experience
+            {t.experience} {/* Use translation */}
           </h2>
           {resumeData.experiences?.map((job, index) => (
             <div key={index} className="mb-5">
@@ -54,7 +63,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
               {job.achievements?.length > 0 && (
                 <div className="mt-3">
                   <h4 className="text-sm font-semibold underline">
-                    Achievements & Highlights
+                    {t.achievements} {/* Use translation */}
                   </h4>
                   <ul className="list-disc list-inside text-sm">
                     {job.achievements.map((achievement, index) => (
@@ -70,7 +79,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
         {/* Education Section */}
         <section className="mb-6">
           <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
-            Education
+            {t.education} {/* Use translation */}
           </h2>
           {resumeData.educations?.map((edu, index) => (
             <div key={index} className="mb-3">
@@ -85,7 +94,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
         {/* Skills Section */}
         <section className="mb-6">
           <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
-            Skills
+            {t.skills} {/* Use translation */}
           </h2>
           <ul className="list-disc list-inside text-sm">
             {resumeData.skills?.map((skill, index) => (
@@ -93,10 +102,11 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
             ))}
           </ul>
         </section>
+
         {/* Languages Section */}
         <section className="mb-6">
           <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
-            Languages
+            {t.languages} {/* Use translation */}
           </h2>
           <ul className="list-disc list-inside text-sm">
             {resumeData.languages?.map((lang, index) => (
@@ -110,7 +120,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
         {/* Courses Section */}
         <section className="mb-6">
           <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
-            Courses
+            {t.courses} {/* Use translation */}
           </h2>
           {resumeData.courses?.map((course, index) => (
             <div key={index} className="mt-2">

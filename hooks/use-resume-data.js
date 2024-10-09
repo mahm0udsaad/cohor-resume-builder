@@ -1,6 +1,7 @@
 import { useReducer, useEffect, useRef } from "react";
 
 const initialState = {
+  lng: "en", // Initial language state
   personalInfo: {
     name: "",
     jobTitle: "",
@@ -17,7 +18,7 @@ const initialState = {
     },
   ],
   educations: [{ degree: "", institution: "", graduationDate: "" }],
-  skills: [{ name: "", level: "beginner" }],
+  skills: [],
   languages: [{ name: "", proficiency: "" }],
   courses: [{ name: "", institution: "", completionDate: "" }],
 };
@@ -38,6 +39,11 @@ function resumeReducer(state, action) {
     case "ADD":
     case "REMOVE":
       return updateNestedState(state, action);
+    case "TOGGLE_LANGUAGE": // New action type for toggling language
+      return {
+        ...state,
+        lng: state.lng === "en" ? "ar" : "en", // Toggle between "en" and "ar"
+      };
     default:
       return state;
   }
@@ -99,5 +105,8 @@ export function useResumeData(debounceTime = 3000) {
 
   const updateResumeData = (action) => dispatch(action);
 
-  return { resumeData, updateResumeData };
+  // Function to toggle language
+  const toggleLanguage = () => dispatch({ type: "TOGGLE_LANGUAGE" });
+
+  return { resumeData, updateResumeData, toggleLanguage }; // Expose toggleLanguage
 }

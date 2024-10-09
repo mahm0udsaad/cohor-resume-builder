@@ -1,6 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
+import { translations } from "@/data/data";
 
 // Define styles using react-pdf's StyleSheet
 const styles = StyleSheet.create({
@@ -65,8 +66,11 @@ const defaultTheme = {
 };
 
 const Classic = ({ resumeData }) => {
-  let theme = resumeData.theme || defaultTheme;
-
+  const theme = resumeData.theme || defaultTheme;
+  // Get translations based on the current language
+  const isArabic = resumeData.lng === "ar";
+  const t = isArabic ? translations.ar : translations.en;
+  const directionStyle = isArabic ? styles.rtl : {};
   const renderSection = (title, content) => {
     if (!content || (Array.isArray(content) && content.length === 0)) {
       return null;
@@ -132,33 +136,33 @@ const Classic = ({ resumeData }) => {
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, directionStyle]}>
         {/* Left Column */}
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flex: 2, marginRight: 20 }}>
             <Text style={[styles.header, { color: theme.primaryColor }]}>
-              {resumeData.personalInfo?.name || "Your Name"}
+              {resumeData.personalInfo?.name || t.profile}
             </Text>
             <Text style={styles.subheader}>
-              {resumeData.personalInfo?.jobTitle || "Your Job Title"}
+              {resumeData.personalInfo?.jobTitle || t.workExperience}
             </Text>
 
             {renderSection(
-              "Objective",
+              "العربيه",
               <Text>{resumeData.personalInfo?.summary}</Text>,
             )}
 
-            {renderSection("Experience", renderExperiences())}
+            {renderSection(t.workExperience, renderExperiences())}
 
-            {renderSection("Education", renderEducation())}
+            {renderSection(t.education, renderEducation())}
 
-            {renderSection("Courses", renderCourses())}
+            {renderSection(t.courses, renderCourses())}
           </View>
 
           {/* Right Column */}
           <View style={styles.rightColumn}>
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Contact</Text>
+              <Text style={styles.sectionTitle}>{t.profile}</Text>
               {resumeData.personalInfo?.contact?.map((contact, index) => (
                 <Text key={index} style={styles.contact}>
                   {contact}
@@ -166,9 +170,9 @@ const Classic = ({ resumeData }) => {
               ))}
             </View>
 
-            {renderSection("Skills", renderSkills())}
+            {renderSection(t.skills, renderSkills())}
 
-            {renderSection("Languages", renderLanguages())}
+            {renderSection(t.languages, renderLanguages())}
           </View>
         </View>
       </Page>
@@ -176,4 +180,4 @@ const Classic = ({ resumeData }) => {
   );
 };
 
-export default Classic;
+export default memo(Classic);

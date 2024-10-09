@@ -1,10 +1,10 @@
 import { getResume } from "@/actions/resumes";
 import dynamic from "next/dynamic";
-import { DownloadBtn } from "@/components/download-btn";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import { dummyData } from "@/data/data";
 
 const ClientResumeTemplate = dynamic(
   () => import("@/components/component/render-template-view"),
@@ -25,7 +25,7 @@ export default async function ReviewPage({ params: { resumeName } }) {
       <div className="container mx-auto p-6">
         <div className="flex justify-between items-center mb-6">
           <Link
-            href="/builder/modern?tab=review"
+            href={`/builder/${resumeName}?tab=review`}
             className="flex items-center gap-2 text-[#3b51a3] hover:underline"
           >
             Back to Editing
@@ -37,7 +37,7 @@ export default async function ReviewPage({ params: { resumeName } }) {
           </div>
         </div>
         {resume && (
-          <ClientResumeTemplate templateName={resumeName} data={resume} />
+          <ClientResumeTemplate templateName={resumeName} data={dummyData} />
         )}
       </div>
     </div>

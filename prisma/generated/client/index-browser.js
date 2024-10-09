@@ -166,6 +166,7 @@ exports.Prisma.ResumeScalarFieldEnum = {
   name: 'name',
   modifiedAt: 'modifiedAt',
   userId: 'userId',
+  lng: 'lng',
   themeId: 'themeId'
 };
 

@@ -29,7 +29,7 @@ export default function ReviewForm({
   const { t } = useTranslation(lng, "forms");
   const router = useRouter();
   const { data: session } = useSession();
-  const user = session.user;
+  const user = session?.user;
   const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
 
   const handleLanguageChange = (index, field, value) => {

@@ -3,8 +3,8 @@ import { dummyData } from "@/data/data";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
-import { templates } from "@/components/templates-holder";
 import SearchForm from "@/components/forms/search";
+import { templates } from "@/helper/get-resume-engin";
 
 export default async function TemplateGallery({ params: { lng } }) {
   const { t } = await useTranslation(lng, "common");
