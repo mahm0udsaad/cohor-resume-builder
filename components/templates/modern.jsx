@@ -1,11 +1,10 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/helper/date";
-import { useTranslation } from "@/app/i18n/client";
 import { memo } from "react";
+import { translations } from "@/data/data";
 
 const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
-  const { t } = useTranslation(resumeData.lng, "forms"); // Translation hook
   const isRTL = resumeData.lng === "ar"; // RTL detection for Arabic language
 
   const createStyles = (isRTL) => ({
@@ -13,6 +12,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
   });
 
   const styles = createStyles(isRTL); // Pass the RTL flag to styles
+  const t = translations[resumeData.lng] || translations.en;
 
   return (
     <div
@@ -59,7 +59,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
 
         <section className="mb-6">
           <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
-            {t("workExperience.title")} {/* Translated Work Experience */}
+            {t.workExperience} {/* Translated Work Experience */}
           </h2>
           {resumeData.experiences?.map((job, index) => (
             <div key={index} className="mb-5">
@@ -77,7 +77,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
 
         <section className="mb-6">
           <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
-            {t("education")} {/* Translated Education */}
+            {t.education} {/* Translated Education */}
           </h2>
           {resumeData.educations?.map((edu, index) => (
             <div key={index} className="mb-3">
@@ -92,7 +92,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
         {resumeData.courses && (
           <section className="mb-6">
             <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
-              {t("reviewResume.coursesTitle")} {/* Translated Courses */}
+              {t.courses} {/* Translated Courses */}
             </h2>
             {resumeData.courses.map((course, index) => (
               <div key={index} className="mb-3">
@@ -107,7 +107,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
 
         <section className="mb-6">
           <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
-            {t("skills.title")} {/* Translated Skills */}
+            {t.skills} {/* Translated Skills */}
           </h2>
           <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
             {resumeData.skills?.map((skill, index) => (
@@ -119,7 +119,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
         {resumeData.languages?.length > 0 && (
           <section className="mb-6">
             <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
-              {t("reviewResume.languagesTitle")} {/* Translated Languages */}
+              {t.languages} {/* Translated Languages */}
             </h2>
             <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
               {resumeData.languages?.map((lang, index) => (

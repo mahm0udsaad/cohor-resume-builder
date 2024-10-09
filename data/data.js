@@ -1,5 +1,5 @@
 export const dummyData = {
-  lng: "ar",
+  lng: "en",
   personalInfo: {
     name: "John Doe",
     jobTitle: "Full Stack Web Developer",
