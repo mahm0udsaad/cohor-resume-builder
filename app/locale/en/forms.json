@@ -1,8 +1,9 @@
 {
-  "education": "Education",
   "degree": "Degree",
   "institution": "Institution",
   "graduationDate": "Graduation Date",
+  "cancel": "Cancel",
+  "save": "Save",
   "addEducation": "Add Education",
   "degreePlaceholder": "Bachelor of Science",
   "institutionPlaceholder": "University Name",
@@ -29,6 +30,7 @@
     "jobTitlePlaceholder": "Software Engineer",
     "company": "Company",
     "companyPlaceholder": "Tech Corp",
+    "dates": "Dates",
     "startDate": "Start Date",
     "endDate": "End Date",
     "responsibilities": "Responsibilities",
@@ -69,6 +71,19 @@
     "beginner": "Beginner",
     "skillful": "Skillful",
     "experienced": "Experienced",
-    "expert": "Expert"
+    "expert": "Expert",
+    "noSkills": "No skills added"
+  },
+  "education": {
+    "title": "Education",
+    "addEducation": "Add Education",
+    "editEducation": "Edit Education",
+    "degree": "Degree",
+    "degreePlaceholder": "Enter your degree",
+    "institution": "Institution",
+    "institutionPlaceholder": "Enter institution name",
+    "graduationDate": "Graduation Date",
+    "save": "Save",
+    "noEducation": "No education entries yet"
   }
 }

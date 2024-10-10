@@ -116,8 +116,9 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
                 </Label>
                 <AiSuggestionTextarea
                   isExperince
-                  data={exp}
+                  data={exp.responsibilities}
                   lng={lng}
+                  jobTitle={exp.jobTitle}
                   onChange={(value) =>
                     handleExperienceChange(index, "responsibilities", value)
                   }

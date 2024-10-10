@@ -1,7 +1,8 @@
 {
-  "education": "التعليم",
   "degree": "الدرجة",
   "institution": "المؤسسة",
+  "cancel": "إلغاء",
+  "save": "حفظ",
   "graduationDate": "تاريخ التخرج",
   "addEducation": "أضف تعليم",
   "degreePlaceholder": "بكالوريوس العلوم",
@@ -31,6 +32,7 @@
     "companyPlaceholder": "شركة التكنولوجيا",
     "startDate": "تاريخ البدء",
     "endDate": "تاريخ الانتهاء",
+    "dates": "التاريخ",
     "responsibilities": "المسؤوليات",
     "responsibilitiesPlaceholder": "وصف المسؤوليات والإنجازات الرئيسية",
     "generateAI": "إنشاء باستخدام الذكاء الاصطناعي",
@@ -70,6 +72,19 @@
     "beginner": "مبتدئ",
     "skillful": "ماهر",
     "experienced": "ذو خبرة",
-    "expert": "خبير"
+    "expert": "خبير",
+    "noSkills": "لا توجد مهارات"
+  },
+  "education": {
+    "title": "التعليم",
+    "addEducation": "أضف تعليم",
+    "editEducation": "تعديل التعليم",
+    "degree": "الدرجة",
+    "degreePlaceholder": "أدخل درجة منحتها",
+    "institution": "المؤسسة",
+    "institutionPlaceholder": "أدخل اسم المؤسسة",
+    "graduationDate": "تاريخ التخرج",
+    "save": "حفظ",
+    "noEducation": "لا توجد مدخلات تعليمية بعد"
   }
 }

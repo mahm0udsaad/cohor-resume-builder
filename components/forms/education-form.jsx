@@ -38,7 +38,7 @@ export default function EducationForm({ educations, updateData, lng }) {
     <Card>
       <CardContent className="p-6">
         <h2 className="text-2xl font-semibold mb-4 text-[#20133E] pb-2 border-b">
-          {t("education")} {/* Translation for 'Education' */}
+          {t("education.title")} {/* Translation for 'Education' */}
         </h2>
         {educations.map((edu, index) => (
           <div key={index} className="mb-4 p-4 rounded relative">

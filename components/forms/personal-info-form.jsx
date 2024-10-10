@@ -156,7 +156,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
           <div>
             <AiSuggestionTextarea
               lng={lng}
-              data={data}
+              data={data.summary}
               onChange={handleSummaryChange}
             />
           </div>

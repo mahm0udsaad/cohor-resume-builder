@@ -16,18 +16,19 @@ import { generateSuggestions } from "@/actions/suggestions";
 export function AiSuggestionTextarea({
   data,
   lng,
+  jobTitle,
   onChange,
   isExperince = false,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [textContent, setTextContent] = useState(data.summary || "");
+  const [textContent, setTextContent] = useState(data || "");
   const [suggestions, setSuggestions] = useState([]);
   const { t } = useTranslation(lng, "forms");
 
   const handleClick = useCallback(async () => {
     setIsLoading(true);
-    if (!data.jobTitle) {
+    if (!jobTitle) {
       setIsLoading(false);
       return;
     }
@@ -35,7 +36,7 @@ export function AiSuggestionTextarea({
     try {
       const result = await generateSuggestions(
         isExperince,
-        data.jobTitle,
+        jobTitle,
         data.company,
       );
       setSuggestions(result);
@@ -46,7 +47,7 @@ export function AiSuggestionTextarea({
     } finally {
       setIsLoading(false);
     }
-  }, [data.jobTitle]);
+  }, [jobTitle]);
 
   const handleSuggestionClick = useCallback(
     (suggestion) => {
@@ -68,7 +69,7 @@ export function AiSuggestionTextarea({
   );
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <div className="relative">
         <Label htmlFor="summary" className="text-[#20133E]">
           {t("personalInfo.summary")}
@@ -80,7 +81,7 @@ export function AiSuggestionTextarea({
           onChange={handleTextChange}
           placeholder="Enter your text here..."
           rows={4}
-          className="border-[#3B51A3] focus:ring-[#3B51A3] w-full pr-10"
+          className="border-[#3B51A3] focus:ring-[#3B51A3] h-11/12 w-full pr-10"
         />
         <Popover open={showSuggestions} onOpenChange={setShowSuggestions}>
           <PopoverTrigger asChild>

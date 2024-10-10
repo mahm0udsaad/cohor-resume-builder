@@ -16,3 +16,8 @@ export function formatDate(dateInput) {
 
   return `${year}-${month}-${day}`;
 }
+
+export const parseDate = (dateString) => {
+  const date = new Date(`${dateString}T00:00:00.000Z`);
+  return date.toISOString();
+};

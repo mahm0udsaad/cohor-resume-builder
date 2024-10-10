@@ -111,10 +111,8 @@ export default function MyPersonalInfoForm({ user, lng }) {
 
                 <AiSuggestionTextarea
                   lng={lng}
-                  data={{
-                    summary: user.summary,
-                    jobTitle: user.personalInfo?.jobTitle,
-                  }}
+                  data={user.summary}
+                  jobTitle={user.personalInfo?.jobTitle}
                   onChange={handleSummaryChange}
                 />
               </div>

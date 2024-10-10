@@ -2,11 +2,8 @@
 
 - Add & modify the userData on the Dashboard
 
-1. fix skills form
 2. add languages and courses forms
-3. add education forms
-4. display this information when the user create new resume
-5. activate download button
+3. display this information when the user create new resume
 
 ## PDF View
 

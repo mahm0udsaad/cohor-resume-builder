@@ -3,7 +3,6 @@
 import * as React from "react";
 import { format, parseISO } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -36,8 +35,13 @@ const DatePicker = ({
     onChange(date ? format(date, inputFormat) : "");
   };
 
+  // Prevent click events from bubbling up to the Drawer
+  const handleClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
-    <div>
+    <div className="relative" onClick={handleClick}>
       <Label className="text-[#20133E]">{label}</Label>
       <Popover>
         <PopoverTrigger asChild>
@@ -56,7 +60,11 @@ const DatePicker = ({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0">
+        <PopoverContent
+          className="w-auto p-0 z-[60]"
+          align="start"
+          onClick={handleClick} // Add click handler here as well
+        >
           <Calendar
             mode="single"
             selected={value ? parseISO(value) : undefined}

@@ -92,21 +92,17 @@ export async function deleteResume(resumeId, email) {
       return { success: false, error: "Invalid form data" };
     }
 
-    const deletedResume = await prisma.resume.delete({
-      where: { id: resumeId },
-    });
-
     await prisma.user.update({
-      where: { email: email },
+      where: { email },
       data: {
         resumes: {
-          set: {
-            id: {
-              notIn: [resumeId],
-            },
-          },
+          disconnect: { id: resumeId },
         },
       },
+    });
+
+    const deletedResume = await prisma.resume.delete({
+      where: { id: resumeId },
     });
 
     return deletedResume || {};
@@ -246,110 +242,19 @@ export const updateUserResumeData = async (
   }
 };
 
-export async function addSkill(userId, skillData) {
+export async function saveSkills(userId, skills) {
   try {
-    // Step 1: Fetch the user and their skills
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { skills: true },
-    });
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    // Step 2: Check if user has existing skills
-    const existingSkills = user.skills || [];
-
-    // Step 3: Add new skill
-    const updatedSkills = [
-      ...existingSkills,
-      {
-        name: skillData.name,
-        level: skillData.level,
-      },
-    ];
-
-    // Step 4: Update the user's skills
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
-        skills: {
-          set: updatedSkills,
-        },
+        skills: skills, // Directly set the entire skills array
       },
     });
 
-    return { success: true, updatedUser };
-  } catch (error) {
-    console.error("Error saving skill:", error);
-    return { success: false, error: error.message };
-  } finally {
     revalidatePath("/dashboard");
-  }
-}
-
-export async function updateSkill(userId, skillIndex, updatedSkill) {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { skills: true },
-    });
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    const updatedSkills = [...user.skills];
-    updatedSkills[skillIndex] = updatedSkill;
-
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: {
-        skills: {
-          set: updatedSkills,
-        },
-      },
-    });
-
-    return { success: true, updatedUser };
+    return { success: true, data: updatedUser };
   } catch (error) {
-    console.error("Error updating skill:", error);
+    console.error("Error saving skills:", error);
     return { success: false, error: error.message };
-  } finally {
-    revalidatePath("/dashboard");
-  }
-}
-
-export async function deleteSkill(userId, skillIndex) {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { skills: true },
-    });
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    const updatedSkills = user.skills.filter(
-      (_, index) => index !== skillIndex,
-    );
-
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
-      data: {
-        skills: {
-          set: updatedSkills,
-        },
-      },
-    });
-
-    return { success: true, updatedUser };
-  } catch (error) {
-    console.error("Error deleting skill:", error);
-    return { success: false, error: error.message };
-  } finally {
-    revalidatePath("/dashboard");
   }
 }
