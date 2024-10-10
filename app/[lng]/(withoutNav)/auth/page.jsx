@@ -13,7 +13,7 @@ export default async function AuthPage({ params: { lng } }) {
   const session = await auth();
 
   if (session) {
-    redirect("/");
+    redirect("/dashboard");
   }
 
   return (

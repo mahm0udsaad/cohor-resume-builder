@@ -10,12 +10,20 @@ const createStyles = (isArabic) =>
       backgroundColor: "white",
       fontFamily: isArabic ? "Cairo" : "Helvetica",
       color: "#374151", // text-gray-700
+      ...(isArabic
+        ? {
+            writingMode: "rtl",
+            direction: "rtl",
+            textAlign: "right",
+          }
+        : {}),
     },
     header: {
-      padding: 24,
+      padding: 16,
       flexDirection: "row",
       justifyContent: "space-between",
       color: "white",
+      flexDirection: isArabic ? "row-reverse" : "",
     },
     headerName: {
       fontSize: 20,
@@ -23,13 +31,13 @@ const createStyles = (isArabic) =>
     },
     headerTitle: {
       fontSize: 14,
-      marginTop: 8,
+      marginTop: 4,
     },
     contactInfo: {
       flexDirection: "row",
       flexWrap: "wrap",
       justifyContent: "center",
-      padding: 24,
+      padding: 14,
       borderBottom: 1,
       borderBottomColor: "#D1D5DB", // border-gray-300
     },
@@ -38,10 +46,10 @@ const createStyles = (isArabic) =>
       marginHorizontal: 4,
     },
     content: {
-      padding: 24,
+      padding: 16,
     },
     section: {
-      marginBottom: 24,
+      marginBottom: 10,
     },
     sectionTitle: {
       fontSize: 14,
@@ -50,15 +58,15 @@ const createStyles = (isArabic) =>
       letterSpacing: 1,
       borderBottom: 1,
       borderBottomColor: "#9CA3AF", // border-gray-400
-      paddingBottom: 8,
-      marginBottom: 16,
+      paddingBottom: 4,
+      marginBottom: 10,
     },
     summary: {
       fontSize: 10,
       lineHeight: 1.5,
     },
     experienceItem: {
-      marginBottom: 20,
+      marginBottom: 10,
     },
     jobTitle: {
       fontSize: 14,
@@ -70,7 +78,7 @@ const createStyles = (isArabic) =>
     },
     responsibilities: {
       fontSize: 10,
-      marginTop: 8,
+      marginTop: 4,
     },
     achievementsTitle: {
       fontSize: 10,
@@ -86,7 +94,7 @@ const createStyles = (isArabic) =>
       fontSize: 10,
     },
     educationItem: {
-      marginBottom: 12,
+      marginBottom: 5,
     },
     degree: {
       paddingBottom: 4,
@@ -118,17 +126,15 @@ const createStyles = (isArabic) =>
       color: "#4B5563", // text-gray-600
     },
   });
-
 const BoldTemplate = ({ resumeData }) => {
   const selectedTheme = resumeData?.theme || null;
   // Get translations based on the current language
   const t = translations[resumeData.lng] || translations.en;
   const isArabic = resumeData.lng === "ar";
   const styles = createStyles(isArabic);
-  const directionStyle = isArabic ? styles.rtl : {};
   return (
     <Document>
-      <Page size="A4" style={[styles.page, directionStyle]}>
+      <Page size="A4" style={styles.page}>
         <View
           style={[
             styles.header,
@@ -158,7 +164,7 @@ const BoldTemplate = ({ resumeData }) => {
             </Text>
           </View>
 
-          <View style={styles.section}>
+          <View style={styles.section} wrap={false}>
             <Text style={styles.sectionTitle}>{t.workExperience}</Text>
             {resumeData.experiences?.map((job, index) => (
               <View key={index} style={styles.experienceItem}>
@@ -170,25 +176,11 @@ const BoldTemplate = ({ resumeData }) => {
                 <Text style={styles.responsibilities}>
                   {job.responsibilities}
                 </Text>
-                {job.achievements?.length > 0 && (
-                  <View>
-                    <Text style={styles.achievementsTitle}>
-                      {t.achievements}
-                    </Text>
-                    <View style={styles.achievementsList}>
-                      {job.achievements.map((achievement, index) => (
-                        <Text key={index} style={styles.achievementItem}>
-                          • {achievement}
-                        </Text>
-                      ))}
-                    </View>
-                  </View>
-                )}
               </View>
             ))}
           </View>
 
-          <View style={styles.section}>
+          <View style={styles.section} wrap={false}>
             <Text style={styles.sectionTitle}>{t.education}</Text>
             {resumeData.educations?.map((edu, index) => (
               <View key={index} style={styles.educationItem}>
@@ -200,7 +192,7 @@ const BoldTemplate = ({ resumeData }) => {
             ))}
           </View>
 
-          <View style={styles.section}>
+          <View style={styles.section} wrap={false}>
             <Text style={styles.sectionTitle}>{t.skills}</Text>
             <View style={styles.skillsList}>
               {resumeData.skills?.map((skill, index) => (
@@ -212,7 +204,7 @@ const BoldTemplate = ({ resumeData }) => {
           </View>
 
           {resumeData.languages?.length > 0 && (
-            <View style={styles.section}>
+            <View style={styles.section} wrap={false}>
               <Text style={styles.sectionTitle}>{t.languages}</Text>
               <View style={styles.skillsList}>
                 {resumeData.languages?.map((lang, index) => (
@@ -225,7 +217,7 @@ const BoldTemplate = ({ resumeData }) => {
           )}
 
           {resumeData.courses?.length > 0 && (
-            <View style={styles.section}>
+            <View style={styles.section} wrap={false}>
               <Text style={styles.sectionTitle}>{t.courses}</Text>
               {resumeData.courses?.map((course, index) => (
                 <View key={index} style={styles.courseItem}>

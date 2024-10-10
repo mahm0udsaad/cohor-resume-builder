@@ -4,7 +4,6 @@ import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { dummyData } from "@/data/data";
 
 const ClientResumeTemplate = dynamic(
   () => import("@/components/component/render-template-view"),
@@ -37,7 +36,7 @@ export default async function ReviewPage({ params: { resumeName } }) {
           </div>
         </div>
         {resume && (
-          <ClientResumeTemplate templateName={resumeName} data={dummyData} />
+          <ClientResumeTemplate templateName={resumeName} data={resume} />
         )}
       </div>
     </div>

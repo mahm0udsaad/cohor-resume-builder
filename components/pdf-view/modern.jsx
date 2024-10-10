@@ -58,7 +58,7 @@ const createStyles = (isRTL) =>
       textAlign: isRTL ? "right" : "left", // RTL Support
     },
     experienceItem: {
-      marginBottom: 15,
+      marginBottom: 10,
       textAlign: isRTL ? "right" : "left", // RTL Support
     },
     jobTitle: {
@@ -82,6 +82,7 @@ const createStyles = (isRTL) =>
     },
     degree: {
       fontSize: 12,
+      marginBottom: 5,
       fontWeight: "bold",
     },
     institution: {
@@ -110,7 +111,7 @@ const Modern = ({ resumeData }) => {
 
   return (
     <Document>
-      <Page size="A4" style={styles.page} wrap={true}>
+      <Page size="A4" style={styles.page}>
         {/* Sidebar */}
         <View
           fixed

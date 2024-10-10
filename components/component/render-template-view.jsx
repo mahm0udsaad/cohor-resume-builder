@@ -9,12 +9,13 @@ const ClientResumeTemplate = ({ templateName, data, list }) => {
   if (!ResumeTemplate) {
     return <div>Template not found</div>;
   }
-  if (data.lng === "ar") {
+  if (data.lng == "ar") {
     Font.register({
       family: "Cairo",
       src: "/fonts/Cairo-Regular.ttf",
     });
   }
+
   return (
     <div className="w-full h-screen overflow-auto">
       <PDFViewer className=" top-20 sticky " width="100%" height="100%">

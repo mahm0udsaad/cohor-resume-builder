@@ -8,45 +8,48 @@ import { translations } from "@/data/data";
 const createStyles = (theme, isArabic) =>
   StyleSheet.create({
     page: {
-      flexDirection: "column",
-      padding: 40,
-      fontFamily: isArabic ? "Cario" : "Helvetica",
+      textAlign: isArabic ? "right" : "left",
+      padding: 20,
+      fontFamily: isArabic ? "Cairo" : "Helvetica",
+      writingMode: isArabic ? "rl-tb" : "lr-tb",
+      direction: isArabic ? "rtl" : "ltr",
     },
     header: {
       backgroundColor: theme.backgroundColor || "#EAEAEA",
       padding: 20,
       borderRadius: 8,
-      marginBottom: 20,
+      marginBottom: 12,
     },
     name: {
       fontSize: 28,
       fontWeight: "bold",
-      color: theme.primaryColor || "#333",
+      color: theme.primaryColor || "#0000",
       marginBottom: 8,
     },
     jobTitle: {
       fontSize: 14,
       color: "#666",
-      marginBottom: 10,
+      marginBottom: 6,
     },
     contactInfo: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       fontSize: 10,
       color: "#999",
     },
     contactItem: {
-      marginRight: 10,
+      marginRight: isArabic ? 0 : 10,
+      marginLeft: isArabic ? 10 : 0,
     },
     section: {
-      marginBottom: 20,
+      marginBottom: 6,
     },
     sectionTitle: {
       fontSize: 16,
       fontWeight: "bold",
       marginBottom: 8,
-      color: theme.primaryColor || "#333",
+      color: theme.primaryColor || "#0000",
       borderBottomWidth: 2,
-      borderBottomColor: theme.primaryColor || "#CCCCCC",
+      borderBottomColor: theme.backgroundColor || "#CCCCCC",
       paddingBottom: 4,
     },
     experienceItem: {
@@ -56,7 +59,7 @@ const createStyles = (theme, isArabic) =>
       fontSize: 12,
       marginBottom: 4,
       fontWeight: "bold",
-      color: theme.primaryColor || "#333",
+      color: theme.primaryColor || "#0000",
     },
     companyInfo: {
       fontSize: 10,
@@ -75,7 +78,7 @@ const createStyles = (theme, isArabic) =>
       marginBottom: 4,
       fontSize: 12,
       fontWeight: "bold",
-      color: theme.primaryColor || "#333",
+      color: theme.primaryColor || "#0000",
     },
     institution: {
       fontSize: 10,
@@ -106,7 +109,7 @@ const createStyles = (theme, isArabic) =>
 
 const ElegantResume = ({ resumeData }) => {
   const theme = resumeData.theme || {
-    primaryColor: "#6A1B9A",
+    primaryColor: "#00000",
     backgroundColor: "#F4F4F9",
   };
 
@@ -135,6 +138,12 @@ const ElegantResume = ({ resumeData }) => {
           </View>
         </View>
 
+        <View style={styles.section} wrap={false}>
+          <Text style={styles.sectionTitle}>{t.profile}</Text>
+          <Text style={styles.responsibilities}>
+            {resumeData.personalInfo.summary}
+          </Text>
+        </View>
         {/* Experience Section */}
         <View style={styles.section} wrap={false}>
           <Text style={styles.sectionTitle}>{t.workExperience}</Text>
