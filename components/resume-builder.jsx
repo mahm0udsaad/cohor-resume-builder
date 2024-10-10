@@ -66,7 +66,7 @@ export function ResumeBuilder({ resumeName, lng }) {
   return (
     <div className="min-h-screen">
       <div className="container-xl mx-auto p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 ">
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-12  `}>
           {/* Resume Form Column */}
           <div className="space-y-6 flex flex-col ">
             {showTemplates ? (
@@ -77,6 +77,7 @@ export function ResumeBuilder({ resumeName, lng }) {
                   value={activeTab}
                   onValueChange={handleTabChange}
                   className="w-full"
+                  style={{ direction: lng == "ar" ? "rtl" : "" }}
                 >
                   <TabsList className="grid grid-cols-5 mb-8">
                     {tabs.map(({ id, label, icon: Icon }) => (
@@ -141,18 +142,26 @@ export function ResumeBuilder({ resumeName, lng }) {
                 <div className="flex justify-between mb-8">
                   <Button
                     onClick={handlePreviousTab}
-                    className="bg-[#3B51A3] hover:bg-white hover:text-black"
+                    className={`bg-[#3B51A3] hover:bg-white hover:text-black`}
                   >
-                    <ChevronLeft className="h-4 w-4 mr-2" />
+                    <ChevronLeft
+                      className={`h-4 w-4 mx-2 ${
+                        lng == "ar" ? "rotate-180" : ""
+                      }`}
+                    />
                     {t("buttons.previous")} {/* Translation for 'Previous' */}
                   </Button>
                   <Button
                     disabled={activeTab === tabs[tabs.length - 1]}
                     onClick={handleNextTab}
-                    className="bg-[#3B51A3] hover:bg-white hover:text-black"
+                    className={`bg-[#3B51A3] hover:bg-white hover:text-black`}
                   >
                     {t("buttons.next")} {/* Translation for 'Next' */}
-                    <ChevronLeft className="h-4 w-4 ml-2 rotate-180" />
+                    <ChevronLeft
+                      className={`h-4 w-4 mx-2 ${
+                        lng == "ar" ? "" : "rotate-180"
+                      }`}
+                    />
                   </Button>
                 </div>
               </>
@@ -168,6 +177,7 @@ export function ResumeBuilder({ resumeName, lng }) {
             setSelectedTheme={setSelectedTheme}
             showTemplates={showTemplates}
             setShowTemplates={setShowTemplates}
+            lng={lng}
           />
         </div>
       </div>

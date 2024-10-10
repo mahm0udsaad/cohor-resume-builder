@@ -156,50 +156,59 @@ export default function SkillForm({ skills, updateData, lng }) {
                     {skill}
                   </div>
                 ))}
+                <div
+                  className={`px-4 py-2 cursor-pointer hover:bg-gray-100 `}
+                  onClick={() => {
+                    if (!skills.some((s) => s.name === searchTerm)) {
+                      addSkill(searchTerm);
+                    }
+                  }}
+                >
+                  {searchTerm}
+                </div>
               </div>
             )}
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 ">
-          {skills &&
-            skills.map((skill, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
-              >
-                <div className="flex-1">
-                  <div className="text-sm font-medium">{skill.name}</div>
-                </div>
-                <div className="w-48">
-                  <Select
-                    value={skill.level}
-                    onValueChange={(value) =>
-                      handleSkillChange(index, "level", value)
-                    }
-                  >
-                    <SelectTrigger className="border-[#3B51A3] focus:ring-[#3B51A3]">
-                      <SelectValue placeholder={t("skills.selectSkillLevel")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {skillLevels.map((level) => (
-                        <SelectItem key={level.value} value={level.value}>
-                          {t(`skills.${level.label.toLowerCase()}`)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button
-                  onClick={() => deleteSkill(index)}
-                  size="icon"
-                  variant="ghost"
-                  className="text-gray-500 hover:text-red-500"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+        <div className="grid grid-cols-2 gap-2">
+          {skills.map((skill, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
+            >
+              <div className="flex-1">
+                <div className="text-sm font-medium">{skill.name}</div>
               </div>
-            ))}
+              <div className="w-48">
+                <Select
+                  value={skill.level}
+                  onValueChange={(value) =>
+                    handleSkillChange(index, "level", value)
+                  }
+                >
+                  <SelectTrigger className="border-[#3B51A3] focus:ring-[#3B51A3]">
+                    <SelectValue placeholder={t("skills.selectSkillLevel")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {skillLevels.map((level) => (
+                      <SelectItem key={level.value} value={level.value}>
+                        {t(`skills.${level.label.toLowerCase()}`)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button
+                onClick={() => deleteSkill(index)}
+                size="icon"
+                variant="ghost"
+                className="text-gray-500 hover:text-red-500"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          ))}
         </div>
 
         {skills.length === 0 && (
@@ -209,18 +218,6 @@ export default function SkillForm({ skills, updateData, lng }) {
             </span>
             <Button variant="ghost" onClick={resetSkills}>
               {t("skills.reset")}
-            </Button>
-          </div>
-        )}
-
-        {searchTerm && !filteredSkills.includes(searchTerm) && (
-          <div className="flex justify-end mt-4">
-            <Button
-              onClick={() => addSkill(searchTerm)}
-              className="bg-[#3B51A3] hover:bg-white hover:text-black"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              {t("skills.addCustomSkill")}
             </Button>
           </div>
         )}

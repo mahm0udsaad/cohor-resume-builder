@@ -135,6 +135,15 @@ const Modern = ({ resumeData }) => {
             </View>
           </View>
 
+          <View wrap={false}>
+            <Text style={styles.sectionTitle}>{t.profile}</Text>{" "}
+            {/* Use translation */}
+            <View style={styles.experienceItem}>
+              <Text style={styles.responsibilities}>
+                {resumeData.personalInfo?.summary}
+              </Text>
+            </View>
+          </View>
           {/* Experience Section */}
           {resumeData.experiences?.length > 0 && (
             <View wrap={false}>

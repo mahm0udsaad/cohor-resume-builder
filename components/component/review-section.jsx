@@ -40,6 +40,7 @@ export function ResumePreview({
   setSelectedTheme,
   showTemplates,
   setShowTemplates,
+  lng,
 }) {
   // Memoize the ResumeComponent to prevent unnecessary re-renders
   const ResumeComponent = useMemo(
@@ -77,6 +78,7 @@ export function ResumePreview({
           <ThemeSelector
             selectedTheme={selectedTheme}
             setSelectedTheme={setSelectedTheme}
+            lng={lng}
           />
 
           <Button

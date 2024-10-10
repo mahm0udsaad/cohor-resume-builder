@@ -16,3 +16,7 @@
 
 - add more templates ( 10 )
 - add paymob test payments
+
+## Take Care OF
+
+1.

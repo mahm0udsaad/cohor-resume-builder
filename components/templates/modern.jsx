@@ -59,6 +59,17 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
 
         <section className="mb-6">
           <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+            {t.profile} {/* Translated Work Experience */}
+          </h2>
+          <div className="mb-5">
+            <p className="text-sm text-gray-600 mt-2">
+              {resumeData.personalInfo.summary}
+            </p>
+          </div>
+        </section>
+
+        <section className="mb-6">
+          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
             {t.workExperience} {/* Translated Work Experience */}
           </h2>
           {resumeData.experiences?.map((job, index) => (

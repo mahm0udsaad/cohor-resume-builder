@@ -79,7 +79,7 @@ export function AiSuggestionTextarea({
           name="summary"
           value={textContent}
           onChange={handleTextChange}
-          placeholder="Enter your text here..."
+          placeholder={t("aiTextAreaPlaceholder")}
           rows={4}
           className="border-[#3B51A3] focus:ring-[#3B51A3] h-11/12 w-full pr-10"
         />
@@ -89,7 +89,9 @@ export function AiSuggestionTextarea({
               onClick={handleClick}
               disabled={isLoading}
               size="icon"
-              className="absolute right-2 bottom-2 bg-[#3B51A3] hover:bg-white hover:text-black"
+              className={`absolute ${
+                lng == "ar" ? "left-2" : "right-2"
+              } bottom-2 bg-[#3B51A3] hover:bg-white hover:text-black`}
             >
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

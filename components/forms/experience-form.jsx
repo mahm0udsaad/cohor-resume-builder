@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import DatePicker from "../component/datePicker";
 import { useTranslation } from "@/app/i18n/client";
 import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
+import { Checkbox } from "../ui/checkbox";
 
 export default function ExperienceForm({ experiences, updateData, lng }) {
   const { t } = useTranslation(lng, "forms"); // Initialize the translation hook
@@ -100,12 +101,32 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
                   label={t("workExperience.startDate")}
                 />
                 <DatePicker
+                  disabled={exp.endDate === "Present"}
                   value={exp.endDate}
                   onChange={(value) =>
                     handleExperienceChange(index, "endDate", value)
                   }
                   label={t("workExperience.endDate")}
                 />
+              </div>
+              <div className="flex justify-end">
+                <div className="flex items-center w-[47%] justify-start gap-3 mb-2">
+                  <Checkbox
+                    type="checkbox"
+                    id={`endDatePresent-${index}`}
+                    checked={exp.endDate === "Present"}
+                    onCheckedChange={(e) => {
+                      if (e) {
+                        handleExperienceChange(index, "endDate", "Present");
+                      } else {
+                        handleExperienceChange(index, "endDate", "");
+                      }
+                    }}
+                  />
+                  <label htmlFor={`endDatePresent-${index}`}>
+                    {t("workExperience.endDatePresent")}
+                  </label>
+                </div>
               </div>
               <div>
                 <AiSuggestionTextarea
@@ -125,7 +146,7 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
             onClick={addExperience}
             className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
           >
-            <Plus className="h-4 w-4 mr-2" />{" "}
+            <Plus className="h-4 w-4 mx-2" />{" "}
             {t("workExperience.addExperience")}
           </Button>
         </div>

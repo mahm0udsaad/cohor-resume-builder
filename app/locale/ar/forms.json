@@ -7,6 +7,7 @@
   "addEducation": "أضف تعليم",
   "degreePlaceholder": "بكالوريوس العلوم",
   "institutionPlaceholder": "اسم الجامعة",
+  "aiTextAreaPlaceholder": "... أدخل تعليماتك هنا",
   "personalInfo": {
     "title": "المعلومات الشخصية",
     "fullName": "الاسم الكامل",
@@ -37,6 +38,7 @@
     "responsibilitiesPlaceholder": "وصف المسؤوليات والإنجازات الرئيسية",
     "generateAI": "إنشاء باستخدام الذكاء الاصطناعي",
     "addExperience": "إضافة خبرة",
+    "endDatePresent": "ألي ألان",
     "removeExperience": "إزالة آخر خبرة"
   },
   "reviewResume": {
@@ -63,6 +65,8 @@
     "downloadPDF": "تحميل PDF"
   },
   "skills": {
+    "noSkillsSelected": "لا توجد مهارات محددة",
+    "reset": "إعادة تعيين",
     "title": "المهارات",
     "skillName": "اسم المهارة",
     "selectOrTypeSkill": "اختر أو اكتب مهارة",

@@ -44,7 +44,7 @@ export const themes = [
   },
 ];
 
-export function ThemeSelector({ selectedTheme, setSelectedTheme }) {
+export function ThemeSelector({ selectedTheme, setSelectedTheme, lng }) {
   const [isHovered, setIsHovered] = useState(false);
   const timeoutRef = useRef(null);
 
@@ -75,7 +75,7 @@ export function ThemeSelector({ selectedTheme, setSelectedTheme }) {
     >
       <Button
         variant="outline"
-        className={` border shadow-lg hover:shadow-none flex h-fit items-center rounded-md px-2 hover:bg-[#3B51A3] hover:text-white`}
+        className={`border shadow-lg hover:shadow-none flex h-fit items-center rounded-md px-2 hover:bg-[#3B51A3] hover:text-white`}
       >
         <Palette className="size-5" />
         <span className="sr-only">Toggle theme</span>
@@ -83,11 +83,13 @@ export function ThemeSelector({ selectedTheme, setSelectedTheme }) {
       <AnimatePresence>
         {isHovered && (
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: lng === "ar" ? 20 : -20 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
+            exit={{ opacity: 0, x: lng === "ar" ? 20 : -20 }}
             transition={{ duration: 0.2 }}
-            className="absolute left-full ml-2 top-0 flex space-x-2 bg-background p-1.5 z-50 rounded-md shadow-md"
+            className={`absolute ${
+              lng === "ar" ? "right-full mx-2" : "left-full mx-2"
+            } top-0 flex gap-2 bg-background p-1.5 z-50 rounded-md shadow-md`}
           >
             {themes.map((theme) => (
               <TooltipProvider key={theme.id}>

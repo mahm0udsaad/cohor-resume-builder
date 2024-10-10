@@ -7,6 +7,7 @@
   "addEducation": "Add Education",
   "degreePlaceholder": "Bachelor of Science",
   "institutionPlaceholder": "University Name",
+  "aiTextAreaPlaceholder": "Enter your text here...",
   "personalInfo": {
     "title": "Personal Information",
     "fullName": "Full Name",
@@ -37,7 +38,8 @@
     "responsibilitiesPlaceholder": "Describe your key responsibilities and achievements",
     "generateAI": "Generate with AI",
     "addExperience": "Add Experience",
-    "removeExperience": "Remove Last"
+    "removeExperience": "Remove Last",
+    "endDatePresent": "Present"
   },
   "reviewResume": {
     "title": "Review Your Resume",
@@ -62,6 +64,8 @@
     "downloadPDF": "Download PDF"
   },
   "skills": {
+    "noSkillsSelected": "No skills selected",
+    "reset": "Reset",
     "title": "Skills",
     "skillName": "Skill Name",
     "selectOrTypeSkill": "Select or type a skill",
