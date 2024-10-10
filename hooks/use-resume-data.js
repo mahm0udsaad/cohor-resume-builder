@@ -1,7 +1,7 @@
 import { useReducer, useEffect, useRef } from "react";
 
 const initialState = {
-  lng: "en", // Initial language state
+  lng: "en",
   personalInfo: {
     name: "",
     jobTitle: "",
@@ -26,34 +26,41 @@ const initialState = {
 function resumeReducer(state, action) {
   switch (action.type) {
     case "LOAD":
-      return action.data;
-    case "ADD_SKILL":
       return {
-        ...state,
-        sections: {
-          ...state.sections,
-          skills: [...state.sections.skills, action.payload],
-        },
+        ...action.data,
+        experiences: sortExperiencesByDate(action.data.experiences),
       };
     case "UPDATE":
     case "ADD":
-    case "REMOVE":
-      return updateNestedState(state, action);
-    case "TOGGLE_LANGUAGE": // New action type for toggling language
+    case "REMOVE": {
+      const newState = updateNestedState(state, action);
+      if (action.path[0] === "experiences") {
+        newState.experiences = sortExperiencesByDate(newState.experiences);
+      }
+      return newState;
+    }
+    case "TOGGLE_LANGUAGE":
       return {
         ...state,
-        lng: state.lng === "en" ? "ar" : "en", // Toggle between "en" and "ar"
+        lng: state.lng === "en" ? "ar" : "en",
       };
     default:
       return state;
   }
 }
 
+function sortExperiencesByDate(experiences) {
+  return [...experiences].sort((a, b) => {
+    const dateA = a.endDate === "Present" ? new Date() : new Date(a.endDate);
+    const dateB = b.endDate === "Present" ? new Date() : new Date(b.endDate);
+    return dateB - dateA;
+  });
+}
+
 function updateNestedState(state, action) {
-  const newState = structuredClone(state); // Cloning the state
+  const newState = structuredClone(state);
   let current = newState;
 
-  // Traverse to the nested property
   action.path.slice(0, -1).forEach((key) => {
     current[key] = current[key] || {};
     current = current[key];
@@ -89,24 +96,19 @@ export function useResumeData(debounceTime = 3000) {
   }, []);
 
   useEffect(() => {
-    // Clear previous timeout if any
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
-    // Set a new timeout to delay saving to sessionStorage
     timeoutRef.current = setTimeout(() => {
       sessionStorage.setItem("resumeData", JSON.stringify(resumeData));
     }, debounceTime);
 
-    // Cleanup function to clear timeout if component unmounts or before next effect
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [resumeData, debounceTime]);
 
   const updateResumeData = (action) => dispatch(action);
-
-  // Function to toggle language
   const toggleLanguage = () => dispatch({ type: "TOGGLE_LANGUAGE" });
 
-  return { resumeData, updateResumeData, toggleLanguage }; // Expose toggleLanguage
+  return { resumeData, updateResumeData, toggleLanguage };
 }
