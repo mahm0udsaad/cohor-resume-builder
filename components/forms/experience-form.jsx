@@ -108,12 +108,6 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
                 />
               </div>
               <div>
-                <Label
-                  htmlFor={`responsibilities-${index}`}
-                  className="text-black"
-                >
-                  {t("workExperience.responsibilities")}
-                </Label>
                 <AiSuggestionTextarea
                   isExperince
                   data={exp.responsibilities}

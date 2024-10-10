@@ -149,7 +149,6 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
             >
               <Plus className="h-4 w-4 mr-2" />
               {t("personalInfo.addContact")}{" "}
-              {/* Translation for "Add Contact" */}
             </Button>
           </div>
 
@@ -157,6 +156,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
             <AiSuggestionTextarea
               lng={lng}
               data={data.summary}
+              jobTitle={data.jobTitle}
               onChange={handleSummaryChange}
             />
           </div>

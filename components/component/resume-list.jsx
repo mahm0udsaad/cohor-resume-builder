@@ -12,7 +12,6 @@ const ResumeList = async () => {
         resumes.map((resume) => (
           <ResumeCard list key={resume.id} resume={resume} user={user} />
         ))}
-      <ResumeCard isNewCard />
     </div>
   );
 };

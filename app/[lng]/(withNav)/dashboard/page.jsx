@@ -7,6 +7,9 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import Link from "next/link";
+import { Plus } from "lucide-react";
+import { useTranslation } from "@/app/i18n";
 
 const ResumeList = dynamic(() => import("@/components/component/resume-list"), {
   loading: () => <Skeleton className={"w-full h-full"} />,
@@ -15,7 +18,7 @@ const ResumeList = dynamic(() => import("@/components/component/resume-list"), {
 const DashboardPage = async ({ params: { lng } }) => {
   const session = await auth();
   if (!session) redirect("/auth");
-
+  const { t } = await useTranslation(lng, "common");
   const userInfo = await getUserWithDetails(session.user.email);
   const { personalInfo, experiences, educations, skills, languages, courses } =
     userInfo;
@@ -27,9 +30,13 @@ const DashboardPage = async ({ params: { lng } }) => {
           <h1 className="text-3xl font-bold text-[#3b51a3]">
             Resume Dashboard
           </h1>
-          <Button variant="outline" className="flex items-center gap-2">
-            <span>{session.user.name}</span>
-          </Button>
+          <Link
+            href={`/gallery`}
+            className="flex items-center gap-4 hover:bg-blue-600 rounded-md bg-[#3b51a3] px-4 py-2 text-white"
+          >
+            {t("createNewResume")}
+            <Plus size={20} />
+          </Link>
         </div>
         <Tabs defaultValue="myInformation" className="w-full">
           <TabsList className="mb-4">
