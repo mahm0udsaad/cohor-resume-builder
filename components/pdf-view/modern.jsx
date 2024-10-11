@@ -46,6 +46,9 @@ const createStyles = (isRTL) =>
     contactItem: {
       marginRight: 5,
     },
+    section: {
+      textAlign: isRTL ? "right" : "left", // RTL Alignment
+    },
     sectionTitle: {
       fontSize: 16,
       fontWeight: "bold",
@@ -90,11 +93,14 @@ const createStyles = (isRTL) =>
       color: "grey",
     },
     skillsGrid: {
-      flexDirection: "row",
+      flexDirection: isRTL ? "row-reverse" : "row",
       flexWrap: "wrap",
       marginTop: 5,
     },
     skillItem: {
+      display: "flex",
+      gap: 2,
+      flexDirection: isRTL ? "row-reverse" : "row",
       width: "50%",
       fontSize: 10,
       marginBottom: 5,
@@ -181,9 +187,9 @@ const Modern = ({ resumeData }) => {
           )}
 
           {/* Courses Section */}
-          {resumeData.courses?.length > 0 && (
+          {resumeData.courses[0].name.trim() !== "" && (
             <View wrap={false}>
-              <Text style={styles.sectionTitle}>{t.courses}</Text>{" "}
+              <Text style={styles.sectionTitle}>{t.courses}</Text>
               {/* Use translation */}
               {resumeData.courses.map((course, index) => (
                 <View key={index} style={styles.educationItem}>
@@ -198,29 +204,35 @@ const Modern = ({ resumeData }) => {
 
           {/* Skills Section */}
           {resumeData.skills?.length > 0 && (
-            <View wrap={false}>
+            <View style={styles.section} wrap={false}>
               <Text style={styles.sectionTitle}>{t.skills}</Text>{" "}
               {/* Use translation */}
               <View style={styles.skillsGrid}>
                 {resumeData.skills.map((skill, index) => (
-                  <Text key={index} style={styles.skillItem}>
-                    • {skill.name}
-                  </Text>
+                  <View key={index} style={styles.skillItem}>
+                    <Text>•</Text>
+                    <Text>
+                      {skill.name} - ({t[skill.level]})
+                    </Text>
+                  </View>
                 ))}
               </View>
             </View>
           )}
 
           {/* Languages Section */}
-          {resumeData.languages?.length > 0 && (
-            <View wrap={false}>
+          {resumeData.languages[0]?.name.trim() !== "" && (
+            <View style={styles.section} wrap={false}>
               <Text style={styles.sectionTitle}>{t.languages}</Text>{" "}
               {/* Use translation */}
               <View style={styles.skillsGrid}>
                 {resumeData.languages.map((lang, index) => (
-                  <Text key={index} style={styles.skillItem}>
-                    • {lang.name}
-                  </Text>
+                  <View key={index} style={styles.skillItem}>
+                    <Text>•</Text>
+                    <Text>
+                      {lang.name} - ({lang.proficiency})
+                    </Text>
+                  </View>
                 ))}
               </View>
             </View>

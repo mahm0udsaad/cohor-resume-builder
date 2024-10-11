@@ -100,7 +100,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           ))}
         </section>
 
-        {resumeData.courses && (
+        {resumeData.courses[0].name.trim() !== "" && (
           <section className="mb-6">
             <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
               {t.courses} {/* Translated Courses */}
@@ -122,19 +122,23 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           </h2>
           <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
             {resumeData.skills?.map((skill, index) => (
-              <li key={index}>{skill.name}</li>
+              <li key={index}>
+                {skill.name} - ({t[skill.level] || skill.level})
+              </li>
             ))}
           </ul>
         </section>
 
-        {resumeData.languages?.length > 0 && (
+        {resumeData.languages[0]?.name.trim() !== "" && (
           <section className="mb-6">
             <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
               {t.languages} {/* Translated Languages */}
             </h2>
             <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
               {resumeData.languages?.map((lang, index) => (
-                <li key={index}>{lang.name}</li>
+                <li key={index}>
+                  {lang.name} - ({lang.proficiency})
+                </li>
               ))}
             </ul>
           </section>
