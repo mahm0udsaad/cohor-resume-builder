@@ -18,6 +18,13 @@ export function formatDate(dateInput) {
 }
 
 export const parseDate = (dateString) => {
+  if (!dateString) return null;
+  if (
+    typeof dateString === "string" &&
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(dateString)
+  ) {
+    return dateString;
+  }
   const date = new Date(`${dateString}T00:00:00.000Z`);
   return date.toISOString();
 };

@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { format, parseISO, setYear } from "date-fns";
-import { CalendarIcon, ChevronDown } from "lucide-react";
+import { format, parseISO, setYear, isValid } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -35,38 +35,68 @@ const DatePicker = ({
   const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
   const formatDate = (date, dateFormat) => {
-    if (!date || date === "Present") return date;
+    if (!date) return "";
+    if (date === "Present") return date;
+
     try {
       const parsedDate = typeof date === "string" ? parseISO(date) : date;
+      if (!isValid(parsedDate)) return "";
       return format(parsedDate, dateFormat);
     } catch (error) {
       console.error("Invalid date:", date);
       return "";
     }
   };
+
   const handleSelect = (date) => {
-    onChange(date ? format(date, inputFormat) : "");
-    if (date) {
+    if (!date) {
+      onChange("");
+      return;
+    }
+
+    try {
+      const formattedDate = format(date, inputFormat);
+      onChange(formattedDate);
       setCalendarDate(date);
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      onChange("");
     }
   };
 
   const handleYearChange = (year) => {
-    const newDate = setYear(calendarDate, parseInt(year));
-    setCalendarDate(newDate);
-    setIsYearSelectOpen(false);
+    try {
+      const newDate = setYear(calendarDate, parseInt(year));
+      setCalendarDate(newDate);
+      setIsYearSelectOpen(false);
+    } catch (error) {
+      console.error("Error changing year:", error);
+    }
   };
 
-  // Prevent click events from bubbling up to the Drawer
+  // Prevent click events from bubbling up
   const handleClick = (e) => {
     e.stopPropagation();
   };
 
+  // Initialize or update calendar date when value changes
   React.useEffect(() => {
-    if (value) {
-      setCalendarDate(parseISO(value));
+    if (!value || value === "Present") {
+      setCalendarDate(new Date());
+      return;
+    }
+
+    try {
+      const parsedDate = parseISO(value);
+      if (isValid(parsedDate)) {
+        setCalendarDate(parsedDate);
+      }
+    } catch (error) {
+      console.error("Error parsing date:", error);
     }
   }, [value]);
+
+  const displayValue = formatDate(value, displayFormat);
 
   return (
     <div className="relative" onClick={handleClick}>
@@ -77,17 +107,13 @@ const DatePicker = ({
             variant={"outline"}
             className={cn(
               "w-full justify-start text-left font-normal border-[#3B51A3] focus:ring-[#3B51A3]",
-              !value && "text-muted-foreground",
+              !displayValue && "text-muted-foreground",
               disabled && "cursor-not-allowed opacity-50",
             )}
             disabled={disabled}
           >
             <CalendarIcon className="mx-2 h-4 w-4" />
-            {value ? (
-              formatDate(value, displayFormat)
-            ) : (
-              <span>Pick a date</span>
-            )}
+            {displayValue || <span>Pick a date</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent
@@ -116,7 +142,9 @@ const DatePicker = ({
           </div>
           <Calendar
             mode="single"
-            selected={value ? parseISO(value) : undefined}
+            selected={
+              value && value !== "Present" ? parseISO(value) : undefined
+            }
             onSelect={handleSelect}
             month={calendarDate}
             onMonthChange={setCalendarDate}

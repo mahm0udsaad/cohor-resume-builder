@@ -1,8 +1,6 @@
 ## TODO
 
-- Add & modify the userData on the Dashboard
-
-2. add languages and courses forms
+2. add languages and courses forms ( Dashboard )
 3. display this information when the user create new resume
 
 ## PDF View
@@ -19,4 +17,4 @@
 
 ## Take Care OF
 
-1.
+i have this on the dashboard where the user can store his info but thie previues one was in the builder
