@@ -41,7 +41,7 @@ const createStyles = (theme, isArabic) =>
       marginLeft: isArabic ? 10 : 0,
     },
     section: {
-      marginBottom: 6,
+      marginBottom: 14,
     },
     sectionTitle: {
       fontSize: 16,
@@ -141,7 +141,7 @@ const ElegantResume = ({ resumeData }) => {
         <View style={styles.section} wrap={false}>
           <Text style={styles.sectionTitle}>{t.profile}</Text>
           <Text style={styles.responsibilities}>
-            {resumeData.personalInfo.summary}
+            {resumeData.personalInfo?.summary}
           </Text>
         </View>
         {/* Experience Section */}

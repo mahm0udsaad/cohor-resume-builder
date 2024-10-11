@@ -1,7 +1,7 @@
 export function formatDate(dateInput) {
   // If the input is already in the desired format, return it as is
+  if (dateInput === "present" || dateInput === "Present") return "Present";
   if (!dateInput) return "N/A";
-  if (dateInput === "Present") return "Present";
   if (typeof dateInput === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
     return dateInput;
   }
@@ -18,7 +18,7 @@ export function formatDate(dateInput) {
 }
 
 export const parseDate = (dateString) => {
-  if (!dateString) return null;
+  if (!dateString || dateString === "Present") return null;
   if (
     typeof dateString === "string" &&
     /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(dateString)

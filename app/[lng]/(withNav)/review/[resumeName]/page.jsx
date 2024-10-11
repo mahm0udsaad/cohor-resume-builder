@@ -18,6 +18,7 @@ export default async function ReviewPage({ params: { resumeName } }) {
   if (!session) redirect("/auth");
   const { user } = session;
   const resume = await getResume(user.email, resumeName);
+  console.log(resume);
 
   return (
     <div className="bg-gray-50 min-h-[90dvh]">

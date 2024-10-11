@@ -1,5 +1,6 @@
 "use server";
 
+import { parseDate } from "@/helper/date";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -74,10 +75,24 @@ export async function getResume(email, resumeName) {
       where: { userId: user.id, name: resumeName },
       include: {
         theme: true,
+        experiences: true, // Assuming you want to fetch experiences too
       },
     });
 
-    return resume || {};
+    if (!resume) {
+      return { success: false, error: "Resume not found" };
+    }
+
+    // Map through experiences and convert null endDates to "present"
+    const formattedResume = {
+      ...resume,
+      experiences: resume.experiences?.map((experience) => ({
+        ...experience,
+        endDate: experience.endDate === null ? "present" : experience.endDate,
+      })),
+    };
+
+    return formattedResume;
   } catch (error) {
     console.error("Error getting resume:", error);
     return { success: false, error: error.message };
@@ -115,12 +130,6 @@ export async function deleteResume(resumeId, email) {
   }
 }
 
-// Helper function to parse and validate dates
-const parseDate = (dateString) => {
-  const date = new Date(dateString);
-  return isNaN(date.getTime()) ? null : date.toISOString();
-};
-
 // Function to update or create user resume data
 export const updateUserResumeData = async (
   userEmail,
@@ -145,13 +154,13 @@ export const updateUserResumeData = async (
       },
     });
 
-    // Ensure date fields are properly formatted
+    // Ensure date fields are properly formatted, including handling "present"
     const formattedResumeData = {
       ...updatedResumeData,
       experiences: updatedResumeData.experiences?.map((experience) => ({
         ...experience,
         startDate: parseDate(experience.startDate),
-        endDate: parseDate(experience.endDate),
+        endDate: parseDate(experience.endDate), // Handle "present"
       })),
       educations: updatedResumeData.educations?.map((education) => ({
         ...education,

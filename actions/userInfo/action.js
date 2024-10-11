@@ -109,11 +109,16 @@ export async function addOrUpdateExperience(userId, experienceData) {
     const formattedStartDate = startDate
       ? new Date(startDate).toISOString()
       : null;
-    const formattedEndDate = endDate ? new Date(endDate).toISOString() : null;
+
+    // Handle "present" case for endDate
+    const formattedEndDate =
+      endDate === "present" ? null : new Date(endDate).toISOString();
 
     if (
       isNaN(new Date(formattedStartDate)) ||
-      (formattedEndDate && isNaN(new Date(formattedEndDate)))
+      (formattedEndDate &&
+        endDate !== "present" &&
+        isNaN(new Date(formattedEndDate)))
     ) {
       throw new Error("Invalid date format provided");
     }
@@ -138,7 +143,7 @@ export async function addOrUpdateExperience(userId, experienceData) {
         jobTitle,
         company,
         startDate: formattedStartDate,
-        endDate: formattedEndDate,
+        endDate: formattedEndDate, // Store as null if "present"
         responsibilities,
       },
     ];
@@ -227,11 +232,16 @@ export async function updateExperience(
     const formattedStartDate = startDate
       ? new Date(startDate).toISOString()
       : null;
-    const formattedEndDate = endDate ? new Date(endDate).toISOString() : null;
+
+    // Handle "present" case for endDate
+    const formattedEndDate =
+      endDate === "present" ? null : new Date(endDate).toISOString();
 
     if (
       isNaN(new Date(formattedStartDate)) ||
-      (formattedEndDate && isNaN(new Date(formattedEndDate)))
+      (formattedEndDate &&
+        endDate !== "present" &&
+        isNaN(new Date(formattedEndDate)))
     ) {
       throw new Error("Invalid date format provided");
     }
@@ -261,7 +271,7 @@ export async function updateExperience(
             jobTitle,
             company,
             startDate: formattedStartDate,
-            endDate: formattedEndDate,
+            endDate: formattedEndDate, // Store as null if "present"
             responsibilities,
           }
         : exp,

@@ -61,6 +61,20 @@ const ElegantResume = ({ resumeData, selectedTheme, className }) => {
         </div>
       </div>
 
+      <section className="mb-8">
+        <h3
+          style={{ color: theme.primaryColor }}
+          className="text-2xl font-semibold border-b-2 border-gray-300 pb-2 mb-2 sm:text-xl sm:mb-4"
+        >
+          {t.profile}
+        </h3>
+        <div className="mb-2 sm:mb-4">
+          <p className="text-sm text-gray-600 mt-2 sm:text-xs sm:mt-1">
+            {resumeData.personalInfo?.summary}
+          </p>
+        </div>
+      </section>
+
       {/* Experience Section */}
       <section className="mb-8">
         <h3
