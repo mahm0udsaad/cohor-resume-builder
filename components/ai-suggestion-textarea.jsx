@@ -71,7 +71,7 @@ export function AiSuggestionTextarea({
   return (
     <div className="w-full">
       <div className="relative">
-        <Label htmlFor="summary" className="text-[#20133E]">
+        <Label htmlFor="summary" className="text-main">
           {t("personalInfo.summary")}
         </Label>
         <Textarea

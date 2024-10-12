@@ -60,7 +60,7 @@ const FlatDatePicker = ({
 
   return (
     <div className="space-y-2 w-full">
-      <Label className="text-[#20133E]">{label}</Label>
+      <Label className="text-main">{label}</Label>
       <Input
         value={value ? formatDate(value, displayFormat) : ""}
         readOnly

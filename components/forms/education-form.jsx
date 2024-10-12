@@ -37,7 +37,7 @@ export default function EducationForm({ educations, updateData, lng }) {
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-[#20133E] pb-2 border-b">
+        <h2 className="text-2xl font-semibold mb-4 text-main pb-2 border-b">
           {t("education.title")} {/* Translation for 'Education' */}
         </h2>
         {educations.map((edu, index) => (
@@ -54,7 +54,7 @@ export default function EducationForm({ educations, updateData, lng }) {
             </div>
             <div className="grid grid-cols-2 gap-4 mb-2 mt-8">
               <div>
-                <Label htmlFor={`degree-${index}`} className="text-[#20133E]">
+                <Label htmlFor={`degree-${index}`} className="text-main">
                   {t("degree")} {/* Translation for 'Degree' */}
                 </Label>
                 <Input
@@ -68,10 +68,7 @@ export default function EducationForm({ educations, updateData, lng }) {
                 />
               </div>
               <div>
-                <Label
-                  htmlFor={`institution-${index}`}
-                  className="text-[#20133E]"
-                >
+                <Label htmlFor={`institution-${index}`} className="text-main">
                   {t("institution")} {/* Translation for 'Institution' */}
                 </Label>
                 <Input

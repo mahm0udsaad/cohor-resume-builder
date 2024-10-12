@@ -8,7 +8,7 @@ const createStyles = (isArabic) =>
   StyleSheet.create({
     page: {
       backgroundColor: "white",
-      fontFamily: isArabic ? "Cairo" : "Helvetica",
+      fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
       color: "#374151", // text-gray-700
       ...(isArabic
         ? {
@@ -134,7 +134,7 @@ const BoldTemplate = ({ resumeData }) => {
   const styles = createStyles(isArabic);
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="B4" style={styles.page}>
         <View
           style={[
             styles.header,

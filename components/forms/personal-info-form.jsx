@@ -54,14 +54,13 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-[#20133E] pb-2 border-b">
+        <h2 className="text-2xl font-semibold mb-4 text-main pb-2 border-b">
           {t("personalInfo.title")}{" "}
-          {/* Translation for "Personal Information" */}
         </h2>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <Label htmlFor="name" className="text-[#20133E]">
+              <Label htmlFor="name" className="text-main">
                 {t("personalInfo.fullName")} {/* Translation for "Full Name" */}
               </Label>
               <Input
@@ -74,7 +73,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
               />
             </div>
             <div>
-              <Label htmlFor="email" className="text-[#20133E]">
+              <Label htmlFor="email" className="text-main">
                 {t("personalInfo.email")} {/* Translation for "Email" */}
               </Label>
               <Input
@@ -90,7 +89,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
           </div>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <Label htmlFor="jobTitle" className="text-[#20133E]">
+              <Label htmlFor="jobTitle" className="text-main">
                 {t("personalInfo.jobTitle")} {/* Translation for "Job Title" */}
               </Label>
               <Input
@@ -103,7 +102,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
               />
             </div>
             <div>
-              <Label htmlFor="phone" className="text-[#20133E]">
+              <Label htmlFor="phone" className="text-main">
                 {t("personalInfo.phone")} {/* Translation for "Phone" */}
               </Label>
               <Input

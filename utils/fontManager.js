@@ -7,7 +7,7 @@ export const registerFonts = async () => {
   console.log(fontsLoaded);
   try {
     Font.register({
-      family: "Cairo",
+      family: "IBM Plex Sans Arabic",
       src: "https://fonts.gstatic.com/s/cairo/v17/SLXgc-Blk.ttf",
     });
     console.log(fontsLoaded);

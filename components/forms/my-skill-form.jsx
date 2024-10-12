@@ -91,7 +91,7 @@ export default function SkillCard({ user, lng }) {
     startTransition(async () => {
       try {
         const result = await saveSkills(user.id, localSkills);
-        
+
         if (result.success) {
           toast({
             variant: "success",
@@ -117,7 +117,7 @@ export default function SkillCard({ user, lng }) {
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-2xl font-semibold text-[#20133E]">
+        <CardTitle className="text-2xl font-semibold text-main">
           {t("skills.title")}
         </CardTitle>
         {hasChanges() && (
@@ -140,7 +140,7 @@ export default function SkillCard({ user, lng }) {
 
       <CardContent className="p-6">
         <div className="mb-6">
-          <Label htmlFor="skill-search" className="text-[#20133E]">
+          <Label htmlFor="skill-search" className="text-main">
             {t("skills.addSkill")}
           </Label>
           <div className="relative">
@@ -175,7 +175,7 @@ export default function SkillCard({ user, lng }) {
                     onClick={() => addLocalSkill(searchTerm)}
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    {t("skills.addCustomSkill")}: {searchTerm}
+                    {searchTerm}
                   </div>
                 )}
               </div>
@@ -190,7 +190,7 @@ export default function SkillCard({ user, lng }) {
               className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border-b"
             >
               <div className="flex-1">
-                <h3 className="font-medium text-[#20133E]">{skill.name}</h3>
+                <h3 className="font-medium text-main">{skill.name}</h3>
               </div>
               <div className="w-48">
                 <Select

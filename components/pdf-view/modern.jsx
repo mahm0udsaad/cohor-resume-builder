@@ -14,7 +14,7 @@ import { translations } from "@/data/data";
 const createStyles = (isRTL) =>
   StyleSheet.create({
     page: {
-      fontFamily: isRTL ? "Cairo" : "",
+      fontFamily: isRTL ? "IBM Plex Sans Arabic" : "",
       flexDirection: isRTL ? "row-reverse" : "row", // RTL Support
       backgroundColor: "white",
     },
@@ -25,7 +25,7 @@ const createStyles = (isRTL) =>
     },
     content: {
       width: "92%",
-      padding: 30,
+      padding: 20,
     },
     header: {
       marginBottom: 10,
@@ -117,9 +117,10 @@ const Modern = ({ resumeData }) => {
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="B4" style={styles.page}>
         {/* Sidebar */}
         <View
+          wrap={false}
           fixed
           style={[styles.sidebar, { backgroundColor: primaryColor }]}
         />
@@ -160,7 +161,7 @@ const Modern = ({ resumeData }) => {
                   <Text style={styles.jobTitle}>{job.jobTitle}</Text>
                   <Text style={styles.companyInfo}>
                     {job.company} | {formatDate(job.startDate)} -{" "}
-                    {formatDate(job.endDate)}
+                    {formatDate(job.endDate, resumeData.lng)}
                   </Text>
                   <Text style={styles.responsibilities}>
                     {job.responsibilities}
@@ -170,37 +171,52 @@ const Modern = ({ resumeData }) => {
             </View>
           )}
 
-          {/* Education Section */}
-          {resumeData.educations?.length > 0 && (
-            <View wrap={false}>
-              <Text style={styles.sectionTitle}>{t.education}</Text>{" "}
-              {/* Use translation */}
-              {resumeData.educations.map((edu, index) => (
-                <View key={index} style={styles.educationItem}>
-                  <Text style={styles.degree}>{edu.degree}</Text>
-                  <Text style={styles.institution}>
-                    {edu.institution} | {formatDate(edu.graduationDate)}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
+          <View
+            style={{
+              display: "flex",
+              gap: 10,
+              flexDirection: isRTL ? "row-reverse" : "row",
+              width: "100%",
+            }}
+          >
+            {/* Education Section */}
+            {resumeData.educations?.length > 0 && (
+              <View
+                style={{
+                  width:
+                    resumeData.courses[0]?.name.trim() !== "" ? "50%" : "100%",
+                }}
+                wrap={false}
+              >
+                <Text style={styles.sectionTitle}>{t.education}</Text>{" "}
+                {/* Use translation */}
+                {resumeData.educations.map((edu, index) => (
+                  <View key={index} style={styles.educationItem}>
+                    <Text style={styles.degree}>{edu.degree}</Text>
+                    <Text style={styles.institution}>
+                      {edu.institution} | {formatDate(edu.graduationDate)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
 
-          {/* Courses Section */}
-          {resumeData.courses[0].name.trim() !== "" && (
-            <View wrap={false}>
-              <Text style={styles.sectionTitle}>{t.courses}</Text>
-              {/* Use translation */}
-              {resumeData.courses.map((course, index) => (
-                <View key={index} style={styles.educationItem}>
-                  <Text style={styles.degree}>{course.name}</Text>
-                  <Text style={styles.institution}>
-                    {course.institution} | {formatDate(course.completionDate)}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
+            {/* Courses Section */}
+            {resumeData.courses[0]?.name.trim() !== "" && (
+              <View style={{ width: "50%" }} wrap={false}>
+                <Text style={styles.sectionTitle}>{t.courses}</Text>
+                {/* Use translation */}
+                {resumeData.courses.map((course, index) => (
+                  <View key={index} style={styles.educationItem}>
+                    <Text style={styles.degree}>{course.name}</Text>
+                    <Text style={styles.institution}>
+                      {course.institution} | {formatDate(course.completionDate)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
 
           {/* Skills Section */}
           {resumeData.skills?.length > 0 && (
@@ -212,7 +228,7 @@ const Modern = ({ resumeData }) => {
                   <View key={index} style={styles.skillItem}>
                     <Text>•</Text>
                     <Text>
-                      {skill.name} - ({t[skill.level]})
+                      {skill.name} - ({t[skill.level] || skill.level})
                     </Text>
                   </View>
                 ))}

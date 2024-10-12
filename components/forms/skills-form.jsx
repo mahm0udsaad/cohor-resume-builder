@@ -120,12 +120,12 @@ export default function SkillForm({ skills, updateData, lng }) {
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="border-b text-2xl font-semibold mb-4 pb-2 text-[#20133E]">
+        <h2 className="border-b text-2xl font-semibold mb-4 pb-2 text-main">
           {t("skills.title")}
         </h2>
 
         <div className="mb-6">
-          <Label htmlFor="skill-search" className="text-[#20133E]">
+          <Label htmlFor="skill-search" className="text-main">
             {t("skills.addSkill")}
           </Label>
           <div className="relative">

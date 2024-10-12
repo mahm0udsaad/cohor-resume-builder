@@ -8,7 +8,7 @@ const createStyles = (isArabic) =>
     page: {
       backgroundColor: "white",
       padding: 40,
-      fontFamily: isArabic ? "Cairo" : "Helvetica",
+      fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
     },
     header: {
       flexDirection: "row",
@@ -145,7 +145,7 @@ const MinimalTemplate = ({ resumeData }) => {
   const styles = createStyles(isArabic);
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="B4" style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
@@ -229,7 +229,8 @@ const MinimalTemplate = ({ resumeData }) => {
                   <View style={styles.experienceHeader}>
                     <Text style={styles.jobTitleExp}>{exp.jobTitle}</Text>
                     <Text style={styles.date}>
-                      {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                      {formatDate(exp.startDate)} -{" "}
+                      {formatDate(exp.endDate, resumeData.lng)}
                     </Text>
                   </View>
                   <Text style={styles.company}>{exp.company}</Text>

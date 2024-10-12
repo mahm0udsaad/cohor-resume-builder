@@ -110,7 +110,7 @@ export default function ExperienceCard({ user, lng }) {
     <Card>
       <CardHeader className="w-full">
         <div className="w-full flex justify-between items-center">
-          <CardTitle className="text-start text-2xl font-semibold text-[#20133E]">
+          <CardTitle className="text-start text-2xl font-semibold text-main">
             {t("workExperience.title")}
           </CardTitle>
           <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
@@ -142,7 +142,7 @@ export default function ExperienceCard({ user, lng }) {
                 />
                 <div className="space-y-6 mt-3">
                   <div className="">
-                    <Label className="text-[#20133E]">
+                    <Label className="text-main">
                       {t("workExperience.jobTitle")}
                     </Label>
                     <Input
@@ -153,7 +153,7 @@ export default function ExperienceCard({ user, lng }) {
                     />
                   </div>
                   <div className="">
-                    <Label className="text-[#20133E] mt-4">
+                    <Label className="text-main mt-4">
                       {t("workExperience.company")}
                     </Label>
                     <Input
@@ -202,12 +202,12 @@ export default function ExperienceCard({ user, lng }) {
               key={index}
               className="space-y-4 relative border-b pb-2 last:border-b-0"
             >
-              <h3 className="text-lg font-semibold text-[#20133E]">
+              <h3 className="text-lg font-semibold text-main">
                 {exp.jobTitle} at {exp.company}
               </h3>
               <p>
                 {t("workExperience.dates")}: {formatDate(exp.startDate)} -{" "}
-                {formatDate(exp.endDate)}
+                {formatDate(exp.endDate, resumeData.lng)}
               </p>
               <div className="flex gap-2">
                 <Button

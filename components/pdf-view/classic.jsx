@@ -7,27 +7,33 @@ import { translations } from "@/data/data";
 const createStyles = (isArabic) =>
   StyleSheet.create({
     page: {
-      padding: 30,
+      padding: 20,
       fontSize: 12,
-      fontFamily: isArabic ? "Cairo" : "Helvetica",
+      fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
+      textAlign: isArabic ? "right" : "left",
     },
     section: {
-      marginBottom: 16,
+      marginBottom: 12,
     },
     header: {
       fontSize: 24,
-      color: "#3B51A3", // Primary color
-      marginBottom: 8,
+      color: "#3B51A3",
+      marginBottom: 4,
       fontWeight: "bold",
     },
     subheader: {
-      fontSize: 18,
+      fontSize: 16,
       color: "#3B51A3",
-      marginBottom: 6,
-      fontWeight: "bold",
+      marginBottom: 14,
+      fontWeight: "semibold",
     },
     text: {
       marginBottom: 4,
+    },
+    summary: {
+      fontSize: 10,
+      color: "#666",
+      lineHeight: 1.4,
     },
     contact: {
       marginBottom: 8,
@@ -52,6 +58,7 @@ const createStyles = (isArabic) =>
       color: "#3B51A3",
     },
     sectionTitle: {
+      fontSize: 16,
       color: "#3B51A3",
       fontWeight: "bold",
       marginBottom: 4,
@@ -72,7 +79,7 @@ const Classic = ({ resumeData }) => {
 
   // Get translations based on the current language
   const t = isArabic ? translations.ar : translations.en;
-  const directionStyle = isArabic ? styles.rtl : {};
+
   const renderSection = (title, content) => {
     if (!content || (Array.isArray(content) && content.length === 0)) {
       return null;
@@ -89,11 +96,20 @@ const Classic = ({ resumeData }) => {
     resumeData.experiences?.map((exp, index) => (
       <View key={index} style={styles.section}>
         <Text style={styles.bold}>{exp.jobTitle}</Text>
-        <Text>{exp.company}</Text>
-        <Text>
-          {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
-        </Text>
-        <Text>{exp.responsibilities}</Text>
+        <View
+          style={{
+            flexDirection: isArabic ? "row-reverse" : "row",
+            display: "flex",
+            gap: 4,
+          }}
+        >
+          <Text>{exp.company}</Text>
+          <Text>
+            {formatDate(exp.startDate)} -{" "}
+            {formatDate(exp.endDate, resumeData.lng)}
+          </Text>
+        </View>
+        <Text style={styles.summary}>{exp.responsibilities}</Text>
       </View>
     ));
 
@@ -101,8 +117,16 @@ const Classic = ({ resumeData }) => {
     resumeData.educations?.map((edu, index) => (
       <View key={index} style={styles.section}>
         <Text style={styles.bold}>{edu.degree}</Text>
-        <Text>{edu.institution}</Text>
-        <Text>{formatDate(edu.graduationDate)}</Text>
+        <View
+          style={{
+            flexDirection: isArabic ? "row-reverse" : "row",
+            display: "flex",
+            gap: 4,
+          }}
+        >
+          <Text>{edu.institution}</Text> -
+          <Text>{formatDate(edu.graduationDate)}</Text>
+        </View>
       </View>
     ));
 
@@ -118,7 +142,7 @@ const Classic = ({ resumeData }) => {
   );
 
   const renderLanguages = () => (
-    <View style={styles.section}>
+    <View wrap={false} style={styles.section}>
       {resumeData.languages?.map((lang, index) => (
         <Text key={index}>
           {lang.name} - {lang.proficiency}
@@ -129,29 +153,44 @@ const Classic = ({ resumeData }) => {
 
   const renderCourses = () =>
     resumeData.courses?.map((course, index) => (
-      <View key={index} style={styles.section}>
+      <View wrap={false} key={index} style={styles.section}>
         <Text style={styles.bold}>{course.name}</Text>
-        <Text>{course.institution}</Text>
-        <Text>{formatDate(course.completionDate)}</Text>
+        <View
+          style={{
+            flexDirection: isArabic ? "row-reverse" : "row",
+            display: "flex",
+            gap: 4,
+          }}
+        >
+          <Text>{course.institution}</Text> -
+          <Text>{formatDate(course.completionDate)}</Text>
+        </View>
       </View>
     ));
 
   return (
     <Document>
-      <Page size="A4" style={[styles.page, directionStyle]}>
+      <Page size="B4" style={styles.page}>
         {/* Left Column */}
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View
+          style={{
+            flexDirection: isArabic ? "row-reverse" : "row",
+            justifyContent: "space-between",
+          }}
+        >
           <View style={{ flex: 2, marginRight: 20 }}>
             <Text style={[styles.header, { color: theme.primaryColor }]}>
-              {resumeData.personalInfo?.name || t.profile}
+              {resumeData.personalInfo?.name}
             </Text>
             <Text style={styles.subheader}>
-              {resumeData.personalInfo?.jobTitle || t.workExperience}
+              {resumeData.personalInfo?.jobTitle}
             </Text>
 
             {renderSection(
-              "العربيه",
-              <Text>{resumeData.personalInfo?.summary}</Text>,
+              t.profile,
+              <Text style={styles.summary}>
+                {resumeData.personalInfo?.summary}
+              </Text>,
             )}
 
             {renderSection(t.workExperience, renderExperiences())}
@@ -162,7 +201,7 @@ const Classic = ({ resumeData }) => {
           </View>
 
           {/* Right Column */}
-          <View style={styles.rightColumn}>
+          <View wrap={false} style={styles.rightColumn}>
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>{t.profile}</Text>
               {resumeData.personalInfo?.contact?.map((contact, index) => (

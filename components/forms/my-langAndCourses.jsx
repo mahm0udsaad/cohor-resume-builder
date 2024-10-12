@@ -128,7 +128,7 @@ export default function LanguageAndCourseCard({ user, lng }) {
       {/* Languages Card */}
       <Card>
         <CardHeader className="flex flex-row justify-between items-center">
-          <CardTitle className="text-xl font-semibold text-[#20133E]">
+          <CardTitle className="text-xl font-semibold text-main">
             {t("reviewResume.languagesTitle")}
           </CardTitle>
           <Button
@@ -173,7 +173,7 @@ export default function LanguageAndCourseCard({ user, lng }) {
       {/* Courses Card */}
       <Card>
         <CardHeader className="flex flex-row justify-between items-center">
-          <CardTitle className="text-xl font-semibold text-[#20133E]">
+          <CardTitle className="text-xl font-semibold text-main">
             {t("reviewResume.coursesTitle")}
           </CardTitle>
           <Button
@@ -240,7 +240,7 @@ export default function LanguageAndCourseCard({ user, lng }) {
             {drawerType === "language" ? (
               <div className="flex gap-4">
                 <div>
-                  <Label className="text-[#20133E]">
+                  <Label className="text-main">
                     {t("reviewResume.language")}
                   </Label>
                   <Input
@@ -251,7 +251,7 @@ export default function LanguageAndCourseCard({ user, lng }) {
                   />
                 </div>
                 <div>
-                  <Label className="text-[#20133E]">
+                  <Label className="text-main">
                     {t("reviewResume.proficiency")}
                   </Label>
                   <Select
@@ -278,7 +278,7 @@ export default function LanguageAndCourseCard({ user, lng }) {
             ) : (
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-[#20133E]">
+                  <Label className="text-main">
                     {t("reviewResume.completionDate")}
                   </Label>
                   <FlatDatePicker
@@ -290,7 +290,7 @@ export default function LanguageAndCourseCard({ user, lng }) {
                 </div>
                 <div className="">
                   <div className="space-y-2">
-                    <Label className="text-[#20133E]">
+                    <Label className="text-main">
                       {t("reviewResume.courseName")}
                     </Label>
                     <Input
@@ -301,7 +301,7 @@ export default function LanguageAndCourseCard({ user, lng }) {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-[#20133E]">
+                    <Label className="text-main">
                       {t("reviewResume.institution")}
                     </Label>
                     <Input

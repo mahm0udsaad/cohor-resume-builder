@@ -137,7 +137,7 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-[#20133E] pb-2 border-b">
+        <h2 className="text-2xl font-semibold mb-4 text-main pb-2 border-b">
           {t("workExperience.title")}
         </h2>
 

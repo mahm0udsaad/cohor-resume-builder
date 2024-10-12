@@ -84,7 +84,7 @@ export function ResumeBuilder({ resumeName, lng }) {
                       <TabsTrigger
                         key={id}
                         value={id}
-                        className="flex gap-2 text-[#20133E] data-[state=active]:bg-[#3B51A3] data-[state=active]:text-white"
+                        className="flex gap-2 text-main data-[state=active]:bg-[#3B51A3] data-[state=active]:text-white"
                       >
                         <Icon className="h-4 w-4" />
                         <span className="text-[12px]">{t(`tabs.${id}`)}</span>

@@ -8,28 +8,26 @@ import { translations } from "@/data/data";
 const createStyles = (theme, isArabic) =>
   StyleSheet.create({
     page: {
+      fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
       textAlign: isArabic ? "right" : "left",
-      padding: 20,
-      fontFamily: isArabic ? "Cairo" : "Helvetica",
-      writingMode: isArabic ? "rl-tb" : "lr-tb",
-      direction: isArabic ? "rtl" : "ltr",
+      padding: 14,
     },
     header: {
       backgroundColor: theme.backgroundColor || "#EAEAEA",
-      padding: 20,
+      padding: 10,
       borderRadius: 8,
-      marginBottom: 12,
+      marginBottom: 16,
     },
     name: {
       fontSize: 28,
       fontWeight: "bold",
       color: theme.primaryColor || "#0000",
-      marginBottom: 8,
+      marginBottom: 4,
     },
     jobTitle: {
       fontSize: 14,
       color: "#666",
-      marginBottom: 6,
+      marginBottom: 4,
     },
     contactInfo: {
       flexDirection: isArabic ? "row-reverse" : "row",
@@ -41,23 +39,22 @@ const createStyles = (theme, isArabic) =>
       marginLeft: isArabic ? 10 : 0,
     },
     section: {
-      marginBottom: 14,
+      marginBottom: 16,
     },
     sectionTitle: {
       fontSize: 16,
       fontWeight: "bold",
-      marginBottom: 8,
+      marginBottom: 10,
       color: theme.primaryColor || "#0000",
       borderBottomWidth: 2,
       borderBottomColor: theme.backgroundColor || "#CCCCCC",
-      paddingBottom: 4,
     },
     experienceItem: {
-      marginBottom: 10,
+      marginBottom: 12,
     },
     experienceTitle: {
       fontSize: 12,
-      marginBottom: 4,
+      marginBottom: 6,
       fontWeight: "bold",
       color: theme.primaryColor || "#0000",
     },
@@ -90,17 +87,10 @@ const createStyles = (theme, isArabic) =>
       flexWrap: "wrap",
     },
     skillItem: {
+      display: "flex",
+      flexDirection: isArabic ? "row-reverse" : "row",
       fontSize: 10,
-      padding: 2,
-      width: "50%",
-      color: "#666",
-    },
-    languagesGrid: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-    },
-    languageItem: {
-      fontSize: 10,
+      gap: 2,
       padding: 2,
       width: "50%",
       color: "#666",
@@ -115,13 +105,12 @@ const ElegantResume = ({ resumeData }) => {
 
   const isArabic = resumeData.lng === "ar";
   const styles = createStyles(theme, isArabic);
-
   // Get translations based on the current language
-  const directionStyle = isArabic ? styles.rtl : {};
   const t = isArabic ? translations.ar : translations.en;
+
   return (
     <Document>
-      <Page size="A4" style={[styles.page, directionStyle]} wrap={true}>
+      <Page size="B4" style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>{resumeData.personalInfo?.name}</Text>
@@ -179,9 +168,10 @@ const ElegantResume = ({ resumeData }) => {
           <Text style={styles.sectionTitle}>{t.skills}</Text>
           <View style={styles.skillsGrid}>
             {resumeData.skills?.map((skill, index) => (
-              <Text key={index} style={styles.skillItem}>
-                • {skill.name}
-              </Text>
+              <View key={index} style={styles.skillItem}>
+                <Text>•</Text>
+                <Text>{skill.name}</Text>
+              </View>
             ))}
           </View>
         </View>
@@ -189,11 +179,12 @@ const ElegantResume = ({ resumeData }) => {
         {/* Languages Section */}
         <View style={styles.section} wrap={false}>
           <Text style={styles.sectionTitle}>{t.languages}</Text>
-          <View style={styles.languagesGrid}>
+          <View style={styles.skillsGrid}>
             {resumeData.languages?.map((language, index) => (
-              <Text key={index} style={styles.languageItem}>
-                • {language.name}
-              </Text>
+              <View key={index} style={styles.skillItem}>
+                <Text>•</Text>
+                <Text>{language.name}</Text>
+              </View>
             ))}
           </View>
         </View>

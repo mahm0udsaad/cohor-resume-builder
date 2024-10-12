@@ -81,7 +81,7 @@ export default function MyPersonalInfoForm({ user, lng }) {
               <div className="grid gap-4">
                 <div className="grid grid-cols-2 items-center gap-4">
                   <div>
-                    <Label htmlFor="name" className="text-right text-[#20133E]">
+                    <Label htmlFor="name" className="text-right text-main">
                       Name
                     </Label>
                     <Input
@@ -93,10 +93,7 @@ export default function MyPersonalInfoForm({ user, lng }) {
                     />
                   </div>
                   <div>
-                    <Label
-                      htmlFor="jobTitle"
-                      className="text-right text-[#20133E]"
-                    >
+                    <Label htmlFor="jobTitle" className="text-right text-main">
                       Job Title
                     </Label>
                     <Input

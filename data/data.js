@@ -104,6 +104,112 @@ export const dummyData = {
     backgroundColor: "#EBF8FF",
   },
 };
+
+export const dummyDataAr = {
+  lng: "ar",
+  personalInfo: {
+    name: "جون دو",
+    jobTitle: "مطور ويب شامل",
+    summary:
+      "مهندس برمجيات ذو خبرة في JavaScript, React, Node.js, HTML, و CSS. ماهر في تطوير تطبيقات الويب باستخدام React, Node.js, و MongoDB. فهم قوي لدورات حياة تطوير البرمجيات، بما في ذلك منهجيات تطوير البرمجيات المرنة.",
+    contact: ["john@example.com", "123-456-7890", "نيويورك، نيويورك"],
+  },
+  experiences: [
+    {
+      jobTitle: "مطور ويب شامل",
+      company: "تك كورب",
+      startDate: "2020-01",
+      endDate: "present",
+      responsibilities:
+        "تطوير تطبيقات ويب باستخدام React, Node.js, و MongoDB. تطوير تطبيقات ويب باستخدام React, Node.js, و MongoDB. تطوير تطبيقات ويب باستخدام React, Node.js, و MongoDB.",
+    },
+    {
+      jobTitle: "مطور ويب شامل",
+      company: "تك كورب 2",
+      startDate: "2019-01",
+      endDate: "2020-01",
+      responsibilities: "تطوير تطبيقات ويب باستخدام React, Node.js, و MongoDB.",
+    },
+    {
+      jobTitle: "مهندس برمجيات",
+      company: "تك كورب 3",
+      startDate: "2018-01",
+      endDate: "2019-01",
+      responsibilities:
+        "تطوير تطبيقات ويب باستخدام React, Node.js, و MongoDB. المشاركة في مراجعات الشيفرة البرمجية وضمان توافق الحلول مع معايير الصناعة.",
+    },
+    {
+      jobTitle: "مهندس برمجيات",
+      company: "تك كورب 4",
+      startDate: "2017-01",
+      endDate: "2018-01",
+      responsibilities: "تطوير تطبيقات ويب باستخدام React, Node.js, و MongoDB.",
+    },
+  ],
+  educations: [
+    {
+      degree: "بكالوريوس في علوم الكمبيوتر",
+      institution: "جامعة التكنولوجيا",
+      graduationDate: "2019-05",
+    },
+    {
+      degree: "ماجستير في علوم الكمبيوتر",
+      institution: "جامعة التكنولوجيا",
+      graduationDate: "2020-05",
+    },
+    {
+      degree: "دكتوراه في علوم الكمبيوتر",
+      institution: "جامعة التكنولوجيا",
+      graduationDate: "2025-05",
+    },
+  ],
+  skills: [
+    { name: "جافا سكريبت", level: "متقدم" },
+    { name: "رياكت", level: "متوسط" },
+    { name: "ىود جي اس", level: "متوسط" },
+    { name: "موغنجو دي بي", level: "متوسط" },
+    { name: "اتش تي ام ال", level: "أساسي" },
+    { name: "سي اس اس ", level: "أساسي" },
+    { name: "اكسبريس جس اس", level: "متوسط" },
+    { name: "تايب اسكريبت", level: "متوسط" },
+    { name: "جراف كيو ال", level: "متوسط" },
+    { name: "دوكر", level: "متوسط" },
+  ],
+  languages: [
+    { name: "الإنجليزية", proficiency: "اللغة الأم" },
+    { name: "الإسبانية", proficiency: "متوسط" },
+    { name: "الفرنسية", proficiency: "مبتدئ" },
+  ],
+  courses: [
+    {
+      name: "مقدمة في علوم الكمبيوتر",
+      institution: "جامعة التكنولوجيا",
+      completionDate: "2018-01",
+    },
+    {
+      name: "هياكل البيانات والخوارزميات",
+      institution: "جامعة التكنولوجيا",
+      completionDate: "2018-06",
+    },
+    {
+      name: "تطوير الويب",
+      institution: "جامعة التكنولوجيا",
+      completionDate: "2019-01",
+    },
+    {
+      name: "إدارة قواعد البيانات",
+      institution: "جامعة التكنولوجيا",
+      completionDate: "2019-06",
+    },
+  ],
+  theme: {
+    id: "original",
+    name: "أصلي",
+    primaryColor: "#3B51A3",
+    backgroundColor: "#EBF8FF",
+  },
+};
+
 export const translations = {
   en: {
     profile: "profile",

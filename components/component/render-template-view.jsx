@@ -11,8 +11,8 @@ const ClientResumeTemplate = ({ templateName, data, list }) => {
   }
   if (data.lng == "ar") {
     Font.register({
-      family: "Cairo",
-      src: "/fonts/Cairo-Regular.ttf",
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
     });
   }
 

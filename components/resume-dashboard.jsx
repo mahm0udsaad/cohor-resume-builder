@@ -140,7 +140,8 @@ export function ResumeDashboard({ initialUserInfo }) {
                     {exp.company || "N/A"}
                   </p>
                   <p>
-                    {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                    {formatDate(exp.startDate)} -{" "}
+                    {formatDate(exp.endDate, resumeData.lng)}
                   </p>
                   <p className="w-11/12 text-justify">
                     {exp.responsibilities || "N/A"}

@@ -163,7 +163,7 @@ export default function EducationCard({ user, lng }) {
     <Card>
       <CardHeader className="flex justify-between items-center">
         <div className="w-full flex justify-between items-center">
-          <CardTitle className="text-start text-2xl font-semibold text-[#20133E]">
+          <CardTitle className="text-start text-2xl font-semibold text-main">
             {t("education.title")}
           </CardTitle>
           <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
@@ -186,7 +186,7 @@ export default function EducationCard({ user, lng }) {
                 <div className="grid grid-cols-2 gap-4 mb-2">
                   <div className="space-y-2 mt-3">
                     <div>
-                      <Label className="text-[#20133E]">
+                      <Label className="text-main">
                         {t("education.degree")}
                       </Label>
                       <Input
@@ -197,7 +197,7 @@ export default function EducationCard({ user, lng }) {
                       />
                     </div>
                     <div>
-                      <Label className="text-[#20133E]">
+                      <Label className="text-main">
                         {t("education.institution")}
                       </Label>
                       <Input
@@ -245,7 +245,7 @@ export default function EducationCard({ user, lng }) {
               key={index}
               className="space-y-4 relative border-b pb-2 last:border-b-0"
             >
-              <h3 className="text-lg font-semibold text-[#20133E]">
+              <h3 className="text-lg font-semibold text-main">
                 {edu.degree} at {edu.institution}
               </h3>
               <p>

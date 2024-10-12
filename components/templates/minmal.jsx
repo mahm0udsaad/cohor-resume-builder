@@ -124,7 +124,8 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
                     {exp.jobTitle}
                   </h3>
                   <p className="text-sm text-gray-600 sm:text-xs">
-                    {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                    {formatDate(exp.startDate)} -{" "}
+                    {formatDate(exp.endDate, resumeData.lng)}
                   </p>
                 </div>
                 <p className="text-sm font-medium mb-2 sm:text-xs">

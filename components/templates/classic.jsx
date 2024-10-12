@@ -45,7 +45,8 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
         </h4>
         <p className="text-sm text-gray-600 sm:text-xs">{exp.company}</p>
         <p className="text-sm text-gray-600 sm:text-xs">
-          {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+          {formatDate(exp.startDate)} -{" "}
+          {formatDate(exp.endDate, resumeData.lng)}
         </p>
         <p className="text-gray-700 mt-2 sm:text-xs">{exp.responsibilities}</p>
       </div>

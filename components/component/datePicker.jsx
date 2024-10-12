@@ -100,7 +100,7 @@ const DatePicker = ({
 
   return (
     <div className="relative" onClick={handleClick}>
-      <Label className="text-[#20133E]">{label}</Label>
+      <Label className="text-main">{label}</Label>
       <Popover>
         <PopoverTrigger asChild>
           <Button
