@@ -1,21 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import Logo from "./logo";
 export function Footer() {
   return (
     <footer className="bg-gray-100 border-t border-gray-200">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <Image
-                src="/cogor-logo.svg"
-                alt="Cogor Logo"
-                width={116}
-                height={53}
-                className="inline-block"
-              />
-            </Link>
+            <Logo />
             <p className="text-sm text-gray-600">
               Create professional resumes with ease using our intuitive builder.
             </p>

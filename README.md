@@ -12,7 +12,7 @@
 
 - Minmal.jsx []
 
-- add more templates ( reach 10 )
+- add more templates ( reach 20 )
 - add paymob test payments
 
 ## Take Care OF

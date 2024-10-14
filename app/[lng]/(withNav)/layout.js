@@ -9,7 +9,7 @@ export default function RootLayout({ children, params: { lng } }) {
   return (
     <>
       <Nav lng={lng} />
-      <div className="min-h-screen">{children}</div>
+      <div className="bg-gray-50 min-h-screen">{children}</div>
       <Footer />
     </>
   );

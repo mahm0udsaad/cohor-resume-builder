@@ -24,7 +24,7 @@ const DashboardPage = async ({ params: { lng } }) => {
     userInfo;
 
   return (
-    <main className="bg-gray-50 min-h-[90dvh]">
+    <main className=" min-h-[90dvh]">
       <div className="container mx-auto p-6 ">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-[#3b51a3]">
@@ -38,11 +38,22 @@ const DashboardPage = async ({ params: { lng } }) => {
             <Plus size={20} />
           </Link>
         </div>
-        <Tabs defaultValue="myInformation" className="w-full">
+        <Tabs defaultValue="myResumes" className="w-full">
           <TabsList className="mb-4">
-            <TabsTrigger value="myInformation">My Information</TabsTrigger>
             <TabsTrigger value="myResumes">My Resumes</TabsTrigger>
+            <TabsTrigger value="myInformation">My Information</TabsTrigger>
           </TabsList>
+          <TabsContent value="myResumes">
+            <Suspense
+              fallback={
+                <div className="w-full flex justify-center items-center">
+                  <span>Loading...</span>
+                </div>
+              }
+            >
+              <ResumeList />
+            </Suspense>
+          </TabsContent>
           <TabsContent value="myInformation">
             <MyInformation
               lng={lng}
@@ -56,17 +67,6 @@ const DashboardPage = async ({ params: { lng } }) => {
                 courses,
               }}
             />
-          </TabsContent>
-          <TabsContent value="myResumes">
-            <Suspense
-              fallback={
-                <div className="w-full flex justify-center items-center">
-                  <span>Loading...</span>
-                </div>
-              }
-            >
-              <ResumeList />
-            </Suspense>
           </TabsContent>
         </Tabs>
       </div>
