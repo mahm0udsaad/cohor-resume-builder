@@ -84,11 +84,23 @@
     "addEducation": "أضف تعليم",
     "editEducation": "تعديل التعليم",
     "degree": "الدرجة",
-    "degreePlaceholder": "أدخل درجة منحتها",
+    "degreePlaceholder": "أدخل درجتك",
     "institution": "المؤسسة",
     "institutionPlaceholder": "أدخل اسم المؤسسة",
     "graduationDate": "تاريخ التخرج",
     "save": "حفظ",
-    "noEducation": "لا توجد مدخلات تعليمية بعد"
+    "noEducation": "لا توجد مدخلات تعليمية بعد",
+    "gpa": "المعدل التراكمي",
+    "optional": "اختياري",
+    "noGpa": "بدون معدل تراكمي",
+    "numericGpa": "معدل تراكمي رقمي",
+    "descriptiveGpa": "معدل تراكمي وصفي",
+    "numericGpaPlaceholder": "أدخل المعدل التراكمي (مثل 3.5)",
+    "selectGpa": "اختر المعدل التراكمي",
+    "excellent": "ممتاز",
+    "veryGood": "جيد جداً",
+    "good": "جيد",
+    "average": "متوسط",
+    "belowAverage": "دون المتوسط"
   }
 }

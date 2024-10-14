@@ -77,7 +77,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
               <h3 className="text-xl font-semibold">{job.jobTitle}</h3>
               <p className="text-sm text-gray-600">
                 {job.company} | {formatDate(job.startDate)} -{" "}
-                {formatDate(job.endDate)}
+                {formatDate(job.endDate, resumeData.lng)}
               </p>
               <p className="text-sm text-gray-600 mt-2">
                 {job.responsibilities}

@@ -17,7 +17,16 @@ const initialState = {
       responsibilities: "",
     },
   ],
-  educations: [{ degree: "", institution: "", graduationDate: "" }],
+  educations: [
+    {
+      degree: "",
+      institution: "",
+      graduationDate: "",
+      gpaType: "none",
+      numericGpa: "",
+      descriptiveGpa: "",
+    },
+  ],
   skills: [],
   languages: [{ name: "", proficiency: "" }],
   courses: [{ name: "", institution: "", completionDate: "" }],

@@ -3,6 +3,8 @@ import { dir } from "i18next";
 import { languages } from "@/app/i18n/settings";
 import AuthProvider from "@/components/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { DirectionProvider } from "@radix-ui/react-direction";
+
 export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }));
 }
@@ -16,7 +18,7 @@ export const icons = {
 };
 export default function RootLayout({ children, params: { lng } }) {
   return (
-    <AuthProvider>
+    <AuthProvider lng={lng}>
       <html lang={lng} dir={dir(lng)}>
         <body className="">
           {children}

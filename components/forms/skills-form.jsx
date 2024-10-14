@@ -10,14 +10,13 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-import { Trash2, Plus, X } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
 
 export default function SkillForm({ skills, updateData, lng }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { t } = useTranslation(lng, "forms");
-  console.log(skills);
 
   const skillLevels = [
     { value: "beginner", label: "Beginner" },

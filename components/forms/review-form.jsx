@@ -31,6 +31,7 @@ export default function ReviewForm({
   const { data: session } = useSession();
   const user = session?.user;
   const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
+  console.log(resumeData);
 
   const handleLanguageChange = (index, field, value) => {
     updateData({

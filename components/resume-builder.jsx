@@ -77,14 +77,13 @@ export function ResumeBuilder({ resumeName, lng }) {
                   value={activeTab}
                   onValueChange={handleTabChange}
                   className="w-full"
-                  style={{ direction: lng == "ar" ? "rtl" : "" }}
                 >
                   <TabsList className="grid grid-cols-5 mb-8">
-                    {tabs.map(({ id, label, icon: Icon }) => (
+                    {tabs.map(({ id, icon: Icon }) => (
                       <TabsTrigger
                         key={id}
                         value={id}
-                        className="flex gap-2 text-main data-[state=active]:bg-[#3B51A3] data-[state=active]:text-white"
+                        className="flex gap-2  data-[state=active]:bg-[#3B51A3]"
                       >
                         <Icon className="h-4 w-4" />
                         <span className="text-[12px]">{t(`tabs.${id}`)}</span>

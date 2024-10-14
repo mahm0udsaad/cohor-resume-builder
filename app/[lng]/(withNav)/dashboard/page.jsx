@@ -40,8 +40,18 @@ const DashboardPage = async ({ params: { lng } }) => {
         </div>
         <Tabs defaultValue="myResumes" className="w-full">
           <TabsList className="mb-4">
-            <TabsTrigger value="myResumes">My Resumes</TabsTrigger>
-            <TabsTrigger value="myInformation">My Information</TabsTrigger>
+            <TabsTrigger
+              className="data-[state=active]:bg-[#3B51A3]"
+              value="myResumes"
+            >
+              My Resumes
+            </TabsTrigger>
+            <TabsTrigger
+              className="data-[state=active]:bg-[#3B51A3]"
+              value="myInformation"
+            >
+              My Information
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="myResumes">
             <Suspense

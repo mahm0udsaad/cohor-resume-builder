@@ -107,20 +107,28 @@ export async function deleteResume(resumeId, email) {
       return { success: false, error: "Invalid form data" };
     }
 
-    await prisma.user.update({
+    const user = await prisma.user.findUnique({
       where: { email },
-      data: {
-        resumes: {
-          disconnect: { id: resumeId },
-        },
-      },
+      include: { resumes: true },
     });
+
+    if (!user) {
+      return { success: false, error: "User not found" };
+    }
+
+    const resumeToDelete = user.resumes.find(
+      (resume) => resume.id === resumeId,
+    );
+
+    if (!resumeToDelete) {
+      return { success: false, error: "Resume not found for this user" };
+    }
 
     const deletedResume = await prisma.resume.delete({
       where: { id: resumeId },
     });
 
-    return deletedResume || {};
+    return { success: true, deletedResume };
   } catch (error) {
     console.error("Error deleting resume:", error);
     return { success: false, error: error.message };
@@ -165,6 +173,14 @@ export const updateUserResumeData = async (
       educations: updatedResumeData.educations?.map((education) => ({
         ...education,
         graduationDate: parseDate(education.graduationDate),
+        // Handle new GPA fields
+        gpaType: education.gpaType || "none",
+        numericGpa:
+          education.gpaType === "numeric"
+            ? parseFloat(education.numericGpa)
+            : null,
+        descriptiveGpa:
+          education.gpaType === "descriptive" ? education.descriptiveGpa : null,
       })),
       courses: updatedResumeData.courses?.map((course) => ({
         ...course,
@@ -219,32 +235,10 @@ export const updateUserResumeData = async (
       }
     };
 
-    // Retry logic
-    const maxRetries = 3;
-    let attempt = 0;
-    while (attempt < maxRetries) {
-      try {
-        await updateResume();
-        console.log("Resume updated successfully");
+    await updateResume();
+    console.log("Resume updated successfully");
 
-        return { success: true, resume: formattedResumeData };
-      } catch (error) {
-        if (error.code === "P2002" || error.code === "P2025") {
-          // Retry on write conflict or deadlock
-          attempt++;
-          console.warn(
-            `Attempt ${attempt} failed: ${error.message}. Retrying...`,
-          );
-          if (attempt >= maxRetries) {
-            throw new Error(
-              "Failed to update resume data after multiple attempts",
-            );
-          }
-        } else {
-          return { success: false, error: error.message };
-        }
-      }
-    }
+    return { success: true, resume: formattedResumeData };
   } catch (error) {
     console.error("Error updating resume data:", error.message);
     throw new Error("Failed to update resume data");

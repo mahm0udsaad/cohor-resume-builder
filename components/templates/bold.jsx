@@ -57,7 +57,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
               <h3 className="text-xl font-semibold">{job.jobTitle}</h3>
               <p className="text-sm font-semibold">
                 {job.company} // {formatDate(job.startDate)} -{" "}
-                {formatDate(job.endDate)}
+                {formatDate(job.endDate, resumeData.lng)}
               </p>
               <p className="text-sm mt-2">{job.responsibilities}</p>
               {job.achievements?.length > 0 && (
@@ -87,6 +87,14 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
               <p className="text-sm">
                 {edu.institution} // {formatDate(edu.graduationDate)}
               </p>
+              {edu.gpaType === "numeric" && (
+                <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
+              )}
+              {edu.gpaType === "descriptive" && (
+                <p className="text-sm text-gray-600">
+                  GPA: {edu.descriptiveGpa}
+                </p>
+              )}
             </div>
           ))}
         </section>

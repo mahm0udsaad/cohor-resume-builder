@@ -1506,6 +1506,9 @@ export namespace Prisma {
     degree?: boolean
     institution?: boolean
     graduationDate?: boolean
+    gpaType?: boolean
+    numericGpa?: boolean
+    descriptiveGpa?: boolean
   }, ExtArgs["result"]["education"]>
 
 
@@ -1513,6 +1516,9 @@ export namespace Prisma {
     degree?: boolean
     institution?: boolean
     graduationDate?: boolean
+    gpaType?: boolean
+    numericGpa?: boolean
+    descriptiveGpa?: boolean
   }
 
 
@@ -1523,6 +1529,9 @@ export namespace Prisma {
       degree: string
       institution: string
       graduationDate: Date | null
+      gpaType: string | null
+      numericGpa: number | null
+      descriptiveGpa: string | null
     }
     composites: {}
   }
@@ -1540,6 +1549,9 @@ export namespace Prisma {
     readonly degree: FieldRef<"Education", 'String'>
     readonly institution: FieldRef<"Education", 'String'>
     readonly graduationDate: FieldRef<"Education", 'DateTime'>
+    readonly gpaType: FieldRef<"Education", 'String'>
+    readonly numericGpa: FieldRef<"Education", 'Float'>
+    readonly descriptiveGpa: FieldRef<"Education", 'String'>
   }
     
 
@@ -8792,6 +8804,9 @@ export namespace Prisma {
     degree: string
     institution: string
     graduationDate?: Date | string | null
+    gpaType?: string | null
+    numericGpa?: number | null
+    descriptiveGpa?: string | null
   }
 
   export type SkillCompositeListFilter = {
@@ -9099,6 +9114,9 @@ export namespace Prisma {
     degree: string
     institution: string
     graduationDate?: Date | string | null
+    gpaType?: string | null
+    numericGpa?: number | null
+    descriptiveGpa?: string | null
   }
 
   export type SkillListCreateEnvelopeInput = {
@@ -9554,6 +9572,9 @@ export namespace Prisma {
     degree?: StringFilter<"Education"> | string
     institution?: StringFilter<"Education"> | string
     graduationDate?: DateTimeNullableFilter<"Education"> | Date | string | null
+    gpaType?: StringNullableFilter<"Education"> | string | null
+    numericGpa?: FloatNullableFilter<"Education"> | number | null
+    descriptiveGpa?: StringNullableFilter<"Education"> | string | null
   }
 
   export type SkillWhereInput = {
@@ -10194,6 +10215,18 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
+  }
+
   export type AccountCreateManyUserInput = {
     id?: string
     type: string
@@ -10247,6 +10280,9 @@ export namespace Prisma {
     degree?: StringFieldUpdateOperationsInput | string
     institution?: StringFieldUpdateOperationsInput | string
     graduationDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gpaType?: NullableStringFieldUpdateOperationsInput | string | null
+    numericGpa?: NullableFloatFieldUpdateOperationsInput | number | null
+    descriptiveGpa?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SkillUpdateInput = {
@@ -10414,6 +10450,15 @@ export namespace Prisma {
   export type PersonalInfoUpdatecontactInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+    unset?: boolean
   }
 
 

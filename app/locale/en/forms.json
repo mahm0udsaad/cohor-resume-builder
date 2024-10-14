@@ -88,6 +88,18 @@
     "institutionPlaceholder": "Enter institution name",
     "graduationDate": "Graduation Date",
     "save": "Save",
-    "noEducation": "No education entries yet"
+    "noEducation": "No education entries yet",
+    "gpa": "GPA",
+    "optional": "Optional",
+    "noGpa": "No GPA",
+    "numericGpa": "Numeric GPA",
+    "descriptiveGpa": "Descriptive GPA",
+    "numericGpaPlaceholder": "Enter GPA (e.g., 3.5)",
+    "selectGpa": "Select GPA",
+    "excellent": "Excellent",
+    "veryGood": "Very Good",
+    "good": "Good",
+    "average": "Average",
+    "belowAverage": "Below Average"
   }
 }

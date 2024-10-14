@@ -171,7 +171,7 @@ const BoldTemplate = ({ resumeData }) => {
                 <Text style={styles.jobTitle}>{job.jobTitle}</Text>
                 <Text style={styles.jobInfo}>
                   {job.company} // {formatDate(job.startDate)} -{" "}
-                  {formatDate(job.endDate)}
+                  {formatDate(job.endDate, resumeData.lng)}
                 </Text>
                 <Text style={styles.responsibilities}>
                   {job.responsibilities}
@@ -188,6 +188,14 @@ const BoldTemplate = ({ resumeData }) => {
                 <Text style={styles.institution}>
                   {edu.institution} // {formatDate(edu.graduationDate)}
                 </Text>
+                {edu.gpaType === "numeric" && (
+                  <Text style={styles.institution}>GPA: {edu.numericGpa}</Text>
+                )}
+                {edu.gpaType === "descriptive" && (
+                  <Text style={styles.institution}>
+                    GPA: {edu.descriptiveGpa}
+                  </Text>
+                )}
               </View>
             ))}
           </View>
