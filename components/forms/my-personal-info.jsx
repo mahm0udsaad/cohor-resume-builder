@@ -14,8 +14,10 @@ import { Label } from "@/components/ui/label";
 import { User, Edit } from "lucide-react";
 import { updatePersonalInfo } from "@/actions/userInfo/action";
 import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
+import { useTranslation } from "@/app/i18n/client";
 
 export default function MyPersonalInfoForm({ user, lng }) {
+  const { t } = useTranslation(lng, "forms");
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [formData, setFormData] = useState({
@@ -60,7 +62,7 @@ export default function MyPersonalInfoForm({ user, lng }) {
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-[#3b51a3] capitalize flex items-center gap-2">
           <User className="h-6 w-6" />
-          Personal Information
+          {t("personalInformation.title")}
         </CardTitle>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
@@ -70,7 +72,7 @@ export default function MyPersonalInfoForm({ user, lng }) {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Edit Personal Information</DialogTitle>
+              <DialogTitle>{t("personalInformation.editTitle")}</DialogTitle>
             </DialogHeader>
             <form
               onSubmit={handleSubmit}
@@ -82,7 +84,7 @@ export default function MyPersonalInfoForm({ user, lng }) {
                 <div className="grid grid-cols-2 items-center gap-4">
                   <div>
                     <Label htmlFor="name" className="text-right text-main">
-                      Name
+                      {t("personalInformation.form.name")}
                     </Label>
                     <Input
                       id="name"
@@ -94,7 +96,7 @@ export default function MyPersonalInfoForm({ user, lng }) {
                   </div>
                   <div>
                     <Label htmlFor="jobTitle" className="text-right text-main">
-                      Job Title
+                      {t("personalInformation.form.jobTitle")}
                     </Label>
                     <Input
                       id="jobTitle"
@@ -119,7 +121,9 @@ export default function MyPersonalInfoForm({ user, lng }) {
                   className="bg-[#3b51a3] text-white"
                   disabled={isPending}
                 >
-                  {isPending ? "Saving..." : "Save changes"}
+                  {isPending
+                    ? t("personalInformation.form.saving")
+                    : t("personalInformation.form.saveChanges")}
                 </Button>
               </div>
             </form>
@@ -129,18 +133,20 @@ export default function MyPersonalInfoForm({ user, lng }) {
       <CardContent>
         <div className="space-y-2">
           <p>
-            <strong>Name:</strong> {user.name}
+            <strong>{t("personalInformation.info.name")}:</strong> {user.name}
           </p>
           <p>
-            <strong>Email:</strong> {user.email}
+            <strong>{t("personalInformation.info.email")}:</strong> {user.email}
           </p>
           <p>
-            <strong>Job Title:</strong>{" "}
-            {user.personalInfo?.jobTitle || "No job title"}
+            <strong>{t("personalInformation.info.jobTitle")}:</strong>{" "}
+            {user.personalInfo?.jobTitle ||
+              t("personalInformation.info.noJobTitle")}
           </p>
           <p>
-            <strong>Summary:</strong>{" "}
-            {user.personalInfo?.summary || "No summary"}
+            <strong>{t("personalInformation.info.summary")}:</strong>{" "}
+            {user.personalInfo?.summary ||
+              t("personalInformation.info.noSummary")}
           </p>
         </div>
       </CardContent>

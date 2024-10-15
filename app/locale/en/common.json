@@ -89,5 +89,87 @@
     }
   ],
   "pricingRecommended": "Recommended",
-  "pricingCta": "Choose Plan"
+  "pricingCta": "Choose Plan",
+  "dashboard": {
+    "title": "Resume Dashboard",
+    "createNewResume": "Create New Resume",
+    "tabs": {
+      "myResumes": "My Resumes",
+      "myInformation": "My Information"
+    }
+  },
+  "footer": {
+    "description": "Create professional resumes with ease using our intuitive builder.",
+    "product": {
+      "title": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "templates": "Templates",
+      "integrations": "Integrations"
+    },
+    "resources": {
+      "title": "Resources",
+      "blog": "Blog",
+      "helpCenter": "Help Center",
+      "careerTips": "Career Tips",
+      "faqs": "FAQs"
+    },
+    "company": {
+      "title": "Company",
+      "aboutUs": "About Us",
+      "careers": "Careers",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
+    },
+    "copyright": "© 2023 ResumeBuilder. All rights reserved."
+  },
+  "userDropdown": {
+    "dashboard": "Dashboard",
+    "logout": "Log out",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "lastUpdated": "Last updated",
+  "privacyPolicyTitle": "Privacy Policy",
+  "TermsAndConditions": "Terms and Conditions",
+  "section1Title": "1. Information We Collect",
+  "section1Content": "When you use our Resume Builder app, we collect personal information such as your name, email address, job title, and resume data including work history, education, and skills.",
+
+  "section2Title": "2. How We Use Your Information",
+  "section2Content": "We use the information you provide to create and customize your resume, improve our services, and offer personalized features. Your information helps us to deliver the best resume-building experience.",
+
+  "section3Title": "3. Sharing Your Information",
+  "section3Content": "We do not sell your personal information. We may share your data with trusted service providers to offer better features, such as cloud storage for your resume files, and to comply with legal obligations.",
+
+  "section4Title": "4. Data Security",
+  "section4Content": "We take the security of your data seriously. Your personal information is stored securely, and we implement appropriate measures to protect it from unauthorized access or disclosure.",
+
+  "section5Title": "5. Your Rights",
+  "section5Content": "You have the right to access, update, or delete your information. You can also request a copy of your resume data or object to how we process your personal data.",
+  "section6Title": "6. Your Data Protection Rights",
+  "section6Content": "Under applicable laws, you have the right to access, correct, or delete your personal data. You can request to stop receiving communications, limit the use of your data, or receive a copy of your data. To exercise these rights, contact us at privacy@example.com.",
+  "section7Title": "7. Third-Party Services",
+  "section7Content": "We may share your data with trusted third-party services, including analytics providers like Google Analytics and cloud storage providers like Amazon Web Services (AWS). These providers may access limited data to provide their services but cannot use it for any other purpose.",
+  "acceptanceOfTerms": "1. Acceptance of Terms",
+  "acceptanceContent": "By using our app, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree, please do not use our app.",
+  "useOfApplication": "2. Use of the Application",
+  "useOfApplicationContent": "You may use our application for lawful purposes only. You agree not to use the app for any illegal or unauthorized purpose.",
+  "userAccounts": "3. User Accounts",
+  "userAccountsContent": "To access certain features of the app, you may be required to create an account. You are responsible for maintaining the confidentiality of your account information and for all activities under your account.",
+  "userContent": "4. User Content",
+  "userContentContent": "You retain all rights to the content you create using our app. However, by using our service, you grant us a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, and display your content for the purpose of providing our services.",
+  "intellectualProperty": "5. Intellectual Property",
+  "intellectualPropertyContent": "All content, trademarks, and other intellectual property rights in the app are owned by us or our licensors. You may not reproduce, modify, or distribute any part of our app without our prior written consent.",
+  "privacyPolicy": "6. Privacy Policy",
+  "privacyPolicyContent": "Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your information. By using the app, you consent to the collection and use of your information in accordance with our Privacy Policy.",
+  "limitationOfLiability": "7. Limitation of Liability",
+  "limitationOfLiabilityContent": "To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, or consequential damages arising out of or in connection with your use of the app.",
+  "termination": "8. Termination",
+  "terminationContent": "We may terminate or suspend your access to the app immediately, without prior notice, for any reason, including violation of these Terms. Upon termination, your right to use the app will immediately cease.",
+  "modificationsToTerms": "9. Modifications to the Terms",
+  "modificationsToTermsContent": "We reserve the right to modify these Terms at any time. We will notify you of any changes by posting the new Terms on this page. Your continued use of the app after any modifications will constitute your acceptance of the new Terms.",
+  "governingLaw": "10. Governing Law",
+  "governingLawContent": "These Terms shall be governed by and construed in accordance with the laws of [Your Country/State]. Any disputes arising out of these Terms shall be resolved in the courts of [Your Jurisdiction].",
+  "contactUs": "11. Contact Us",
+  "contactUsContent": "If you have any questions or concerns about these Terms, please contact us at:\n\nEmail: support@example.com"
 }

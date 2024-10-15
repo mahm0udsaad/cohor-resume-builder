@@ -1,26 +1,31 @@
+"use client";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import Logo from "./logo";
-export function Footer() {
+import { useTranslation } from "@/app/i18n/client";
+export function Footer({ lng }) {
+  const { t } = useTranslation(lng, "common");
   return (
     <footer className="bg-gray-100 border-t border-gray-200">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Logo />
-            <p className="text-sm text-gray-600">
-              Create professional resumes with ease using our intuitive builder.
+            <p className="pt-4 text-sm text-gray-600">
+              {t("footer.description")}
             </p>
           </div>
           <div>
-            <h3 className="font-semibold text-[#3b51a3] mb-4">Product</h3>
+            <h3 className="font-semibold text-[#3b51a3] mb-4">
+              {t("footer.product.title")}
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="#features"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Features
+                  {t("footer.product.features")}
                 </Link>
               </li>
               <li>
@@ -28,7 +33,7 @@ export function Footer() {
                   href="#pricing"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Pricing
+                  {t("footer.product.pricing")}
                 </Link>
               </li>
               <li>
@@ -36,7 +41,7 @@ export function Footer() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Templates
+                  {t("footer.product.templates")}
                 </Link>
               </li>
               <li>
@@ -44,20 +49,22 @@ export function Footer() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Integrations
+                  {t("footer.product.integrations")}
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold text-[#3b51a3] mb-4">Resources</h3>
+            <h3 className="font-semibold text-[#3b51a3] mb-4">
+              {t("footer.resources.title")}
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="#"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Blog
+                  {t("footer.resources.blog")}
                 </Link>
               </li>
               <li>
@@ -65,7 +72,7 @@ export function Footer() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Help Center
+                  {t("footer.resources.helpCenter")}
                 </Link>
               </li>
               <li>
@@ -73,7 +80,7 @@ export function Footer() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Career Tips
+                  {t("footer.resources.careerTips")}
                 </Link>
               </li>
               <li>
@@ -81,20 +88,22 @@ export function Footer() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  FAQs
+                  {t("footer.resources.faqs")}
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold text-[#3b51a3] mb-4">Company</h3>
+            <h3 className="font-semibold text-[#3b51a3] mb-4">
+              {t("footer.company.title")}
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="#"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  About Us
+                  {t("footer.company.aboutUs")}
                 </Link>
               </li>
               <li>
@@ -102,23 +111,23 @@ export function Footer() {
                   href="#"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Careers
+                  {t("footer.company.careers")}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/privacy-policy"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Privacy Policy
+                  {t("footer.company.privacyPolicy")}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/terms-conditions"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
-                  Terms of Service
+                  {t("footer.company.termsOfService")}
                 </Link>
               </li>
             </ul>
@@ -126,10 +135,8 @@ export function Footer() {
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200">
           <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-600">
-              © 2023 ResumeBuilder. All rights reserved.
-            </p>
-            <div className="flex space-x-4">
+            <p className="text-sm text-gray-600">{t("footer.copyright")}</p>
+            <div className="flex gap-4">
               <Link href="#" className="text-gray-600 hover:text-[#3b51a3]">
                 <Facebook className="w-5 h-5" />
                 <span className="sr-only">Facebook</span>

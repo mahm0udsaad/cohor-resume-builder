@@ -8,17 +8,17 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { DeleteConfirmation } from "../btns/delete-dialog";
 import { Skeleton } from "../ui/skeleton";
 import { getResumeTemplate } from "@/helper/get-resume-engin";
 import { DownloadBtn } from "../btns/download-pdf";
+import { useTranslation } from "@/app/i18n/client";
 
-const ResumeCard = ({ resume, user, isNewCard = false, list }) => {
+const ResumeCard = ({ resume, user, isNewCard = false, list, lng }) => {
+  const { t } = useTranslation(lng, "common");
   const ResumeTemplate = React.useMemo(() => {
     if (isNewCard) return null;
-
     const Template = getResumeTemplate(resume.name);
     return dynamic(() => Promise.resolve(Template), {
       ssr: false,
@@ -39,9 +39,8 @@ const ResumeCard = ({ resume, user, isNewCard = false, list }) => {
   return (
     <Card className="block bg-white shadow-md hover:shadow-lg transition-shadow">
       <CardHeader>
-        <CardTitle className="text-[#3b51a3]">Resume {resume.name}</CardTitle>
         <CardDescription>
-          Last updated: {new Date().toLocaleDateString()}
+          {t("lastUpdated")}: {new Date().toLocaleDateString()}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -67,7 +66,7 @@ const ResumeCard = ({ resume, user, isNewCard = false, list }) => {
           data={resumeData}
           userName={user.name.split(" ")[0]}
         />
-        <DeleteConfirmation email={user.email} resumeId={resume.id} />
+        <DeleteConfirmation lng={lng} email={user.email} resumeId={resume.id} />
       </CardFooter>
     </Card>
   );

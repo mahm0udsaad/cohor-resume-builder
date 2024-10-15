@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,11 +13,13 @@ import { Trash2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Toast, ToastProvider } from "@/components/ui/toast";
 import { deleteResume } from "@/actions/resumes";
+import { useTranslation } from "@/app/i18n/client";
 
-export function DeleteConfirmation({ resumeId, email }) {
+export function DeleteConfirmation({ lng, resumeId, email }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation(lng, "forms"); // Use the translation function
 
   const handleDelete = async () => {
     setIsLoading(true);
@@ -29,8 +29,8 @@ export function DeleteConfirmation({ resumeId, email }) {
     setIsOpen(false);
     toast({
       variant: "success",
-      title: "Success",
-      description: "Resume deleted successfully",
+      title: t("successTitle"),
+      description: t("deleteSuccessMessage"),
       duration: 3000,
     });
   };
@@ -45,20 +45,19 @@ export function DeleteConfirmation({ resumeId, email }) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Confirm Deletion</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete this resume? This action cannot be
-              undone.
-            </DialogDescription>
+            <DialogTitle className="text-center">
+              {t("confirmDeletionTitle")}
+            </DialogTitle>
+            <DialogDescription>{t("confirmDeletionMessage")}</DialogDescription>
           </DialogHeader>
-          <DialogFooter className="sm:justify-start">
+          <DialogFooter className="sm:justify-start gap-4">
             <Button
               type="button"
               variant="secondary"
               onClick={() => setIsOpen(false)}
               disabled={isLoading}
             >
-              Cancel
+              {t("cancelButton")}
             </Button>
             <Button
               type="button"
@@ -71,7 +70,7 @@ export function DeleteConfirmation({ resumeId, email }) {
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 </>
               ) : (
-                "Delete"
+                t("deleteButton")
               )}
             </Button>
           </DialogFooter>

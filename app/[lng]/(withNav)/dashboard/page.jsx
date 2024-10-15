@@ -28,7 +28,7 @@ const DashboardPage = async ({ params: { lng } }) => {
       <div className="container mx-auto p-6 ">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-[#3b51a3]">
-            Resume Dashboard
+            {t("dashboard.title")}
           </h1>
           <Link
             href={`/gallery`}
@@ -44,13 +44,13 @@ const DashboardPage = async ({ params: { lng } }) => {
               className="data-[state=active]:bg-[#3B51A3]"
               value="myResumes"
             >
-              My Resumes
+              {t("dashboard.tabs.myResumes")}
             </TabsTrigger>
             <TabsTrigger
               className="data-[state=active]:bg-[#3B51A3]"
               value="myInformation"
             >
-              My Information
+              {t("dashboard.tabs.myInformation")}
             </TabsTrigger>
           </TabsList>
           <TabsContent value="myResumes">
@@ -61,7 +61,7 @@ const DashboardPage = async ({ params: { lng } }) => {
                 </div>
               }
             >
-              <ResumeList />
+              <ResumeList lng={lng} />
             </Suspense>
           </TabsContent>
           <TabsContent value="myInformation">

@@ -87,14 +87,30 @@ const UserBtn = ({ lng }) => {
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link href="/dashboard" className="flex items-center">
-              <User className="mr-2 h-4 w-4" />
-              <span>Dashboard</span>
+              <User className="mx-2 h-4 w-4" />
+              <span>{t("userDropdown.dashboard")}</span>
             </Link>
           </DropdownMenuItem>
+
           <DropdownMenuSeparator />
+
           <DropdownMenuItem onClick={handleLogout} className="text-red-600">
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Log out</span>
+            <LogOut className="mx-2 h-4 w-4" />
+            <span>{t("userDropdown.logout")}</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <div className="pt-2 flex items-center justify-center gap-4 color-blue-500">
+              <Link className="underline text-blue-500" href="/privacy-policy">
+                {t("userDropdown.privacy")}
+              </Link>
+              <Link
+                className="underline text-blue-500"
+                href="/terms-conditions"
+              >
+                {t("userDropdown.terms")}
+              </Link>
+            </div>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

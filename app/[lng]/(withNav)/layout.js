@@ -10,7 +10,7 @@ export default function RootLayout({ children, params: { lng } }) {
     <>
       <Nav lng={lng} />
       <div className="bg-gray-50 min-h-screen">{children}</div>
-      <Footer />
+      <Footer lng={lng} />
     </>
   );
 }

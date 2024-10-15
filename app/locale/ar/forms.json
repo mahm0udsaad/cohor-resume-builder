@@ -102,5 +102,30 @@
     "good": "جيد",
     "average": "متوسط",
     "belowAverage": "دون المتوسط"
-  }
+  },
+  "personalInformation": {
+    "title": "المعلومات الشخصية",
+    "editTitle": "تعديل المعلومات الشخصية",
+    "form": {
+      "name": "الاسم",
+      "jobTitle": "المسمى الوظيفي",
+      "summary": "الملخص",
+      "saveChanges": "حفظ التغييرات",
+      "saving": "جارٍ الحفظ..."
+    },
+    "info": {
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "jobTitle": "المسمى الوظيفي",
+      "noJobTitle": "لا يوجد مسمى وظيفي",
+      "summary": "الملخص",
+      "noSummary": "لا يوجد ملخص"
+    }
+  },
+  "confirmDeletionTitle": "تأكيد الحذف",
+  "confirmDeletionMessage": "هل أنت متأكد أنك تريد حذف هذه السيرة الذاتية؟ لا يمكن التراجع عن هذا الإجراء.",
+  "cancelButton": "إلغاء",
+  "deleteButton": "حذف",
+  "successTitle": "نجاح",
+  "deleteSuccessMessage": "تم حذف السيرة الذاتية بنجاح"
 }
