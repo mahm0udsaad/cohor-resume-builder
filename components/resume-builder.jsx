@@ -52,7 +52,8 @@ const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
 
 export function ResumeBuilder({ resumeName, lng }) {
   const { t } = useTranslation(lng, "builder");
-  const { resumeData, updateResumeData, toggleLanguage } = useResumeData();
+  const { resumeData, updateResumeData, toggleLanguage, updateImageUrl } =
+    useResumeData();
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
 
@@ -69,102 +70,93 @@ export function ResumeBuilder({ resumeName, lng }) {
         <div className={`grid grid-cols-1 md:grid-cols-2 gap-12  `}>
           {/* Resume Form Column */}
           <div className="space-y-6 flex flex-col ">
-            {showTemplates ? (
-              <DynamicGallery />
-            ) : (
-              <>
-                <Tabs
-                  value={activeTab}
-                  onValueChange={handleTabChange}
-                  className="w-full"
+            <Tabs
+              value={activeTab}
+              onValueChange={handleTabChange}
+              className="w-full"
+            >
+              <TabsList className="grid grid-cols-5 mb-8">
+                {tabs.map(({ id, icon: Icon }) => (
+                  <TabsTrigger
+                    key={id}
+                    value={id}
+                    className="flex gap-2  data-[state=active]:bg-[#3B51A3]"
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span className="text-[12px]">{t(`tabs.${id}`)}</span>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ x: 10, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -10, opacity: 0 }}
+                  transition={{ duration: 0.1 }}
                 >
-                  <TabsList className="grid grid-cols-5 mb-8">
-                    {tabs.map(({ id, icon: Icon }) => (
-                      <TabsTrigger
-                        key={id}
-                        value={id}
-                        className="flex gap-2  data-[state=active]:bg-[#3B51A3]"
-                      >
-                        <Icon className="h-4 w-4" />
-                        <span className="text-[12px]">{t(`tabs.${id}`)}</span>
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeTab}
-                      initial={{ x: 10, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      exit={{ x: -10, opacity: 0 }}
-                      transition={{ duration: 0.1 }}
-                    >
-                      <TabsContent value="personal">
-                        <DynamicPersonalInfoForm
-                          lng={lng}
-                          data={resumeData.personalInfo}
-                          updateData={updateResumeData}
-                        />
-                      </TabsContent>
-                      <TabsContent value="experience">
-                        <DynamicExperienceForm
-                          lng={lng}
-                          experiences={resumeData.experiences}
-                          updateData={updateResumeData}
-                        />
-                      </TabsContent>
-                      <TabsContent value="education">
-                        <DynamicEducationForm
-                          lng={lng}
-                          educations={resumeData.educations}
-                          updateData={updateResumeData}
-                        />
-                      </TabsContent>
-                      <TabsContent value="skills">
-                        <DynamicSkillsForm
-                          lng={lng}
-                          skills={resumeData.skills || []}
-                          updateData={updateResumeData}
-                        />
-                      </TabsContent>
-                      <TabsContent value="review">
-                        <DynamicReviewForm
-                          lng={lng}
-                          resumeName={resumeName}
-                          resumeData={resumeData}
-                          theme={selectedTheme}
-                          updateData={updateResumeData}
-                        />
-                      </TabsContent>
-                    </motion.div>
-                  </AnimatePresence>
-                </Tabs>
-                <div className="flex justify-between mb-8">
-                  <Button
-                    onClick={handlePreviousTab}
-                    className={`bg-[#3B51A3] hover:bg-white hover:text-black`}
-                  >
-                    <ChevronLeft
-                      className={`h-4 w-4 mx-2 ${
-                        lng == "ar" ? "rotate-180" : ""
-                      }`}
+                  <TabsContent value="personal">
+                    <DynamicPersonalInfoForm
+                      lng={lng}
+                      updateImageUrl={updateImageUrl}
+                      data={resumeData.personalInfo}
+                      updateData={updateResumeData}
                     />
-                    {t("buttons.previous")} {/* Translation for 'Previous' */}
-                  </Button>
-                  <Button
-                    disabled={activeTab === tabs[tabs.length - 1]}
-                    onClick={handleNextTab}
-                    className={`bg-[#3B51A3] hover:bg-white hover:text-black`}
-                  >
-                    {t("buttons.next")} {/* Translation for 'Next' */}
-                    <ChevronLeft
-                      className={`h-4 w-4 mx-2 ${
-                        lng == "ar" ? "" : "rotate-180"
-                      }`}
+                  </TabsContent>
+                  <TabsContent value="experience">
+                    <DynamicExperienceForm
+                      lng={lng}
+                      experiences={resumeData.experiences}
+                      updateData={updateResumeData}
                     />
-                  </Button>
-                </div>
-              </>
-            )}
+                  </TabsContent>
+                  <TabsContent value="education">
+                    <DynamicEducationForm
+                      lng={lng}
+                      educations={resumeData.educations}
+                      updateData={updateResumeData}
+                    />
+                  </TabsContent>
+                  <TabsContent value="skills">
+                    <DynamicSkillsForm
+                      lng={lng}
+                      skills={resumeData.skills || []}
+                      updateData={updateResumeData}
+                    />
+                  </TabsContent>
+                  <TabsContent value="review">
+                    <DynamicReviewForm
+                      lng={lng}
+                      resumeName={resumeName}
+                      resumeData={resumeData}
+                      theme={selectedTheme}
+                      updateData={updateResumeData}
+                    />
+                  </TabsContent>
+                </motion.div>
+              </AnimatePresence>
+            </Tabs>
+            <div className="flex justify-between mb-8">
+              <Button
+                onClick={handlePreviousTab}
+                className={`bg-[#3B51A3] hover:bg-white hover:text-black`}
+              >
+                <ChevronLeft
+                  className={`h-4 w-4 mx-2 ${lng == "ar" ? "rotate-180" : ""}`}
+                />
+                {t("buttons.previous")} {/* Translation for 'Previous' */}
+              </Button>
+              <Button
+                disabled={activeTab === tabs[tabs.length - 1]}
+                onClick={handleNextTab}
+                className={`bg-[#3B51A3] hover:bg-white hover:text-black`}
+              >
+                {t("buttons.next")} {/* Translation for 'Next' */}
+                <ChevronLeft
+                  className={`h-4 w-4 mx-2 ${lng == "ar" ? "" : "rotate-180"}`}
+                />
+              </Button>
+            </div>
           </div>
 
           {/* Resume Preview Column */}

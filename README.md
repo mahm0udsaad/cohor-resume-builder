@@ -1,7 +1,6 @@
 ## TODO
 
 1. display this information when the user create new resume
-2. create a GPA Input In information form
 
 ## PDF View
 
@@ -9,8 +8,12 @@
 - Elegant.jsx [x]
 - Classic.jsx [x]
 - Modern.jsx [x]
+- creative.jsx [x]
+- elgant-modern.jsx [x]
 
 - Minmal.jsx []
+- glow.jsx []
+- professional.jsx []
 
 - add more templates ( reach 20 )
 - add paymob test payments

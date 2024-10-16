@@ -3,11 +3,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Trash2 } from "lucide-react";
+import { Image, Plus, Trash2 } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
 import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
+import UploadBtn from "../btns/upload-image";
 
-export default function PersonalInfoForm({ data, updateData, lng }) {
+export default function PersonalInfoForm({
+  data,
+  updateData,
+  updateImageUrl,
+  lng,
+}) {
   const { t } = useTranslation(lng, "forms");
 
   const handleChange = (e) => {
@@ -50,7 +56,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
       value: value,
     });
   };
-
+  const addImage = (value) => {};
   return (
     <Card>
       <CardContent className="p-6">
@@ -103,7 +109,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
             </div>
             <div>
               <Label htmlFor="phone" className="text-main">
-                {t("personalInfo.phone")} {/* Translation for "Phone" */}
+                {t("personalInfo.phone")}
               </Label>
               <Input
                 id="phone"
@@ -115,8 +121,8 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
               />
             </div>
           </div>
-
           <div className="grid grid-cols-2 gap-6">
+            <UploadBtn lng={lng} updateImageUrl={updateImageUrl} />
             {data.contact.slice(2).map((contact, index) => (
               <div key={index + 2} className="flex items-center mb-2">
                 <Input
@@ -146,7 +152,7 @@ export default function PersonalInfoForm({ data, updateData, lng }) {
               variant="outline"
               className="main-border"
             >
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="h-4 w-4 mx-2" />
               {t("personalInfo.addContact")}{" "}
             </Button>
           </div>

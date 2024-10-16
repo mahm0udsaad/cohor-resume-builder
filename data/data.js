@@ -1,6 +1,8 @@
 export const dummyData = {
   lng: "en",
   personalInfo: {
+    imageUrl:
+      "https://cloud.sooqsquare.com/apps/sharingpath/nextcloud/upload/1728995478960_vecteezy_gold-award-badge-gaming-avatar-frame_23800403.jpg",
     name: "John Doe",
     jobTitle: "Full Stack Web Developer",
     summary:
@@ -91,11 +93,6 @@ export const dummyData = {
       institution: "University of Technology",
       completionDate: "2019-01",
     },
-    {
-      name: "Database Management",
-      institution: "University of Technology",
-      completionDate: "2019-06",
-    },
   ],
   theme: {
     id: "original",
@@ -108,6 +105,8 @@ export const dummyData = {
 export const dummyDataAr = {
   lng: "ar",
   personalInfo: {
+    imageUrl:
+      "https://cloud.sooqsquare.com/apps/sharingpath/nextcloud/upload/1728995478960_vecteezy_gold-award-badge-gaming-avatar-frame_23800403.jpg",
     name: "جون دو",
     jobTitle: "مطور ويب شامل",
     summary:
@@ -212,7 +211,7 @@ export const dummyDataAr = {
 
 export const translations = {
   en: {
-    profile: "profile",
+    profile: "Profile",
     personalInfo: "Personal Information",
     workExperience: "Work Experience",
     education: "Education",
@@ -224,6 +223,7 @@ export const translations = {
     skillful: "Skillful",
     experienced: "Experienced",
     expert: "Expert",
+    contactInformation: "Contact Information",
   },
   ar: {
     beginner: "مبتدئ",
@@ -238,5 +238,6 @@ export const translations = {
     skills: "المهارات",
     languages: "اللغات",
     summary: "الملخص",
+    contactInformation: "معلومات الاتصال",
   },
 };

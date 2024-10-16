@@ -17,30 +17,35 @@ export const themes = [
     name: "Original",
     primaryColor: "#3B51A3",
     backgroundColor: "#EBF8FF",
+    accentColor: "#2C3A83", // Darker blue accent
   },
   {
     id: "dark",
     name: "Dark",
     primaryColor: "#1E293B",
     backgroundColor: "#F4F4F9",
+    accentColor: "#111827", // Darker gray accent
   },
   {
     id: "nature",
     name: "Nature",
     primaryColor: "#2F855A",
     backgroundColor: "#F0FFF4",
+    accentColor: "#276749", // Darker green accent
   },
   {
     id: "ocean",
     name: "Ocean",
     primaryColor: "#2B6CB0",
     backgroundColor: "#EBF8FF",
+    accentColor: "#1E4A7A", // Darker blue accent
   },
   {
     id: "sunset",
     name: "Sunset",
     primaryColor: "#C05621",
     backgroundColor: "#FFFAF0",
+    accentColor: "#9C4215", // Darker orange accent
   },
 ];
 

@@ -126,6 +126,12 @@ const Classic = ({ resumeData }) => {
         >
           <Text>{edu.institution}</Text> -
           <Text>{formatDate(edu.graduationDate)}</Text>
+          {edu.gpaType === "numeric" && (
+            <Text style={styles.institution}>GPA: {edu.numericGpa}</Text>
+          )}
+          {edu.gpaType === "descriptive" && (
+            <Text style={styles.institution}>GPA: {edu.descriptiveGpa}</Text>
+          )}
         </View>
       </View>
     ));

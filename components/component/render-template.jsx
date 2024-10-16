@@ -19,7 +19,7 @@ const ResumeCard = ({ resume, user, isNewCard = false, list, lng }) => {
   const { t } = useTranslation(lng, "common");
   const ResumeTemplate = React.useMemo(() => {
     if (isNewCard) return null;
-    const Template = getResumeTemplate(resume.name);
+    const Template = getResumeTemplate(resume.name.toLowerCase());
     return dynamic(() => Promise.resolve(Template), {
       ssr: false,
       loading: () => <Skeleton className="w-full h-[300px]" />,

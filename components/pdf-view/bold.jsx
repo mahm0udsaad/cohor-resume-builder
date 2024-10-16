@@ -7,6 +7,7 @@ import { translations } from "@/data/data";
 const createStyles = (isArabic) =>
   StyleSheet.create({
     page: {
+      padding: 20,
       backgroundColor: "white",
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
       color: "#374151", // text-gray-700

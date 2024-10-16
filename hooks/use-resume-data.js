@@ -7,6 +7,7 @@ const initialState = {
     jobTitle: "",
     summary: "",
     contact: ["", ""],
+    imageUrl: "", // Add imageUrl to personalInfo
   },
   experiences: [
     {
@@ -52,6 +53,14 @@ function resumeReducer(state, action) {
       return {
         ...state,
         lng: state.lng === "en" ? "ar" : "en",
+      };
+    case "UPDATE_IMAGE_URL":
+      return {
+        ...state,
+        personalInfo: {
+          ...state.personalInfo,
+          imageUrl: action.url,
+        },
       };
     default:
       return state;
@@ -119,5 +128,8 @@ export function useResumeData(debounceTime = 3000) {
   const updateResumeData = (action) => dispatch(action);
   const toggleLanguage = () => dispatch({ type: "TOGGLE_LANGUAGE" });
 
-  return { resumeData, updateResumeData, toggleLanguage };
+  // New function to update imageUrl
+  const updateImageUrl = (url) => dispatch({ type: "UPDATE_IMAGE_URL", url });
+
+  return { resumeData, updateResumeData, toggleLanguage, updateImageUrl };
 }

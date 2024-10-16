@@ -64,7 +64,7 @@ export function ResumePreview({
           <ResumeComponent
             resumeData={resumeData}
             selectedTheme={selectedTheme}
-            className="scale-[0.6] w-11/12 transfrom translate-y-[-20%]"
+            className="scale-[0.6] transfrom translate-y-[-20%]"
           />
         </div>
       </Suspense>

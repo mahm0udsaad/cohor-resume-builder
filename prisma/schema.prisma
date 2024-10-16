@@ -104,6 +104,7 @@ model Resume {
 type PersonalInfo {
   name     String
   jobTitle String
+  imageUrl String?
   summary  String
   contact  String[]
 }

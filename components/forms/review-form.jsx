@@ -145,7 +145,7 @@ export default function ReviewForm({
               <div key={index} className="mb-4 rounded relative">
                 <div className="flex gap-4 mb-2 mt-8">
                   <div className="flex w-full">
-                    <div className="flex-1 pr-4 ">
+                    <div className="flex-1 px-4 ">
                       <Label
                         htmlFor={`languageName-${index}`}
                         className="text-black"

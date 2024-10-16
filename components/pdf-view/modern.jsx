@@ -196,6 +196,16 @@ const Modern = ({ resumeData }) => {
                     <Text style={styles.institution}>
                       {edu.institution} | {formatDate(edu.graduationDate)}
                     </Text>
+                    {edu.gpaType === "numeric" && (
+                      <Text style={styles.institution}>
+                        GPA: {edu.numericGpa}
+                      </Text>
+                    )}
+                    {edu.gpaType === "descriptive" && (
+                      <Text style={styles.institution}>
+                        GPA: {edu.descriptiveGpa}
+                      </Text>
+                    )}
                   </View>
                 ))}
               </View>

@@ -96,6 +96,14 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
               <p className="text-sm text-gray-600">
                 {edu.institution} | {formatDate(edu.graduationDate)}
               </p>
+              {edu.gpaType === "numeric" && (
+                <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
+              )}
+              {edu.gpaType === "descriptive" && (
+                <p className="text-sm text-gray-600">
+                  GPA: {edu.descriptiveGpa}
+                </p>
+              )}
             </div>
           ))}
         </section>
