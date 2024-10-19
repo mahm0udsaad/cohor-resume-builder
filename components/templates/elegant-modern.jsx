@@ -1,10 +1,14 @@
 import { translations } from "@/data/data";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 export default function ElegantModernResumeTemplate({
   resumeData,
   selectedTheme,
+  className,
 }) {
+  console.log(resumeData.personalInfo);
+
   const theme = selectedTheme || {
     id: "elegant",
     name: "Elegant",
@@ -53,6 +57,7 @@ export default function ElegantModernResumeTemplate({
 
   return (
     <div
+      className={cn("w-full", className)}
       dir={resumeData.lng === "ar" ? "rtl" : "ltr"}
       style={{
         backgroundColor: "white",

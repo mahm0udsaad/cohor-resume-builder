@@ -9,10 +9,10 @@ import {
 } from "@react-pdf/renderer";
 import { memo } from "react";
 
-const createStyles = (resumeData, rtl) =>
+const createStyles = (theme, rtl) =>
   StyleSheet.create({
     page: {
-      backgroundColor: resumeData.theme.backgroundColor,
+      backgroundColor: theme.backgroundColor,
       fontFamily: rtl ? "IBM Plex Sans Arabic" : "Times-Roman",
       padding: 15,
     },
@@ -22,7 +22,7 @@ const createStyles = (resumeData, rtl) =>
       justifyContent: "space-between",
     },
     leftColumn: {
-      backgroundColor: resumeData.theme.primaryColor,
+      backgroundColor: theme.primaryColor,
       color: "white",
       padding: 20,
       borderRadius: 10,
@@ -78,7 +78,7 @@ const createStyles = (resumeData, rtl) =>
     },
     sectionHeading: {
       fontSize: 24,
-      borderBottom: `2px solid ${resumeData.theme.primaryColor}`,
+      borderBottom: `2px solid ${theme.primaryColor}`,
       paddingBottom: 10,
       marginBottom: 14,
     },
@@ -91,7 +91,7 @@ const createStyles = (resumeData, rtl) =>
     },
     experienceCompany: {
       fontSize: 14,
-      color: resumeData.theme.primaryColor,
+      color: theme.primaryColor,
       marginBottom: 5,
     },
     dateText: {
@@ -115,7 +115,15 @@ const createStyles = (resumeData, rtl) =>
 
 const CreativeResumeTemplate = ({ resumeData }) => {
   const rtl = resumeData.lng === "ar";
-  const styles = createStyles(resumeData, rtl);
+  const theme = resumeData.theme || {
+    id: "original",
+    name: "Original",
+    primaryColor: "#3498db",
+    secondaryColor: "#2c3e50",
+    backgroundColor: "#ecf0f1",
+  };
+
+  const styles = createStyles(theme, rtl);
 
   return (
     <Document>

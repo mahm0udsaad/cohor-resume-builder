@@ -20,10 +20,13 @@ import {
   Check,
 } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
+import PaymentBtn from "./btns/pay-btn";
+import { auth } from "@/lib/auth";
 
 export async function LandingPageComponent({ lng }) {
   const { t } = await useTranslation(lng, "common");
-
+  const session = await auth();
+  const user = session?.user;
   const features = [
     {
       icon: <CheckCircle className="w-6 h-6 text-[#3b51a3]" />,
@@ -183,7 +186,13 @@ export async function LandingPageComponent({ lng }) {
                   <span className="group-hover:text-gray-100">
                     {t("stepsCta")}
                   </span>
-                  <ArrowRight className="mx-2 h-4 w-4 transition-transform -translate-x-3 group-hover:translate-x-14" />
+                  <ArrowRight
+                    className={`mx-2 h-4 w-4 transition-transform -translate-x-3 ${
+                      lng === "ar"
+                        ? "group-hover:translate-x-14"
+                        : "group-hover:-translate-x-14"
+                    }`}
+                  />
                 </Link>
               </Button>
             </div>
@@ -219,7 +228,7 @@ export async function LandingPageComponent({ lng }) {
                   </CardHeader>
                   <CardContent className="flex-grow">
                     <p className="text-4xl font-bold text-[#3b51a3] mb-4">
-                      {plan.price}
+                      {index > 0 ? `${plan.price}$` : plan.price}
                     </p>
                     <ul className="space-y-2">
                       {plan.features.map((feature, featureIndex) => (
@@ -231,15 +240,7 @@ export async function LandingPageComponent({ lng }) {
                     </ul>
                   </CardContent>
                   <CardFooter>
-                    <Button
-                      className={`w-full ${
-                        plan.highlighted
-                          ? "bg-[#3b51a3] hover:bg-[#2a3b7a] text-white"
-                          : "bg-gray-100 hover:bg-gray-200 text-[#3b51a3]"
-                      }`}
-                    >
-                      {t("pricingCta")}
-                    </Button>
+                    <PaymentBtn lng={lng} plan={plan} user={user} />
                   </CardFooter>
                 </Card>
               ))}

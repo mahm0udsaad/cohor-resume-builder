@@ -5,6 +5,7 @@ import ResumeCard from "./render-template";
 const ResumeList = async ({ lng }) => {
   const { user } = await auth();
   const resumes = await getUserResumes(user.id);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       {resumes &&

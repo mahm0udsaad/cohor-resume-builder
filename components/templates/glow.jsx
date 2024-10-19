@@ -1,136 +1,241 @@
+import { translations } from "@/data/data";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
-export default function ResumeTemplate({ data }) {
+export default function MinimalistTwoColorResumeTemplate({
+  resumeData,
+  className,
+  selectedTheme,
+}) {
+  const theme = selectedTheme || {
+    id: "minimalist",
+    name: "Minimalist",
+    primaryColor: "#2c3e50",
+    backgroundColor: "#f5f5f5",
+  };
+
+  const t = translations[resumeData.lng] || translations.en;
+
+  const sectionStyle = {
+    marginBottom: "2rem",
+  };
+
+  const headingStyle = {
+    color: theme.primaryColor,
+    fontSize: "1rem",
+    fontWeight: "bold",
+    marginBottom: "1rem",
+    borderBottom: `1px solid ${theme.primaryColor}`,
+    paddingBottom: "0.5rem",
+  };
+
+  const subHeadingStyle = {
+    color: theme.primaryColor,
+    fontSize: "0.9rem",
+    fontWeight: 500,
+    marginBottom: "0.5rem",
+  };
+
+  const textStyle = {
+    fontSize: "0.8rem",
+  };
+
   return (
     <div
-      className="min-h-screen bg-gray-100 py-8"
-      style={{ backgroundColor: data.theme.backgroundColor }}
+      className={cn("lg:w-full", className)}
+      style={{
+        margin: "0 auto",
+        backgroundColor: "white",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        borderRadius: "8px",
+        overflow: "hidden",
+        direction: resumeData.lng === "ar" ? "rtl" : "ltr", // Set direction based on language
+      }}
     >
-      <div className="container mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-        <div
-          className="p-8"
-          style={{ backgroundColor: data.theme.primaryColor }}
-        >
-          <div className="flex items-center">
-            <Image
-              src="/placeholder.svg"
-              alt={data.personalInfo.name}
-              width={150}
-              height={150}
-              className="rounded-full border-4 border-white"
-            />
-            <div className="ml-8">
-              <h1 className="text-4xl font-bold text-white">
-                {data.personalInfo.name}
-              </h1>
-              <h2 className="text-2xl text-white mt-2">
-                {data.personalInfo.jobTitle}
-              </h2>
-            </div>
+      {/* Header */}
+      <header
+        style={{
+          backgroundColor: theme.primaryColor,
+          color: "white",
+          padding: "2rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <div>
+          <h1
+            style={{
+              fontSize: "1.8rem",
+              fontWeight: "bold",
+              marginBottom: "0.5rem",
+              fontWeight: "300",
+            }}
+          >
+            {resumeData.personalInfo.name}
+          </h1>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: "300" }}>
+            {resumeData.personalInfo.jobTitle}
+          </h2>
+        </div>
+        <Image
+          src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
+          alt={resumeData.personalInfo.name}
+          width={120}
+          height={120}
+          style={{
+            borderRadius: "50%",
+            border: "3px solid white",
+          }}
+        />
+      </header>
+
+      {/* Main Content */}
+      <main
+        style={{
+          padding: "1.3rem",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        {/* Contact Information */}
+        <section style={sectionStyle}>
+          <h3 style={headingStyle}>{t.contactInformation}</h3>{" "}
+          {/* Translated */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+            }}
+          >
+            {resumeData.personalInfo.contact?.map((item, index) => (
+              <span
+                key={index}
+                style={{ ...textStyle, marginBottom: "0.5rem" }}
+              >
+                {item}
+              </span>
+            ))}
           </div>
-        </div>
-        <div className="p-8">
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Summary</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>{data.personalInfo.summary}</p>
-            </CardContent>
-          </Card>
+        </section>
 
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Contact</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul>
-                {data.personalInfo.contact.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+        {/* Professional Summary */}
+        <section style={sectionStyle}>
+          <h3 style={headingStyle}>{t.profile}</h3> {/* Translated */}
+          <p style={textStyle}>{resumeData.personalInfo.summary}</p>
+        </section>
 
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Experience</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {data.experiences.map((exp, index) => (
-                <div key={index} className="mb-4">
-                  <h3 className="text-lg font-semibold">{exp.jobTitle}</h3>
-                  <h4 className="text-md">{exp.company}</h4>
-                  <p className="text-sm text-gray-600">{`${exp.startDate} - ${exp.endDate}`}</p>
-                  <p className="mt-2">{exp.responsibilities}</p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+        {/* Professional Experience */}
+        <section style={sectionStyle}>
+          <h3 style={headingStyle}>{t.workExperience}</h3> {/* Translated */}
+          {resumeData.experiences?.map((exp, index) => (
+            <div key={index} style={{ marginBottom: "1.5rem" }}>
+              <h4 style={subHeadingStyle}>
+                {exp.jobTitle} {t.at} {exp.company} {/* Translated */}
+              </h4>
+              <p
+                style={{
+                  fontSize: "0.9rem",
+                  marginBottom: "0.5rem",
+                  fontStyle: "italic",
+                }}
+              >
+                {exp.startDate} - {exp.endDate}
+              </p>
+              <p style={textStyle}>{exp.responsibilities}</p>
+            </div>
+          ))}
+        </section>
 
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Education</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {data.educations.map((edu, index) => (
-                <div key={index} className="mb-4">
-                  <h3 className="text-lg font-semibold">{edu.degree}</h3>
-                  <h4 className="text-md">{edu.institution}</h4>
-                  <p className="text-sm text-gray-600">{edu.graduationDate}</p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+        {/* Education */}
+        <section style={sectionStyle}>
+          <h3 style={headingStyle}>{t.education}</h3> {/* Translated */}
+          {resumeData.educations?.map((edu, index) => (
+            <div key={index} style={{ marginBottom: "1rem" }}>
+              <h4 style={subHeadingStyle}>{edu.degree}</h4>
+              <p style={textStyle}>{edu.institution}</p>
+              <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
+                {edu.graduationDate}
+              </p>
+              {edu.gpaType === "numeric" && (
+                <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
+              )}
+              {edu.gpaType === "descriptive" && (
+                <p className="text-sm text-gray-600">
+                  GPA: {edu.descriptiveGpa}
+                </p>
+              )}
+            </div>
+          ))}
+        </section>
 
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Skills</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
-                {data.skills.map((skill, index) => (
-                  <Badge key={index} variant="secondary">
-                    {skill.name} - {skill.level}
-                  </Badge>
-                ))}
+        {/* Skills */}
+        <section style={sectionStyle}>
+          <h3 style={headingStyle}>{t.skills}</h3> {/* Translated */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+            {resumeData.skills?.map((skill, index) => (
+              <span
+                key={index}
+                style={{
+                  border: `1px solid ${theme.primaryColor}`,
+                  color: theme.primaryColor,
+                  padding: "0.3rem 0.6rem",
+                  borderRadius: "4px",
+                  fontSize: "0.9rem",
+                }}
+              >
+                {skill.name}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        {/* Languages */}
+        <section style={sectionStyle}>
+          <h3 style={headingStyle}>{t.languages}</h3> {/* Translated */}
+          <ul
+            style={{
+              listStyleType: "none",
+              padding: 0,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "1rem",
+            }}
+          >
+            {resumeData.languages?.map((lang, index) => (
+              <li key={index}>
+                <strong>{lang.name}:</strong> {lang.proficiency}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Additional Courses */}
+        <section style={sectionStyle}>
+          <h3 style={headingStyle}>{t.courses}</h3> {/* Translated */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gap: "1rem",
+            }}
+          >
+            {resumeData.courses?.map((course, index) => (
+              <div key={index}>
+                <h4 style={{ ...subHeadingStyle, fontSize: "1rem" }}>
+                  {course.name}
+                </h4>
+                <p style={textStyle}>{course.institution}</p>
+                <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
+                  {course.completionDate}
+                </p>
               </div>
-            </CardContent>
-          </Card>
-
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Languages</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul>
-                {data.languages.map((lang, index) => (
-                  <li key={index}>{`${lang.name} - ${lang.proficiency}`}</li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Courses</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {data.courses.map((course, index) => (
-                <div key={index} className="mb-4">
-                  <h3 className="text-lg font-semibold">{course.name}</h3>
-                  <h4 className="text-md">{course.institution}</h4>
-                  <p className="text-sm text-gray-600">
-                    {course.completionDate}
-                  </p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+            ))}
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

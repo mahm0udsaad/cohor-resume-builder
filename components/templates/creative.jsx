@@ -16,7 +16,7 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
   return (
     <div
       dir={resumeData.lng === "ar" ? "rtl" : "ltr"}
-      className={cn("w-full", className)}
+      className={cn("lg:w-full", className)}
       style={{
         backgroundColor: theme.backgroundColor,
         fontFamily: "Arial, sans-serif",
@@ -38,7 +38,7 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
           style={{
             backgroundColor: theme.primaryColor,
             color: "white",
-            padding: "1.25rem",
+            padding: "1rem",
             borderRadius: "10px",
           }}
         >

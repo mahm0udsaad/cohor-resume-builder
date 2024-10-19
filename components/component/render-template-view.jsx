@@ -10,13 +10,13 @@ const ClientResumeTemplate = ({ templateName, data, list }) => {
     return <div>Template not found</div>;
   }
 
-  if (data.lng == "ar") {
+  if (data.lng === "ar") {
     Font.register({
       family: "IBM Plex Sans Arabic",
       src: "/fonts/ar.ttf",
+      fonts: [{ src: "/fonts/ar-bold.ttf", fontWeight: "bold" }],
     });
   }
-  console.log(data);
 
   return (
     <div className="w-full h-screen overflow-auto">

@@ -1,8 +1,7 @@
 export const dummyData = {
   lng: "en",
   personalInfo: {
-    imageUrl:
-      "https://cloud.sooqsquare.com/apps/sharingpath/nextcloud/upload/1728995478960_vecteezy_gold-award-badge-gaming-avatar-frame_23800403.jpg",
+    imageUrl: "/user.jpg",
     name: "John Doe",
     jobTitle: "Full Stack Web Developer",
     summary:
@@ -105,8 +104,7 @@ export const dummyData = {
 export const dummyDataAr = {
   lng: "ar",
   personalInfo: {
-    imageUrl:
-      "https://cloud.sooqsquare.com/apps/sharingpath/nextcloud/upload/1728995478960_vecteezy_gold-award-badge-gaming-avatar-frame_23800403.jpg",
+    imageUrl: "/user.jpg",
     name: "جون دو",
     jobTitle: "مطور ويب شامل",
     summary:

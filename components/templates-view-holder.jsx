@@ -6,6 +6,8 @@ import elegant from "./pdf-view/elegant";
 import professional from "./pdf-view/professional";
 import CreativeResumeTemplate from "./pdf-view/creative";
 import ElegantModernResumeTemplatePDF from "./pdf-view/elegant-modern";
+import MinimalistTwoColorResumeTemplate from "./pdf-view/glow";
+import creativeTimeline from "./pdf-view/creative-timeline";
 
 export const templateViewComponents = {
   modern: modern,
@@ -16,4 +18,6 @@ export const templateViewComponents = {
   formal: professional,
   creative: CreativeResumeTemplate,
   elegantModern: ElegantModernResumeTemplatePDF,
+  glow: MinimalistTwoColorResumeTemplate,
+  creativeTimeLine: creativeTimeline,
 };
