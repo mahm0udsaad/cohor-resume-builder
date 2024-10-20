@@ -14,7 +14,6 @@ const ClientResumeTemplate = ({ templateName, data, list }) => {
     Font.register({
       family: "IBM Plex Sans Arabic",
       src: "/fonts/ar.ttf",
-      fonts: [{ src: "/fonts/ar-bold.ttf", fontWeight: "bold" }],
     });
   }
 

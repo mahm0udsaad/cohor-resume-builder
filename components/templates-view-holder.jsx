@@ -8,6 +8,10 @@ import CreativeResumeTemplate from "./pdf-view/creative";
 import ElegantModernResumeTemplatePDF from "./pdf-view/elegant-modern";
 import MinimalistTwoColorResumeTemplate from "./pdf-view/glow";
 import creativeTimeline from "./pdf-view/creative-timeline";
+import ProfessionalResume from "./pdf-view/formal";
+import GridLayout from "./pdf-view/gridLayout";
+import ProfessionalSidebarPDF from "./pdf-view/professional-sidebar";
+import BlueHorizonPDF from "./pdf-view/blueHorizon";
 
 export const templateViewComponents = {
   modern: modern,
@@ -20,4 +24,8 @@ export const templateViewComponents = {
   elegantModern: ElegantModernResumeTemplatePDF,
   glow: MinimalistTwoColorResumeTemplate,
   creativeTimeLine: creativeTimeline,
+  professional: ProfessionalResume,
+  gridLayout: GridLayout,
+  ProfessionalSidebar: ProfessionalSidebarPDF,
+  BlueHorizon: BlueHorizonPDF,
 };

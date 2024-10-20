@@ -5,8 +5,4 @@
 
 ## PDF View
 
-- Minmal.jsx []
-- glow.jsx []
-- professional.jsx []
-
 - add more templates ( reach 20 )

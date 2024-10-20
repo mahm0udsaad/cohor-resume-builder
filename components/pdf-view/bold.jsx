@@ -135,7 +135,7 @@ const BoldTemplate = ({ resumeData }) => {
   const styles = createStyles(isArabic);
   return (
     <Document>
-      <Page size="B4" style={styles.page}>
+      <Page wrap={false} size="A4" style={styles.page}>
         <View
           style={[
             styles.header,

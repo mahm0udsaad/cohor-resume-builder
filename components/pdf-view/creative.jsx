@@ -127,7 +127,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
 
   return (
     <Document>
-      <Page size="B4" style={styles.page}>
+      <Page wrap={false} size="A4" style={styles.page}>
         <View style={styles.container}>
           {/* Left Column - static, doesn't wrap */}
           <View style={styles.leftColumn} wrap={false}>

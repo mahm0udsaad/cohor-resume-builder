@@ -98,7 +98,7 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
 
   return (
     <Document>
-      <Page style={styles.page} size="A4">
+      <Page wrap={false} style={styles.page} size="A4">
         {/* Header */}
         <View style={styles.header}>
           <View>

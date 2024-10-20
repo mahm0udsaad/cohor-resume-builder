@@ -84,7 +84,6 @@ export async function LandingPageComponent({ lng }) {
       features: t("pricingPlans.2.features", { returnObjects: true }),
     },
   ];
-
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <main className="flex-grow">

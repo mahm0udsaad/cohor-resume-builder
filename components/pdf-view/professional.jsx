@@ -101,7 +101,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
 
   return (
     <Document>
-      <Page style={styles.page}>
+      <Page wrap={false} style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
           <View

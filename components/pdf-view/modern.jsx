@@ -117,7 +117,7 @@ const Modern = ({ resumeData }) => {
 
   return (
     <Document>
-      <Page size="B4" style={styles.page}>
+      <Page wrap={false} size="A4" style={styles.page}>
         {/* Sidebar */}
         <View
           wrap={false}

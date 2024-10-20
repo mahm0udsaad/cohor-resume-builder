@@ -106,7 +106,7 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
 
   return (
     <div
-      className={cn("bg-white w-full max-w-4xl p-6 sm:p-4", className)}
+      className={cn("bg-white w-full p-6 sm:p-4", className)}
       style={{ direction }} // Set direction based on language
     >
       <div className="flex justify-between items-start">

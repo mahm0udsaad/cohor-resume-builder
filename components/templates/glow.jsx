@@ -44,9 +44,7 @@ export default function MinimalistTwoColorResumeTemplate({
     <div
       className={cn("lg:w-full", className)}
       style={{
-        margin: "0 auto",
         backgroundColor: "white",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         borderRadius: "8px",
         overflow: "hidden",
         direction: resumeData.lng === "ar" ? "rtl" : "ltr", // Set direction based on language

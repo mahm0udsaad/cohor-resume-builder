@@ -114,7 +114,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
 
   return (
     <Document>
-      <Page size={"B4"} style={styles.page}>
+      <Page wrap={false} size={"B4"} style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
           <Image
@@ -131,7 +131,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
               marginTop: "10px",
             }}
           >
-            {resumeData.personalInfo.contact.map((item, index) => (
+            {resumeData.personalInfo.contact?.map((item, index) => (
               <Text key={index}>{item}</Text>
             ))}
           </View>

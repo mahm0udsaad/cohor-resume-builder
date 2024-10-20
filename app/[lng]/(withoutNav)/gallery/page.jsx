@@ -1,10 +1,76 @@
 import { Badge } from "@/components/ui/badge";
-import { dummyData } from "@/data/data";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
 import SearchForm from "@/components/forms/search";
-import { templates } from "@/helper/get-resume-engin";
+import Image from "next/image";
+
+const templates = [
+  {
+    name: "elegantModern",
+    image: "/templates/elegantModern.png",
+  },
+  {
+    name: "bold",
+    image: "/templates/bold.png",
+  },
+  {
+    name: "professional",
+    image: "/templates/professional.png",
+  },
+  {
+    category: "gridLayout",
+    name: "gridLayout",
+    image: "/templates/gridLayout.png",
+  },
+  {
+    name: "formal",
+    image: "/templates/formal.png",
+  },
+  {
+    category: "modern",
+    name: "modern",
+    image: "/templates/modern.png",
+  },
+  {
+    name: "creative",
+    image: "/templates/creative.png",
+  },
+
+  {
+    category: "BlueHorizon",
+    name: "BlueHorizon",
+    image: "/templates/BlueHorizon.png",
+  },
+  {
+    category: "glow",
+    name: "glow",
+    image: "/templates/glow.png",
+  },
+  {
+    category: "creativeTimeLine",
+    name: "creativeTimeLine",
+    image: "/templates/creativeTimeLine.png",
+  },
+  {
+    name: "elegant",
+    image: "/templates/elegant.png",
+  },
+  {
+    category: "ProfessionalSidebar",
+    name: "ProfessionalSidebar",
+    image: "/templates/ProfessionalSidebar.png",
+  },
+  {
+    name: "minimal",
+    image: "/templates/minimal.png",
+  },
+  {
+    category: "classic",
+    name: "classic",
+    image: "/templates/classic.png",
+  },
+];
 
 export default async function TemplateGallery({ params: { lng } }) {
   const { t } = await useTranslation(lng, "common");
@@ -44,9 +110,12 @@ export default async function TemplateGallery({ params: { lng } }) {
                 prefetch={false}
               >
                 <div className="overflow-hidden rounded-lg bg-background shadow transition-all">
-                  <div className="aspect-[3/4] overflow-hidden">
-                    <template.Component
-                      resumeData={dummyData}
+                  <div className="aspect-[4/4] overflow-hidden">
+                    <Image
+                      src={template.image}
+                      alt={template.name}
+                      width={400}
+                      height={300}
                       className={
                         "transition-all group-hover:scale-[0.9] duration-300"
                       }

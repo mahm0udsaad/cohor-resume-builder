@@ -176,7 +176,7 @@ const Classic = ({ resumeData }) => {
 
   return (
     <Document>
-      <Page size="B4" style={styles.page}>
+      <Page wrap={false} size="A4" style={styles.page}>
         {/* Left Column */}
         <View
           style={{
