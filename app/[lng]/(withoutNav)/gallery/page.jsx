@@ -7,8 +7,22 @@ import Image from "next/image";
 
 const templates = [
   {
+    category: "creativeTimeLine",
+    name: "creativeTimeLine",
+    image: "/templates/creativeTimeLine.png",
+  },
+  {
+    category: "BlueHorizon",
+    name: "BlueHorizon",
+    image: "/templates/BlueHorizon.png",
+  },
+  {
     name: "elegantModern",
     image: "/templates/elegantModern.png",
+  },
+  {
+    name: "modernFormal",
+    image: "/templates/modernFormal.png",
   },
   {
     name: "bold",
@@ -23,10 +37,7 @@ const templates = [
     name: "gridLayout",
     image: "/templates/gridLayout.png",
   },
-  {
-    name: "formal",
-    image: "/templates/formal.png",
-  },
+
   {
     category: "modern",
     name: "modern",
@@ -38,20 +49,15 @@ const templates = [
   },
 
   {
-    category: "BlueHorizon",
-    name: "BlueHorizon",
-    image: "/templates/BlueHorizon.png",
+    name: "formal",
+    image: "/templates/formal.png",
   },
   {
     category: "glow",
     name: "glow",
     image: "/templates/glow.png",
   },
-  {
-    category: "creativeTimeLine",
-    name: "creativeTimeLine",
-    image: "/templates/creativeTimeLine.png",
-  },
+
   {
     name: "elegant",
     image: "/templates/elegant.png",
@@ -110,10 +116,11 @@ export default async function TemplateGallery({ params: { lng } }) {
                 prefetch={false}
               >
                 <div className="overflow-hidden rounded-lg bg-background shadow transition-all">
-                  <div className="aspect-[4/4] overflow-hidden">
+                  <div className="aspect-[3/4] overflow-hidden">
                     <Image
                       src={template.image}
                       alt={template.name}
+                      loading="lazy"
                       width={400}
                       height={300}
                       className={

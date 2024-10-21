@@ -1,5 +1,9 @@
 import dynamic from "next/dynamic";
 
+const ModernFormalResumeTemplate = dynamic(
+  () => import("@/components/templates/modern-formal"),
+  { ssr: false },
+);
 const ProfessionalResume = dynamic(
   () => import("@/components/templates/formal"),
   { ssr: false },
@@ -77,74 +81,27 @@ export const templateComponents = {
   BlueHorizon: BlueHorizon,
 };
 export const templates = [
-  {
-    name: "elegantModern",
-    image: "/templates/elegantModern.png",
-  },
-  {
-    name: "bold",
-    image: "/templates/bold.png",
-  },
-  {
-    name: "professional",
-    image: "/templates/professional.png",
-  },
-  {
-    category: "gridLayout",
-    name: "gridLayout",
-    image: "/templates/gridLayout.png",
-  },
-  {
-    name: "formal",
-    image: "/templates/formal.png",
-  },
-  {
-    category: "modern",
-    name: "modern",
-    image: "/templates/modern.png",
-  },
-  {
-    name: "creative",
-    image: "/templates/creative.png",
-  },
-  {
-    name: "minimal",
-    image: "/templates/minimal.png",
-  },
-  {
-    category: "glow",
-    name: "glow",
-    image: "/templates/glow.png",
-  },
-  {
-    category: "creativeTimeLine",
-    name: "creativeTimeLine",
-    image: "/templates/creativeTimeLine.png",
-  },
-  {
-    name: "elegant",
-    Component: ElegantTemplate,
-    image: "/templates/elegant.png",
-  },
-  {
-    category: "classic",
-    name: "classic",
-    Component: ClassicTemplate,
-    image: "/templates/classic.png",
-  },
-  {
-    category: "ProfessionalSidebar",
-    name: "ProfessionalSidebar",
-    Component: ProfessionalSidebar,
-    image: "/templates/ProfessionalSidebar.png",
-  },
-  {
-    category: "BlueHorizon",
-    name: "BlueHorizon",
-    Component: BlueHorizon,
-    image: "/templates/BlueHorizon.png",
-  },
+  { name: "modernFormal", Component: ModernFormalResumeTemplate },
+  { name: "bold", Component: BoldTemplate },
+  { name: "elegant", Component: ElegantTemplate },
+  { category: "modern", name: "modern", Component: ModernTemplate },
+  { category: "classic", name: "classic", Component: ClassicTemplate },
+  { name: "elegantModern", Component: ElegantModernResumeTemplate },
+  { name: "bold", Component: BoldTemplate },
+  { name: "professional", Component: ProfessionalResume },
+  { category: "gridLayout", name: "gridLayout", Component: GridLayoutResume },
+  { name: "formal", Component: FormalTemplate },
+  { category: "modern", name: "modern", Component: ModernTemplate },
+  { name: "creative", Component: CreativeResumeTemplate },
+  { name: "minimal", Component: MinimalTemplate },
+  { name: "glow", Component: GlowResumeTemplate },
+  { name: "creativeTimeLine", Component: CreativeTimelineResumeTemplate },
+  { name: "elegant", Component: ElegantTemplate },
+  { name: "classic", Component: ClassicTemplate },
+  { name: "ProfessionalSidebar", Component: ProfessionalSidebar },
+  { name: "BlueHorizon", Component: BlueHorizon },
 ];
+
 export const getResumeTemplate = (templateName) => {
   return templateComponents[templateName];
 };

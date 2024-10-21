@@ -139,7 +139,7 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
         {/* Right Column */}
         <div
           style={{ backgroundColor: theme.backgroundColor }}
-          className="w-1/3 p-2 sm:p-1 rounded-md text-[12px] sm:text-[12px]"
+          className="w-1/3 p-2 min-h-screen rounded-md text-[12px] "
         >
           <section className="mb-8 sm:mb-6">
             <h3 className="font-bold text-gray-800 sm:text-sm">

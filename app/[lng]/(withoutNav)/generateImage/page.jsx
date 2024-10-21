@@ -21,12 +21,12 @@ export default function GenerateTemplatesPage({ params: { lng } }) {
         </div>
       </header>
       <GenerateAllButton />
-      <main className="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <div className="space-y-12">
+      <main className="py-6 px-4 sm:px-6 lg:px-8">
+        <div className="space-y-12 grid grid-cols-1 items-center justify-center">
           {templates.map((template) => (
             <div
               key={template.name}
-              className="bg-white rounded-lg shadow-lg overflow-hidden"
+              className="bg-white max-w-2xl rounded-lg shadow-lg overflow-hidden"
             >
               <div className="p-6 border-b">
                 <div className="flex justify-between items-center mb-4">
@@ -41,7 +41,7 @@ export default function GenerateTemplatesPage({ params: { lng } }) {
                 {/* Full-width template preview */}
                 <div
                   id={`template-${template.name}`}
-                  className="w-full bg-white"
+                  className="w-full bg-white h-[35rem]"
                   style={{ height: "fit-content" }}
                 >
                   <template.Component resumeData={dummyData} />

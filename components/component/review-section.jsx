@@ -58,6 +58,7 @@ export function ResumePreview({
     if (showTemplates) {
       return <DynamicTemplatesGallery />;
     }
+
     return (
       <Suspense fallback={<ResumePreviewSkeleton />}>
         <div className="resume-preview-container flex-1">

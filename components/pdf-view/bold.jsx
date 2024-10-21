@@ -7,7 +7,6 @@ import { translations } from "@/data/data";
 const createStyles = (isArabic) =>
   StyleSheet.create({
     page: {
-      padding: 20,
       backgroundColor: "white",
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
       color: "#374151", // text-gray-700
@@ -144,6 +143,7 @@ const BoldTemplate = ({ resumeData }) => {
         >
           <Text style={styles.headerName}>{resumeData.personalInfo.name}</Text>
           <Text style={styles.headerTitle}>
+            {"📧"}
             {resumeData.personalInfo.jobTitle}
           </Text>
         </View>
