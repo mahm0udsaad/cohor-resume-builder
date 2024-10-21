@@ -79,6 +79,7 @@ export const templateComponents = {
   gridLayout: GridLayoutResume,
   ProfessionalSidebar: ProfessionalSidebar,
   BlueHorizon: BlueHorizon,
+  modernFormal: ModernFormalResumeTemplate,
 };
 export const templates = [
   { name: "modernFormal", Component: ModernFormalResumeTemplate },

@@ -6,11 +6,26 @@ import { Button } from "@/components/ui/button";
 import { Image } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
 import { uploadToCloud } from "@/lib/cloud";
+import { usePathname } from "next/navigation";
+
+const allowedTemplates = [
+  "elegantModern",
+  "creativeTimeLine",
+  "professional",
+  "gridLayout",
+  "creative",
+  "glow",
+  "formal",
+  "ProfessionalSidebar",
+];
 
 export default function UploadBtn({ lng, updateImageUrl }) {
   const { t } = useTranslation(lng, "forms");
   const imageRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const pathname = usePathname();
+
+  if (!allowedTemplates.includes(pathname.split("/")[3])) return;
 
   const handleImageChange = async (e) => {
     setIsLoading(true);

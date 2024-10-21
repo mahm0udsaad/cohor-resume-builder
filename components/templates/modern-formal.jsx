@@ -1,6 +1,5 @@
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
-import React from "react";
 
 // Assuming data, t, formatDate, and isArabic are passed in as props
 export default function ModernFormalResumeTemplate({
