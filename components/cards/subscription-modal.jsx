@@ -1,4 +1,3 @@
-"use client";
 import { useState, useEffect } from "react";
 import {
   Palette,
@@ -12,6 +11,7 @@ import {
   ImageIcon,
   Loader2,
   CheckCircle,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -81,6 +81,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
               if (onSuccess) {
                 onSuccess(txnData);
               }
+              // Close modal after successful payment
               setTimeout(() => {
                 setIsOpen(false);
                 setPaymentKey(null);
@@ -97,6 +98,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
           }
         } catch (error) {
           console.error("Error processing payment message:", error);
+          setError("An error occurred while processing the payment.");
         }
       }
     };
@@ -116,145 +118,153 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
           amount: plans[activeTab].price,
           currency: "EGP",
           userEmail: user.email,
-          userFirstName: user.name.split(" ")[0] || "Mahmoud",
-          userLastName: user.name.split(" ")[1] || "Mahmoud",
+          userFirstName: user.name?.split(" ")[0] || "User",
+          userLastName: user.name?.split(" ")[1] || "Name",
           userId: user.id,
-          plan: activeTab, // Add this line
+          plan: activeTab,
         }),
       });
-      const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error("Failed to initialize payment");
+      }
+
+      const data = await res.json();
       if (data.payment_key) {
         setPaymentKey(data.payment_key);
       } else {
-        setError("Failed to initialize payment. Please try again.");
+        throw new Error("No payment key received");
       }
     } catch (error) {
-      setError("An error occurred while processing your request.");
-      console.error(error);
+      setError(
+        error.message || "An error occurred while processing your request.",
+      );
+      console.error("Payment initialization error:", error);
     } finally {
       setLoading(false);
     }
   };
 
   const renderPlanContent = () => (
-    <>
-      <h1 className="text-2xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-[#3b51a3] to-[#8a94d9]">
+    <div className="p-6">
+      <h1 className="text-2xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-[#3b51a3] to-[#8a94d9] mb-4">
         Choose Your Plan
       </h1>
-      <p className="text-center">Select the plan that best fits your needs</p>
-      <div>
-        <Tabs
-          defaultValue="free"
-          className="w-full"
-          value={activeTab}
-          onValueChange={setActiveTab}
-        >
-          <TabsList className="grid w-full grid-cols-3 bg-[#3b51a3]/10 p-1 rounded-lg">
-            {Object.entries(plans).map(([key, plan]) => (
-              <TabsTrigger
-                key={key}
-                value={key}
-                className={`data-[state=active]:bg-gradient-to-r ${plan.gradient} data-[state=active]:text-white transition-all duration-300`}
-              >
-                {plan.name}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+      <p className="text-center mb-6">
+        Select the plan that best fits your needs
+      </p>
+      <Tabs
+        defaultValue="free"
+        className="w-full"
+        value={activeTab}
+        onValueChange={setActiveTab}
+      >
+        <TabsList className="grid w-full grid-cols-3 bg-[#3b51a3]/10 p-1 rounded-lg">
           {Object.entries(plans).map(([key, plan]) => (
-            <TabsContent key={key} value={key} className="mt-4">
-              <div className="text-center mb-6">
-                <div
-                  className={`inline-block p-3 rounded-full bg-gradient-to-br ${plan.gradient} mb-4`}
-                >
-                  <plan.icon className="w-8 h-8 text-white" />
-                </div>
-                <div
-                  className={`text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${plan.gradient}`}
-                >
-                  ${plan.price}
-                  <span className="text-xl font-normal text-gray-600 dark:text-gray-400">
-                    /{plan.period}
-                  </span>
-                </div>
-              </div>
-              <ul className="space-y-3 mb-6">
-                {plan.features.map((feature, index) => (
-                  <li
-                    key={index}
-                    className="flex items-center bg-[#3b51a3]/5 p-2 rounded-md transition-all duration-300 hover:bg-[#3b51a3]/10"
-                  >
-                    <div
-                      className={`p-1 rounded-full bg-gradient-to-r ${plan.gradient} mr-3`}
-                    >
-                      <feature.icon className="h-4 w-4 text-white" />
-                    </div>
-                    <span>{feature.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </TabsContent>
+            <TabsTrigger
+              key={key}
+              value={key}
+              className={`data-[state=active]:bg-gradient-to-r ${plan.gradient} data-[state=active]:text-white transition-all duration-300`}
+            >
+              {plan.name}
+            </TabsTrigger>
           ))}
-        </Tabs>
-      </div>
+        </TabsList>
+        {Object.entries(plans).map(([key, plan]) => (
+          <TabsContent key={key} value={key} className="mt-4">
+            <div className="text-center mb-6">
+              <div
+                className={`inline-block p-3 rounded-full bg-gradient-to-br ${plan.gradient} mb-4`}
+              >
+                <plan.icon className="w-8 h-8 text-white" />
+              </div>
+              <div
+                className={`text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${plan.gradient}`}
+              >
+                ${plan.price}
+                <span className="text-xl font-normal text-gray-600 dark:text-gray-400">
+                  /{plan.period}
+                </span>
+              </div>
+            </div>
+            <ul className="space-y-3 mb-6">
+              {plan.features.map((feature, index) => (
+                <li
+                  key={index}
+                  className="flex items-center bg-[#3b51a3]/5 p-2 rounded-md transition-all duration-300 hover:bg-[#3b51a3]/10"
+                >
+                  <div
+                    className={`p-1 rounded-full bg-gradient-to-r ${plan.gradient} mr-3`}
+                  >
+                    <feature.icon className="h-4 w-4 text-white" />
+                  </div>
+                  <span>{feature.text}</span>
+                </li>
+              ))}
+            </ul>
+          </TabsContent>
+        ))}
+      </Tabs>
       {error && (
         <Alert variant="destructive" className="mb-4">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-      <div className="flex flex-col space-y-4">
-        <Button
-          disabled={loading || activeTab === "free"}
-          onClick={handlePayment}
-          className={`w-full bg-gradient-to-r ${plans[activeTab].gradient} text-white hover:opacity-90 transition-opacity duration-300`}
-          size="lg"
-        >
-          {loading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Processing...
-            </>
-          ) : activeTab === "free" ? (
-            "Current Plan"
-          ) : (
-            `Subscribe to ${plans[activeTab].name}`
-          )}
-        </Button>
-        {activeTab !== "free" && (
-          <p className="text-xs text-center text-muted-foreground flex items-center justify-center">
-            <Star className="w-4 h-4 mr-1 text-yellow-500" />
-            30-day money-back guarantee. No questions asked.
-          </p>
+      <Button
+        disabled={loading || activeTab === currentPlan}
+        onClick={handlePayment}
+        className={`w-full bg-gradient-to-r ${plans[activeTab].gradient} text-white hover:opacity-90 transition-opacity duration-300 mt-4`}
+        size="lg"
+      >
+        {loading ? (
+          <>
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            Processing...
+          </>
+        ) : activeTab === currentPlan ? (
+          "Current Plan"
+        ) : (
+          `Subscribe to ${plans[activeTab].name}`
         )}
-      </div>
-    </>
+      </Button>
+    </div>
   );
 
-  const renderPaymentStatus = () => {
-    if (paymentStatus === "success") {
-      return (
-        <div className="flex flex-col items-center justify-center p-8 space-y-4">
+  const renderPaymentFrame = () => (
+    <div className="relative w-full h-[600px]">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute right-2 top-2 z-10"
+        onClick={() => setPaymentKey(null)}
+      >
+        <X className="h-4 w-4" />
+      </Button>
+      <iframe
+        src={`https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${paymentKey}`}
+        className="w-full h-full border-none"
+        title="Payment Frame"
+      />
+    </div>
+  );
+
+  const renderPaymentStatus = () => (
+    <div className="flex flex-col items-center justify-center p-8 space-y-4">
+      {paymentStatus === "success" ? (
+        <>
           <CheckCircle className="w-16 h-16 text-green-500" />
           <h2 className="text-2xl font-bold text-green-500">
             Payment Successful!
           </h2>
           <p>Thank you for your purchase.</p>
-        </div>
-      );
-    }
-    if (paymentStatus === "failed") {
-      return (
-        <div className="flex flex-col items-center justify-center p-8 space-y-4">
-          <Alert variant="destructive">
-            <AlertDescription>
-              Payment failed. Please try again.
-            </AlertDescription>
-          </Alert>
-        </div>
-      );
-    }
-    return null;
-  };
+        </>
+      ) : (
+        <Alert variant="destructive">
+          <AlertDescription>Payment failed. Please try again.</AlertDescription>
+        </Alert>
+      )}
+    </div>
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -263,20 +273,12 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
           Upgrade to PRO+
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
-        {paymentStatus ? (
-          renderPaymentStatus()
-        ) : !paymentKey ? (
-          renderPlanContent()
-        ) : (
-          <div className="w-full h-[600px]">
-            <iframe
-              src={`https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${paymentKey}`}
-              className="w-full h-full border-none"
-              title="Payment Frame"
-            />
-          </div>
-        )}
+      <DialogContent className="max-w-2xl p-0">
+        {paymentStatus
+          ? renderPaymentStatus()
+          : paymentKey
+          ? renderPaymentFrame()
+          : renderPlanContent()}
       </DialogContent>
     </Dialog>
   );
