@@ -124,7 +124,7 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
               {t.contactInformation}
             </Text>
             <View style={styles(theme, lng).contactInfo}>
-              {resumeData.personalInfo.contact.map((item, index) => (
+              {resumeData.personalInfo.contact?.map((item, index) => (
                 <Text key={index} style={styles(theme, lng).text}>
                   {item}
                 </Text>

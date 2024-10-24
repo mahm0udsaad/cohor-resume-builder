@@ -143,7 +143,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
             {/* Contact Section */}
             <View>
               <Text style={styles.sectionTitle}>Contact</Text>
-              {resumeData.personalInfo.contact.map((item, index) => (
+              {resumeData.personalInfo.contact?.map((item, index) => (
                 <Text key={index} style={styles.contactItem}>
                   {item}
                 </Text>

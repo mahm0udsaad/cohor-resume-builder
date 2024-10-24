@@ -125,7 +125,7 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
                 <Text>{t.contactInformation}</Text>
                 <View style={styles.headingBorder}></View>
               </View>
-              {resumeData.personalInfo.contact.map((item, index) => (
+              {resumeData.personalInfo.contact?.map((item, index) => (
                 <Text key={index} style={styles.text}>
                   {item}
                 </Text>

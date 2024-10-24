@@ -1,5 +1,6 @@
 "use server";
 
+import { parseDate } from "@/helper/date";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
@@ -293,5 +294,63 @@ export async function updateExperience(
     return { success: false, error: error.message };
   } finally {
     revalidatePath("/dashboard");
+  }
+}
+
+export async function saveOnboardingData(email, data) {
+  try {
+    // Transform dates in experiences
+    const transformedExperiences =
+      data.experiences?.map((exp) => ({
+        jobTitle: exp.jobTitle,
+        company: exp.company,
+        startDate: parseDate(exp.startDate),
+        endDate: exp.endDate === "Present" ? null : parseDate(exp.endDate),
+        responsibilities: exp.responsibilities,
+      })) || [];
+
+    // Transform dates in educations
+    const transformedEducations =
+      data.educations?.map((edu) => ({
+        degree: edu.degree,
+        institution: edu.institution,
+        graduationDate: edu.graduationDate
+          ? parseDate(edu.graduationDate)
+          : null,
+        gpaType: edu.gpaType,
+        numericGpa: edu.numericGpa
+          ? parseFloat(edu.numericGpa.toString())
+          : null,
+        descriptiveGpa: edu.descriptiveGpa,
+      })) || [];
+
+    // Transform dates in courses
+    const transformedCourses =
+      data.courses?.map((course) => ({
+        name: course.name,
+        institution: course.institution,
+        completionDate: course.completionDate
+          ? parseDate(course.completionDate)
+          : null,
+      })) || [];
+
+    // Update user with all the information
+    const updatedUser = await prisma.user.update({
+      where: { email },
+      data: {
+        name: data.personalInfo.name,
+        personalInfo: data.personalInfo,
+        experiences: transformedExperiences,
+        educations: transformedEducations,
+        skills: data.skills || [],
+        languages: data.languages || [],
+        courses: transformedCourses,
+      },
+    });
+
+    return { success: true, data: updatedUser };
+  } catch (error) {
+    console.error("Error saving onboarding data:", error);
+    return { success: false, error: "Failed to save onboarding data" };
   }
 }

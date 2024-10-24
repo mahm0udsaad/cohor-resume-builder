@@ -137,6 +137,21 @@ exports.Prisma.SessionScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  transactionId: 'transactionId',
+  orderId: 'orderId',
+  amount: 'amount',
+  status: 'status',
+  paymentDate: 'paymentDate',
+  plan: 'plan',
+  endDate: 'endDate',
+  features: 'features',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -144,7 +159,9 @@ exports.Prisma.UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  plan: 'plan',
+  planExpiryDate: 'planExpiryDate'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {
@@ -184,6 +201,7 @@ exports.Prisma.QueryMode = {
 exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
+  Subscription: 'Subscription',
   User: 'User',
   VerificationToken: 'VerificationToken',
   Theme: 'Theme',

@@ -44,7 +44,7 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme }) => {
         <h3 className="text-2xl font-bold mb-4 border-b pb-2 border-white">
           {t.contact}
         </h3>
-        {resumeData.personalInfo.contact.map((item, index) => (
+        {resumeData.personalInfo.contact?.map((item, index) => (
           <div key={index} className="mb-4 text-sm">
             {item}
           </div>

@@ -122,7 +122,7 @@ export default function ElegantModernResumeTemplate({
               <span style={headingBeforeStyle}></span>
               {t.contactInformation}
             </h3>
-            {resumeData.personalInfo.contact.map((item, index) => (
+            {resumeData.personalInfo.contact?.map((item, index) => (
               <p key={index} style={{ ...text, marginBottom: "0.5rem" }}>
                 {item}
               </p>

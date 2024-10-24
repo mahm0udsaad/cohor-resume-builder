@@ -25,7 +25,11 @@ export default function UploadBtn({ lng, updateImageUrl }) {
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
 
-  if (!allowedTemplates.includes(pathname.split("/")[3])) return;
+  if (
+    pathname.split("/")[2] !== "onboarding" &&
+    !allowedTemplates.includes(pathname.split("/")[3])
+  )
+    return;
 
   const handleImageChange = async (e) => {
     setIsLoading(true);
@@ -41,6 +45,7 @@ export default function UploadBtn({ lng, updateImageUrl }) {
     }, 10000);
     setIsLoading(false);
   };
+
   const addImage = () => {
     imageRef.current.click();
   };

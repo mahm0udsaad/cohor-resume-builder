@@ -101,7 +101,7 @@ export default function ModernFormalResumeTemplatePDF({
             </Text>
           </View>
           <View>
-            {resumeData.personalInfo.contact.map((item, index) => (
+            {resumeData.personalInfo.contact?.map((item, index) => (
               <Text key={index} style={styles.content}>
                 {item}
               </Text>

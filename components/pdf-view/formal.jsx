@@ -146,7 +146,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
                 {resumeData.personalInfo.jobTitle}
               </Text>
               <View style={styles.contactInfo}>
-                {resumeData.personalInfo.contact.map((item, index) => (
+                {resumeData.personalInfo.contact?.map((item, index) => (
                   <Text key={index}>{item}</Text>
                 ))}
               </View>

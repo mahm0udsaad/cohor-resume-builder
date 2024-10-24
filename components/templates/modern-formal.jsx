@@ -75,7 +75,7 @@ export default function ModernFormalResumeTemplate({
             alignItems: isArabic ? "flex-start" : "flex-end", // Adjust alignment for Arabic
           }}
         >
-          {resumeData.personalInfo.contact.map((item, index) => (
+          {resumeData.personalInfo.contact?.map((item, index) => (
             <p key={index} style={{ margin: "5px 0" }}>
               {item}
             </p>

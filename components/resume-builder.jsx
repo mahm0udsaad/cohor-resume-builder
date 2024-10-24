@@ -45,10 +45,6 @@ const DynamicReviewForm = dynamic(
     loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
   },
 );
-const DynamicGallery = dynamic(() => import("@/components/templates-gallery"), {
-  loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
-  ssr: false,
-});
 
 export function ResumeBuilder({ resumeName, lng }) {
   const { t } = useTranslation(lng, "builder");

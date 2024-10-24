@@ -1,13 +1,8 @@
-import { getUserResumes } from "@/actions/resumes";
-import { auth } from "@/lib/auth";
 import ResumeCard from "./render-template";
 
-const ResumeList = async ({ lng }) => {
-  const { user } = await auth();
-  const resumes = await getUserResumes(user.id);
-
+const ResumeList = ({ lng, user, resumes }) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 gap-4">
       {resumes &&
         resumes.map((resume) => (
           <ResumeCard

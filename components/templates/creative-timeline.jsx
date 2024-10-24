@@ -133,7 +133,7 @@ function CreativeTimelineResumeTemplate({
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            {resumeData.personalInfo.contact.map((item, index) => (
+            {resumeData.personalInfo.contact?.map((item, index) => (
               <span key={index}>{item}</span>
             ))}
           </div>

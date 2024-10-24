@@ -140,7 +140,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
             <h1 style={styles.name}>{resumeData.personalInfo.name}</h1>
             <p style={styles.jobTitle}>{resumeData.personalInfo.jobTitle}</p>
             <div style={styles.contactInfo}>
-              {resumeData.personalInfo.contact.map((item, index) => (
+              {resumeData.personalInfo.contact?.map((item, index) => (
                 <span key={index}>{item}</span>
               ))}
             </div>

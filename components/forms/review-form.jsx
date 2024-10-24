@@ -115,9 +115,11 @@ export default function ReviewForm({
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="text-2xl font-semibold mb-4 text-black pb-2 border-b">
-          {t("reviewResume.title")}
-        </h2>
+        {resumeName !== "onboarding" && (
+          <h2 className="text-2xl font-semibold mb-4 text-black pb-2 border-b">
+            {t("reviewResume.title")}
+          </h2>
+        )}
         <div className="mb-4">
           <Button
             onClick={() => setShowLanguages(!showLanguages)}
@@ -283,15 +285,17 @@ export default function ReviewForm({
           </>
         )}
 
-        <div className="mt-6">
-          <Button
-            onClick={handleReview}
-            disabled={isLoading}
-            className="w-full bg-main"
-          >
-            {isLoading ? "Loading..." : t("reviewResume.title")}
-          </Button>
-        </div>
+        {resumeName !== "onboarding" && (
+          <div className="mt-6">
+            <Button
+              onClick={handleReview}
+              disabled={isLoading}
+              className="w-full bg-main"
+            >
+              {isLoading ? "Loading..." : t("reviewResume.title")}
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

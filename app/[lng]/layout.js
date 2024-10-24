@@ -1,9 +1,8 @@
-import "@/app/[lng]/globals.css";
+import "./globals.css";
 import { dir } from "i18next";
 import { languages } from "@/app/i18n/settings";
 import AuthProvider from "@/components/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
-import { DirectionProvider } from "@radix-ui/react-direction";
 
 export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }));

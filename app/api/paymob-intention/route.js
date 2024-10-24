@@ -19,6 +19,7 @@ export async function POST(req) {
 
     const authData = await authResponse.json();
     const paymentToken = authData.token;
+
     // Step 2: Create an order
     const orderResponse = await fetch(
       "https://accept.paymobsolutions.com/api/ecommerce/orders",
@@ -30,9 +31,9 @@ export async function POST(req) {
         body: JSON.stringify({
           auth_token: paymentToken,
           delivery_needed: false,
-          amount_cents: Math.round(amount * 100), // Convert amount to cents
+          amount_cents: Math.round(amount * 100),
           currency,
-          merchant_order_id: Date.now(), // Unique ID for your order
+          merchant_order_id: Date.now(),
         }),
       },
     );
@@ -40,7 +41,7 @@ export async function POST(req) {
     const orderData = await orderResponse.json();
     const orderId = orderData.id;
 
-    // Step 3: Create a payment key using the order ID and billing data
+    // Step 3: Create a payment key with iframe specific configurations
     const paymentKeyResponse = await fetch(
       "https://accept.paymobsolutions.com/api/acceptance/payment_keys",
       {
@@ -68,13 +69,16 @@ export async function POST(req) {
             street: "90th Street, 5th District, New Cairo",
           },
           integration_id: process.env.PAYMOB_INTEGRATION_ID,
+          iframe_redirection_parameters: {
+            iframe: true,
+            postMessage: true,
+          },
         }),
       },
     );
 
     const paymentKeyData = await paymentKeyResponse.json();
     const paymentKey = paymentKeyData.token;
-    console.log(paymentKeyData);
 
     return new Response(JSON.stringify({ payment_key: paymentKey }), {
       status: 200,
@@ -83,7 +87,9 @@ export async function POST(req) {
     console.error("Payment Error:", error);
     return new Response(
       JSON.stringify({ error: "Payment processing failed" }),
-      { status: 500 },
+      {
+        status: 500,
+      },
     );
   }
 }

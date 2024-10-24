@@ -65,7 +65,7 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
           >
             {t.contactInformation}
           </h3>
-          {resumeData.personalInfo.contact.map((item, index) => (
+          {resumeData.personalInfo.contact?.map((item, index) => (
             <p key={index} style={{ margin: "5px 0", fontSize: "0.6em" }}>
               {item}
             </p>

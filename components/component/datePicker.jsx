@@ -106,7 +106,7 @@ const DatePicker = ({
           <Button
             variant={"outline"}
             className={cn(
-              "w-full justify-start text-left font-normal border-[#3B51A3] focus:ring-[#3B51A3]",
+              "w-full mt-2 justify-start text-left font-normal border-[#3B51A3] focus:ring-[#3B51A3]",
               !displayValue && "text-muted-foreground",
               disabled && "cursor-not-allowed opacity-50",
             )}
