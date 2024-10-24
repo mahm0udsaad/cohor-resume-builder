@@ -1,3 +1,4 @@
+// /api/paymob-intention/route.js
 export async function POST(req) {
   const { amount, currency, userEmail, userFirstName, userLastName } =
     await req.json();
