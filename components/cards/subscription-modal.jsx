@@ -17,6 +17,47 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+const plans = {
+  free: {
+    name: "Free",
+    price: 0,
+    period: "forever",
+    features: [
+      { text: "Basic Theming", icon: Paintbrush },
+      { text: "5 Templates Available", icon: Layout },
+      { text: "Watermark", icon: ImageIcon },
+    ],
+    buttonText: "Current Plan",
+    icon: Zap,
+    gradient: "from-blue-400 to-blue-600",
+  },
+  pro: {
+    name: "PRO",
+    price: 9.99,
+    period: "month",
+    features: [
+      { text: "Advanced Themes", icon: Palette },
+      { text: "50+ Templates", icon: Layout },
+      { text: "No Watermark", icon: ImageIcon },
+    ],
+    buttonText: "Upgrade to PRO",
+    icon: Star,
+    gradient: "from-purple-400 to-purple-600",
+  },
+  proPlus: {
+    name: "PRO+",
+    price: 19.99,
+    period: "month",
+    features: [
+      { text: "Premium Themes", icon: Crown },
+      { text: "100+ Templates", icon: Layout },
+      { text: "AI Suggestions", icon: Wand2 },
+    ],
+    buttonText: "Upgrade to PRO+",
+    icon: Sparkles,
+    gradient: "from-pink-400 to-pink-600",
+  },
+};
 
 export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
   const [activeTab, setActiveTab] = useState(currentPlan);

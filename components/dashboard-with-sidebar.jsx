@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/popover";
 import ResumeList from "./component/resume-list";
 import { SubscriptionModal } from "./cards/subscription-modal";
+import { formatDate } from "@/helper/date";
 export function DashboardWithSidebarComponent({
   lng,
   user,
@@ -208,7 +209,7 @@ function MainContent({
 }) {
   return (
     <div className="flex-1 overflow-auto bg-[#3b51a3] notfs">
-      <div className="h-full m-3 md:p-8 bg-white rounded-lg">
+      <div className="m-3 md:p-8 bg-white rounded-lg">
         <div className="flex justify-between items-center mb-4">
           <button className="md:hidden" onClick={() => setIsSidebarOpen(true)}>
             <Menu size={24} />
@@ -389,7 +390,7 @@ function ExperienceItem({ experience }) {
       <h3 className="font-semibold">{experience.jobTitle}</h3>
       <p className="text-gray-600">{experience.company}</p>
       <p className="text-sm text-gray-500">
-        {experience.startDate} - {experience.endDate}
+        {formatDate(experience.startDate)} - {formatDate(experience.endDate)}
       </p>
       <p className="mt-1">{experience.responsibilities}</p>
     </div>
@@ -402,7 +403,7 @@ function EducationItem({ education }) {
       <h3 className="font-semibold">{education.degree}</h3>
       <p className="text-gray-600">{education.institution}</p>
       <p className="text-sm text-gray-500">
-        Graduated: {education.graduationDate}
+        Graduated: {formatDate(education.graduationDate)}
       </p>
     </div>
   );
@@ -441,7 +442,7 @@ function CourseItem({ course }) {
       <h3 className="font-semibold">{course.name}</h3>
       <p className="text-gray-600">{course.institution}</p>
       <p className="text-sm text-gray-500">
-        Completed: {course.completionDate}
+        Completed: {formatDate(course.completionDate)}
       </p>
     </div>
   );
