@@ -1,10 +1,16 @@
 // /api/paymob-intention/route.js
 export async function POST(req) {
-  const { amount, currency, userEmail, userFirstName, userLastName } =
-    await req.json();
+  const {
+    amount,
+    currency,
+    userEmail,
+    userFirstName,
+    userLastName,
+    return_url,
+  } = await req.json();
 
   try {
-    // Step 1: Get an authentication token from Paymob
+    // Step 1: Get authentication token (same as before)
     const authResponse = await fetch(
       "https://accept.paymobsolutions.com/api/auth/tokens",
       {
@@ -21,7 +27,7 @@ export async function POST(req) {
     const authData = await authResponse.json();
     const paymentToken = authData.token;
 
-    // Step 2: Create an order
+    // Step 2: Create order (same as before)
     const orderResponse = await fetch(
       "https://accept.paymobsolutions.com/api/ecommerce/orders",
       {
@@ -42,7 +48,7 @@ export async function POST(req) {
     const orderData = await orderResponse.json();
     const orderId = orderData.id;
 
-    // Step 3: Create a payment key with iframe specific configurations
+    // Step 3: Create payment key with return URL for 3D Secure
     const paymentKeyResponse = await fetch(
       "https://accept.paymobsolutions.com/api/acceptance/payment_keys",
       {
@@ -70,10 +76,7 @@ export async function POST(req) {
             street: "90th Street, 5th District, New Cairo",
           },
           integration_id: process.env.PAYMOB_INTEGRATION_ID,
-          iframe_redirection_parameters: {
-            iframe: true,
-            postMessage: true,
-          },
+          return_url, // Add return URL for 3D Secure
         }),
       },
     );
@@ -88,9 +91,7 @@ export async function POST(req) {
     console.error("Payment Error:", error);
     return new Response(
       JSON.stringify({ error: "Payment processing failed" }),
-      {
-        status: 500,
-      },
+      { status: 500 },
     );
   }
 }

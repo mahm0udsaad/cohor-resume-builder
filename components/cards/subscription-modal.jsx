@@ -25,76 +25,24 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null);
+  const [redirectUrl, setRedirectUrl] = useState(null);
 
-  const plans = {
-    free: {
-      name: "Free",
-      price: 0,
-      period: "forever",
-      features: [
-        { text: "Basic Theming", icon: Paintbrush },
-        { text: "5 Templates Available", icon: Layout },
-        { text: "Watermark", icon: ImageIcon },
-      ],
-      buttonText: "Current Plan",
-      icon: Zap,
-      gradient: "from-blue-400 to-blue-600",
-    },
-    pro: {
-      name: "PRO",
-      price: 9.99,
-      period: "month",
-      features: [
-        { text: "Advanced Themes", icon: Palette },
-        { text: "50+ Templates", icon: Layout },
-        { text: "No Watermark", icon: ImageIcon },
-      ],
-      buttonText: "Upgrade to PRO",
-      icon: Star,
-      gradient: "from-purple-400 to-purple-600",
-    },
-    proPlus: {
-      name: "PRO+",
-      price: 19.99,
-      period: "month",
-      features: [
-        { text: "Premium Themes", icon: Crown },
-        { text: "100+ Templates", icon: Layout },
-        { text: "AI Suggestions", icon: Wand2 },
-      ],
-      buttonText: "Upgrade to PRO+",
-      icon: Sparkles,
-      gradient: "from-pink-400 to-pink-600",
-    },
-  };
-
+  // Handle both iframe messages and redirect callbacks
   useEffect(() => {
     const handleMessage = (event) => {
       if (event.origin === "https://accept.paymobsolutions.com") {
         try {
           const data = event.data;
-          if (typeof data === "string" && data.includes("txn_response")) {
-            const txnData = JSON.parse(data.split("txn_response=")[1]);
+          // Handle 3D Secure redirect
+          if (typeof data === "string" && data.includes("url=")) {
+            const url = decodeURIComponent(data.split("url=")[1]);
+            setRedirectUrl(url);
+            return;
+          }
 
-            if (txnData.success === true) {
-              setPaymentStatus("success");
-              if (onSuccess) {
-                onSuccess(txnData);
-              }
-              // Close modal after successful payment
-              setTimeout(() => {
-                setIsOpen(false);
-                setPaymentKey(null);
-                setPaymentStatus(null);
-              }, 2000);
-            } else {
-              setPaymentStatus("failed");
-              setError("Payment failed. Please try again.");
-              setTimeout(() => {
-                setPaymentKey(null);
-                setPaymentStatus(null);
-              }, 2000);
-            }
+          // Handle transaction response
+          if (typeof data === "string" && data.includes("txn_response")) {
+            handlePaymentResponse(data);
           }
         } catch (error) {
           console.error("Error processing payment message:", error);
@@ -103,9 +51,77 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
       }
     };
 
+    // Handle redirect callback
+    const handleRedirectCallback = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const success = urlParams.get("success");
+      const pending = urlParams.get("pending");
+
+      if (success === "true") {
+        setPaymentStatus("success");
+        if (onSuccess) {
+          onSuccess({
+            success: true,
+            transaction_id: urlParams.get("id"),
+            amount: urlParams.get("amount_cents"),
+          });
+        }
+        setTimeout(() => {
+          setIsOpen(false);
+          setPaymentKey(null);
+          setPaymentStatus(null);
+          // Clean up URL parameters
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+          );
+        }, 2000);
+      } else if (pending === "true") {
+        setPaymentStatus("pending");
+      } else {
+        setPaymentStatus("failed");
+        setError("Payment failed. Please try again.");
+      }
+    };
+
     window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
+    // Check for redirect callback on mount
+    if (window.location.search.includes("success=")) {
+      handleRedirectCallback();
+    }
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
   }, [onSuccess]);
+
+  const handlePaymentResponse = (data) => {
+    try {
+      const txnData = JSON.parse(data.split("txn_response=")[1]);
+      if (txnData.success === true) {
+        setPaymentStatus("success");
+        if (onSuccess) {
+          onSuccess(txnData);
+        }
+        setTimeout(() => {
+          setIsOpen(false);
+          setPaymentKey(null);
+          setPaymentStatus(null);
+        }, 2000);
+      } else {
+        setPaymentStatus("failed");
+        setError("Payment failed. Please try again.");
+        setTimeout(() => {
+          setPaymentKey(null);
+          setPaymentStatus(null);
+        }, 2000);
+      }
+    } catch (error) {
+      console.error("Error parsing transaction response:", error);
+      setError("An error occurred while processing the payment.");
+    }
+  };
 
   const handlePayment = async () => {
     setLoading(true);
@@ -122,6 +138,8 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
           userLastName: user.name?.split(" ")[1] || "Name",
           userId: user.id,
           plan: activeTab,
+          // Add return URL for 3D Secure
+          return_url: `${window.location.origin}${window.location.pathname}`,
         }),
       });
 
@@ -132,6 +150,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
       const data = await res.json();
       if (data.payment_key) {
         setPaymentKey(data.payment_key);
+        setRedirectUrl(null);
       } else {
         throw new Error("No payment key received");
       }
@@ -236,15 +255,26 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
         variant="ghost"
         size="icon"
         className="absolute right-2 top-2 z-10"
-        onClick={() => setPaymentKey(null)}
+        onClick={() => {
+          setPaymentKey(null);
+          setRedirectUrl(null);
+        }}
       >
         <X className="h-4 w-4" />
       </Button>
-      <iframe
-        src={`https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${paymentKey}`}
-        className="w-full h-full border-none"
-        title="Payment Frame"
-      />
+      {redirectUrl ? (
+        <iframe
+          src={redirectUrl}
+          className="w-full h-full border-none"
+          title="3D Secure Authentication"
+        />
+      ) : (
+        <iframe
+          src={`https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${paymentKey}`}
+          className="w-full h-full border-none"
+          title="Payment Frame"
+        />
+      )}
     </div>
   );
 
@@ -257,6 +287,14 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
             Payment Successful!
           </h2>
           <p>Thank you for your purchase.</p>
+        </>
+      ) : paymentStatus === "pending" ? (
+        <>
+          <Loader2 className="w-16 h-16 text-blue-500 animate-spin" />
+          <h2 className="text-2xl font-bold text-blue-500">
+            Payment Processing
+          </h2>
+          <p>Please wait while we confirm your payment...</p>
         </>
       ) : (
         <Alert variant="destructive">
