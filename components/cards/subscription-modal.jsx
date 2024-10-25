@@ -164,12 +164,12 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
       setError("An error occurred while processing the payment.");
     }
   };
-
   const handlePayment = async () => {
+    const currentUrl = window.location.href;
+    localStorage.setItem("currentUrl", currentUrl);
     setLoading(true);
     setError(null);
     try {
-      const currentUrl = window.location.href;
       const res = await fetch("/api/paymob-intention", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -180,9 +180,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
           userFirstName: user.name?.split(" ")[0] || "User",
           userLastName: user.name?.split(" ")[1] || "Name",
           plan: activeTab,
-          return_url: `${
-            window.location.origin
-          }/payment-status?redirect=${encodeURIComponent(currentUrl)}`,
+          return_url: currentUrl,
         }),
       });
 
@@ -193,7 +191,6 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
       const data = await res.json();
       if (data.payment_key) {
         setPaymentKey(data.payment_key);
-        setRedirectUrl(null);
       } else {
         throw new Error("No payment key received");
       }
@@ -300,24 +297,15 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
         className="absolute right-2 top-2 z-10"
         onClick={() => {
           setPaymentKey(null);
-          setRedirectUrl(null);
         }}
       >
         <X className="h-4 w-4" />
       </Button>
-      {redirectUrl ? (
-        <iframe
-          src={redirectUrl}
-          className="w-full h-full border-none"
-          title="3D Secure Authentication"
-        />
-      ) : (
-        <iframe
-          src={`https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${paymentKey}`}
-          className="w-full h-full border-none"
-          title="Payment Frame"
-        />
-      )}
+      <iframe
+        src={`https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${paymentKey}`}
+        className="w-full h-full border-none"
+        title="Payment Frame"
+      />
     </div>
   );
 
@@ -354,7 +342,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
           Upgrade to PRO+
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl p-0">
+      <DialogContent className={paymentKey ? "max-w-5xl p-0" : "max-w-2xl p-0"}>
         {paymentStatus
           ? renderPaymentStatus()
           : paymentKey

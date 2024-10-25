@@ -14,21 +14,13 @@ export default function PaymentStatus() {
 
   useEffect(() => {
     const success = searchParams.get("success");
-    const pending = searchParams.get("pending");
-    const redirectUrl = searchParams.get("redirect");
-    const txn_id = searchParams.get("id");
-    const amount = searchParams.get("amount_cents");
+    const redirectUrl = localStorage.getItem("currentUrl");
 
+    console.log(redirectUrl);
     // Set initial status
     if (success === "true") {
       setStatus("success");
       // Store transaction details if needed
-      if (txn_id && amount) {
-        // You can dispatch to your state management or make an API call here
-        console.log("Transaction successful:", { txn_id, amount });
-      }
-    } else if (pending === "true") {
-      setStatus("loading");
     } else {
       setStatus("error");
     }
@@ -39,10 +31,7 @@ export default function PaymentStatus() {
         setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(timer);
-            // Clean up URL parameters from the redirectUrl
-            const cleanRedirectUrl =
-              decodeURIComponent(redirectUrl).split("?")[0];
-            router.push(cleanRedirectUrl);
+            router.push(redirectUrl);
           }
           return prev - 1;
         });
@@ -86,13 +75,14 @@ export default function PaymentStatus() {
           </h1>
           <p className="text-gray-600 text-center">{content.description}</p>
 
-          {searchParams.get("redirect") && (
-            <Alert className="mt-4">
-              <AlertDescription>
-                Redirecting in {countdown} seconds...
-              </AlertDescription>
-            </Alert>
-          )}
+          {status === "success" ||
+            (status === "error" && (
+              <Alert className="mt-4">
+                <AlertDescription>
+                  Redirecting in {countdown} seconds...
+                </AlertDescription>
+              </Alert>
+            ))}
 
           {status === "error" && (
             <div className="flex space-x-4">

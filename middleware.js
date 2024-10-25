@@ -5,7 +5,6 @@ import Negotiator from "negotiator";
 import { languages, fallbackLng } from "./app/i18n/settings";
 
 function getLocale(request) {
-  // Check for the NEXT_LOCALE cookie first
   const cookieLocale = request.cookies.get("NEXT_LOCALE")?.value;
   if (cookieLocale && languages.includes(cookieLocale)) {
     return cookieLocale;
@@ -14,33 +13,33 @@ function getLocale(request) {
   const negotiatorHeaders = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
-  const availableLanguages = languages;
-
   const browserLanguages = new Negotiator({
     headers: negotiatorHeaders,
   }).languages();
-  const locale = matchLocale(browserLanguages, availableLanguages, fallbackLng);
 
-  return locale;
+  return matchLocale(browserLanguages, languages, fallbackLng);
 }
 
 export function middleware(request) {
-  if (
-    request.nextUrl.pathname.startsWith("/api") ||
-    request.nextUrl.pathname.startsWith("/fonts")
-  ) {
+  const pathname = request.nextUrl.pathname;
+
+  if (pathname.startsWith("/api") || pathname.startsWith("/fonts")) {
     return NextResponse.next();
   }
 
-  const pathname = request.nextUrl.pathname;
   const pathnameIsMissingLocale = languages.every(
-    (locale) =>
-      !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
+    (locale) => !pathname.startsWith(`/${locale}`),
   );
 
   if (pathnameIsMissingLocale) {
     const locale = getLocale(request);
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url));
+    const searchParams = request.nextUrl.search;
+    const redirectUrl = new URL(
+      `/${locale}${pathname}${searchParams}`,
+      request.url,
+    );
+
+    return NextResponse.redirect(redirectUrl);
   }
 }
 
