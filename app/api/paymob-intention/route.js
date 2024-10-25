@@ -9,6 +9,12 @@ export async function POST(req) {
     return_url,
   } = await req.json();
 
+  if (!return_url) {
+    return new Response(JSON.stringify({ error: "Return URL is required" }), {
+      status: 400,
+    });
+  }
+
   try {
     // Step 1: Get authentication token (same as before)
     const authResponse = await fetch(
@@ -76,7 +82,7 @@ export async function POST(req) {
             street: "90th Street, 5th District, New Cairo",
           },
           integration_id: process.env.PAYMOB_INTEGRATION_ID,
-          return_url, // Add return URL for 3D Secure
+          return_url: return_url, // Add the return_url here
         }),
       },
     );

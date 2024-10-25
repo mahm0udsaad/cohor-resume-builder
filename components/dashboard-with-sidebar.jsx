@@ -209,7 +209,7 @@ function MainContent({
 }) {
   return (
     <div className="flex-1 overflow-auto bg-[#3b51a3] notfs">
-      <div className="m-3 md:p-8 bg-white rounded-lg">
+      <div className="min-h-screen m-3 md:p-8 bg-white rounded-lg">
         <div className="flex justify-between items-center mb-4">
           <button className="md:hidden" onClick={() => setIsSidebarOpen(true)}>
             <Menu size={24} />

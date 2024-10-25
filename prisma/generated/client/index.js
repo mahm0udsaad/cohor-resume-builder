@@ -187,7 +187,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\test-1\\cohor-resume-builder\\prisma\\generated\\client",
+      "value": "E:\\cv-builder\\prisma\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -201,12 +201,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\test-1\\cohor-resume-builder\\prisma\\schema.prisma",
+    "sourceFilePath": "E:\\cv-builder\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../..",
   "clientVersion": "5.20.0",
@@ -215,6 +214,7 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

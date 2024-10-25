@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+
 const plans = {
   free: {
     name: "Free",
@@ -168,6 +169,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
     setLoading(true);
     setError(null);
     try {
+      const currentUrl = window.location.href;
       const res = await fetch("/api/paymob-intention", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -177,10 +179,10 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
           userEmail: user.email,
           userFirstName: user.name?.split(" ")[0] || "User",
           userLastName: user.name?.split(" ")[1] || "Name",
-          userId: user.id,
           plan: activeTab,
-          // Add return URL for 3D Secure
-          return_url: `${window.location.origin}${window.location.pathname}`,
+          return_url: `${
+            window.location.origin
+          }/payment-status?redirect=${encodeURIComponent(currentUrl)}`,
         }),
       });
 

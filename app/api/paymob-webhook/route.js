@@ -1,136 +1,138 @@
-// app/api/paymob-webhook/route.js
+import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
-// Define plan amounts and their corresponding details
-const PLAN_AMOUNTS = {
-  999: {
-    name: "pro",
-    period: 30, // days
-    features: ["advanced_themes", "no_watermark", "50_templates"],
-  },
-  1999: {
-    name: "proPlus",
-    period: 30, // days
-    features: ["premium_themes", "ai_suggestions", "100_templates"],
-  },
-};
+// Verify PayMob webhook signature
+function verifyWebhookSignature(hmac, body) {
+  const crypto = require("crypto");
+  const calculatedHmac = crypto
+    .createHmac("sha512", process.env.PAYMOB_HMAC_SECRET)
+    .update(body)
+    .digest("hex");
+  return hmac === calculatedHmac;
+}
 
-export async function POST(req) {
-  try {
-    const headersList = headers();
-    const hmac = headersList.get("hmac");
-    const data = await req.json();
-
-    // Verify HMAC
-    const calculatedHmac = calculateHmac(data);
-    if (hmac !== calculatedHmac) {
-      return new Response(JSON.stringify({ error: "Invalid HMAC" }), {
-        status: 401,
-      });
-    }
-
-    const {
-      obj: {
-        id: transaction_id,
-        order: { id: order_id },
-        amount_cents,
-        success,
-        is_refunded,
-        has_parent_transaction,
-      },
-    } = data;
-
-    // Get userId from the order's extra_description
-    const userId = data.obj.order.shipping_data.extra_description;
-
-    if (success && !is_refunded && !has_parent_transaction) {
-      // Determine the plan based on the amount
-      const amountKey = (amount_cents / 100).toString();
-      const planDetails = PLAN_AMOUNTS[amountKey];
-
-      if (!planDetails) {
-        console.error(
-          "Invalid payment amount, no matching plan:",
-          amount_cents,
-        );
-        return new Response(
-          JSON.stringify({ status: "error", message: "Invalid plan amount" }),
-          {
-            status: 200,
-          },
-        );
-      }
-
-      // Calculate subscription end date
-      const subscriptionEndDate = new Date();
-      subscriptionEndDate.setDate(
-        subscriptionEndDate.getDate() + planDetails.period,
-      );
-
-      // Begin transaction to update both subscription and user
-      await prisma.$transaction(async (tx) => {
-        // Create subscription record
-        await tx.subscription.create({
-          data: {
-            userId,
-            transactionId: transaction_id.toString(),
-            orderId: order_id.toString(),
-            amount: amount_cents / 100,
-            status: "active",
-            paymentDate: new Date(),
-            plan: planDetails.name,
-            endDate: subscriptionEndDate,
-            features: planDetails.features,
-          },
-        });
-
-        // Update user's plan
-        await tx.user.update({
-          where: { id: userId },
-          data: {
-            plan: planDetails.name,
-            planExpiryDate: subscriptionEndDate,
-          },
-        });
-
-        // Optionally, deactivate any previous active subscriptions
-        await tx.subscription.updateMany({
-          where: {
-            userId,
-            status: "active",
-            transactionId: {
-              not: transaction_id.toString(),
-            },
-          },
-          data: {
-            status: "inactive",
-          },
-        });
-      });
-
-      // Could add notification logic here
-      // await sendSubscriptionConfirmationEmail(userId, planDetails);
-    }
-
-    return new Response(JSON.stringify({ status: "success" }), {
-      status: 200,
-    });
-  } catch (error) {
-    console.error("Webhook Error:", error);
-    return new Response(
-      JSON.stringify({ status: "error", message: error.message }),
-      {
-        status: 200,
-      },
-    );
+// Get plan duration in days
+function getPlanDuration(plan) {
+  switch (plan) {
+    case "pro":
+      return 30; // 1 month
+    case "proPlus":
+      return 30; // 1 month
+    default:
+      return 0;
   }
 }
 
-function calculateHmac(data) {
-  const crypto = require("crypto");
-  const secret = process.env.PAYMOB_HMAC_SECRET;
-  const dataString = typeof data === "string" ? data : JSON.stringify(data);
+// Convert amount_cents to plan type
+function getPlanFromAmount(amountCents) {
+  switch (amountCents) {
+    case 999: // $9.99
+      return "pro";
+    case 1999: // $19.99
+      return "proPlus";
+    default:
+      return "free";
+  }
+}
 
-  return crypto.createHmac("sha512", secret).update(dataString).digest("hex");
+export async function POST(req) {
+  try {
+    // Verify webhook signature
+    const hmacHeader = headers().get("hmac");
+    if (!hmacHeader) {
+      return NextResponse.json(
+        { error: "Missing HMAC signature" },
+        { status: 401 },
+      );
+    }
+
+    const body = await req.text();
+    if (!verifyWebhookSignature(hmacHeader, body)) {
+      return NextResponse.json(
+        { error: "Invalid HMAC signature" },
+        { status: 401 },
+      );
+    }
+
+    const webhookData = JSON.parse(body);
+    const { type, obj } = webhookData;
+
+    // Only process successful transactions
+    if (type !== "TRANSACTION" || !obj.success) {
+      return NextResponse.json(
+        { message: "Skipped non-successful transaction" },
+        { status: 200 },
+      );
+    }
+
+    const {
+      amount_cents,
+      order,
+      payment_key_claims: { billing_data },
+      created_at,
+      id: transactionId,
+    } = obj;
+
+    // Find user by email
+    const user = await prisma.user.findUnique({
+      where: { email: billing_data.email },
+    });
+    console.log(user);
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const plan = getPlanFromAmount(amount_cents);
+    const planDuration = getPlanDuration(plan);
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + planDuration);
+    console.log(plan);
+    // Create subscription record
+    const subscription = await prisma.subscription.create({
+      data: {
+        userId: user.id,
+        transactionId: transactionId.toString(),
+        orderId: order.id.toString(),
+        amount: amount_cents / 100, // Convert cents to dollars
+        status: "active",
+        paymentDate: new Date(created_at),
+        plan,
+        endDate,
+        features:
+          plan === "proPlus"
+            ? [
+                "Advanced Themes",
+                "100+ Templates",
+                "AI Suggestions",
+                "No Watermark",
+              ]
+            : ["Advanced Themes", "50+ Templates", "No Watermark"],
+      },
+    });
+    console.log(subscription);
+    // Update user's plan and expiry date
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        plan,
+        planExpiryDate: endDate,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "Subscription processed successfully",
+        subscriptionId: subscription.id,
+      },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("Webhook processing error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
 }
