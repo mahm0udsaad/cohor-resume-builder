@@ -17,50 +17,14 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useTranslation } from "@/app/i18n/client";
 
-const plans = {
-  free: {
-    name: "Free",
-    price: 0,
-    period: "forever",
-    features: [
-      { text: "Basic Theming", icon: Paintbrush },
-      { text: "5 Templates Available", icon: Layout },
-      { text: "Watermark", icon: ImageIcon },
-    ],
-    buttonText: "Current Plan",
-    icon: Zap,
-    gradient: "from-blue-400 to-blue-600",
-  },
-  pro: {
-    name: "PRO",
-    price: 9.99,
-    period: "month",
-    features: [
-      { text: "Advanced Themes", icon: Palette },
-      { text: "50+ Templates", icon: Layout },
-      { text: "No Watermark", icon: ImageIcon },
-    ],
-    buttonText: "Upgrade to PRO",
-    icon: Star,
-    gradient: "from-purple-400 to-purple-600",
-  },
-  proPlus: {
-    name: "PRO+",
-    price: 19.99,
-    period: "month",
-    features: [
-      { text: "Premium Themes", icon: Crown },
-      { text: "100+ Templates", icon: Layout },
-      { text: "AI Suggestions", icon: Wand2 },
-    ],
-    buttonText: "Upgrade to PRO+",
-    icon: Sparkles,
-    gradient: "from-pink-400 to-pink-600",
-  },
-};
-
-export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
+export function SubscriptionModal({
+  currentPlan = "free",
+  user,
+  onSuccess,
+  lng,
+}) {
   const [activeTab, setActiveTab] = useState(currentPlan);
   const [loading, setLoading] = useState(false);
   const [paymentKey, setPaymentKey] = useState(null);
@@ -68,7 +32,48 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
   const [isOpen, setIsOpen] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState(null);
-
+  const { t } = useTranslation(lng, "common");
+  const plans = {
+    free: {
+      name: t("plans.free.name"),
+      price: 0,
+      period: t("plans.free.period"),
+      features: [
+        { text: t("plans.free.features.basicTheming"), icon: Paintbrush },
+        { text: t("plans.free.features.templatesAvailable"), icon: Layout },
+        { text: t("plans.free.features.watermark"), icon: ImageIcon },
+      ],
+      buttonText: t("plans.free.buttonText"),
+      icon: Zap,
+      gradient: "from-blue-400 to-blue-600",
+    },
+    pro: {
+      name: t("plans.pro.name"),
+      price: 9.99,
+      period: t("plans.pro.period"),
+      features: [
+        { text: t("plans.pro.features.advancedThemes"), icon: Palette },
+        { text: t("plans.pro.features.templatesAvailable"), icon: Layout },
+        { text: t("plans.pro.features.noWatermark"), icon: ImageIcon },
+      ],
+      buttonText: t("plans.pro.buttonText"),
+      icon: Star,
+      gradient: "from-purple-400 to-purple-600",
+    },
+    proPlus: {
+      name: t("plans.proPlus.name"),
+      price: 19.99,
+      period: t("plans.proPlus.period"),
+      features: [
+        { text: t("plans.proPlus.features.premiumThemes"), icon: Crown },
+        { text: t("plans.proPlus.features.templatesAvailable"), icon: Layout },
+        { text: t("plans.proPlus.features.aiSuggestions"), icon: Wand2 },
+      ],
+      buttonText: t("plans.proPlus.buttonText"),
+      icon: Sparkles,
+      gradient: "from-pink-400 to-pink-600",
+    },
+  };
   // Handle both iframe messages and redirect callbacks
   useEffect(() => {
     const handleMessage = (event) => {
@@ -207,11 +212,9 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
   const renderPlanContent = () => (
     <div className="p-6">
       <h1 className="text-2xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-[#3b51a3] to-[#8a94d9] mb-4">
-        Choose Your Plan
+        {t("subscription.title")}
       </h1>
-      <p className="text-center mb-6">
-        Select the plan that best fits your needs
-      </p>
+      <p className="text-center mb-6">{t("subscription.subtitle")}</p>
       <Tabs
         defaultValue="free"
         className="w-full"
@@ -225,7 +228,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
               value={key}
               className={`data-[state=active]:bg-gradient-to-r ${plan.gradient} data-[state=active]:text-white transition-all duration-300`}
             >
-              {plan.name}
+              {t(`subscription.plans.${key}.name`)}
             </TabsTrigger>
           ))}
         </TabsList>
@@ -242,7 +245,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
               >
                 ${plan.price}
                 <span className="text-xl font-normal text-gray-600 dark:text-gray-400">
-                  /{plan.period}
+                  /{t("subscription.period")}
                 </span>
               </div>
             </div>
@@ -253,7 +256,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
                   className="flex items-center bg-[#3b51a3]/5 p-2 rounded-md transition-all duration-300 hover:bg-[#3b51a3]/10"
                 >
                   <div
-                    className={`p-1 rounded-full bg-gradient-to-r ${plan.gradient} mr-3`}
+                    className={`p-1 rounded-full bg-gradient-to-r ${plan.gradient} mx-3`}
                   >
                     <feature.icon className="h-4 w-4 text-white" />
                   </div>
@@ -278,12 +281,14 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
         {loading ? (
           <>
             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            Processing...
+            {t("subscription.processing")}
           </>
         ) : activeTab === currentPlan ? (
-          "Current Plan"
+          t("subscription.currentPlan")
         ) : (
-          `Subscribe to ${plans[activeTab].name}`
+          `${t("subscription.subscribe")} ${t(
+            `subscription.plans.${activeTab}.name`,
+          )}`
         )}
       </Button>
     </div>
@@ -339,7 +344,7 @@ export function SubscriptionModal({ currentPlan = "free", user, onSuccess }) {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-700 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl">
-          Upgrade to PRO+
+          {t("subscription.upgradeButton")}
         </Button>
       </DialogTrigger>
       <DialogContent className={paymentKey ? "max-w-5xl p-0" : "max-w-2xl p-0"}>

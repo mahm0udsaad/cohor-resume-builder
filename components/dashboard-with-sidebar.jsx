@@ -1,7 +1,6 @@
 "use client";
-
 import { useState } from "react";
-import Image from "next/image";
+import Sidebar from "@/components/component/dashboard-sidebar";
 import {
   Briefcase,
   GraduationCap,
@@ -15,11 +14,7 @@ import {
   ChevronDown,
   ChevronUp,
   Menu,
-  X,
   Plus,
-  LogOut,
-  File,
-  Layout,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,14 +25,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import ResumeList from "./component/resume-list";
-import { SubscriptionModal } from "./cards/subscription-modal";
 import { formatDate } from "@/helper/date";
+import { t } from "i18next";
+import { useTranslation } from "@/app/i18n/client";
 export function DashboardWithSidebarComponent({
   lng,
   user,
@@ -70,8 +61,9 @@ export function DashboardWithSidebarComponent({
   };
 
   return (
-    <div className="flex h-screen  bg-gray-100">
+    <div className="flex h-screen bg-gray-100">
       <Sidebar
+        lng={lng}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         isSidebarOpen={isSidebarOpen}
@@ -97,105 +89,6 @@ export function DashboardWithSidebarComponent({
   );
 }
 
-function Sidebar({
-  activeTab,
-  setActiveTab,
-  isSidebarOpen,
-  setIsSidebarOpen,
-  userInfo,
-  handleSignOut,
-}) {
-  return (
-    <div
-      className={`bg-[#3b51a3] text-white w-64 flex flex-col transition-all duration-300 ease-in-out ${
-        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } md:translate-x-0 md:static absolute inset-y-0 left-0 z-30`}
-    >
-      <div className="p-4 flex justify-between items-center border-b">
-        <div className="flex  items-center">
-          <Image
-            src="/cogor-logo.svg"
-            alt="Logo"
-            width={100}
-            height={100}
-            className="mr-2"
-          />
-        </div>
-        <button className="md:hidden" onClick={() => setIsSidebarOpen(false)}>
-          <X size={24} />
-        </button>
-      </div>
-      <nav className="flex-1 p-2 space-y-4">
-        <button
-          className={`flex justify-start items-center gap-4 w-full rounded-md text-left p-4 hover:bg-[#2c3e7a] ${
-            activeTab === "Information" ? "bg-white text-black" : ""
-          }`}
-          onClick={() => setActiveTab("Information")}
-        >
-          <File size={20} className="mr-2 text-[#2c3e7a]" />
-          Information
-        </button>
-        <button
-          className={`flex justify-start items-center w-full rounded-md text-left p-4 hover:bg-[#2c3e7a] ${
-            activeTab === "Resumes" ? "bg-white text-black" : ""
-          }`}
-          onClick={() => setActiveTab("Resumes")}
-        >
-          <Layout size={20} className="mr-2 text-[#2c3e7a]" />
-          Resumes
-        </button>
-      </nav>
-      <div className="p-4 space-y-2">
-        <UserProfileButton userInfo={userInfo} handleSignOut={handleSignOut} />
-        <SubscriptionModal
-          user={userInfo}
-          onSuccess={(paymentData) => {
-            // Handle successful payment
-            console.log("Payment successful:", paymentData);
-            // Update user subscription status, etc.
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
-function UserProfileButton({ userInfo, handleSignOut }) {
-  console.log(userInfo);
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button className="w-full bg-white text-[#3b51a3] hover:bg-gray-200">
-          <Image
-            priority
-            src={userInfo.image}
-            alt="User"
-            width={24}
-            height={24}
-            className="rounded-full mr-2"
-          />
-          User Profile
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-56">
-        <div className="space-y-2">
-          <p className="font-semibold">{userInfo.name}</p>
-          <p className="text-sm text-gray-500">{userInfo.email}</p>
-          <Button
-            variant="outline"
-            className="w-full text-red-600"
-            onClick={handleSignOut}
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign out
-          </Button>
-        </div>
-      </PopoverContent>
-    </Popover>
-  );
-}
-
 function MainContent({
   activeTab,
   setIsSidebarOpen,
@@ -207,6 +100,7 @@ function MainContent({
   user,
   resumes,
 }) {
+  const { t } = useTranslation(lng, "common");
   return (
     <div className="flex-1 overflow-auto bg-[#3b51a3] notfs">
       <div className="min-h-screen m-3 md:p-8 bg-white rounded-lg">
@@ -215,8 +109,8 @@ function MainContent({
             <Menu size={24} />
           </button>
           <Button className="bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-700 hover:to-pink-600">
-            <Plus size={16} className="mr-2" />
-            Create New Resume
+            <Plus size={16} className="mx-2" />
+            {t("dashboard.createNewResume")}
           </Button>
         </div>
 
@@ -314,14 +208,14 @@ function PersonalInfo({ userInfo, handleEdit }) {
       <p className="mb-4">{userInfo.personalInfo.summary}</p>
       <div className="flex flex-wrap gap-4">
         <div className="flex items-center">
-          <Mail size={16} className="mr-2" /> {userInfo.personalInfo.contact[0]}
+          <Mail size={16} className="mx-2" /> {userInfo.personalInfo.contact[0]}
         </div>
         <div className="flex items-center">
-          <Phone size={16} className="mr-2" />{" "}
+          <Phone size={16} className="mx-2" />{" "}
           {userInfo.personalInfo.contact[1]}
         </div>
         <div className="flex items-center">
-          <MapPin size={16} className="mr-2" />{" "}
+          <MapPin size={16} className="mx-2" />{" "}
           {userInfo.personalInfo.contact[2]}
         </div>
       </div>
@@ -371,7 +265,7 @@ function Section({
         onClick={onToggle}
       >
         <div className="flex items-center">
-          <Icon size={20} className="mr-2 text-[#3b51a3]" />
+          <Icon size={20} className="mx-2 text-[#3b51a3]" />
           <h2 className="text-xl font-semibold text-[#3b51a3]">{title}</h2>
         </div>
         <div className="flex items-center">

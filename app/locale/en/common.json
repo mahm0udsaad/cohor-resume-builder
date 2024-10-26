@@ -1,4 +1,19 @@
 {
+  "loading": {
+    "title": "Processing Payment",
+    "description": "Please wait while we confirm your payment..."
+  },
+  "success": {
+    "title": "Payment Successful!",
+    "description": "Your payment has been processed successfully."
+  },
+  "error": {
+    "title": "Payment Failed",
+    "description": "There was an error processing your payment.",
+    "redirect": "Redirecting in {{count}} seconds...",
+    "goBack": "Go Back",
+    "tryAgain": "Try Again"
+  },
   "createNewResume": " Create Resume",
   "nav": {
     "featuresTitle": "Features",
@@ -171,5 +186,81 @@
   "governingLaw": "10. Governing Law",
   "governingLawContent": "These Terms shall be governed by and construed in accordance with the laws of [Your Country/State]. Any disputes arising out of these Terms shall be resolved in the courts of [Your Jurisdiction].",
   "contactUs": "11. Contact Us",
-  "contactUsContent": "If you have any questions or concerns about these Terms, please contact us at:\n\nEmail: support@example.com"
+  "contactUsContent": "If you have any questions or concerns about these Terms, please contact us at:\n\nEmail: support@example.com",
+  "plans": {
+    "free": {
+      "name": "Free",
+      "period": "forever",
+      "features": {
+        "basicTheming": "Basic Theming",
+        "templatesAvailable": "5 Templates Available",
+        "watermark": "Watermark"
+      },
+      "buttonText": "Current Plan"
+    },
+    "pro": {
+      "name": "PRO",
+      "period": "month",
+      "features": {
+        "advancedThemes": "Advanced Themes",
+        "templatesAvailable": "50+ Templates",
+        "noWatermark": "No Watermark"
+      },
+      "buttonText": "Upgrade to PRO"
+    },
+    "proPlus": {
+      "name": "PRO+",
+      "period": "month",
+      "features": {
+        "premiumThemes": "Premium Themes",
+        "templatesAvailable": "100+ Templates",
+        "aiSuggestions": "AI Suggestions"
+      },
+      "buttonText": "Upgrade to PRO+"
+    }
+  },
+  "subscription": {
+    "title": "Choose Your Plan",
+    "subtitle": "Select the plan that best fits your needs",
+    "period": "mo",
+    "currentPlan": "Current Plan",
+    "subscribe": "Subscribe to",
+    "processing": "Processing...",
+    "upgradeButton": "Upgrade to PRO+",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "features": [
+          "1 Resume Template",
+          "Basic Export Options",
+          "Standard Support",
+          "Limited Storage",
+          "Basic Analytics"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "features": [
+          "All Free Features",
+          "10 Resume Templates",
+          "Priority Support",
+          "Advanced Export Options",
+          "Enhanced Analytics",
+          "Custom Branding"
+        ]
+      },
+      "proPlus.": {
+        "name": "pro+",
+        "features": [
+          "All Pro Features",
+          "Unlimited Templates",
+          "24/7 Support",
+          "API Access",
+          "Team Management",
+          "Custom Integration",
+          "Dedicated Account Manager"
+        ]
+      }
+    }
+  }
 }

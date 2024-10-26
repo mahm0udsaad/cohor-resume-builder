@@ -1,4 +1,13 @@
 {
+  "onboarding": {
+    "title": "أكمل ملفك الشخصي",
+    "subtitle": "اتبع الخطوات لإعداد ملفك الشخصي الاحترافي."
+  },
+  "buttons": {
+    "previous": "السابق",
+    "next": "التالي",
+    "complete": "أكتمل"
+  },
   "degree": "الدرجة",
   "institution": "المؤسسة",
   "cancel": "إلغاء",
@@ -122,6 +131,12 @@
       "summary": "الملخص",
       "noSummary": "لا يوجد ملخص"
     }
+  },
+  "languages": {
+    "title": "اللغات"
+  },
+  "courses": {
+    "title": "الدورات والتدريب"
   },
   "confirmDeletionTitle": "تأكيد الحذف",
   "confirmDeletionMessage": "هل أنت متأكد أنك تريد حذف هذه السيرة الذاتية؟ لا يمكن التراجع عن هذا الإجراء.",

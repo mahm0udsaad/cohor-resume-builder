@@ -1,4 +1,13 @@
 {
+  "onboarding": {
+    "title": "Complete Your Profile",
+    "subtitle": "Follow the steps to set up your professional profile."
+  },
+  "buttons": {
+    "previous": "Previous",
+    "next": "Next",
+    "Complete": "Complete"
+  },
   "degree": "Degree",
   "institution": "Institution",
   "graduationDate": "Graduation Date",
@@ -121,6 +130,12 @@
       "summary": "Summary",
       "noSummary": "No summary"
     }
+  },
+  "languages": {
+    "title": "Languages"
+  },
+  "courses": {
+    "title": "Courses & Training"
   },
   "confirmDeletionTitle": "Confirm Deletion",
   "confirmDeletionMessage": "Are you sure you want to delete this resume? This action cannot be undone.",

@@ -152,10 +152,10 @@ const OnboardingFlow = ({ lng }) => {
         {/* Left Column - Steps and Progress */}
         <div className="w-1/3 bg-gray-50 p-6 flex flex-col">
           <h1 className="text-2xl font-bold text-[#3b51a3] mb-2">
-            Complete Your Profile
+            {t("onboarding.title")}
           </h1>
           <p className="text-sm text-gray-700 mb-6">
-            Follow the steps to set up your professional profile.
+            {t("onboarding.subtitle")}
           </p>
 
           <div className="flex-grow overflow-y-auto pr-4">
@@ -207,7 +207,7 @@ const OnboardingFlow = ({ lng }) => {
 
           <div className="mt-4">
             <div className="text-sm font-semibold text-[#3b51a3] mb-1">
-              {progressPercentage}% Complete
+              {progressPercentage}% {t("buttons.complete")}
             </div>
             <div className="h-2 bg-gray-200 rounded-full">
               <motion.div
@@ -256,7 +256,7 @@ const OnboardingFlow = ({ lng }) => {
                       disabled={currentStep === 0}
                       className="bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:bg-gray-100"
                     >
-                      Back
+                      {t("buttons.previous")}
                     </Button>
                     <Button
                       disabled={isSubmitting}
@@ -267,7 +267,9 @@ const OnboardingFlow = ({ lng }) => {
                       }
                       className="bg-[#3b51a3] text-white hover:bg-[#2c3e7a]"
                     >
-                      {currentStep === steps.length - 1 ? "Complete" : "Next"}
+                      {currentStep === steps.length - 1
+                        ? t("buttons.complete")
+                        : t("buttons.next")}
                     </Button>
                   </div>
                 </div>

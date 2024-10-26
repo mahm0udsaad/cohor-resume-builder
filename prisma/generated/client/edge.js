@@ -186,7 +186,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\cv-builder\\prisma\\generated\\client",
+      "value": "E:\\resume-builder\\prisma\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -200,7 +200,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\cv-builder\\prisma\\schema.prisma",
+    "sourceFilePath": "E:\\resume-builder\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
