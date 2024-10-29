@@ -178,7 +178,7 @@
       "name": "مجاني",
       "period": "للأبد",
       "features": {
-        "basicTheming": "سمات أساسية",
+        "basicTheming": "قوالب أساسية",
         "templatesAvailable": "5 قوالب متاحة",
         "watermark": "علامة مائية"
       },
@@ -188,7 +188,7 @@
       "name": "محترف",
       "period": "شهر",
       "features": {
-        "advancedThemes": "سمات متقدمة",
+        "advancedThemes": "قوالب متقدمة",
         "templatesAvailable": "أكثر من 50 قالب",
         "noWatermark": "بدون علامة مائية"
       },
@@ -198,7 +198,7 @@
       "name": "محترف+",
       "period": "شهر",
       "features": {
-        "premiumThemes": "سمات مميزة",
+        "premiumThemes": "قوالب مميزة",
         "templatesAvailable": "أكثر من 100 قالب",
         "aiSuggestions": "اقتراحات الذكاء الاصطناعي"
       },
@@ -213,6 +213,8 @@
     "subscribe": "اشترك في",
     "processing": "جاري المعالجة...",
     "upgradeButton": "الترقية إلى محترف+",
+    "getPro": "احصل على محترف",
+    "getProPlus": "احصل على محترف+",
     "plans": {
       "free": {
         "name": "مجاني",

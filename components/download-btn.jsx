@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import { getResumeTemplateView } from "@/helper/get-pdf-view";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Font, PDFDownloadLink } from "@react-pdf/renderer";
 
 export const DownloadBtn = ({ templateName, data }) => {
   const ResumeTemplate = getResumeTemplateView(templateName);
@@ -19,7 +19,7 @@ export const DownloadBtn = ({ templateName, data }) => {
         document={<ResumeTemplate ref={pdfRef} resumeData={data} />}
         fileName="resume.pdf"
       >
-        {({ blob, url, loading, error }) => (
+        {({ loading, error }) => (
           <button
             ref={pdfRef}
             className="bg-main sticky top-12 text-white"

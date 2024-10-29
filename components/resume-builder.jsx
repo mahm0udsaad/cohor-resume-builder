@@ -14,7 +14,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { useSession } from "next-auth/react";
 import { ResumePreview } from "./component/review-section";
 import { useFormTabs } from "@/hooks/use-forms-tabs";
-
+import AutoSubscriptionModal from "./cards/auto-subscription-modal";
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
   {
@@ -46,16 +46,18 @@ const DynamicReviewForm = dynamic(
   },
 );
 
-export function ResumeBuilder({ resumeName, lng }) {
-  const { t } = useTranslation(lng, "builder");
-  const { resumeData, updateResumeData, toggleLanguage, updateImageUrl } =
-    useResumeData();
-  const { selectedTheme, setSelectedTheme } = useTheme();
-  const [showTemplates, setShowTemplates] = useState(false);
-
-  const router = useRouter();
+export function ResumeBuilder({ initalData, resumeName, lng }) {
   const { data: session } = useSession();
   const user = session?.user;
+  const { resumeData, updateResumeData, toggleLanguage, updateImageUrl } =
+    useResumeData(initalData);
+  console.log(user);
+
+  const { selectedTheme, setSelectedTheme } = useTheme();
+  const [showTemplates, setShowTemplates] = useState(false);
+  const { t } = useTranslation(lng, "builder");
+
+  const router = useRouter();
 
   const { activeTab, handleTabChange, handleNextTab, handlePreviousTab, tabs } =
     useFormTabs({ user, router });
@@ -76,10 +78,10 @@ export function ResumeBuilder({ resumeName, lng }) {
                   <TabsTrigger
                     key={id}
                     value={id}
-                    className="flex gap-2  data-[state=active]:bg-[#3B51A3]"
+                    className="flex gap-2 data-[state=active]:text-white data-[state=active]:bg-[#3B51A3]"
                   >
                     <Icon className="h-4 w-4" />
-                    <span className="text-[12px]">{t(`tabs.${id}`)}</span>
+                    <span className="text-[12px] ">{t(`tabs.${id}`)}</span>
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -166,6 +168,7 @@ export function ResumeBuilder({ resumeName, lng }) {
             setShowTemplates={setShowTemplates}
             lng={lng}
           />
+          <AutoSubscriptionModal user={user} lng={lng} />
         </div>
       </div>
     </div>

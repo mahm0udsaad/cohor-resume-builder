@@ -227,6 +227,8 @@
     "subscribe": "Subscribe to",
     "processing": "Processing...",
     "upgradeButton": "Upgrade to PRO+",
+    "getPro": "Get Pro",
+    "getProPlus": "Get Pro Plus",
     "plans": {
       "free": {
         "name": "Free",

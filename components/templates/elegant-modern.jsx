@@ -1,4 +1,5 @@
 import { translations } from "@/data/data";
+import { formatDate } from "@/helper/date";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -7,8 +8,6 @@ export default function ElegantModernResumeTemplate({
   selectedTheme,
   className,
 }) {
-  console.log(resumeData.personalInfo);
-
   const theme = selectedTheme || {
     id: "elegant",
     name: "Elegant",
@@ -88,16 +87,18 @@ export default function ElegantModernResumeTemplate({
             {resumeData.personalInfo.jobTitle}
           </h2>
         </div>
-        <Image
-          src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
-          alt={resumeData.personalInfo.name}
-          width={120}
-          height={120}
-          style={{
-            borderRadius: "50%",
-            border: `3px solid ${theme.accentColor}`,
-          }}
-        />
+        {resumeData.personalInfo.imageUrl && (
+          <Image
+            src={resumeData.personalInfo?.imageUrl}
+            alt={resumeData.personalInfo?.name}
+            width={120}
+            height={120}
+            style={{
+              borderRadius: "50%",
+              border: `3px solid ${theme.accentColor}`,
+            }}
+          />
+        )}
       </header>
 
       {/* Main Content */}
@@ -192,7 +193,7 @@ export default function ElegantModernResumeTemplate({
                       color: theme.primaryColor,
                     }}
                   >
-                    {course.completionDate}
+                    {formatDate(course.completionDate)}
                   </p>
                 </div>
               ))}
@@ -229,7 +230,8 @@ export default function ElegantModernResumeTemplate({
                     color: theme.primaryColor,
                   }}
                 >
-                  {exp.startDate} - {exp.endDate}
+                  {formatDate(exp.startDate)} -{" "}
+                  {formatDate(exp.endDate, resumeData.lng)}
                 </p>
                 <p style={text}>{exp.responsibilities}</p>
               </div>
@@ -246,7 +248,9 @@ export default function ElegantModernResumeTemplate({
               <div key={index} style={{ marginBottom: "1rem" }}>
                 <h4 style={subHeadingStyle}>{edu.degree}</h4>
                 <p>{edu.institution}</p>
-                <p style={{ fontSize: "0.9rem" }}>{edu.graduationDate}</p>
+                <p style={{ fontSize: "0.9rem" }}>
+                  {formatDate(edu.graduationDate)}
+                </p>
                 {edu.gpaType === "numeric" && (
                   <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
                 )}

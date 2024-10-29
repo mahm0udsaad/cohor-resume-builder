@@ -73,12 +73,14 @@ export const templateComponents = {
   formal: FormalTemplate,
   creative: CreativeResumeTemplate,
   elegantModern: ElegantModernResumeTemplate,
+  elegantmodern: ElegantModernResumeTemplate,
   glow: GlowResumeTemplate,
   creativeTimeLine: CreativeTimelineResumeTemplate,
   professional: ProfessionalResume,
   gridLayout: GridLayoutResume,
   ProfessionalSidebar: ProfessionalSidebar,
   BlueHorizon: BlueHorizon,
+  bluehorizon: BlueHorizon,
   modernFormal: ModernFormalResumeTemplate,
 };
 export const templates = [

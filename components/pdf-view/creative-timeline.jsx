@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   StyleSheet,
+  Font,
 } from "@react-pdf/renderer";
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
@@ -110,6 +111,12 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
 
   const isRTL = resumeData.lng === "ar"; // RTL detection for Arabic
   const t = translations[resumeData.lng] || translations.en;
+  if (isRTL) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   const styles = createStyles(theme, isRTL);
 
   return (

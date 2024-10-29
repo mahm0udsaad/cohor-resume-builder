@@ -190,8 +190,7 @@ function CreativeTimelineResumeTemplate({
               <span
                 key={index}
                 style={{
-                  backgroundColor: theme.secondaryColor,
-                  color: "white",
+                  backgroundColor: theme.backgroundColor,
                   padding: "0.5rem 1rem",
                   borderRadius: "20px",
                   fontSize: "0.9rem",

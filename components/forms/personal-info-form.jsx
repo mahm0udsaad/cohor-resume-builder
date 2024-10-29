@@ -8,12 +8,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
 import UploadBtn from "../btns/upload-image";
 
-export default function PersonalInfoForm({
-  data,
-  updateData,
-  updateImageUrl,
-  lng,
-}) {
+function PersonalInfoForm({ data, updateData, updateImageUrl, lng }) {
   const { t } = useTranslation(lng, "forms");
 
   const handleChange = (e) => {
@@ -169,3 +164,4 @@ export default function PersonalInfoForm({
     </Card>
   );
 }
+export default PersonalInfoForm;

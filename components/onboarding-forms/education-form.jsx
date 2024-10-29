@@ -1,9 +1,8 @@
-import { useTranslation } from "@/app/i18n/client";
+import { useFieldArray, Controller, useWatch } from "react-hook-form";
+import { Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2 } from "lucide-react";
-import DatePicker from "../component/datePicker";
 import {
   Select,
   SelectContent,
@@ -12,195 +11,215 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import DatePicker from "@/components/component/datePicker";
 
-export default function EducationForm({ educations, updateData, lng }) {
-  const { t } = useTranslation(lng, "forms");
-
-  const handleEducationChange = (index, field, value) => {
-    updateData({
-      type: "UPDATE",
-      path: ["educations", index, field],
-      value: value,
+export default function EducationForm({ control, errors, t }) {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "educations",
+  });
+  const watchedEducations = useWatch({ control, name: "educations" }) || [];
+  if (fields.length === 0) {
+    append({
+      degree: "",
+      institution: "",
+      graduationDate: "",
+      gpaType: "none",
+      numericGpa: "",
+      descriptiveGpa: "",
     });
-  };
-
-  const addEducation = () => {
-    updateData({
-      type: "ADD",
-      path: ["educations"],
-      value: {
-        degree: "",
-        institution: "",
-        graduationDate: "",
-        gpaType: "none",
-        numericGpa: "",
-        descriptiveGpa: "",
-      },
-    });
-  };
-
-  const deleteEducation = (index) => {
-    updateData({
-      type: "REMOVE",
-      path: ["educations"],
-      index: index,
-    });
-  };
-
+  }
   return (
-    <div className="p-4">
-      {educations.map((edu, index) => (
-        <div
-          style={{ direction: lng === "ar" ? "rtl" : "ltr" }}
-          key={index}
-          className="mb-4 p-4 rounded relative"
-        >
-          <div className="absolute top-0 right-0 mt-2 mr-2">
+    <div className="space-y-6">
+      {fields.map((field, index) => (
+        <div key={field.id} className="p-4 bg-gray-50 rounded-lg space-y-4">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-[#3b51a3]">
+              {t("education.title")} {index + 1}
+            </h3>
             <Button
-              onClick={() => deleteEducation(index)}
-              size="icon"
+              type="button"
+              onClick={() => remove(index)}
               variant="ghost"
-              className="ml-2"
+              size="icon"
+              className="text-red-500 hover:text-red-700"
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="h-5 w-5" />
             </Button>
           </div>
-          <div className="grid grid-cols-2 gap-4 mb-2 mt-8">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor={`degree-${index}`} className="text-main">
-                {t("degree")}
-              </Label>
-              <Input
-                id={`degree-${index}`}
-                value={edu.degree}
-                onChange={(e) =>
-                  handleEducationChange(index, "degree", e.target.value)
-                }
-                placeholder={t("degreePlaceholder")}
-                className="border-[#3B51A3] focus:ring-[#3B51A3]"
+              <Label htmlFor={`degree-${index}`}>{t("education.degree")}</Label>
+              <Controller
+                name={`educations.${index}.degree`}
+                control={control}
+                rules={{ required: t("required") }}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id={`degree-${index}`}
+                    placeholder={t("education.degreePlaceholder")}
+                    className="mt-1"
+                  />
+                )}
               />
+              {errors.educations?.[index]?.degree && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.educations[index].degree.message}
+                </p>
+              )}
             </div>
             <div>
-              <Label htmlFor={`institution-${index}`} className="text-main">
-                {t("institution")}
+              <Label htmlFor={`institution-${index}`}>
+                {t("education.institution")}
               </Label>
-              <Input
-                id={`institution-${index}`}
-                value={edu.institution}
-                onChange={(e) =>
-                  handleEducationChange(index, "institution", e.target.value)
-                }
-                placeholder={t("institutionPlaceholder")}
-                className="border-[#3B51A3] focus:ring-[#3B51A3]"
+              <Controller
+                name={`educations.${index}.institution`}
+                control={control}
+                rules={{ required: t("required") }}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id={`institution-${index}`}
+                    placeholder={t("education.institutionPlaceholder")}
+                    className="mt-1"
+                  />
+                )}
               />
+              {errors.educations?.[index]?.institution && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.educations[index].institution.message}
+                </p>
+              )}
             </div>
           </div>
-          <div className="mb-4">
-            <DatePicker
-              value={edu.graduationDate}
-              onChange={(value) =>
-                handleEducationChange(index, "graduationDate", value)
-              }
-              label={t("graduationDate")}
-            />
-          </div>
+          <Controller
+            name={`educations.${index}.graduationDate`}
+            control={control}
+            render={({ field }) => (
+              <DatePicker label={t("education.graduationDate")} {...field} />
+            )}
+          />
           <div className="space-y-2">
             <Label>
               {t("education.gpa")} ({t("education.optional")})
             </Label>
-            <RadioGroup
-              style={{ direction: lng === "ar" ? "rtl" : "ltr" }}
-              className={`flex gap-4`}
-              value={edu.gpaType}
-              onValueChange={(value) =>
-                handleEducationChange(index, "gpaType", value)
-              }
-            >
-              <div className="flex items-center gap-2">
-                <RadioGroupItem value="none" id={`gpa-none-${index}`} />
-                <Label htmlFor={`gpa-none-${index}`}>
-                  {t("education.noGpa")}
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <RadioGroupItem value="numeric" id={`gpa-numeric-${index}`} />
-                <Label htmlFor={`gpa-numeric-${index}`}>
-                  {t("education.numericGpa")}
-                </Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <RadioGroupItem
-                  value="descriptive"
-                  id={`gpa-descriptive-${index}`}
-                />
-                <Label htmlFor={`gpa-descriptive-${index}`}>
-                  {t("education.descriptiveGpa")}
-                </Label>
-              </div>
-            </RadioGroup>
+            <Controller
+              name={`educations.${index}.gpaType`}
+              control={control}
+              render={({ field }) => (
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex gap-4"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="none" id={`gpa-none-${index}`} />
+                    <Label htmlFor={`gpa-none-${index}`}>
+                      {t("education.noGpa")}
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem
+                      value="numeric"
+                      id={`gpa-numeric-${index}`}
+                    />
+                    <Label htmlFor={`gpa-numeric-${index}`}>
+                      {t("education.numericGpa")}
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem
+                      value="descriptive"
+                      id={`gpa-descriptive-${index}`}
+                    />
+                    <Label htmlFor={`gpa-descriptive-${index}`}>
+                      {t("education.descriptiveGpa")}
+                    </Label>
+                  </div>
+                </RadioGroup>
+              )}
+            />
           </div>
-          {edu.gpaType === "numeric" && (
-            <div className="space-y-2 mt-2">
+          {watchedEducations[index]?.gpaType === "numeric" && (
+            <div className="space-y-2">
               <Label htmlFor={`numericGpa-${index}`}>
                 {t("education.numericGpa")}
               </Label>
-              <Input
-                id={`numericGpa-${index}`}
-                type="number"
-                step="0.1"
-                min="0"
-                max="4.0"
-                placeholder={t("education.numericGpaPlaceholder")}
-                value={edu.numericGpa}
-                onChange={(e) =>
-                  handleEducationChange(index, "numericGpa", e.target.value)
-                }
-                className="border-[#3B51A3] focus:ring-[#3B51A3]"
+              <Controller
+                name={`educations.${index}.numericGpa`}
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id={`numericGpa-${index}`}
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    max="4.0"
+                    placeholder={t("education.numericGpaPlaceholder")}
+                    className="mt-1"
+                  />
+                )}
               />
             </div>
           )}
-          {edu.gpaType === "descriptive" && (
-            <div className="space-y-2 mt-2">
+          {watchedEducations[index]?.gpaType === "descriptive" && (
+            <div className="space-y-2">
               <Label htmlFor={`descriptiveGpa-${index}`}>
                 {t("education.descriptiveGpa")}
               </Label>
-              <Select
-                value={edu.descriptiveGpa}
-                onValueChange={(value) =>
-                  handleEducationChange(index, "descriptiveGpa", value)
-                }
-              >
-                <SelectTrigger
-                  id={`descriptiveGpa-${index}`}
-                  className="border-[#3B51A3] focus:ring-[#3B51A3]"
-                >
-                  <SelectValue placeholder={t("education.selectGpa")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="excellent">
-                    {t("education.excellent")}
-                  </SelectItem>
-                  <SelectItem value="very-good">
-                    {t("education.veryGood")}
-                  </SelectItem>
-                  <SelectItem value="good">{t("education.good")}</SelectItem>
-                  <SelectItem value="average">
-                    {t("education.average")}
-                  </SelectItem>
-                  <SelectItem value="below-average">
-                    {t("education.belowAverage")}
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <Controller
+                name={`educations.${index}.descriptiveGpa`}
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger id={`descriptiveGpa-${index}`}>
+                      <SelectValue placeholder={t("education.selectGpa")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="excellent">
+                        {t("education.excellent")}
+                      </SelectItem>
+                      <SelectItem value="veryGood">
+                        {t("education.veryGood")}
+                      </SelectItem>
+                      <SelectItem value="good">
+                        {t("education.good")}
+                      </SelectItem>
+                      <SelectItem value="average">
+                        {t("education.average")}
+                      </SelectItem>
+                      <SelectItem value="belowAverage">
+                        {t("education.belowAverage")}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
             </div>
           )}
         </div>
       ))}
       <Button
-        onClick={addEducation}
-        className="mt-2 bg-[#3B51A3] hover:bg-white hover:text-black"
+        type="button"
+        onClick={() =>
+          append({
+            degree: "",
+            institution: "",
+            graduationDate: "",
+            gpaType: "none",
+            numericGpa: "",
+            descriptiveGpa: "",
+          })
+        }
+        className="w-full mt-4 bg-main"
       >
-        <Plus className="h-4 w-4 mr-2" /> {t("addEducation")}
+        <Plus className="w-5 h-5 mr-2" />
+        {t("education.addEducation")}
       </Button>
     </div>
   );

@@ -21,12 +21,15 @@ export function formatDate(dateInput, lng) {
 
 export const parseDate = (dateString) => {
   if (!dateString || dateString === "Present") return null;
-  if (
-    typeof dateString === "string" &&
-    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(dateString)
-  ) {
-    return dateString;
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      // Handle invalid date formats
+      return null;
+    }
+    return date.toISOString();
+  } catch (error) {
+    console.error("Error parsing date:", dateString, error);
+    return null;
   }
-  const date = new Date(`${dateString}T00:00:00.000Z`);
-  return date.toISOString();
 };

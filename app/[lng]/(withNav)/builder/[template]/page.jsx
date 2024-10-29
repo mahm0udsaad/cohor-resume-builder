@@ -4,6 +4,7 @@ import BuilderSkeleton from "@/components/skeleton/builder-loader";
 import { redirect } from "next/navigation";
 import { addResumeToUser } from "@/actions/resumes";
 import { ResumeBuilder } from "@/components/resume-builder";
+import { getUserWithDetails } from "@/actions/userInfo/action";
 
 // This runs at build time
 export async function generateStaticParams() {
@@ -32,11 +33,11 @@ export default async function TemplatePage({ params: { template, lng } }) {
   }
 
   addResumeToUser(session.user.email, template);
-
+  const data = await getUserWithDetails(session.user.email);
   return (
     <div className="bg-gray-25">
       <Suspense fallback={<BuilderSkeleton />}>
-        <ResumeBuilder resumeName={template} lng={lng} />
+        <ResumeBuilder initalData={data} resumeName={template} lng={lng} />
       </Suspense>
     </div>
   );

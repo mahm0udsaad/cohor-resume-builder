@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { DashboardWithSidebarComponent } from "@/components/dashboard-with-sidebar";
 import { getUserResumes } from "@/actions/resumes";
+import { EditingProvider } from "@/context/edit-context";
 
 const DashboardPage = async ({ params: { lng }, searchParams }) => {
   const session = await auth();
@@ -13,19 +14,21 @@ const DashboardPage = async ({ params: { lng }, searchParams }) => {
     userInfo;
 
   return (
-    <DashboardWithSidebarComponent
-      lng={lng}
-      resumes={resumes}
-      user={session?.user}
-      resumeData={{
-        personalInfo,
-        experiences,
-        educations,
-        skills,
-        languages,
-        courses,
-      }}
-    />
+    <EditingProvider>
+      <DashboardWithSidebarComponent
+        lng={lng}
+        resumes={resumes}
+        user={session?.user}
+        resumeData={{
+          personalInfo,
+          experiences,
+          educations,
+          skills,
+          languages,
+          courses,
+        }}
+      />
+    </EditingProvider>
   );
 };
 export default DashboardPage;

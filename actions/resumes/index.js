@@ -168,7 +168,7 @@ export const updateUserResumeData = async (
       experiences: updatedResumeData.experiences?.map((experience) => ({
         ...experience,
         startDate: parseDate(experience.startDate),
-        endDate: parseDate(experience.endDate), // Handle "present"
+        endDate: parseDate(experience.endDate),
       })),
       educations: updatedResumeData.educations?.map((education) => ({
         ...education,

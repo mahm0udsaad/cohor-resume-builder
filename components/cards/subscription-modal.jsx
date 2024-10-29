@@ -20,7 +20,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useTranslation } from "@/app/i18n/client";
 
 export function SubscriptionModal({
-  currentPlan = "free",
+  currentPlan = "pro",
   user,
   onSuccess,
   lng,

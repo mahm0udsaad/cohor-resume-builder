@@ -4,7 +4,8 @@ import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { dummyData } from "@/data/data";
+import { dummyData, dummyDataAr } from "@/data/data";
+
 const ClientResumeTemplate = dynamic(
   () => import("@/components/component/render-template-view"),
   {
@@ -13,7 +14,7 @@ const ClientResumeTemplate = dynamic(
   },
 );
 
-export default async function ReviewPage({ params: { resumeName } }) {
+export default async function ReviewPage({ params: { lng, resumeName } }) {
   const session = await auth();
   if (!session) redirect("/auth");
   const { user } = session;
@@ -36,7 +37,11 @@ export default async function ReviewPage({ params: { resumeName } }) {
           </div>
         </div>
         {resume && (
-          <ClientResumeTemplate templateName={resumeName} data={dummyData} />
+          <ClientResumeTemplate
+            lng={lng}
+            template={resumeName}
+            resumeData={dummyDataAr}
+          />
         )}
       </div>
     </div>

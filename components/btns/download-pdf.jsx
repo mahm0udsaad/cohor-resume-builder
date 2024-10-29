@@ -16,16 +16,25 @@ export const DownloadBtn = ({ templateName, data, userName }) => {
   const pdfRef = useRef(null);
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <PDFDownloadLink
         document={<ResumeTemplate ref={pdfRef} resumeData={data} />}
         fileName={`${userName}-resume.pdf`}
       >
         {({ blob, url, loading, error }) =>
           loading ? (
-            <Spinner />
+            <Button
+              variant="outline"
+              disabled={loading || error}
+              className={`border shadow-lg hover:shadow-none flex h-fit items-center rounded-md px-2 hover:bg-[#3B51A3] hover:text-white`}
+            >
+              <Spinner />
+            </Button>
           ) : (
-            <Button variant="outline" size="icon">
+            <Button
+              variant="outline"
+              className={`border shadow-lg hover:shadow-none flex h-fit items-center rounded-md px-2 hover:bg-[#3B51A3] hover:text-white`}
+            >
               <Download className="h-4 w-4" />
             </Button>
           )

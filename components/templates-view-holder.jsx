@@ -22,6 +22,7 @@ export const templateViewComponents = {
   formal: professional,
   creative: CreativeResumeTemplate,
   elegantModern: ElegantModernResumeTemplatePDF,
+  elegantmodern: ElegantModernResumeTemplatePDF,
   glow: MinimalistTwoColorResumeTemplate,
   creativeTimeLine: creativeTimeline,
   professional: ProfessionalResume,

@@ -28,6 +28,7 @@
     "phone": "Phone",
     "phonePlaceholder": "(123) 456-7890",
     "contactPlaceholder": "https://example.com",
+    "contact": "Contact",
     "addContact": "Add Contact",
     "addImage": "Add Image",
     "removeContact": "Remove contact",
@@ -49,7 +50,7 @@
     "generateAI": "Generate with AI",
     "addExperience": "Add Experience",
     "removeExperience": "Remove Last",
-    "endDatePresent": "Present"
+    "endDatePresent": "Currently Working Here"
   },
   "reviewResume": {
     "title": "Review Your Resume",

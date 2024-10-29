@@ -143,7 +143,9 @@ const DatePicker = ({
           <Calendar
             mode="single"
             selected={
-              value && value !== "Present" ? parseISO(value) : undefined
+              typeof value === "string" && value !== "Present"
+                ? parseISO(value)
+                : undefined
             }
             onSelect={handleSelect}
             month={calendarDate}

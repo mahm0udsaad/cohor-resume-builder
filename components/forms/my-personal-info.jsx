@@ -58,98 +58,70 @@ export default function MyPersonalInfoForm({ user, lng }) {
   };
 
   return (
-    <Card className="bg-white shadow-md">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-[#3b51a3] capitalize flex items-center gap-2">
-          <User className="h-6 w-6" />
-          {t("personalInformation.title")}
-        </CardTitle>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="icon">
-              <Edit className="h-4 w-4" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>{t("personalInformation.editTitle")}</DialogTitle>
-            </DialogHeader>
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-4"
-              aria-labelledby="update-user-information"
-              aria-describedby="update-user-personal-information"
-            >
-              <div className="grid gap-4">
-                <div className="grid grid-cols-2 items-center gap-4">
-                  <div>
-                    <Label htmlFor="name" className="text-right text-main">
-                      {t("personalInformation.form.name")}
-                    </Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="jobTitle" className="text-right text-main">
-                      {t("personalInformation.form.jobTitle")}
-                    </Label>
-                    <Input
-                      id="jobTitle"
-                      name="jobTitle"
-                      value={formData.jobTitle}
-                      onChange={handleChange}
-                      className="col-span-3"
-                    />
-                  </div>
-                </div>
-
-                <AiSuggestionTextarea
-                  lng={lng}
-                  data={user.summary}
-                  jobTitle={user.personalInfo?.jobTitle}
-                  onChange={handleSummaryChange}
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="bg-white text-[#3b51a3] p-2 rounded-full hover:bg-gray-200 transition-colors">
+          <Edit size={20} />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>{t("personalInformation.editTitle")}</DialogTitle>
+        </DialogHeader>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4"
+          aria-labelledby="update-user-information"
+          aria-describedby="update-user-personal-information"
+        >
+          <div className="grid gap-4">
+            <div className="grid grid-cols-2 items-center gap-4">
+              <div>
+                <Label htmlFor="name" className="text-right text-main">
+                  {t("personalInformation.form.name")}
+                </Label>
+                <Input
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="col-span-3"
                 />
               </div>
-              <div className="flex justify-end">
-                <Button
-                  type="submit"
-                  className="bg-[#3b51a3] text-white"
-                  disabled={isPending}
-                >
-                  {isPending
-                    ? t("personalInformation.form.saving")
-                    : t("personalInformation.form.saveChanges")}
-                </Button>
+              <div>
+                <Label htmlFor="jobTitle" className="text-right text-main">
+                  {t("personalInformation.form.jobTitle")}
+                </Label>
+                <Input
+                  id="jobTitle"
+                  name="jobTitle"
+                  value={formData.jobTitle}
+                  onChange={handleChange}
+                  className="col-span-3"
+                />
               </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <p>
-            <strong>{t("personalInformation.info.name")}:</strong> {user.name}
-          </p>
-          <p>
-            <strong>{t("personalInformation.info.email")}:</strong> {user.email}
-          </p>
-          <p>
-            <strong>{t("personalInformation.info.jobTitle")}:</strong>{" "}
-            {user.personalInfo?.jobTitle ||
-              t("personalInformation.info.noJobTitle")}
-          </p>
-          <p>
-            <strong>{t("personalInformation.info.summary")}:</strong>{" "}
-            {user.personalInfo?.summary ||
-              t("personalInformation.info.noSummary")}
-          </p>
-        </div>
-      </CardContent>
-    </Card>
+            </div>
+
+            <AiSuggestionTextarea
+              lng={lng}
+              data={user.summary}
+              jobTitle={user.personalInfo?.jobTitle}
+              onChange={handleSummaryChange}
+            />
+          </div>
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              className="bg-[#3b51a3] text-white"
+              disabled={isPending}
+            >
+              {isPending
+                ? t("personalInformation.form.saving")
+                : t("personalInformation.form.saveChanges")}
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }

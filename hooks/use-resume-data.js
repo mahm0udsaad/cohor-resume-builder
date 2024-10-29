@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useRef } from "react";
+import { useReducer, useEffect, useRef, useCallback } from "react";
 
 const initialState = {
   lng: "en",
@@ -7,7 +7,7 @@ const initialState = {
     jobTitle: "",
     summary: "",
     contact: ["", ""],
-    imageUrl: "", // Add imageUrl to personalInfo
+    imageUrl: "",
   },
   experiences: [
     {
@@ -33,13 +33,39 @@ const initialState = {
   courses: [{ name: "", institution: "", completionDate: "" }],
 };
 
+function getInitialData(dbData) {
+  if (!dbData || dbData.success === false) {
+    const storedData =
+      typeof window !== "undefined"
+        ? sessionStorage.getItem("resumeData")
+        : null;
+    return storedData ? JSON.parse(storedData) : initialState;
+  }
+
+  return {
+    lng: "en",
+    personalInfo: {
+      name: dbData.user.name || "",
+      imageUrl: dbData.user.photoURL || "",
+      ...dbData.personalInfo,
+    },
+    experiences:
+      dbData.experiences?.length > 0
+        ? sortExperiencesByDate(dbData.experiences)
+        : initialState.experiences,
+    educations:
+      dbData.educations?.length > 0
+        ? dbData.educations
+        : initialState.educations,
+    skills: dbData.skills || [],
+    languages:
+      dbData.languages?.length > 0 ? dbData.languages : initialState.languages,
+    courses: dbData.courses?.length > 0 ? dbData.courses : initialState.courses,
+  };
+}
+
 function resumeReducer(state, action) {
   switch (action.type) {
-    case "LOAD":
-      return {
-        ...action.data,
-        experiences: sortExperiencesByDate(action.data.experiences),
-      };
     case "UPDATE":
     case "ADD":
     case "REMOVE": {
@@ -50,17 +76,11 @@ function resumeReducer(state, action) {
       return newState;
     }
     case "TOGGLE_LANGUAGE":
-      return {
-        ...state,
-        lng: state.lng === "en" ? "ar" : "en",
-      };
+      return { ...state, lng: state.lng === "en" ? "ar" : "en" };
     case "UPDATE_IMAGE_URL":
       return {
         ...state,
-        personalInfo: {
-          ...state.personalInfo,
-          imageUrl: action.url,
-        },
+        personalInfo: { ...state.personalInfo, imageUrl: action.url },
       };
     default:
       return state;
@@ -94,42 +114,51 @@ function updateNestedState(state, action) {
       current[lastKey] = [...(current[lastKey] || []), action.value];
       break;
     case "REMOVE":
-      if (Array.isArray(current[lastKey]))
+      if (Array.isArray(current[lastKey])) {
         current[lastKey].splice(action.index, 1);
+      }
       break;
   }
 
   return newState;
 }
 
-export function useResumeData(debounceTime = 3000) {
-  const [resumeData, dispatch] = useReducer(resumeReducer, initialState);
+export function useResumeData(initialData, debounceTime = 3000) {
+  const [resumeData, dispatch] = useReducer(
+    resumeReducer,
+    getInitialData(initialData),
+  );
   const timeoutRef = useRef(null);
 
-  useEffect(() => {
-    const storedData = sessionStorage.getItem("resumeData");
-    if (storedData) {
-      dispatch({ type: "LOAD", data: JSON.parse(storedData) });
-    }
-  }, []);
-
+  // Debounced save to sessionStorage
   useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
       sessionStorage.setItem("resumeData", JSON.stringify(resumeData));
+      sessionStorage.setItem(
+        "resumeDataLastModified",
+        new Date().toISOString(),
+      );
     }, debounceTime);
 
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
+    return () => clearTimeout(timeoutRef.current);
   }, [resumeData, debounceTime]);
 
-  const updateResumeData = (action) => dispatch(action);
-  const toggleLanguage = () => dispatch({ type: "TOGGLE_LANGUAGE" });
+  const updateResumeData = useCallback((action) => dispatch(action), []);
+  const toggleLanguage = useCallback(
+    () => dispatch({ type: "TOGGLE_LANGUAGE" }),
+    [],
+  );
+  const updateImageUrl = useCallback(
+    (url) => dispatch({ type: "UPDATE_IMAGE_URL", url }),
+    [],
+  );
 
-  // New function to update imageUrl
-  const updateImageUrl = (url) => dispatch({ type: "UPDATE_IMAGE_URL", url });
-
-  return { resumeData, updateResumeData, toggleLanguage, updateImageUrl };
+  return {
+    resumeData,
+    updateResumeData,
+    toggleLanguage,
+    updateImageUrl,
+  };
 }

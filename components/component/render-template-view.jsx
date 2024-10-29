@@ -1,29 +1,94 @@
 "use client";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { templateComponents } from "@/helper/get-resume-engin";
+import { DownloadBtn } from "../btns/download-pdf";
+import Confetti from "react-confetti";
 
-import { getResumeTemplateView } from "@/helper/get-pdf-view";
-import { Font, PDFViewer } from "@react-pdf/renderer";
+const ResumePreviewSkeleton = () => (
+  <div className="animate-pulse space-y-4">
+    <div className="h-10 bg-gray-200 rounded w-1/3" />
+    <div className="h-[800px] bg-gray-200 rounded-lg w-full" />
+  </div>
+);
 
-const ClientResumeTemplate = ({ templateName, data, list }) => {
-  const ResumeTemplate = getResumeTemplateView(templateName);
+export default function ClientResumeTemplate({
+  template,
+  resumeData,
+  selectedTheme,
+  lng,
+}) {
+  // Memoize the ResumeComponent to prevent unnecessary re-renders
+  const ResumeComponent = useMemo(
+    () => templateComponents[template],
+    [template],
+  );
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [isConfettiActive, setIsConfettiActive] = useState(false);
 
-  if (!ResumeTemplate) {
-    return <div>Template not found</div>;
-  }
+  useEffect(() => {
+    // Set dimensions
+    const updateDimensions = () => {
+      setDimensions({
+        width: window.innerWidth + 100,
+        height: window.innerHeight + 1000,
+      });
+    };
 
-  if (data.lng === "ar") {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/ar.ttf",
-    });
-  }
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+
+    // Trigger confetti
+    setIsConfettiActive(true);
+
+    // Stop confetti after 1 second
+    const timer = setTimeout(() => {
+      setIsConfettiActive(false);
+    }, 10000);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", updateDimensions);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  // Memoize the content to prevent unnecessary re-renders
+  const content = useMemo(() => {
+    return (
+      <Suspense fallback={<ResumePreviewSkeleton />}>
+        <div className="resume-preview-container flex-1">
+          <ResumeComponent
+            resumeData={resumeData}
+            selectedTheme={resumeData.theme}
+            className="scale-[0.6] transfrom translate-y-[-20%]"
+          />
+        </div>
+      </Suspense>
+    );
+  }, [ResumeComponent, resumeData, selectedTheme]);
 
   return (
-    <div className="w-full h-screen overflow-auto">
-      <PDFViewer className=" top-20 sticky " width="100%" height="100%">
-        <ResumeTemplate resumeData={data} />
-      </PDFViewer>
+    <div className="flex w-full items-start overflow-auto notfs bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg min-h-[90dvh] max-h-screen shadow-lg">
+      <div className="flex justify-between items-start mb-4 sticky top-0">
+        <div className="flex flex-col items-center gap-4 ">
+          <DownloadBtn
+            data={resumeData}
+            lng={lng}
+            templateName={template}
+            userName={resumeData.personalInfo?.name}
+          />
+        </div>
+      </div>
+      {isConfettiActive && (
+        <Confetti
+          width={dimensions.width}
+          height={dimensions.height}
+          recycle={false}
+          numberOfPieces={300}
+        />
+      )}
+
+      {content}
     </div>
   );
-};
-
-export default ClientResumeTemplate;
+}

@@ -3,8 +3,8 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --background: #3b51a3;
+    --foreground: #3b51a3;
     --main-color: #3b51a3;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -83,6 +83,7 @@
 }
 
 html {
+  overflow: hidden;
   scroll-behavior: smooth;
 }
 body::-webkit-scrollbar {
@@ -102,7 +103,9 @@ body::-webkit-scrollbar-thumb {
 .text-main {
   color: var(--main-color) !important;
 }
-
+.markting > * > .dialog-close {
+  display: none !important;
+}
 .data-[state="active"] .text-main {
   color: white !important;
 }
@@ -135,7 +138,10 @@ body::-webkit-scrollbar-thumb {
   background-color: var(--main-color);
   border-radius: 3rem;
 }
-
+iframe .containers {
+  margin-top: 0 !important;
+  margin: 0 auto !important;
+}
 #container::-webkit-scrollbar {
   width: 0.6em;
 }

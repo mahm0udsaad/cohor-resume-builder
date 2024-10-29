@@ -1,154 +1,115 @@
-import React from "react";
+import { Controller } from "react-hook-form";
+import { Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2 } from "lucide-react";
-import { useTranslation } from "@/app/i18n/client";
-import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
-import UploadBtn from "../btns/upload-image";
 
-export default function PersonalInfoForm({
-  data,
-  updateData,
-  updateImageUrl,
-  lng,
-}) {
-  const { t } = useTranslation(lng, "forms");
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    updateData({
-      type: "UPDATE",
-      path: ["personalInfo", name],
-      value: value,
-    });
-  };
-
-  const handleContactChange = (index, value) => {
-    updateData({
-      type: "UPDATE",
-      path: ["personalInfo", "contact", index],
-      value: value,
-    });
-  };
-
-  const addContact = () => {
-    updateData({
-      type: "ADD",
-      path: ["personalInfo", "contact"],
-      value: "",
-    });
-  };
-
-  const removeContact = (index) => {
-    updateData({
-      type: "REMOVE",
-      path: ["personalInfo", "contact"],
-      index: index,
-    });
-  };
-
-  const handleSummaryChange = (value) => {
-    updateData({
-      type: "UPDATE",
-      path: ["personalInfo", "summary"],
-      value: value,
-    });
-  };
+export default function PersonalInfoForm({ control, errors, t }) {
   return (
-    <div className="p-4 space-y-4 ">
+    <div className="space-y-6">
       <div className="grid grid-cols-2 gap-6">
         <div>
-          <Label htmlFor="name" className="text-main">
-            {t("personalInfo.fullName")} {/* Translation for "Full Name" */}
-          </Label>
-          <Input
-            id="name"
+          <Label htmlFor="name">{t("personalInfo.fullName")}</Label>
+          <Controller
             name="name"
-            value={data.name}
-            onChange={handleChange}
-            placeholder={t("personalInfo.fullNamePlaceholder")}
-            className="border-[#3B51A3] focus:ring-[#3B51A3]"
+            control={control}
+            rules={{ required: t("required") }}
+            render={({ field }) => (
+              <Input
+                {...field}
+                id="name"
+                placeholder={t("personalInfo.fullNamePlaceholder")}
+                className="mt-1"
+              />
+            )}
           />
+          {errors.name && (
+            <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+          )}
         </div>
         <div>
-          <Label htmlFor="email" className="text-main">
-            {t("personalInfo.email")} {/* Translation for "Email" */}
-          </Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            value={data.contact[0]}
-            onChange={(e) => handleContactChange(0, e.target.value)}
-            placeholder={t("personalInfo.emailPlaceholder")}
-            className="border-[#3B51A3] focus:ring-[#3B51A3]"
-          />
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-6">
-        <div>
-          <Label htmlFor="jobTitle" className="text-main">
-            {t("personalInfo.jobTitle")} {/* Translation for "Job Title" */}
-          </Label>
-          <Input
-            id="jobTitle"
+          <Label htmlFor="jobTitle">{t("personalInfo.jobTitle")}</Label>
+          <Controller
             name="jobTitle"
-            value={data.jobTitle}
-            onChange={handleChange}
-            placeholder={t("personalInfo.jobTitlePlaceholder")}
-            className="border-[#3B51A3] focus:ring-[#3B51A3]"
-          />
-        </div>
-        <div>
-          <Label htmlFor="phone" className="text-main">
-            {t("personalInfo.phone")}
-          </Label>
-          <Input
-            id="phone"
-            name="phone"
-            value={data.contact[1]}
-            onChange={(e) => handleContactChange(1, e.target.value)}
-            placeholder={t("personalInfo.phonePlaceholder")}
-            className="border-[#3B51A3] focus:ring-[#3B51A3]"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                id="jobTitle"
+                placeholder={t("personalInfo.jobTitlePlaceholder")}
+                className="mt-1"
+              />
+            )}
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-6">
-        <UploadBtn lng={lng} updateImageUrl={updateImageUrl} />
-        {data.contact.slice(2).map((contact, index) => (
-          <div key={index + 2} className="flex items-center mb-2">
-            <Input
-              value={contact}
-              onChange={(e) => handleContactChange(index + 2, e.target.value)}
-              placeholder={t("personalInfo.contactPlaceholder")}
-              className="border-[#3B51A3] focus:ring-[#3B51A3] flex-grow"
-            />
-            <Button
-              onClick={() => removeContact(index + 2)}
-              size="icon"
-              variant="ghost"
-              className="ml-2"
-            >
-              <Trash2 className="h-4 w-4" />
-              <span className="sr-only">
-                {t("personalInfo.removeContact")}
-              </span>{" "}
-            </Button>
-          </div>
-        ))}
-        <Button onClick={addContact} variant="outline" className="main-border">
-          <Plus className="h-4 w-4 mx-2" />
-          {t("personalInfo.addContact")}{" "}
-        </Button>
-      </div>
-
       <div>
-        <AiSuggestionTextarea
-          lng={lng}
-          data={data.summary}
-          jobTitle={data.jobTitle}
-          onChange={handleSummaryChange}
+        <Label>{t("personalInfo.contact")}</Label>
+        <Controller
+          name="contact"
+          control={control}
+          defaultValue={[""]}
+          render={({ field: { onChange, value } }) => (
+            <div className="space-y-2">
+              {value.map((contact, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <Input
+                    value={contact}
+                    onChange={(e) => {
+                      const newContacts = [...value];
+                      newContacts[index] = e.target.value;
+                      onChange(newContacts);
+                    }}
+                    placeholder={t("personalInfo.contactPlaceholder")}
+                  />
+                  {index > 1 && (
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        const newContacts = value.filter((_, i) => i !== index);
+                        onChange(newContacts);
+                      }}
+                      variant="ghost"
+                      size="icon"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      <span className="sr-only">
+                        {t("personalInfo.removeContact")}
+                      </span>
+                    </Button>
+                  )}
+                </div>
+              ))}
+              {value.length < 5 && (
+                <Button
+                  type="button"
+                  onClick={() => onChange([...value, ""])}
+                  variant="outline"
+                  className="mt-2"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  {t("personalInfo.addContact")}
+                </Button>
+              )}
+            </div>
+          )}
+        />
+      </div>
+      <div>
+        <Label htmlFor="summary">{t("personalInfo.summary")}</Label>
+        <Controller
+          name="summary"
+          control={control}
+          render={({ field }) => (
+            <Textarea
+              {...field}
+              id="summary"
+              rows={4}
+              placeholder={t("personalInfo.summaryPlaceholder")}
+              className="mt-1"
+            />
+          )}
         />
       </div>
     </div>

@@ -28,6 +28,7 @@
     "phone": "رقم الهاتف",
     "phonePlaceholder": "(123) 456-7890",
     "contactPlaceholder": "https://example.com",
+    "contact": "جهة اتصال",
     "addContact": "إضافة جهة اتصال",
     "addImage": "إضافة صورة",
     "removeContact": "إزالة جهة الاتصال",
@@ -48,7 +49,7 @@
     "responsibilitiesPlaceholder": "وصف المسؤوليات والإنجازات الرئيسية",
     "generateAI": "إنشاء باستخدام الذكاء الاصطناعي",
     "addExperience": "إضافة خبرة",
-    "endDatePresent": "ألي ألان",
+    "endDatePresent": "اعمل هناك حاليا",
     "removeExperience": "إزالة آخر خبرة"
   },
   "reviewResume": {

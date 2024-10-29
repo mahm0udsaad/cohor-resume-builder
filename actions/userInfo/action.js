@@ -352,5 +352,7 @@ export async function saveOnboardingData(email, data) {
   } catch (error) {
     console.error("Error saving onboarding data:", error);
     return { success: false, error: "Failed to save onboarding data" };
+  } finally {
+    revalidatePath("/dashboard");
   }
 }
