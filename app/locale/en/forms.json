@@ -1,4 +1,17 @@
 {
+  "aiSuggestion": {
+    "contextTitle": "Provide Additional Context",
+    "contextDescription": "Add any specific details or requirements to help generate better suggestions.",
+    "contextPlaceholder": "Enter additional context...",
+    "generateButton": "Generate",
+    "cancelButton": "Cancel",
+    "suggestionsTitle": "AI Suggestions",
+    "suggestionsDescription": "Click on a suggestion to use it.",
+    "tryAgainButton": "Try different context",
+    "loadingText": "Generating suggestions...",
+    "buttonAriaLabel": "Generate with AI",
+    "summary": "Summary"
+  },
   "onboarding": {
     "title": "Complete Your Profile",
     "subtitle": "Follow the steps to set up your professional profile."

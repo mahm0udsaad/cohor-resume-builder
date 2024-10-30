@@ -1,4 +1,17 @@
 {
+  "aiSuggestion": {
+    "contextTitle": "قدم سياقًا إضافيًا",
+    "contextDescription": "أضف أي تفاصيل أو متطلبات محددة للمساعدة في إنشاء اقتراحات أفضل.",
+    "contextPlaceholder": "أدخل السياق الإضافي...",
+    "generateButton": "إنشاء",
+    "cancelButton": "إلغاء",
+    "suggestionsTitle": "اقتراحات الذكاء الاصطناعي",
+    "suggestionsDescription": "انقر على اقتراح لاستخدامه.",
+    "tryAgainButton": "جرب سياقًا مختلفًا",
+    "loadingText": "جاري إنشاء الاقتراحات...",
+    "buttonAriaLabel": "إنشاء باستخدام الذكاء الاصطناعي",
+    "summary": "الملخص"
+  },
   "onboarding": {
     "title": "أكمل ملفك الشخصي",
     "subtitle": "اتبع الخطوات لإعداد ملفك الشخصي الاحترافي."

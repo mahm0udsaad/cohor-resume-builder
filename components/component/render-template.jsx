@@ -60,7 +60,7 @@ const ResumeCard = ({ resume, user, isNewCard = false, list, lng }) => {
   };
 
   return (
-    <Card className="block bg-white shadow-md hover:shadow-lg transition-shadow">
+    <Card className=" block bg-white shadow-md hover:shadow-lg transition-shadow">
       <CardHeader>
         <CardDescription>
           {t("lastUpdated")}: {new Date().toLocaleDateString()}

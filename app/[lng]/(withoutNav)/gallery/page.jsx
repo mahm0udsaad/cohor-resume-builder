@@ -91,10 +91,10 @@ export default async function TemplateGallery({ params: { lng } }) {
           <Link href="/" className="text-blue-600">
             <div className="coursor-pointer rounded-md transition delay-300 hover:shadow-lg hover:bg-[#3b51a3] hover:text-white group w-[16rem] h-[2.5rem] flex justify-center items-center">
               <ArrowLeft
-                className={`mx-2 h-4 w-4 transition-transform translate-x-3 ${
+                className={`mx-2 h-4 w-4 transition-transform ${
                   lng === "ar"
                     ? "group-hover:-translate-x-2"
-                    : "group-hover:translate-x-14"
+                    : "group-hover:translate-x-2"
                 }`}
               />
               <span className="group-hover:hidden">

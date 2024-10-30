@@ -45,7 +45,12 @@ const UserBtn = ({ lng }) => {
       <div className="flex flex-1 items-center space-x-2 justify-end">
         <nav className="flex gap-2 items-center">
           <Link href="/auth">
-            <Button variant="ghost">{t("nav.signIn")}</Button>
+            <Button
+              className="ring-offset-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              variant="ghost"
+            >
+              {t("nav.signIn")}
+            </Button>
           </Link>
           <Link href="/auth">
             <Button className="bg-[#3b51a3] hover:bg-[#2a3b7a] text-white">

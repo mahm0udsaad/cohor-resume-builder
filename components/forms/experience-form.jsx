@@ -89,7 +89,7 @@ const ExperienceFields = ({ experience, index, onDelete, onChange, lng }) => {
             checked={experience.endDate === "Present"}
             onCheckedChange={handlePresentToggle}
           />
-          <label htmlFor={`endDatePresent-${index}`}>
+          <label className="text-[15px]" htmlFor={`endDatePresent-${index}`}>
             {t("workExperience.endDatePresent")}
           </label>
         </div>
