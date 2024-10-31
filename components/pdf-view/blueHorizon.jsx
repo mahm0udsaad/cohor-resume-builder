@@ -1,4 +1,11 @@
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 import React from "react";
@@ -9,6 +16,12 @@ export default function BlueHorizonPDF({ resumeData }) {
   const t = translations[lng] || translations["en"]; // Fallback to English if translation isn't available
   const direction = isArabic ? "rtl" : "ltr"; // RTL for Arabic, LTR for others
 
+  if (isArabic) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   // Default theme values in case selectedTheme is undefined
   const defaultTheme = {
     primaryColor: "#2b2d2e",

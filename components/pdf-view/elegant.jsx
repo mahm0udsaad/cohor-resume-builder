@@ -1,6 +1,13 @@
 "use client";
 import React, { memo } from "react";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 
@@ -107,7 +114,12 @@ const ElegantResume = ({ resumeData }) => {
   const styles = createStyles(theme, isArabic);
   // Get translations based on the current language
   const t = isArabic ? translations.ar : translations.en;
-
+  if (isArabic) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   return (
     <Document>
       <Page wrap={false} size="A4" style={styles.page}>

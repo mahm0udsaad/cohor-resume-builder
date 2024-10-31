@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   StyleSheet,
+  Font,
 } from "@react-pdf/renderer";
 import { translations } from "@/data/data"; // Import your translations
 import { formatDate } from "@/helper/date"; // Assume a date formatter utility
@@ -21,7 +22,12 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
     backgroundColor: "#ECDFCC",
     accentColor: "#697565",
   };
-
+  if (isArabic) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   const theme = selectedTheme || defaultTheme;
 
   // React PDF styles

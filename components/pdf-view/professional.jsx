@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   Link,
+  Font,
 } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
@@ -98,7 +99,12 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
   const isRTL = resumeData.lng === "ar";
   const styles = createStyles(selectedTheme, isRTL);
   const t = translations[resumeData.lng] || translations.en;
-
+  if (isRTL) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   return (
     <Document>
       <Page wrap={false} style={styles.page}>

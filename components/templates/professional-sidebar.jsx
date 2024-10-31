@@ -24,6 +24,7 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme }) => {
 
   return (
     <div
+      id="resume-template"
       className={`flex flex-col lg:flex-row mx-auto font-sans text-gray-800`}
       style={{ backgroundColor: theme.backgroundColor, direction: direction }}
     >

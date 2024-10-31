@@ -49,7 +49,7 @@ export const themes = [
   },
 ];
 
-export function ThemeSelector({ selectedTheme, setSelectedTheme, lng }) {
+export function ThemeSelector({ selectedTheme, setSelectedTheme, lng, plan }) {
   const [isHovered, setIsHovered] = useState(false);
   const timeoutRef = useRef(null);
 
@@ -96,28 +96,30 @@ export function ThemeSelector({ selectedTheme, setSelectedTheme, lng }) {
               lng === "ar" ? "right-full mx-2" : "left-full mx-2"
             } top-0 flex gap-2 bg-background p-1.5 z-50 rounded-md shadow-md`}
           >
-            {themes.map((theme) => (
-              <TooltipProvider key={theme.id}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setSelectedTheme(theme)}
-                      className={`size-6 rounded-full ${
-                        selectedTheme?.id === theme.id
-                          ? "ring-2 ring-primary ring-offset-2"
-                          : ""
-                      }`}
-                      style={{ backgroundColor: theme.primaryColor }}
-                    />
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p>{theme.name}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ))}
+            {plan !== "free" &&
+              themes.map((theme) => (
+                <TooltipProvider key={theme.id}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setSelectedTheme(theme)}
+                        className={`size-6 rounded-full ${
+                          selectedTheme?.id === theme.id
+                            ? "ring-2 ring-primary ring-offset-2"
+                            : ""
+                        }`}
+                        style={{ backgroundColor: theme.primaryColor }}
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">
+                      <p>{theme.name}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ))}
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -138,6 +140,11 @@ export function ThemeSelector({ selectedTheme, setSelectedTheme, lng }) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+            {plan == "free" && (
+              <p className="text-sm w-[17rem] mx-4">
+                Upgrade your plan to change the theme.
+              </p>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

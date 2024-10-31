@@ -25,7 +25,6 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
         <h1 className="text-2xl font-bold">{resumeData.personalInfo.name}</h1>
         <p className="text-lg mt-2">{resumeData.personalInfo.jobTitle}</p>
       </header>
-
       {/* Contact Information */}
       <div className="flex gap-2 p-6 text-center border-b border-gray-300">
         {resumeData.personalInfo.contact?.map((contact, index) => (
@@ -39,7 +38,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
       <div className="p-6">
         {/* Profile Section */}
         <section className="mb-6">
-          <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
+          <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
             {t.profile} {/* Use translation */}
           </h2>
           <p className="text-sm leading-relaxed">
@@ -49,8 +48,8 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
 
         {/* Experience Section */}
         <section className="mb-6">
-          <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
-            {t.experience} {/* Use translation */}
+          <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
+            {t.workExperience} {/* Use translation */}
           </h2>
           {resumeData.experiences?.map((job, index) => (
             <div key={index} className="mb-5">
@@ -78,7 +77,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
 
         {/* Education Section */}
         <section className="mb-6">
-          <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
+          <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
             {t.education} {/* Use translation */}
           </h2>
           {resumeData.educations?.map((edu, index) => (
@@ -101,7 +100,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
 
         {/* Skills Section */}
         <section className="mb-6">
-          <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
+          <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
             {t.skills} {/* Use translation */}
           </h2>
           <ul className="list-disc list-inside text-sm">
@@ -113,7 +112,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
 
         {/* Languages Section */}
         <section className="mb-6">
-          <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
+          <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
             {t.languages} {/* Use translation */}
           </h2>
           <ul className="list-disc list-inside text-sm">
@@ -127,7 +126,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
 
         {/* Courses Section */}
         <section className="mb-6">
-          <h2 className="uppercase text-lg font-semibold tracking-wider border-b border-gray-400 pb-2 mb-4">
+          <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
             {t.courses} {/* Use translation */}
           </h2>
           {resumeData.courses?.map((course, index) => (

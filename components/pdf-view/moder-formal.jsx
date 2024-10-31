@@ -1,4 +1,11 @@
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 
@@ -22,7 +29,12 @@ export default function ModernFormalResumeTemplatePDF({
         return 0;
     }
   };
-
+  if (isArabic) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   const theme = selectedTheme || {
     backgroundColor: "#ffffff",
     primaryColor: "#3498db",

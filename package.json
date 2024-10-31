@@ -47,6 +47,7 @@
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-resources-to-backend": "^1.2.1",
     "js-cookie": "^3.0.5",
+    "jspdf": "^2.5.2",
     "lucide-react": "^0.439.0",
     "negotiator": "^0.6.3",
     "next": "14.2.8",

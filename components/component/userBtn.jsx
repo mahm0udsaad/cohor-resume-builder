@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User } from "lucide-react";
+import { LayoutTemplate, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -89,6 +89,13 @@ const UserBtn = ({ lng }) => {
               )}
             </div>
           </div>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link href="/gallery" className="flex items-center">
+              <LayoutTemplate className="mx-2 h-4 w-4" />
+              <span>{t("templatesTitle")}</span>
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link href="/dashboard" className="flex items-center">

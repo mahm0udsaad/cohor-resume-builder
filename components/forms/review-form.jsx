@@ -23,15 +23,16 @@ export default function ReviewForm({
   theme,
   lng,
 }) {
-  const [showLanguages, setShowLanguages] = useState(false);
+  const [showLanguages, setShowLanguages] = useState(
+    !!resumeData?.languages?.length,
+  );
+  const [showCourses, setShowCourses] = useState(!!resumeData?.courses?.length);
   const [isLoading, setLoading] = useState(false);
-  const [showCourses, setShowCourses] = useState(false);
   const { t } = useTranslation(lng, "forms");
   const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
   const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
-  console.log(resumeData);
 
   const handleLanguageChange = (index, field, value) => {
     updateData({

@@ -11,10 +11,10 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Skeleton } from "./ui/skeleton";
 import { useTranslation } from "@/app/i18n/client";
-import { useSession } from "next-auth/react";
 import { ResumePreview } from "./component/review-section";
 import { useFormTabs } from "@/hooks/use-forms-tabs";
 import AutoSubscriptionModal from "./cards/auto-subscription-modal";
+
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
   {
@@ -47,10 +47,10 @@ const DynamicReviewForm = dynamic(
 );
 
 export function ResumeBuilder({ initalData, resumeName, lng }) {
-  const { data: session } = useSession();
-  const user = session?.user;
+  const user = initalData.user;
   const { resumeData, updateResumeData, toggleLanguage, updateImageUrl } =
     useResumeData(initalData);
+
   console.log(user);
 
   const { selectedTheme, setSelectedTheme } = useTheme();
@@ -96,6 +96,7 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
                   <TabsContent value="personal">
                     <DynamicPersonalInfoForm
                       lng={lng}
+                      plan={user?.plan}
                       updateImageUrl={updateImageUrl}
                       data={resumeData.personalInfo}
                       updateData={updateResumeData}
@@ -104,6 +105,7 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
                   <TabsContent value="experience">
                     <DynamicExperienceForm
                       lng={lng}
+                      plan={user?.plan}
                       experiences={resumeData.experiences}
                       updateData={updateResumeData}
                     />
@@ -161,6 +163,7 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
           <ResumePreview
             template={resumeName}
             toggleLanguage={toggleLanguage}
+            plan={user?.plan}
             resumeData={resumeData}
             selectedTheme={selectedTheme}
             setSelectedTheme={setSelectedTheme}

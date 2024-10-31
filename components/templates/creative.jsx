@@ -15,6 +15,7 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
 
   return (
     <div
+      id="resume-template"
       dir={resumeData.lng === "ar" ? "rtl" : "ltr"}
       className={cn("lg:w-full", className)}
       style={{

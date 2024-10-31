@@ -1,8 +1,6 @@
 ## TODO
 
-3. update the text area to has condition to render the AI btn if ther user in PRO+ plan + context before suggestion
-4. hide Theme + put a watermark in the resume
+- for free users display only 2 templates
+- for pro users display only 10 templates
 
-- make the font.regester in all the pdf components
-- make the user.plan pased experince
-- generate image while saving the resume to be as a thumb
+## create a round that test and inhance all the parts in the app

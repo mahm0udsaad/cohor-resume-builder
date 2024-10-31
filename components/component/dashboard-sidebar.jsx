@@ -67,6 +67,7 @@ export default function Sidebar({
         <SubscriptionModal
           lng={lng}
           user={userInfo}
+          currentPlan={userInfo.plan}
           onSuccess={(paymentData) => {
             // Handle successful payment
             console.log("Payment successful:", paymentData);

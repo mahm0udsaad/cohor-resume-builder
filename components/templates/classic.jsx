@@ -106,6 +106,7 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
 
   return (
     <div
+      id="resume-template"
       className={cn("bg-white w-full p-6 sm:p-4", className)}
       style={{ direction }} // Set direction based on language
     >

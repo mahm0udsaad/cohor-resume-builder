@@ -121,6 +121,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
 
   return (
     <div
+      id="resume-template"
       style={{
         ...styles.container,
         direction: direction, // Set text direction based on language

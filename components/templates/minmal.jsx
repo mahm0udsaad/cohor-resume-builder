@@ -16,6 +16,7 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
   const direction = isArabic ? "rtl" : "ltr";
   return (
     <div
+      id="resume-template"
       style={{ direction }}
       className={cn("w-full max-w-4xl mx-auto bg-white p-2", className)}
     >

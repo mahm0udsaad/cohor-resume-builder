@@ -16,7 +16,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
 
   return (
     <div
-      id="ResumePreview"
+      id="resume-template"
       className={cn("flex w-full mx-auto bg-white", className)}
       style={{ direction: styles.textDirection }} // Apply text direction
     >
@@ -29,14 +29,14 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
       {/* Main content area (85% width) */}
       <div className="w-11/12 p-8">
         <header className="mb-6">
-          <h1 className="text-5xl font-bold text-gray-800">
+          <h1 className="text-5xl font-bold text-gray-800 pb-4">
             {resumeData.personalInfo?.name}
           </h1>
           <div className="flex flex-wrap">
             {resumeData.personalInfo?.contact?.map((contact, index) => (
               <p
                 key={index}
-                className="text-[11px] font-semibold pr-[3px] text-gray-600"
+                className="text-sm font-semibold pr-[3px] text-gray-600"
               >
                 {contact.startsWith("https") ? (
                   <a

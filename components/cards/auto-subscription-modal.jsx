@@ -55,7 +55,7 @@ export default function AutoSubscriptionModal({ user, lng }) {
   ];
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsOpen(true), 5000);
+    const timer = setTimeout(() => setIsOpen(true), 10000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -117,7 +117,7 @@ export default function AutoSubscriptionModal({ user, lng }) {
             <Button
               variant="ghost"
               size="icon"
-              className="absolute right-2 top-2 z-10"
+              className="absolute right-[0.2rem] top-[0.3rem] z-10"
               onClick={() => {
                 setRedirectUrl(null);
               }}

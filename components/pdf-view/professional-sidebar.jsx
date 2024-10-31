@@ -5,6 +5,7 @@ import {
   Image,
   Document,
   StyleSheet,
+  Font,
 } from "@react-pdf/renderer";
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
@@ -15,6 +16,13 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
   const { lng } = resumeData;
   const t = translations[lng] || translations["en"]; // Fallback to English if translation isn't available
   const direction = isArabic ? "rtl" : "ltr"; // RTL for Arabic, LTR for others
+
+  if (isArabic) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
 
   const defaultTheme = {
     primaryColor: "#009688",

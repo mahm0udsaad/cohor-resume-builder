@@ -5,6 +5,7 @@ import {
   Image,
   Document,
   StyleSheet,
+  Font,
 } from "@react-pdf/renderer";
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
@@ -15,7 +16,12 @@ export default function GridLayoutResumePDF({ resumeData }) {
   const { lng } = resumeData;
   const t = translations[lng] || translations["en"]; // Use fallback to English if translation isn't available
   const direction = isArabic ? "right" : "left"; // RTL for Arabic, LTR for others
-
+  if (isArabic) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   const theme = resumeData.theme || {
     primaryColor: "#000000cc",
     backgroundColor: "#ededed",

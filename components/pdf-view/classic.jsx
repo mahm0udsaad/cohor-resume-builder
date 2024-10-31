@@ -1,5 +1,12 @@
 import React, { memo } from "react";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 
@@ -77,6 +84,12 @@ const Classic = ({ resumeData }) => {
   const isArabic = resumeData.lng === "ar";
   const styles = createStyles(isArabic); // Pass RTL flag to styles
 
+  if (isArabic) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   // Get translations based on the current language
   const t = isArabic ? translations.ar : translations.en;
 

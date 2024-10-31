@@ -19,7 +19,14 @@ const INITIAL_EXPERIENCE = {
   responsibilities: "",
 };
 
-const ExperienceFields = ({ experience, index, onDelete, onChange, lng }) => {
+const ExperienceFields = ({
+  experience,
+  index,
+  onDelete,
+  onChange,
+  lng,
+  plan,
+}) => {
   const handleFieldChange = (field, value) => {
     onChange(index, field, value);
   };
@@ -97,6 +104,7 @@ const ExperienceFields = ({ experience, index, onDelete, onChange, lng }) => {
 
       {/* Responsibilities Field */}
       <AiSuggestionTextarea
+        plan={plan}
         lng={lng}
         isExperince
         data={experience.responsibilities}
@@ -107,7 +115,7 @@ const ExperienceFields = ({ experience, index, onDelete, onChange, lng }) => {
   );
 };
 
-export default function ExperienceForm({ experiences, updateData, lng }) {
+export default function ExperienceForm({ experiences, updateData, lng, plan }) {
   const { t } = useTranslation(lng, "forms");
 
   const handleExperienceChange = (index, field, value) => {
@@ -144,6 +152,7 @@ export default function ExperienceForm({ experiences, updateData, lng }) {
         {experiences.map((exp, index) => (
           <ExperienceFields
             key={index}
+            plan={plan}
             experience={exp}
             index={index}
             onDelete={deleteExperience}

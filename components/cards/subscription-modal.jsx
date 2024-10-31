@@ -273,7 +273,7 @@ export function SubscriptionModal({
         </Alert>
       )}
       <Button
-        disabled={loading || activeTab === currentPlan}
+        disabled={loading || activeTab === "free" || activeTab === currentPlan}
         onClick={handlePayment}
         className={`w-full bg-gradient-to-r ${plans[activeTab].gradient} text-white hover:opacity-90 transition-opacity duration-300 mt-4`}
         size="lg"
@@ -299,7 +299,7 @@ export function SubscriptionModal({
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-2 top-2 z-10"
+        className="absolute right-[0.2rem] top-[0.3rem] z-10"
         onClick={() => {
           setPaymentKey(null);
         }}

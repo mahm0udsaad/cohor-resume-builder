@@ -20,6 +20,7 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
 
   return (
     <div
+      id="resume-template"
       dir={direction}
       style={{
         fontFamily: "Arial, sans-serif",

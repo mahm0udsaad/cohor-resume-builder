@@ -42,6 +42,7 @@ export default function MinimalistTwoColorResumeTemplate({
 
   return (
     <div
+      id="resume-template"
       className={cn("lg:w-full", className)}
       style={{
         backgroundColor: "white",

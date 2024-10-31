@@ -39,25 +39,59 @@ const validateBillingData = (billingData) => {
 
 // Helper function to verify HMAC signature
 const verifySignature = (rawBody, signature) => {
-  // Ensure PAYMOB_HMAC_SECRET is available
   if (!process.env.PAYMOB_HMAC_SECRET) {
     throw new Error("PAYMOB_HMAC_SECRET not configured");
   }
 
-  // Parse and stringify the JSON body to ensure consistent formatting
-  const normalizedBody = JSON.stringify(JSON.parse(rawBody.trim()));
+  try {
+    const data = JSON.parse(rawBody);
+    const obj = data.obj;
 
-  // Calculate HMAC using the secret and normalized body
-  const calculatedHmac = crypto
-    .createHmac("sha512", process.env.PAYMOB_HMAC_SECRET.trim())
-    .update(normalizedBody)
-    .digest("hex");
+    // Construct the string according to PayMob's specification
+    const hmacString = [
+      obj.amount_cents,
+      obj.created_at,
+      obj.currency,
+      obj.error_occured,
+      obj.has_parent_transaction,
+      obj.id,
+      obj.integration_id,
+      obj.is_3d_secure,
+      obj.is_auth,
+      obj.is_capture,
+      obj.is_refunded,
+      obj.is_standalone_payment,
+      obj.is_voided,
+      obj.order.id,
+      obj.owner,
+      obj.pending,
+      obj.source_data?.pan || "",
+      obj.source_data?.sub_type || "",
+      obj.source_data?.type || "",
+      obj.success,
+    ].join("");
 
-  // Compare the calculated HMAC with the received HMAC securely
-  return crypto.timingSafeEqual(
-    Buffer.from(signature.toLowerCase()),
-    Buffer.from(calculatedHmac.toLowerCase()),
-  );
+    console.log("Constructed HMAC string:", hmacString);
+
+    const calculatedHmac = crypto
+      .createHmac("sha512", process.env.PAYMOB_HMAC_SECRET)
+      .update(hmacString)
+      .digest("hex");
+
+    console.log("HMAC Debug:", {
+      receivedHmac: signature,
+      calculatedHmac: calculatedHmac,
+      stringLength: hmacString.length,
+    });
+
+    return crypto.timingSafeEqual(
+      Buffer.from(signature.toLowerCase()),
+      Buffer.from(calculatedHmac.toLowerCase()),
+    );
+  } catch (error) {
+    console.error("Error during HMAC verification:", error);
+    throw error;
+  }
 };
 
 // Helper to validate transaction data
@@ -69,27 +103,6 @@ const validateTransaction = (transaction) => {
     !transaction.error_occured &&
     transaction.currency === "EGP"
   );
-};
-
-// Helper to get readable payment method
-const getPaymentMethod = (sourceData) => {
-  if (!sourceData) return "unknown";
-  return `${sourceData.type || "unknown"}-${sourceData.sub_type || "unknown"}`;
-};
-
-// Helper to format transaction metadata
-const formatTransactionMetadata = (order, sourceData, transactionData) => {
-  return {
-    merchantOrderId: order.merchant_order_id,
-    paymentType: sourceData?.type,
-    cardSubType: sourceData?.sub_type,
-    cardLastFourDigits: sourceData?.pan,
-    transactionNo: transactionData?.transaction_no,
-    receiptNo: transactionData?.receipt_no,
-    authorizationCode: transactionData?.authorize_id,
-    acsEci: transactionData?.acs_eci,
-    cardType: transactionData?.card_type,
-  };
 };
 
 export async function POST(req) {
@@ -212,40 +225,18 @@ export async function POST(req) {
 
     // Process subscription in transaction
     const result = await prisma.$transaction(async (tx) => {
-      // Create payment record
-      const payment = await tx.payment.create({
+      // Create subscription record
+      const subscription = await tx.subscription.create({
         data: {
           userId: user.id,
           transactionId: transactionId.toString(),
           orderId: order.id.toString(),
           amount: amount_cents / 100,
-          currency: obj.currency,
-          paymentMethod: getPaymentMethod(source_data),
-          status: "completed",
-          paymentDate: new Date(created_at),
-          metadata: formatTransactionMetadata(
-            order,
-            source_data,
-            transactionData,
-          ),
-        },
-      });
-
-      // Create subscription record
-      const subscription = await tx.subscription.create({
-        data: {
-          userId: user.id,
-          paymentId: payment.id,
-          plan: plan.name,
           status: "active",
-          startDate: new Date(),
-          endDate,
+          paymentDate: new Date(created_at),
+          plan: plan.name,
+          endDate: endDate,
           features: plan.features,
-          metadata: {
-            paymentAmount: amount_cents / 100,
-            planType: plan.name,
-            durationDays: plan.durationDays,
-          },
         },
       });
 
@@ -258,8 +249,9 @@ export async function POST(req) {
         },
       });
 
-      return { payment, subscription };
+      return { subscription };
     });
+    console.log("Subscription created:", result.subscription);
 
     // Return success response
     return NextResponse.json(
@@ -267,7 +259,6 @@ export async function POST(req) {
         status: "success",
         message: "Payment processed successfully",
         data: {
-          paymentId: result.payment.id,
           subscriptionId: result.subscription.id,
           plan: plan.name,
           features: plan.features,

@@ -8,7 +8,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { AiSuggestionTextarea } from "../ai-suggestion-textarea";
 import UploadBtn from "../btns/upload-image";
 
-function PersonalInfoForm({ data, updateData, updateImageUrl, lng }) {
+function PersonalInfoForm({ data, updateData, updateImageUrl, lng, plan }) {
   const { t } = useTranslation(lng, "forms");
 
   const handleChange = (e) => {
@@ -154,6 +154,7 @@ function PersonalInfoForm({ data, updateData, updateImageUrl, lng }) {
           <div>
             <AiSuggestionTextarea
               lng={lng}
+              plan={plan}
               data={data.summary}
               jobTitle={data.jobTitle}
               onChange={handleSummaryChange}

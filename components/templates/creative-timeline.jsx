@@ -60,6 +60,7 @@ function CreativeTimelineResumeTemplate({
 
   return (
     <div
+      id="resume-template"
       className={cn("w-full", className)}
       style={{
         color: theme.textColor,

@@ -27,6 +27,7 @@ export default function ModernFormalResumeTemplate({
   };
   return (
     <div
+      id="resume-template"
       style={{
         fontFamily: isArabic ? "'Amiri', serif" : "Arial, sans-serif", // Adjust font for Arabic
         padding: "20px",

@@ -19,6 +19,35 @@ export const getCurrentUser = cache(
   },
 );
 
+export async function getUser(email) {
+  if (!email) {
+    return { success: false, error: "No authenticated user found" };
+  }
+
+  try {
+    // Fetch user data with related info from MongoDB
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+    });
+
+    if (!user) {
+      return { success: false, error: "User not found" };
+    }
+
+    return {
+      user: {
+        name: user.name,
+        email: user.email,
+        plan: user.plan,
+        image: user.photoURL,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching user with details:", error);
+    return { success: false, error: error.message };
+  }
+}
+
 export async function getUserWithDetails(email) {
   if (!email) {
     return { success: false, error: "No authenticated user found" };
@@ -48,7 +77,8 @@ export async function getUserWithDetails(email) {
         id: user.id,
         email: user.email,
         name: user.name,
-        photoURL: user.photoURL,
+        image: user.photoURL,
+        plan: user.plan,
       },
       personalInfo: user.personalInfo,
       experiences: user.experiences,
@@ -63,7 +93,6 @@ export async function getUserWithDetails(email) {
     return { success: false, error: error.message };
   }
 }
-
 export async function updatePersonalInfo(userId, newPersonalInfo) {
   try {
     // Step 1: Fetch the existing personalInfo

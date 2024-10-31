@@ -5,15 +5,9 @@ export default function Logo() {
   return (
     <Link
       href="/"
-      className="w-[8rem] mr-6 h-[3rem] flex items-center space-x-2 bg-main rounded shadow-lg max-w-[300px] px-4"
+      className="mx-6 h-[3rem] flex items-center space-x-2 max-w-[300px] px-4"
     >
-      <Image
-        priority
-        src="/cogor-logo.svg"
-        alt="Logo"
-        width={100}
-        height={32}
-      />
+      <Image priority src="/ar-logo.png" alt="Logo" width={200} height={100} />
     </Link>
   );
 }

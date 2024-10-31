@@ -1,12 +1,6 @@
 import { Suspense, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Languages,
-  LanguagesIcon,
-  LayoutTemplate,
-  LucideLanguages,
-  SquareX,
-} from "lucide-react";
+import { LanguagesIcon, LayoutTemplate, SquareX } from "lucide-react";
 import { ThemeSelector } from "@/components/theme-selector";
 import dynamic from "next/dynamic";
 import { templateComponents } from "@/helper/get-resume-engin";
@@ -33,6 +27,7 @@ const ResumePreviewSkeleton = () => (
 );
 
 export function ResumePreview({
+  plan,
   template,
   toggleLanguage,
   resumeData,
@@ -77,6 +72,7 @@ export function ResumePreview({
       <div className="flex justify-between items-start mb-4">
         <div className="flex flex-col items-center gap-4">
           <ThemeSelector
+            plan={plan}
             selectedTheme={selectedTheme}
             setSelectedTheme={setSelectedTheme}
             lng={lng}

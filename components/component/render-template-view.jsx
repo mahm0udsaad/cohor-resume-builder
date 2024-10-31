@@ -2,6 +2,7 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { templateComponents } from "@/helper/get-resume-engin";
 import { DownloadBtn } from "../btns/download-pdf";
+import { DownloadWithWatermarkBtn } from "../btns/download-pdf-watermark";
 import Confetti from "react-confetti";
 
 const ResumePreviewSkeleton = () => (
@@ -15,9 +16,9 @@ export default function ClientResumeTemplate({
   template,
   resumeData,
   selectedTheme,
+  plan,
   lng,
 }) {
-  // Memoize the ResumeComponent to prevent unnecessary re-renders
   const ResumeComponent = useMemo(
     () => templateComponents[template],
     [template],
@@ -26,57 +27,60 @@ export default function ClientResumeTemplate({
   const [isConfettiActive, setIsConfettiActive] = useState(false);
 
   useEffect(() => {
-    // Set dimensions
     const updateDimensions = () => {
       setDimensions({
-        width: window.innerWidth + 100,
-        height: window.innerHeight + 1000,
+        width: window.innerWidth + 10,
+        height: window.innerHeight + 100,
       });
     };
 
     updateDimensions();
     window.addEventListener("resize", updateDimensions);
 
-    // Trigger confetti
     setIsConfettiActive(true);
-
-    // Stop confetti after 1 second
     const timer = setTimeout(() => {
       setIsConfettiActive(false);
     }, 10000);
 
-    // Cleanup
     return () => {
       window.removeEventListener("resize", updateDimensions);
       clearTimeout(timer);
     };
   }, []);
 
-  // Memoize the content to prevent unnecessary re-renders
   const content = useMemo(() => {
     return (
       <Suspense fallback={<ResumePreviewSkeleton />}>
-        <div className="resume-preview-container flex-1">
+        <div className="resume-preview-container flex-1 relative">
           <ResumeComponent
             resumeData={resumeData}
             selectedTheme={resumeData.theme}
-            className="scale-[0.6] transfrom translate-y-[-20%]"
+            className="scale-[0.6] transform translate-y-[-20%]"
           />
         </div>
       </Suspense>
     );
   }, [ResumeComponent, resumeData, selectedTheme]);
 
+  console.log(plan);
+
   return (
     <div className="flex w-full items-start overflow-auto notfs bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg min-h-[90dvh] max-h-screen shadow-lg">
       <div className="flex justify-between items-start mb-4 sticky top-0">
         <div className="flex flex-col items-center gap-4 ">
-          <DownloadBtn
-            data={resumeData}
-            lng={lng}
-            templateName={template}
-            userName={resumeData.personalInfo?.name}
-          />
+          {plan === "free" ? (
+            <DownloadWithWatermarkBtn
+              resumeData={resumeData}
+              templateName={template}
+            />
+          ) : (
+            <DownloadBtn
+              data={resumeData}
+              lng={lng}
+              templateName={template}
+              userName={resumeData.personalInfo?.name}
+            />
+          )}
         </div>
       </div>
       {isConfettiActive && (
@@ -87,7 +91,6 @@ export default function ClientResumeTemplate({
           numberOfPieces={300}
         />
       )}
-
       {content}
     </div>
   );

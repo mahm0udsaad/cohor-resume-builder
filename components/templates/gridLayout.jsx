@@ -136,7 +136,7 @@ export default function GridLayoutResume({
   };
 
   return (
-    <div dir={direction} style={styles.container}>
+    <div id="resume-template" dir={direction} style={styles.container}>
       <header style={styles.header}>
         <img
           src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}

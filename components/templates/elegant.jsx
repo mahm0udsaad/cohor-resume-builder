@@ -18,7 +18,7 @@ const ElegantResume = ({ resumeData, selectedTheme, className }) => {
 
   return (
     <div
-      id="ResumePreview"
+      id="resume-template"
       className={cn(
         "flex flex-col w-full mx-auto bg-white p-10 sm:px-6 sm:py-4",
         className,

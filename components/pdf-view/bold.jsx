@@ -1,5 +1,13 @@
 import React, { memo } from "react";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Font,
+  Image,
+} from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 
@@ -17,6 +25,17 @@ const createStyles = (isArabic) =>
             textAlign: "right",
           }
         : {}),
+    },
+    watermarkContainer: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "60%", // Adjust size as needed
+      height: "60%", // Adjust size as needed
+      backgroundColor: "rgba(0, 0, 139, 0.5)", // Dark blue with opacity
+      justifyContent: "center",
+      alignItems: "center",
     },
     header: {
       padding: 16,
@@ -132,6 +151,14 @@ const BoldTemplate = ({ resumeData }) => {
   const t = translations[resumeData.lng] || translations.en;
   const isArabic = resumeData.lng === "ar";
   const styles = createStyles(isArabic);
+
+  if (isArabic) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
+
   return (
     <Document>
       <Page wrap={false} size="A4" style={styles.page}>

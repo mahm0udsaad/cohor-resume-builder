@@ -6,6 +6,7 @@ import {
   Document,
   StyleSheet,
   Image,
+  Font,
 } from "@react-pdf/renderer";
 import { memo } from "react";
 
@@ -122,7 +123,12 @@ const CreativeResumeTemplate = ({ resumeData }) => {
     secondaryColor: "#2c3e50",
     backgroundColor: "#ecf0f1",
   };
-
+  if (rtl) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   const styles = createStyles(theme, rtl);
 
   return (

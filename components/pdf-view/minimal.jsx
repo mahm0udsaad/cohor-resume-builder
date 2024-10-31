@@ -1,5 +1,12 @@
 import React from "react";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
 
 // Create styles
@@ -143,6 +150,12 @@ const createStyles = (isArabic) =>
 const MinimalTemplate = ({ resumeData }) => {
   const isArabic = resumeData?.lng === "ar";
   const styles = createStyles(isArabic);
+  if (isArabic) {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   return (
     <Document>
       <Page wrap={false} size="A4" style={styles.page}>

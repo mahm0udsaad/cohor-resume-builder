@@ -18,6 +18,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme, className }) => {
 
   return (
     <div
+      id="resume-template"
       style={{
         direction: styles.textDirection,
         backgroundColor: selectedTheme?.backgroundColor || "#ffffff",

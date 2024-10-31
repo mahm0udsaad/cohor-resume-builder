@@ -5,7 +5,7 @@ import { DashboardWithSidebarComponent } from "@/components/dashboard-with-sideb
 import { getUserResumes } from "@/actions/resumes";
 import { EditingProvider } from "@/context/edit-context";
 
-const DashboardPage = async ({ params: { lng }, searchParams }) => {
+const DashboardPage = async ({ params: { lng } }) => {
   const session = await auth();
   if (!session) redirect("/auth");
   const userInfo = await getUserWithDetails(session.user.email);
@@ -18,7 +18,7 @@ const DashboardPage = async ({ params: { lng }, searchParams }) => {
       <DashboardWithSidebarComponent
         lng={lng}
         resumes={resumes}
-        user={session?.user}
+        user={userInfo?.user}
         resumeData={{
           personalInfo,
           experiences,

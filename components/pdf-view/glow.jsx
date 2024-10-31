@@ -5,6 +5,7 @@ import {
   Document,
   Image,
   StyleSheet,
+  Font,
 } from "@react-pdf/renderer";
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
@@ -80,7 +81,12 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
     primaryColor: "#2c3e50",
     backgroundColor: "#f5f5f5",
   };
-
+  if (resumeData.lng === "ar") {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   const t = translations[resumeData.lng] || translations.en; // Translation handling
 
   const lng = resumeData.lng;

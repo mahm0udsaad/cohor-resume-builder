@@ -7,6 +7,7 @@ import {
   Document,
   Image,
   StyleSheet,
+  Font,
 } from "@react-pdf/renderer";
 
 // Define styles using react-pdf's StyleSheet
@@ -95,7 +96,12 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
   };
   const styles = createStyles(theme);
   const t = translations[resumeData.lng] || translations.en;
-
+  if (resumeData.lng === "ar") {
+    Font.register({
+      family: "IBM Plex Sans Arabic",
+      src: "/fonts/ar.ttf",
+    });
+  }
   return (
     <Document>
       <Page wrap={false} style={styles.page} size="A4">

@@ -12,6 +12,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { cn } from "@/lib/utils";
 import { generateSuggestions } from "@/actions/suggestions";
 export function AiSuggestionTextarea({
+  plan,
   data,
   lng,
   jobTitle,
@@ -181,32 +182,34 @@ export function AiSuggestionTextarea({
           className="border-[#3B51A3] focus:ring-[#3B51A3] h-11/12 w-full pr-10"
           dir={lng === "ar" ? "rtl" : "ltr"}
         />
-        <Popover open={showPopover} onOpenChange={setShowPopover}>
-          <PopoverTrigger asChild>
-            <Button
-              size="icon"
-              className={cn(
-                "absolute bottom-2",
-                lng === "ar" ? "left-2" : "right-2",
-                "bg-[#3B51A3] hover:bg-[#2C3E8C] transition-colors duration-200",
-              )}
+        {plan === "proPlus" && (
+          <Popover open={showPopover} onOpenChange={setShowPopover}>
+            <PopoverTrigger asChild>
+              <Button
+                size="icon"
+                className={cn(
+                  "absolute bottom-2",
+                  lng === "ar" ? "left-2" : "right-2",
+                  "bg-[#3B51A3] hover:bg-[#2C3E8C] transition-colors duration-200",
+                )}
+              >
+                <Wand2 className="h-4 w-4" />
+                <span className="sr-only">
+                  {t("aiSuggestion.buttonAriaLabel")}
+                </span>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="min-w-[30rem] p-4 bg-white shadow-lg rounded-lg border-gray-200"
+              side="right"
+              align="end"
+              alignOffset={-40}
+              sideOffset={5}
             >
-              <Wand2 className="h-4 w-4" />
-              <span className="sr-only">
-                {t("aiSuggestion.buttonAriaLabel")}
-              </span>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent
-            className="min-w-[30rem] p-4 bg-white shadow-lg rounded-lg border-gray-200"
-            side="right"
-            align="end"
-            alignOffset={-40}
-            sideOffset={5}
-          >
-            {renderPopoverContent()}
-          </PopoverContent>
-        </Popover>
+              {renderPopoverContent()}
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
     </div>
   );

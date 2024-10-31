@@ -4,8 +4,8 @@ import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { dummyData, dummyDataAr } from "@/data/data";
-
+import { dummyDataAr } from "@/data/data";
+import { getUser } from "@/actions/userInfo/action";
 const ClientResumeTemplate = dynamic(
   () => import("@/components/component/render-template-view"),
   {
@@ -19,9 +19,10 @@ export default async function ReviewPage({ params: { lng, resumeName } }) {
   if (!session) redirect("/auth");
   const { user } = session;
   const resume = await getResume(user.email, resumeName);
+  const userInfo = await getUser(user.email);
 
   return (
-    <div className="bg-gray-50 min-h-[90dvh]">
+    <div className="bg-gray-50 min-h-[90dvh] overflow-x-hidden">
       <div className="container mx-auto p-6">
         <div className="flex justify-between items-center mb-6">
           <Link
@@ -39,6 +40,7 @@ export default async function ReviewPage({ params: { lng, resumeName } }) {
         {resume && (
           <ClientResumeTemplate
             lng={lng}
+            plan={userInfo?.user.plan}
             template={resumeName}
             resumeData={dummyDataAr}
           />

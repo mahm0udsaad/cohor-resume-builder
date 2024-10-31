@@ -1,35 +1,10 @@
 "use client";
 import { useState } from "react";
 import Sidebar from "@/components/component/dashboard-sidebar";
-import {
-  Briefcase,
-  GraduationCap,
-  Code,
-  Languages,
-  Book,
-  Mail,
-  Phone,
-  MapPin,
-  Edit,
-  ChevronDown,
-  ChevronUp,
-  Menu,
-  Plus,
-  Save,
-} from "lucide-react";
+import { Menu, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import ResumeList from "./component/resume-list";
-import { formatDate } from "@/helper/date";
 import { useTranslation } from "@/app/i18n/client";
-import MyPersonalInfoForm from "./forms/my-personal-info";
 import Link from "next/link";
 import InformationTab from "./dashoard/information-tab";
 export function DashboardWithSidebarComponent({
