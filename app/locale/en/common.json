@@ -1,4 +1,9 @@
 {
+  "upgradeAlert": {
+    "title": "Unlock More Templates",
+    "description": "Upgrade your plan to access our full collection of premium templates.",
+    "actionText": "View Plans"
+  },
   "loading": {
     "title": "Processing Payment",
     "description": "Please wait while we confirm your payment..."

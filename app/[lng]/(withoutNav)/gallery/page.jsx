@@ -4,6 +4,10 @@ import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
 import SearchForm from "@/components/forms/search";
 import Image from "next/image";
+import { auth } from "@/lib/auth";
+import { getUser } from "../../../../actions/userInfo/action";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { RocketIcon } from "lucide-react";
 
 const templates = [
   {
@@ -37,7 +41,6 @@ const templates = [
     name: "gridLayout",
     image: "/templates/gridLayout.png",
   },
-
   {
     category: "modern",
     name: "modern",
@@ -47,7 +50,6 @@ const templates = [
     name: "creative",
     image: "/templates/creative.png",
   },
-
   {
     name: "formal",
     image: "/templates/formal.png",
@@ -57,7 +59,6 @@ const templates = [
     name: "glow",
     image: "/templates/glow.png",
   },
-
   {
     name: "elegant",
     image: "/templates/elegant.png",
@@ -80,6 +81,24 @@ const templates = [
 
 export default async function TemplateGallery({ params: { lng } }) {
   const { t } = await useTranslation(lng, "common");
+  const session = await auth();
+  const { user } = await getUser(session?.user.email);
+
+  // Function to get available templates based on user plan
+  const getAvailableTemplates = (userPlan) => {
+    switch (userPlan) {
+      case "proPlus":
+        return templates; // All templates
+      case "pro":
+        return templates.slice(0, 10); // First 10 templates
+      case "free":
+      default:
+        return templates.slice(0, 2); // First 2 templates
+    }
+  };
+
+  const availableTemplates = getAvailableTemplates(user?.plan);
+  const showUpgradeAlert = !user?.plan || user.plan === "free";
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -106,11 +125,49 @@ export default async function TemplateGallery({ params: { lng } }) {
       </header>
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <SearchForm lng={lng} />
+        {showUpgradeAlert && (
+          <div className="px-4 mb-8 sm:px-0">
+            <Alert className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+              <div className="flex items-start gap-3">
+                <RocketIcon className="h-5 w-5 text-blue-600 animate-bounce mt-[0.4rem]" />
+                <div className="flex-1">
+                  <AlertTitle className="text-lg font-semibold text-blue-900 mb-1">
+                    {t("upgradeAlert.title")}
+                  </AlertTitle>
+                  <AlertDescription className="text-blue-800">
+                    <span className="block mb-2">
+                      {t("upgradeAlert.description")}
+                    </span>
+                    <Link
+                      href="/#pricing"
+                      className="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      <span>{t("upgradeAlert.actionText")}</span>
+                      <svg
+                        className={`w-4 h-4 ms-1 rtl:rotate-180 transition-transform group-hover:translate-x-1`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 7l5 5m0 0l-5 5m5-5H6"
+                        />
+                      </svg>
+                    </Link>
+                  </AlertDescription>
+                </div>
+              </div>
+            </Alert>
+          </div>
+        )}
         <div className="px-4 py-6 sm:px-0">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {templates.map((template) => (
+            {availableTemplates.map((template) => (
               <Link
-                key={template.name} // Ensure this is unique and stable
+                key={template.name}
                 href={`/builder/${template.name}`}
                 className="group"
                 prefetch={false}
@@ -123,9 +180,7 @@ export default async function TemplateGallery({ params: { lng } }) {
                       loading="lazy"
                       width={400}
                       height={300}
-                      className={
-                        "transition-all group-hover:scale-[0.9] duration-300"
-                      }
+                      className="transition-all group-hover:scale-[0.9] duration-300"
                     />
                   </div>
                   <div className="bg-main px-4 pb-2 flex justify-between items-center">
