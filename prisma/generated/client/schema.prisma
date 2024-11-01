@@ -56,25 +56,26 @@ model Subscription {
 }
 
 model User {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
-  email          String         @unique
-  emailVerified  DateTime?
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  resumes        Resume[]
-  personalInfo   PersonalInfo?
-  experiences    Experience[]
-  educations     Education[]
-  skills         Skill[]
-  languages      Language[]
-  courses        Course[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime?      @updatedAt
-  subscriptions  Subscription[]
-  plan           String         @default("free")
-  planExpiryDate DateTime?
+  id                     String         @id @default(auto()) @map("_id") @db.ObjectId
+  name                   String
+  email                  String         @unique
+  emailVerified          DateTime?
+  image                  String?
+  accounts               Account[]
+  sessions               Session[]
+  resumes                Resume[]
+  personalInfo           PersonalInfo?
+  experiences            Experience[]
+  educations             Education[]
+  skills                 Skill[]
+  languages              Language[]
+  courses                Course[]
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime?      @updatedAt
+  subscriptions          Subscription[]
+  plan                   String         @default("free")
+  planExpiryDate         DateTime?
+  hasCompletedOnboarding Boolean        @default(false) // New field for onboarding status
 
   @@map("users")
 }

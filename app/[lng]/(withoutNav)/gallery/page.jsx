@@ -8,6 +8,8 @@ import { auth } from "@/lib/auth";
 import { getUser } from "../../../../actions/userInfo/action";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RocketIcon } from "lucide-react";
+import { redirect } from "next/navigation";
+import AutoSubscriptionModal from "@/components/cards/auto-subscription-modal";
 
 const templates = [
   {
@@ -79,9 +81,13 @@ const templates = [
   },
 ];
 
-export default async function TemplateGallery({ params: { lng } }) {
+export default async function TemplateGallery({
+  params: { lng },
+  searchParams,
+}) {
   const { t } = await useTranslation(lng, "common");
   const session = await auth();
+  if (!session) redirect("/auth");
   const { user } = await getUser(session?.user.email);
 
   // Function to get available templates based on user plan
@@ -99,6 +105,7 @@ export default async function TemplateGallery({ params: { lng } }) {
 
   const availableTemplates = getAvailableTemplates(user?.plan);
   const showUpgradeAlert = !user?.plan || user.plan === "free";
+  const showPricing = searchParams?.hasOwnProperty("showPricing");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -139,7 +146,7 @@ export default async function TemplateGallery({ params: { lng } }) {
                       {t("upgradeAlert.description")}
                     </span>
                     <Link
-                      href="/#pricing"
+                      href="?showPricing=true"
                       className="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 transition-colors"
                     >
                       <span>{t("upgradeAlert.actionText")}</span>
@@ -195,6 +202,7 @@ export default async function TemplateGallery({ params: { lng } }) {
           </div>
         </div>
       </main>
+      <AutoSubscriptionModal defaultOpen={showPricing} user={user} lng={lng} />
     </div>
   );
 }

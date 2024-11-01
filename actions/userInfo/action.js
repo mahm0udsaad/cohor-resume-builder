@@ -19,6 +19,15 @@ export const getCurrentUser = cache(
   },
 );
 
+export async function getUserOnboardingStatus(email) {
+  const user = await prisma.user.findUnique({
+    where: { email: email },
+    select: { hasCompletedOnboarding: true },
+  });
+
+  return user?.hasCompletedOnboarding || false;
+}
+
 export async function getUser(email) {
   if (!email) {
     return { success: false, error: "No authenticated user found" };
@@ -47,7 +56,17 @@ export async function getUser(email) {
     return { success: false, error: error.message };
   }
 }
+export async function completeOnboarding(email) {
+  if (!email) throw new Error("Email is required");
 
+  const updatedUser = await prisma.user.update({
+    where: { email },
+    data: { hasCompletedOnboarding: true },
+  });
+  console.log("Updated user:", updatedUser);
+
+  return updatedUser;
+}
 export async function getUserWithDetails(email) {
   if (!email) {
     return { success: false, error: "No authenticated user found" };

@@ -10,9 +10,6 @@ const LoadingPage = () => {
         <div className="animation animate-pulse	">
           <Logo />
         </div>
-        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-          Loading...
-        </h2>
         <p className="mt-2 text-sm text-gray-600">
           Please wait while we prepare your content.
         </p>

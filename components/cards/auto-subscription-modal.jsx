@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import {
   Palette,
@@ -17,9 +18,9 @@ import { useTranslation } from "@/app/i18n/client";
 
 // Plan details array outside the component
 
-export default function AutoSubscriptionModal({ user, lng }) {
+export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
   const { t } = useTranslation(lng, "common");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(defaultOpen ? defaultOpen : false);
   const [loading, setLoading] = useState(false);
   const [paymentKey, setPaymentKey] = useState(null);
   const [error, setError] = useState(null);
@@ -55,9 +56,11 @@ export default function AutoSubscriptionModal({ user, lng }) {
   ];
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsOpen(true), 10000);
-    return () => clearTimeout(timer);
-  }, []);
+    if (!defaultOpen) {
+      const timer = setTimeout(() => setIsOpen(true), 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [defaultOpen]);
 
   const handlePayment = async (planName) => {
     const currentUrl = window.location.href;
@@ -164,7 +167,7 @@ export default function AutoSubscriptionModal({ user, lng }) {
                   >
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-2xl font-bold text-[#3b51a3]">
-                        {t(`subscription.plans.${plan.key}.name`)}
+                        {t(`plans.${plan.key}.name`)}
                       </h3>
                       <plan.icon className="w-8 h-8 text-[#3b51a3]" />
                     </div>

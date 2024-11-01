@@ -11,9 +11,19 @@ import { redirect } from "next/navigation";
 export default async function AuthPage({ params: { lng } }) {
   const { t } = await useTranslation(lng, "auth");
   const session = await auth();
-
   if (session) {
-    redirect("/dashboard");
+    const { getUserOnboardingStatus } = await import(
+      "@/actions/userInfo/action"
+    );
+    const hasCompletedOnboarding = await getUserOnboardingStatus(
+      session.user.email,
+    );
+
+    if (hasCompletedOnboarding) {
+      redirect("/dashboard");
+    } else {
+      redirect("/onboarding");
+    }
   }
 
   return (

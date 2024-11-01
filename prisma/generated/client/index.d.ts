@@ -4859,6 +4859,7 @@ export namespace Prisma {
     updatedAt: Date | null
     plan: string | null
     planExpiryDate: Date | null
+    hasCompletedOnboarding: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4871,6 +4872,7 @@ export namespace Prisma {
     updatedAt: Date | null
     plan: string | null
     planExpiryDate: Date | null
+    hasCompletedOnboarding: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4883,6 +4885,7 @@ export namespace Prisma {
     updatedAt: number
     plan: number
     planExpiryDate: number
+    hasCompletedOnboarding: number
     _all: number
   }
 
@@ -4897,6 +4900,7 @@ export namespace Prisma {
     updatedAt?: true
     plan?: true
     planExpiryDate?: true
+    hasCompletedOnboarding?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4909,6 +4913,7 @@ export namespace Prisma {
     updatedAt?: true
     plan?: true
     planExpiryDate?: true
+    hasCompletedOnboarding?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4921,6 +4926,7 @@ export namespace Prisma {
     updatedAt?: true
     plan?: true
     planExpiryDate?: true
+    hasCompletedOnboarding?: true
     _all?: true
   }
 
@@ -5006,6 +5012,7 @@ export namespace Prisma {
     updatedAt: Date | null
     plan: string
     planExpiryDate: Date | null
+    hasCompletedOnboarding: boolean
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -5041,6 +5048,7 @@ export namespace Prisma {
     updatedAt?: boolean
     plan?: boolean
     planExpiryDate?: boolean
+    hasCompletedOnboarding?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     resumes?: boolean | User$resumesArgs<ExtArgs>
@@ -5059,6 +5067,7 @@ export namespace Prisma {
     updatedAt?: boolean
     plan?: boolean
     planExpiryDate?: boolean
+    hasCompletedOnboarding?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5087,6 +5096,7 @@ export namespace Prisma {
       updatedAt: Date | null
       plan: string
       planExpiryDate: Date | null
+      hasCompletedOnboarding: boolean
     }, ExtArgs["result"]["user"]>
     composites: {
       personalInfo: Prisma.$PersonalInfoPayload | null
@@ -5499,6 +5509,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly plan: FieldRef<"User", 'String'>
     readonly planExpiryDate: FieldRef<"User", 'DateTime'>
+    readonly hasCompletedOnboarding: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -8761,7 +8772,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     plan: 'plan',
-    planExpiryDate: 'planExpiryDate'
+    planExpiryDate: 'planExpiryDate',
+    hasCompletedOnboarding: 'hasCompletedOnboarding'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -8873,6 +8885,13 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
   /**
    * Deep Input Types
@@ -9133,6 +9152,7 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     plan?: StringFilter<"User"> | string
     planExpiryDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    hasCompletedOnboarding?: BoolFilter<"User"> | boolean
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     resumes?: ResumeListRelationFilter
@@ -9155,6 +9175,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     plan?: SortOrder
     planExpiryDate?: SortOrder
+    hasCompletedOnboarding?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     resumes?: ResumeOrderByRelationAggregateInput
@@ -9180,6 +9201,7 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     plan?: StringFilter<"User"> | string
     planExpiryDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    hasCompletedOnboarding?: BoolFilter<"User"> | boolean
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     resumes?: ResumeListRelationFilter
@@ -9196,6 +9218,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     plan?: SortOrder
     planExpiryDate?: SortOrder
+    hasCompletedOnboarding?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -9214,6 +9237,7 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     plan?: StringWithAggregatesFilter<"User"> | string
     planExpiryDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    hasCompletedOnboarding?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type VerificationTokenWhereInput = {
@@ -9655,6 +9679,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     resumes?: ResumeCreateNestedManyWithoutUserInput
@@ -9677,6 +9702,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     resumes?: ResumeUncheckedCreateNestedManyWithoutUserInput
@@ -9698,6 +9724,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     resumes?: ResumeUpdateManyWithoutUserNestedInput
@@ -9719,6 +9746,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     resumes?: ResumeUncheckedUpdateManyWithoutUserNestedInput
@@ -9741,6 +9769,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -9758,6 +9787,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -9775,6 +9805,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type VerificationTokenCreateInput = {
@@ -10367,6 +10398,11 @@ export namespace Prisma {
     completionDate?: Date | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type AccountListRelationFilter = {
     every?: AccountWhereInput
     some?: AccountWhereInput
@@ -10445,6 +10481,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     plan?: SortOrder
     planExpiryDate?: SortOrder
+    hasCompletedOnboarding?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -10457,6 +10494,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     plan?: SortOrder
     planExpiryDate?: SortOrder
+    hasCompletedOnboarding?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -10469,6 +10507,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     plan?: SortOrder
     planExpiryDate?: SortOrder
+    hasCompletedOnboarding?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -10484,6 +10523,14 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
     isSet?: boolean
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type VerificationTokenIdentifierTokenCompoundUniqueInput = {
@@ -10811,6 +10858,10 @@ export namespace Prisma {
     push?: CourseCreateInput | CourseCreateInput[]
     updateMany?: CourseUpdateManyInput
     deleteMany?: CourseDeleteManyInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type AccountUpdateManyWithoutUserNestedInput = {
@@ -11236,6 +11287,11 @@ export namespace Prisma {
     completionDate?: DateTimeNullableFilter<"Course"> | Date | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -11249,6 +11305,14 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
     isSet?: boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -11267,6 +11331,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     sessions?: SessionCreateNestedManyWithoutUserInput
     resumes?: ResumeCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
@@ -11288,6 +11353,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     resumes?: ResumeUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -11324,6 +11390,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     sessions?: SessionUpdateManyWithoutUserNestedInput
     resumes?: ResumeUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
@@ -11344,6 +11411,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     resumes?: ResumeUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -11365,6 +11433,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     accounts?: AccountCreateNestedManyWithoutUserInput
     resumes?: ResumeCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
@@ -11386,6 +11455,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     resumes?: ResumeUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -11422,6 +11492,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUpdateManyWithoutUserNestedInput
     resumes?: ResumeUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
@@ -11442,6 +11513,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     resumes?: ResumeUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -11463,6 +11535,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     resumes?: ResumeCreateNestedManyWithoutUserInput
@@ -11484,6 +11557,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     resumes?: ResumeUncheckedCreateNestedManyWithoutUserInput
@@ -11520,6 +11594,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     resumes?: ResumeUpdateManyWithoutUserNestedInput
@@ -11540,6 +11615,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     resumes?: ResumeUncheckedUpdateManyWithoutUserNestedInput
@@ -11922,6 +11998,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
@@ -11943,6 +12020,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     plan?: string
     planExpiryDate?: Date | string | null
+    hasCompletedOnboarding?: boolean
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -11998,6 +12076,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
@@ -12018,6 +12097,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput

@@ -88,7 +88,6 @@ export default function InformationTab({ initialData }) {
   const onSubmit = (data) => {
     startTransition(async () => {
       setUserInfo(data);
-      console.log(data);
 
       const result = await saveOnboardingData(user.email, data);
       if (result.success) {

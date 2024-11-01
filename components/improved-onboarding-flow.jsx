@@ -21,7 +21,10 @@ import EducationForm from "./onboarding-forms/education-form";
 import SkillsForm from "./onboarding-forms/skills-form";
 import LanguagesForm from "./onboarding-forms/language-form";
 import CoursesForm from "./onboarding-forms/courses-form";
-import { saveOnboardingData } from "../actions/userInfo/action";
+import {
+  completeOnboarding,
+  saveOnboardingData,
+} from "../actions/userInfo/action";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -113,6 +116,7 @@ export default function OnboardingFlow({ lng }) {
       // Here you would typically send the data to your backend
       const result = await saveOnboardingData(user.email, formData);
       if (result.success) {
+        completeOnboarding(user.email);
         setIsSubmitting(false);
         setIsCompleted(true);
       }

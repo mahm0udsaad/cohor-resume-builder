@@ -1,13 +1,8 @@
 "use server";
 
-import { createOpenAI } from "@ai-sdk/openai";
+import { google } from "@ai-sdk/google";
 import { z } from "zod";
 import { generateObject } from "ai";
-
-const groq = createOpenAI({
-  baseURL: "https://api.groq.com/openai/v1",
-  apiKey: process.env.GROQ_API_KEY,
-});
 // Define the prompts with context
 const ExperiencePrompt = (jobTitle, company, context) =>
   `Generate 3 detailed suggestions for professional responsibilities and tasks for someone with the job title "${jobTitle}". 
@@ -31,7 +26,6 @@ export async function generateSuggestions(
   if (!field) {
     return;
   }
-  console.log("Generating suggestions with:", { field, company, context });
 
   const prompt = isExperience
     ? ExperiencePrompt(field, company, context)
@@ -39,7 +33,7 @@ export async function generateSuggestions(
 
   try {
     const { object } = await generateObject({
-      model: groq("llama-3.1-70b-versatile"),
+      model: google("gemini-1.5-flash-002"),
       schema: z.object({
         suggestions: z.array(
           z.object({

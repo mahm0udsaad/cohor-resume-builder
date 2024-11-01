@@ -161,7 +161,8 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   plan: 'plan',
-  planExpiryDate: 'planExpiryDate'
+  planExpiryDate: 'planExpiryDate',
+  hasCompletedOnboarding: 'hasCompletedOnboarding'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {
