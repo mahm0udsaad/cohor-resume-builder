@@ -270,5 +270,28 @@
         ]
       }
     }
-  }
+  },
+  "downloadResume": "Download Resume",
+  "enhanceResumeQuality": "Enhance Your Resume Quality",
+  "upgradeDescription": "You're about to download a basic version of your resume. Upgrade to unlock premium features and stand out from the crowd!",
+  "currentVersion": "Current Version",
+  "upgradedVersion": "Upgraded Version",
+  "basic": "BASIC",
+  "pro": "PRO",
+  "basicFeatures": {
+    "limitedFormatting": "Limited formatting options",
+    "standardTemplates": "Standard templates only",
+    "basicPdfQuality": "Basic PDF quality",
+    "limitedAtsCompatibility": "Limited ATS compatibility"
+  },
+  "proFeatures": {
+    "advancedLayouts": "Advanced layouts and designs",
+    "customTemplates": "Custom, ATS-optimized templates",
+    "highResolutionPdf": "High-resolution PDF export",
+    "multipleColorSchemes": "Multiple color schemes",
+    "prioritySupport": "Priority customer support"
+  },
+  "upgradeMessage": "Upgrade to Pro and significantly increase your chances of landing that dream job!",
+  "upgradeToPro": "Upgrade to Pro",
+  "continueWithBasic": "Continue with Basic Version"
 }

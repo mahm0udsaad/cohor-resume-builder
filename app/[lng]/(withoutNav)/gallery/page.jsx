@@ -146,7 +146,7 @@ export default async function TemplateGallery({
                       {t("upgradeAlert.description")}
                     </span>
                     <Link
-                      href="?showPricing=true"
+                      href="?showPricing"
                       className="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 transition-colors"
                     >
                       <span>{t("upgradeAlert.actionText")}</span>

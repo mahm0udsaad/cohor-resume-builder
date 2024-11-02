@@ -16,16 +16,19 @@ import { useTranslation } from "@/app/i18n/client";
 import { useRouter } from "next/navigation";
 import { updateUserResumeData } from "@/actions/resumes";
 import { useSession } from "next-auth/react";
+import { QualityUpgradeModal } from "@/components/cards/quality-subscription-modal";
 export default function ReviewForm({
   resumeData,
   updateData,
   resumeName,
   theme,
+  plan,
   lng,
 }) {
   const [showLanguages, setShowLanguages] = useState(
     !!resumeData?.languages?.length,
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [showCourses, setShowCourses] = useState(!!resumeData?.courses?.length);
   const [isLoading, setLoading] = useState(false);
   const { t } = useTranslation(lng, "forms");
@@ -81,35 +84,50 @@ export default function ReviewForm({
       index: index,
     });
   };
+  const checkModalShown = () => {
+    if (typeof window !== "undefined") {
+      return (
+        sessionStorage.getItem(`qualityModalShown_${user?.email}`) === "true"
+      );
+    }
+    return false;
+  };
 
   const handleReview = async () => {
-    setLoading(true);
-    try {
-      // Construct the resume data, excluding the theme if it's null or undefined
-      const updatedResumeData = {
-        ...resumeData,
-        ...(theme
-          ? {
-              theme: {
-                name: theme.name,
-                primaryColor: theme.primaryColor,
-                backgroundColor: theme.backgroundColor,
-              },
-            }
-          : {}), // Do not include theme if it's null or undefined
-      };
+    if (plan === "free") {
+      const modalShown = checkModalShown();
+      if (!modalShown) {
+        setIsModalOpen(true);
+        // Save that modal has been shown
+        sessionStorage.setItem(`qualityModalShown_${user?.email}`, "true");
+      } else {
+        setLoading(true);
+        try {
+          const updatedResumeData = {
+            ...resumeData,
+            ...(theme
+              ? {
+                  theme: {
+                    name: theme.name,
+                    primaryColor: theme.primaryColor,
+                    backgroundColor: theme.backgroundColor,
+                  },
+                }
+              : {}),
+          };
 
-      // Call the updateUserResumeData function with the updated resume data
-      const res = await updateUserResumeData(
-        user.email,
-        resumeName,
-        updatedResumeData,
-      );
-      if (res.success) {
-        router.push(`/review/${resumeName}`);
+          const res = await updateUserResumeData(
+            user.email,
+            resumeName,
+            updatedResumeData,
+          );
+          if (res.success) {
+            router.push(`/review/${resumeName}`);
+          }
+        } finally {
+          setLoading(false);
+        }
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -298,6 +316,12 @@ export default function ReviewForm({
           </div>
         )}
       </CardContent>
+      <QualityUpgradeModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        lng={lng}
+        user={user}
+      />
     </Card>
   );
 }

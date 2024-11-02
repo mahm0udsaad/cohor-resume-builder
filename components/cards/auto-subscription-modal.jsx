@@ -16,8 +16,6 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "@/app/i18n/client";
 
-// Plan details array outside the component
-
 export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
   const { t } = useTranslation(lng, "common");
   const [isOpen, setIsOpen] = useState(defaultOpen ? defaultOpen : false);
@@ -56,7 +54,9 @@ export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
   ];
 
   useEffect(() => {
-    if (!defaultOpen) {
+    if (defaultOpen) {
+      setIsOpen(true);
+    } else {
       const timer = setTimeout(() => setIsOpen(true), 10000);
       return () => clearTimeout(timer);
     }

@@ -256,5 +256,28 @@
         ]
       }
     }
-  }
+  },
+  "downloadResume": "تحميل السيرة الذاتية",
+  "enhanceResumeQuality": "تحسين جودة سيرتك الذاتية",
+  "upgradeDescription": "أنت على وشك تحميل النسخة الأساسية من سيرتك الذاتية. قم بالترقية لفتح الميزات المتميزة والتميز عن الآخرين!",
+  "currentVersion": "النسخة الحالية",
+  "upgradedVersion": "النسخة المطورة",
+  "basic": "أساسي",
+  "pro": "محترف",
+  "basicFeatures": {
+    "limitedFormatting": "خيارات تنسيق محدودة",
+    "standardTemplates": "قوالب قياسية فقط",
+    "basicPdfQuality": "جودة PDF أساسية",
+    "limitedAtsCompatibility": "توافق محدود مع أنظمة تتبع المتقدمين"
+  },
+  "proFeatures": {
+    "advancedLayouts": "تخطيطات وتصاميم متقدمة",
+    "customTemplates": "قوالب مخصصة ومحسنة لأنظمة تتبع المتقدمين",
+    "highResolutionPdf": "تصدير PDF عالي الدقة",
+    "multipleColorSchemes": "مخططات ألوان متعددة",
+    "prioritySupport": "دعم ذو أولوية للعملاء"
+  },
+  "upgradeMessage": "قم بالترقية إلى النسخة المحترفة وزيد من فرصك بشكل كبير في الحصول على وظيفة أحلامك!",
+  "upgradeToPro": "الترقية إلى النسخة المحترفة",
+  "continueWithBasic": "المتابعة بالنسخة الأساسية"
 }

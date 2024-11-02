@@ -51,8 +51,6 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
   const { resumeData, updateResumeData, toggleLanguage, updateImageUrl } =
     useResumeData(initalData);
 
-  console.log(user);
-
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
   const { t } = useTranslation(lng, "builder");
@@ -127,6 +125,7 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
                   <TabsContent value="review">
                     <DynamicReviewForm
                       lng={lng}
+                      plan={user?.plan}
                       resumeName={resumeName}
                       resumeData={resumeData}
                       theme={selectedTheme}
@@ -171,7 +170,6 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
             setShowTemplates={setShowTemplates}
             lng={lng}
           />
-          <AutoSubscriptionModal user={user} lng={lng} />
         </div>
       </div>
     </div>
