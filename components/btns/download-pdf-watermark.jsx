@@ -6,14 +6,12 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
   const [loading, setLoading] = useState(false);
 
   const loadArabicFonts = async () => {
-    // Add Google Fonts stylesheet
     const googleFontsLink = document.createElement("link");
     googleFontsLink.rel = "stylesheet";
     googleFontsLink.href =
       "https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap";
     document.head.appendChild(googleFontsLink);
 
-    // Add custom styles for Arabic text
     const styleSheet = document.createElement("style");
     styleSheet.textContent = `
       .arabic-text {
@@ -22,9 +20,7 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
     `;
     document.head.appendChild(styleSheet);
 
-    // Wait for fonts to load
     await document.fonts.ready;
-
     return { googleFontsLink, styleSheet };
   };
 
@@ -40,7 +36,6 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
       const html2canvas = html2canvasModule.default;
       const jsPDF = jsPDFModule.default;
 
-      // Only load Arabic fonts if the language is Arabic
       let arabicFontsData;
       if (resumeData.lng === "ar") {
         arabicFontsData = await loadArabicFonts();
@@ -51,12 +46,28 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
         throw new Error("Resume template element not found");
       }
 
-      // Create a clone of the element
+      // Create PDF first to get dimensions
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: "A3",
+      });
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      // Clone and prepare the element with PDF dimensions
       const clonedElement = element.cloneNode(true);
       clonedElement.style.position = "absolute";
       clonedElement.style.left = "-9999px";
+      // Set the exact dimensions to match PDF size
+      clonedElement.style.width = `${pageWidth}px`;
+      clonedElement.style.height = `${pageHeight}px`;
 
-      // Apply Arabic fonts if needed
+      // Add styles to make content stretch
+      const styleSheet = document.createElement("style");
+      document.head.appendChild(styleSheet);
+
       if (resumeData.lng === "ar") {
         const applyArabicStyles = (element) => {
           element.classList.add("arabic-text");
@@ -97,16 +108,17 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
 
       clonedElement.appendChild(watermark);
 
-      // Wait an additional moment for fonts to load
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Capture with better quality and font settings
+      // Capture with exact PDF dimensions
       const canvas = await html2canvas(clonedElement, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: "#ffffff",
         logging: false,
+        width: pageWidth,
+        height: pageHeight,
         onclone: (clonedDoc) => {
           if (resumeData.lng === "ar") {
             const style = clonedDoc.createElement("style");
@@ -123,32 +135,19 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
 
       // Clean up
       document.body.removeChild(clonedElement);
+      document.head.removeChild(styleSheet);
       if (arabicFontsData) {
         document.head.removeChild(arabicFontsData.styleSheet);
         document.head.removeChild(arabicFontsData.googleFontsLink);
       }
 
-      // Create PDF
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4",
-      });
+      // Convert to mm for PDF
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
 
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const aspectRatio = canvas.width / canvas.height;
-      const imgWidth = pageWidth;
-      const imgHeight = pageWidth / aspectRatio;
-
-      // Add image to PDF
-      if (imgHeight > pageHeight) {
-        const scale = pageHeight / imgHeight;
-        pdf.addImage(imgData, "JPEG", 0, 0, pageWidth * scale, pageHeight);
-      } else {
-        pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-      }
+      // Add image using full page dimensions
+      pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
 
       const filename = `${resumeData.personalInfo?.name || "resume"}_free.pdf`;
       pdf.save(filename);
@@ -162,7 +161,6 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
   return (
     <Button
       variant="outline"
-      s
       onClick={downloadWithWatermark}
       disabled={loading}
       className="border shadow-lg hover:shadow-none flex h-fit items-center gap-2 rounded-md px-3 py-2 hover:bg-blue-600 hover:text-white"
@@ -170,9 +168,7 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
       {loading ? (
         <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
       ) : (
-        <>
-          <Download className="h-4 w-4" />
-        </>
+        <Download className="h-4 w-4" />
       )}
     </Button>
   );

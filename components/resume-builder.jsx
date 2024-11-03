@@ -146,7 +146,7 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
                 {t("buttons.previous")} {/* Translation for 'Previous' */}
               </Button>
               <Button
-                disabled={activeTab === tabs[tabs.length - 1]}
+                disabled={activeTab === "review"}
                 onClick={handleNextTab}
                 className={`bg-[#3B51A3] hover:bg-white hover:text-black`}
               >

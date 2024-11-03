@@ -83,8 +83,14 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
             {t.skills}
           </h3>
           {resumeData.skills.map((skill, index) => (
-            <div key={index} style={{ marginBottom: "10px" }}>
-              <p>{skill.name}</p>
+            <div key={index} style={{ marginBottom: "6px" }}>
+              <p
+                style={{
+                  paddingBottom: "10px",
+                }}
+              >
+                {skill.name}
+              </p>
               <div
                 style={{
                   backgroundColor: "white",
@@ -173,49 +179,56 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
           ))}
         </section>
 
-        <section style={{ marginBottom: "20px" }}>
-          <h3
-            style={{
-              color: theme.primaryColor,
-              borderBottom: `1px solid ${theme.primaryColor}`,
-              paddingBottom: "5px",
-              fontWeight: 600,
-            }}
-          >
-            {t.education}
-          </h3>
-          {resumeData.educations.map((edu, index) => (
-            <div key={index} style={{ marginBottom: "10px" }}>
-              <h4 style={{ margin: "0", fontWeight: 600 }}>{edu.degree}</h4>
-              <p style={{ margin: "0", fontWeight: 500 }}>{edu.institution}</p>
-              <p style={{ margin: "0", color: "#666" }}>
-                {formatDate(edu.graduationDate)}
-              </p>
-            </div>
-          ))}
-        </section>
+        {resumeData.educations[0].degree.trim("") !== "" && (
+          <section style={{ marginBottom: "20px" }}>
+            <h3
+              style={{
+                color: theme.primaryColor,
+                borderBottom: `1px solid ${theme.primaryColor}`,
+                paddingBottom: "5px",
+                fontWeight: 600,
+              }}
+            >
+              {t.education}
+            </h3>
+            {resumeData.educations.length > 0 &&
+              resumeData.educations.map((edu, index) => (
+                <div key={index} style={{ marginBottom: "10px" }}>
+                  <h4 style={{ margin: "0", fontWeight: 600 }}>{edu.degree}</h4>
+                  <p style={{ margin: "0", fontWeight: 500 }}>
+                    {edu.institution}
+                  </p>
+                  <p style={{ margin: "0", color: "#666" }}>
+                    {formatDate(edu.graduationDate)}
+                  </p>
+                </div>
+              ))}
+          </section>
+        )}
 
-        <section>
-          <h3
-            style={{
-              color: theme.primaryColor,
-              borderBottom: `1px solid ${theme.primaryColor}`,
-              paddingBottom: "5px",
-              fontWeight: 600,
-            }}
-          >
-            {t.courses}
-          </h3>
-          {resumeData.courses.map((course, index) => (
-            <div key={index} style={{ marginBottom: "10px" }}>
-              <h4 style={{ margin: "0", fontWeight: 600 }}>{course.name}</h4>
-              <p style={{ margin: "0" }}>{course.institution}</p>
-              <p style={{ margin: "0", color: "#666" }}>
-                {formatDate(course.completionDate)}
-              </p>
-            </div>
-          ))}
-        </section>
+        {resumeData.courses[0].name.trim("") !== "" && (
+          <section>
+            <h3
+              style={{
+                color: theme.primaryColor,
+                borderBottom: `1px solid ${theme.primaryColor}`,
+                paddingBottom: "5px",
+                fontWeight: 600,
+              }}
+            >
+              {t.courses}
+            </h3>
+            {resumeData.courses.map((course, index) => (
+              <div key={index} style={{ marginBottom: "10px" }}>
+                <h4 style={{ margin: "0", fontWeight: 600 }}>{course.name}</h4>
+                <p style={{ margin: "0" }}>{course.institution}</p>
+                <p style={{ margin: "0", color: "#666" }}>
+                  {formatDate(course.completionDate)}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
     </div>
   );

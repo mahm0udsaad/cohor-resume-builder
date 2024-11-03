@@ -130,7 +130,34 @@ export default function ReviewForm({
       }
     }
   };
+  const handleContinue = async () => {
+    setLoading(true);
+    try {
+      const updatedResumeData = {
+        ...resumeData,
+        ...(theme
+          ? {
+              theme: {
+                name: theme.name,
+                primaryColor: theme.primaryColor,
+                backgroundColor: theme.backgroundColor,
+              },
+            }
+          : {}),
+      };
 
+      const res = await updateUserResumeData(
+        user.email,
+        resumeName,
+        updatedResumeData,
+      );
+      if (res.success) {
+        router.push(`/review/${resumeName}`);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Card>
       <CardContent className="p-6">
@@ -319,6 +346,7 @@ export default function ReviewForm({
       <QualityUpgradeModal
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
+        onContinue={handleContinue}
         lng={lng}
         user={user}
       />

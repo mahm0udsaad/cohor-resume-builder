@@ -23,7 +23,13 @@ import {
 } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
 
-export function QualityUpgradeModal({ lng, user, isOpen, setIsOpen }) {
+export function QualityUpgradeModal({
+  lng,
+  user,
+  isOpen,
+  setIsOpen,
+  onContinue,
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState(null);
@@ -207,7 +213,10 @@ export function QualityUpgradeModal({ lng, user, isOpen, setIsOpen }) {
                 <Button
                   variant="outline"
                   className="w-full sm:w-auto mt-2 sm:mt-0"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    onContinue();
+                    setIsOpen(false);
+                  }}
                 >
                   {t("continueWithBasic")}
                 </Button>
