@@ -138,113 +138,166 @@ export async function deleteResume(resumeId, email) {
   }
 }
 
-// Function to update or create user resume data
+// Validation helper
+const validateResumeData = (data) => {
+  if (!data) throw new Error("Resume data is required");
+
+  // Validate experiences
+  if (
+    data.experiences?.some((exp) => exp.startDate && !parseDate(exp.startDate))
+  ) {
+    throw new Error("Invalid experience start date format");
+  }
+  if (data.experiences?.some((exp) => exp.endDate && !parseDate(exp.endDate))) {
+    throw new Error("Invalid experience end date format");
+  }
+
+  // Validate educations
+  if (
+    data.educations?.some(
+      (edu) => edu.graduationDate && !parseDate(edu.graduationDate),
+    )
+  ) {
+    throw new Error("Invalid graduation date format");
+  }
+
+  // Validate courses
+  if (
+    data.courses?.some(
+      (course) => course.completionDate && !parseDate(course.completionDate),
+    )
+  ) {
+    throw new Error("Invalid course completion date format");
+  }
+};
+
+// Format resume data helper
+const formatResumeData = (data) => {
+  return {
+    ...data,
+    experiences: data.experiences?.map((experience) => ({
+      ...experience,
+      startDate: parseDate(experience.startDate),
+      endDate: parseDate(experience.endDate),
+    })),
+    educations: data.educations?.map((education) => ({
+      ...education,
+      graduationDate: parseDate(education.graduationDate),
+      gpaType: education.gpaType || "none",
+      numericGpa:
+        education.gpaType === "numeric"
+          ? parseFloat(education.numericGpa)
+          : null,
+      descriptiveGpa:
+        education.gpaType === "descriptive" ? education.descriptiveGpa : null,
+    })),
+    courses: data.courses?.map((course) => ({
+      ...course,
+      completionDate: parseDate(course.completionDate),
+    })),
+  };
+};
+
 export const updateUserResumeData = async (
   userEmail,
   resumeName,
   updatedResumeData,
 ) => {
   try {
-    // Find the user by email
+    // Validate inputs
+    if (!userEmail) throw new Error("User email is required");
+    if (!resumeName) throw new Error("Resume name is required");
+
+    // Validate resume data
+    validateResumeData(updatedResumeData);
+
+    // Find the user
     const user = await prisma.user.findUnique({
       where: { email: userEmail },
+      include: {
+        resumes: {
+          where: { name: resumeName },
+          include: { theme: true },
+        },
+      },
     });
 
     if (!user) {
       throw new Error("User not found");
     }
 
-    // Check if the resume already exists for the user
-    const existingResume = await prisma.resume.findFirst({
-      where: {
-        userId: user.id,
-        name: resumeName,
-      },
-    });
+    const existingResume = user.resumes[0];
+    const formattedResumeData = formatResumeData(updatedResumeData);
 
-    // Ensure date fields are properly formatted, including handling "present"
-    const formattedResumeData = {
-      ...updatedResumeData,
-      experiences: updatedResumeData.experiences?.map((experience) => ({
-        ...experience,
-        startDate: parseDate(experience.startDate),
-        endDate: parseDate(experience.endDate),
-      })),
-      educations: updatedResumeData.educations?.map((education) => ({
-        ...education,
-        graduationDate: parseDate(education.graduationDate),
-        // Handle new GPA fields
-        gpaType: education.gpaType || "none",
-        numericGpa:
-          education.gpaType === "numeric"
-            ? parseFloat(education.numericGpa)
-            : null,
-        descriptiveGpa:
-          education.gpaType === "descriptive" ? education.descriptiveGpa : null,
-      })),
-      courses: updatedResumeData.courses?.map((course) => ({
-        ...course,
-        completionDate: parseDate(course.completionDate),
-      })),
+    // Handle theme data
+    const themeData =
+      updatedResumeData.theme && Object.keys(updatedResumeData.theme).length > 0
+        ? {
+            theme: {
+              upsert: {
+                create: {
+                  name: updatedResumeData.theme.name,
+                  primaryColor: updatedResumeData.theme.primaryColor,
+                  backgroundColor: updatedResumeData.theme.backgroundColor,
+                },
+                update: {
+                  name: updatedResumeData.theme.name,
+                  primaryColor: updatedResumeData.theme.primaryColor,
+                  backgroundColor: updatedResumeData.theme.backgroundColor,
+                },
+              },
+            },
+          }
+        : {};
+
+    if (existingResume) {
+      // Update existing resume
+      await prisma.resume.update({
+        where: { id: existingResume.id },
+        data: {
+          ...formattedResumeData,
+          modifiedAt: new Date(),
+          ...themeData,
+        },
+      });
+    } else {
+      // Create new resume
+      await prisma.resume.create({
+        data: {
+          name: resumeName,
+          userId: user.id,
+          ...formattedResumeData,
+          modifiedAt: new Date(),
+          ...(updatedResumeData.theme
+            ? {
+                theme: {
+                  create: updatedResumeData.theme,
+                },
+              }
+            : {}),
+        },
+      });
+    }
+
+    // Revalidate the path to update the UI
+    revalidatePath("/resumes");
+
+    return {
+      success: true,
+      message: `Resume ${existingResume ? "updated" : "created"} successfully`,
+      resume: formattedResumeData,
     };
-
-    const updateResume = async () => {
-      if (existingResume) {
-        // If the resume exists, update it
-        await prisma.resume.update({
-          where: {
-            id: existingResume.id,
-          },
-          data: {
-            ...formattedResumeData,
-            modifiedAt: new Date(),
-            ...(updatedResumeData.theme &&
-            Object.keys(updatedResumeData.theme).length > 0
-              ? {
-                  theme: {
-                    create: {
-                      name: updatedResumeData.theme.name,
-                      primaryColor: updatedResumeData.theme.primaryColor,
-                      backgroundColor: updatedResumeData.theme.backgroundColor,
-                    },
-                  },
-                }
-              : {}),
-          },
-        });
-      } else {
-        // If no resume exists, create a new one
-        await prisma.resume.create({
-          data: {
-            name: resumeName,
-            userId: user.id,
-            ...formattedResumeData,
-            modifiedAt: new Date(),
-            theme: updatedResumeData.theme
-              ? {
-                  connectOrCreate: {
-                    where: {
-                      name: updatedResumeData.theme.name,
-                    },
-                    create: updatedResumeData.theme,
-                  },
-                }
-              : undefined,
-          },
-        });
-      }
-    };
-
-    await updateResume();
-    console.log("Resume updated successfully");
-
-    return { success: true, resume: formattedResumeData };
   } catch (error) {
-    console.error("Error updating resume data:", error.message);
-    throw new Error("Failed to update resume data");
+    console.error("Resume update error:", error);
+
+    // Return structured error response
+    return {
+      success: false,
+      error: error.message || "Failed to update resume data",
+      details: error.cause || error.stack,
+    };
   }
 };
-
 export async function saveSkills(userId, skills) {
   try {
     const updatedUser = await prisma.user.update({

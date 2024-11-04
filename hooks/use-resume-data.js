@@ -34,19 +34,30 @@ const initialState = {
 };
 
 function getInitialData(dbData) {
+  // Handle case where no data is provided or data fetch failed
   if (!dbData || dbData.success === false) {
-    const storedData =
-      typeof window !== "undefined"
-        ? sessionStorage.getItem("resumeData")
-        : null;
-    return storedData ? JSON.parse(storedData) : initialState;
+    // Only try to access sessionStorage on client side
+    if (typeof window !== "undefined") {
+      try {
+        const storedData = sessionStorage.getItem("resumeData");
+        return storedData ? JSON.parse(storedData) : initialState;
+      } catch (error) {
+        console.error("Error reading from sessionStorage:", error);
+        return initialState;
+      }
+    }
+    return initialState;
   }
 
+  // If we have valid dbData, construct the initial state
   return {
-    lng: "en",
+    lng: dbData.lng || "en",
     personalInfo: {
-      name: dbData.user.name || "",
-      imageUrl: dbData.user.photoURL || "",
+      name: dbData.user?.name || "",
+      jobTitle: dbData.personalInfo?.jobTitle || "",
+      summary: dbData.personalInfo?.summary || "",
+      contact: dbData.personalInfo?.contact || ["", ""],
+      imageUrl: dbData.user?.photoURL || dbData.personalInfo?.imageUrl || "",
       ...dbData.personalInfo,
     },
     experiences:
@@ -64,29 +75,6 @@ function getInitialData(dbData) {
   };
 }
 
-function resumeReducer(state, action) {
-  switch (action.type) {
-    case "UPDATE":
-    case "ADD":
-    case "REMOVE": {
-      const newState = updateNestedState(state, action);
-      if (action.path[0] === "experiences") {
-        newState.experiences = sortExperiencesByDate(newState.experiences);
-      }
-      return newState;
-    }
-    case "TOGGLE_LANGUAGE":
-      return { ...state, lng: state.lng === "en" ? "ar" : "en" };
-    case "UPDATE_IMAGE_URL":
-      return {
-        ...state,
-        personalInfo: { ...state.personalInfo, imageUrl: action.url },
-      };
-    default:
-      return state;
-  }
-}
-
 function sortExperiencesByDate(experiences) {
   return [...experiences].sort((a, b) => {
     const dateA = a.endDate === "Present" ? new Date() : new Date(a.endDate);
@@ -99,22 +87,28 @@ function updateNestedState(state, action) {
   const newState = structuredClone(state);
   let current = newState;
 
+  // Navigate to the correct nested level
   action.path.slice(0, -1).forEach((key) => {
-    current[key] = current[key] || {};
+    if (!current[key]) {
+      current[key] = Array.isArray(current[key]) ? [] : {};
+    }
     current = current[key];
   });
 
-  const lastKey = action.path.at(-1);
+  const lastKey = action.path[action.path.length - 1];
 
   switch (action.type) {
     case "UPDATE":
       current[lastKey] = action.value;
       break;
     case "ADD":
-      current[lastKey] = [...(current[lastKey] || []), action.value];
+      if (!Array.isArray(current[lastKey])) {
+        current[lastKey] = [];
+      }
+      current[lastKey].push(action.value);
       break;
     case "REMOVE":
-      if (Array.isArray(current[lastKey])) {
+      if (Array.isArray(current[lastKey]) && action.index >= 0) {
         current[lastKey].splice(action.index, 1);
       }
       break;
@@ -123,42 +117,108 @@ function updateNestedState(state, action) {
   return newState;
 }
 
+function resumeReducer(state, action) {
+  switch (action.type) {
+    case "UPDATE":
+    case "ADD":
+    case "REMOVE": {
+      const newState = updateNestedState(state, action);
+      // Sort experiences if they were modified
+      if (action.path[0] === "experiences") {
+        newState.experiences = sortExperiencesByDate(newState.experiences);
+      }
+      return newState;
+    }
+    case "TOGGLE_LANGUAGE":
+      return {
+        ...state,
+        lng: state.lng === "en" ? "ar" : "en",
+      };
+    case "UPDATE_IMAGE_URL":
+      return {
+        ...state,
+        personalInfo: {
+          ...state.personalInfo,
+          imageUrl: action.url,
+        },
+      };
+    case "RESET":
+      return getInitialData(action.data);
+    default:
+      console.warn(`Unknown action type: ${action.type}`);
+      return state;
+  }
+}
+
 export function useResumeData(initialData, debounceTime = 3000) {
+  // Initialize the reducer with a function to handle initial state setup
   const [resumeData, dispatch] = useReducer(
     resumeReducer,
-    getInitialData(initialData),
+    initialData,
+    getInitialData,
   );
+
+  // Ref for managing debounce timeout
   const timeoutRef = useRef(null);
 
-  // Debounced save to sessionStorage
+  // Save to sessionStorage with debouncing
   useEffect(() => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    // Skip if we're not in a browser environment
+    if (typeof window === "undefined") return;
 
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // Set new timeout to save data
     timeoutRef.current = setTimeout(() => {
-      sessionStorage.setItem("resumeData", JSON.stringify(resumeData));
-      sessionStorage.setItem(
-        "resumeDataLastModified",
-        new Date().toISOString(),
-      );
+      try {
+        sessionStorage.setItem("resumeData", JSON.stringify(resumeData));
+        sessionStorage.setItem(
+          "resumeDataLastModified",
+          new Date().toISOString(),
+        );
+      } catch (error) {
+        console.error("Error saving to sessionStorage:", error);
+      }
     }, debounceTime);
 
-    return () => clearTimeout(timeoutRef.current);
+    // Cleanup timeout on unmount or when dependencies change
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, [resumeData, debounceTime]);
 
-  const updateResumeData = useCallback((action) => dispatch(action), []);
-  const toggleLanguage = useCallback(
-    () => dispatch({ type: "TOGGLE_LANGUAGE" }),
-    [],
-  );
-  const updateImageUrl = useCallback(
-    (url) => dispatch({ type: "UPDATE_IMAGE_URL", url }),
-    [],
-  );
+  // Memoized action creators
+  const updateResumeData = useCallback((action) => {
+    if (!action.type || !action.path) {
+      console.error("Invalid action format", action);
+      return;
+    }
+    dispatch(action);
+  }, []);
 
+  const toggleLanguage = useCallback(() => {
+    dispatch({ type: "TOGGLE_LANGUAGE" });
+  }, []);
+
+  const updateImageUrl = useCallback((url) => {
+    dispatch({ type: "UPDATE_IMAGE_URL", url });
+  }, []);
+
+  const resetResumeData = useCallback((data) => {
+    dispatch({ type: "RESET", data });
+  }, []);
+
+  // Return the state and actions
   return {
     resumeData,
     updateResumeData,
     toggleLanguage,
     updateImageUrl,
+    resetResumeData,
   };
 }

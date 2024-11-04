@@ -25,17 +25,17 @@ export default async function ReviewPage({ params: { lng, resumeName } }) {
     <div className="bg-gray-50 min-h-[90dvh] overflow-x-hidden">
       <div className="container mx-auto p-6">
         <div className="flex justify-between items-center mb-6">
-          <Link
-            href={`/builder/${resumeName}?tab=review`}
-            className="flex items-center gap-2 text-[#3b51a3] hover:underline"
-          >
-            Back to Editing
-          </Link>
           <div className="flex-1">
             <h1 className="text-center text-3xl font-bold text-[#3b51a3]">
               Review Resume: {resumeName}
             </h1>
           </div>
+          <Link
+            href={`/builder/${resumeName}?tab=review`}
+            className="z-10 flex items-center gap-2 text-[#3b51a3] hover:underline"
+          >
+            Back to Editing
+          </Link>
         </div>
         {resume && (
           <ClientResumeTemplate

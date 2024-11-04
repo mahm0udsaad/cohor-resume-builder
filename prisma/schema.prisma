@@ -75,7 +75,7 @@ model User {
   subscriptions          Subscription[]
   plan                   String         @default("free")
   planExpiryDate         DateTime?
-  hasCompletedOnboarding Boolean        @default(false) // New field for onboarding status
+  hasCompletedOnboarding Boolean        @default(false)
 
   @@map("users")
 }
@@ -122,11 +122,12 @@ model Resume {
 }
 
 type PersonalInfo {
-  name     String
-  jobTitle String
-  imageUrl String?
-  summary  String
-  contact  String[]
+  name        String
+  jobTitle    String
+  imageUrl    String?
+  phoneNumber String?
+  summary     String
+  contact     String[]
 }
 
 type Experience {

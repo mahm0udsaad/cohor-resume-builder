@@ -39,7 +39,8 @@ const DatePicker = ({
     if (date === "Present") return date;
 
     try {
-      const parsedDate = typeof date === "string" ? parseISO(date) : date;
+      // Handle both Date objects and ISO strings
+      const parsedDate = date instanceof Date ? date : parseISO(date);
       if (!isValid(parsedDate)) return "";
       return format(parsedDate, dateFormat);
     } catch (error) {
@@ -74,12 +75,10 @@ const DatePicker = ({
     }
   };
 
-  // Prevent click events from bubbling up
   const handleClick = (e) => {
     e.stopPropagation();
   };
 
-  // Initialize or update calendar date when value changes
   React.useEffect(() => {
     if (!value || value === "Present") {
       setCalendarDate(new Date());
@@ -87,7 +86,8 @@ const DatePicker = ({
     }
 
     try {
-      const parsedDate = parseISO(value);
+      // Handle both Date objects and ISO strings
+      const parsedDate = value instanceof Date ? value : parseISO(value);
       if (isValid(parsedDate)) {
         setCalendarDate(parsedDate);
       }
@@ -143,7 +143,9 @@ const DatePicker = ({
           <Calendar
             mode="single"
             selected={
-              typeof value === "string" && value !== "Present"
+              value instanceof Date
+                ? value
+                : typeof value === "string" && value !== "Present"
                 ? parseISO(value)
                 : undefined
             }

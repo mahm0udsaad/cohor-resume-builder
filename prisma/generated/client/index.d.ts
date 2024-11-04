@@ -1471,6 +1471,7 @@ export namespace Prisma {
     name?: boolean
     jobTitle?: boolean
     imageUrl?: boolean
+    phoneNumber?: boolean
     summary?: boolean
     contact?: boolean
   }, ExtArgs["result"]["personalInfo"]>
@@ -1480,6 +1481,7 @@ export namespace Prisma {
     name?: boolean
     jobTitle?: boolean
     imageUrl?: boolean
+    phoneNumber?: boolean
     summary?: boolean
     contact?: boolean
   }
@@ -1492,6 +1494,7 @@ export namespace Prisma {
       name: string
       jobTitle: string
       imageUrl: string | null
+      phoneNumber: string | null
       summary: string
       contact: string[]
     }
@@ -1511,6 +1514,7 @@ export namespace Prisma {
     readonly name: FieldRef<"PersonalInfo", 'String'>
     readonly jobTitle: FieldRef<"PersonalInfo", 'String'>
     readonly imageUrl: FieldRef<"PersonalInfo", 'String'>
+    readonly phoneNumber: FieldRef<"PersonalInfo", 'String'>
     readonly summary: FieldRef<"PersonalInfo", 'String'>
     readonly contact: FieldRef<"PersonalInfo", 'String[]'>
   }
@@ -10316,6 +10320,7 @@ export namespace Prisma {
     name: string
     jobTitle: string
     imageUrl?: string | null
+    phoneNumber?: string | null
     summary: string
     contact?: string[]
   }
@@ -10431,6 +10436,7 @@ export namespace Prisma {
     name?: SortOrder
     jobTitle?: SortOrder
     imageUrl?: SortOrder
+    phoneNumber?: SortOrder
     summary?: SortOrder
     contact?: SortOrder
   }
@@ -10701,6 +10707,7 @@ export namespace Prisma {
     name: string
     jobTitle: string
     imageUrl?: string | null
+    phoneNumber?: string | null
     summary: string
     contact?: PersonalInfoCreatecontactInput | string[]
   }
@@ -11235,6 +11242,7 @@ export namespace Prisma {
     name?: StringFilter<"PersonalInfo"> | string
     jobTitle?: StringFilter<"PersonalInfo"> | string
     imageUrl?: StringNullableFilter<"PersonalInfo"> | string | null
+    phoneNumber?: StringNullableFilter<"PersonalInfo"> | string | null
     summary?: StringFilter<"PersonalInfo"> | string
     contact?: StringNullableListFilter<"PersonalInfo">
   }
@@ -12190,6 +12198,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     jobTitle?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: StringFieldUpdateOperationsInput | string
     contact?: PersonalInfoUpdatecontactInput | string[]
   }

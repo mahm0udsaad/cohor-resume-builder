@@ -13,7 +13,6 @@ import { Skeleton } from "./ui/skeleton";
 import { useTranslation } from "@/app/i18n/client";
 import { ResumePreview } from "./component/review-section";
 import { useFormTabs } from "@/hooks/use-forms-tabs";
-import AutoSubscriptionModal from "./cards/auto-subscription-modal";
 
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
@@ -65,7 +64,7 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
       <div className="container-xl mx-auto p-4">
         <div className={`grid grid-cols-1 md:grid-cols-2 gap-12  `}>
           {/* Resume Form Column */}
-          <div className="space-y-6 flex flex-col ">
+          <div className="z-50 space-y-6 flex flex-col ">
             <Tabs
               value={activeTab}
               onValueChange={handleTabChange}

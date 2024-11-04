@@ -47,6 +47,7 @@ export default function OnboardingFlow({ lng }) {
     personalInfo: {
       name: "",
       jobTitle: "",
+      phoneNumber: "",
       summary: "",
       contact: [""],
       imageUrl: "",

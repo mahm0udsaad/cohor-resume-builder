@@ -62,8 +62,6 @@ export default function ClientResumeTemplate({
     );
   }, [ResumeComponent, resumeData, selectedTheme]);
 
-  console.log(plan);
-
   return (
     <div className="flex w-full items-start overflow-auto notfs bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg min-h-[90dvh] max-h-screen shadow-lg">
       <div className="flex justify-between items-start mb-4 sticky top-0">

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 export default function PersonalInfoForm({ control, errors, t }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <div className="grid grid-cols-2 gap-6">
         <div>
           <Label htmlFor="name">{t("personalInfo.fullName")}</Label>
@@ -43,59 +43,85 @@ export default function PersonalInfoForm({ control, errors, t }) {
             )}
           />
         </div>
-      </div>
-      <div>
-        <Label>{t("personalInfo.contact")}</Label>
+        <div>
+          <Label htmlFor="phoneNumber">{t("personalInfo.phone")}</Label>
+          <Controller
+            name="phoneNumber"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                id="phoneNumber"
+                placeholder={t("personalInfo.phonePlaceholder")}
+              />
+            )}
+          />
+          {errors.phoneNumber && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.phoneNumber.message}
+            </p>
+          )}
+        </div>
         <Controller
           name="contact"
           control={control}
           defaultValue={[""]}
           render={({ field: { onChange, value } }) => (
-            <div className="space-y-2">
+            <>
               {value.map((contact, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <Input
-                    value={contact}
-                    onChange={(e) => {
-                      const newContacts = [...value];
-                      newContacts[index] = e.target.value;
-                      onChange(newContacts);
-                    }}
-                    placeholder={t("personalInfo.contactPlaceholder")}
-                  />
-                  {index > 1 && (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        const newContacts = value.filter((_, i) => i !== index);
-                        onChange(newContacts);
-                      }}
-                      variant="ghost"
-                      size="icon"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      <span className="sr-only">
-                        {t("personalInfo.removeContact")}
-                      </span>
-                    </Button>
-                  )}
-                </div>
+                <>
+                  <div key={index} className="flex items-end">
+                    <div className="flex-1">
+                      <Label>{t("personalInfo.contact")}</Label>
+                      <Input
+                        value={contact}
+                        onChange={(e) => {
+                          const newContacts = [...value];
+                          newContacts[index] = e.target.value;
+                          onChange(newContacts);
+                        }}
+                        placeholder={t("personalInfo.contactPlaceholder")}
+                      />
+                    </div>
+                    {index > 0 && (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          const newContacts = value.filter(
+                            (_, i) => i !== index,
+                          );
+                          onChange(newContacts);
+                        }}
+                        variant="ghost"
+                        size="icon"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        <span className="sr-only">
+                          {t("personalInfo.removeContact")}
+                        </span>
+                      </Button>
+                    )}
+                  </div>
+                </>
               ))}
               {value.length < 5 && (
                 <Button
                   type="button"
                   onClick={() => onChange([...value, ""])}
                   variant="outline"
-                  className="mt-2"
+                  className="col-span-2"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   {t("personalInfo.addContact")}
                 </Button>
               )}
-            </div>
+            </>
           )}
         />
       </div>
+
+      {/* Phone Number and Contact Fields in Two-Column Layout */}
+
       <div>
         <Label htmlFor="summary">{t("personalInfo.summary")}</Label>
         <Controller

@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { updateUserResumeData } from "@/actions/resumes";
 import { useSession } from "next-auth/react";
 import { QualityUpgradeModal } from "@/components/cards/quality-subscription-modal";
+import { useToast } from "@/hooks/use-toast";
 export default function ReviewForm({
   resumeData,
   updateData,
@@ -36,7 +37,7 @@ export default function ReviewForm({
   const { data: session } = useSession();
   const user = session?.user;
   const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
-
+  const { toast } = useToast();
   const handleLanguageChange = (index, field, value) => {
     updateData({
       type: "UPDATE",
@@ -94,42 +95,100 @@ export default function ReviewForm({
   };
 
   const handleReview = async () => {
-    if (plan === "free") {
-      const modalShown = checkModalShown();
-      if (!modalShown) {
-        setIsModalOpen(true);
-        // Save that modal has been shown
-        sessionStorage.setItem(`qualityModalShown_${user?.email}`, "true");
-      } else {
-        setLoading(true);
-        try {
-          const updatedResumeData = {
-            ...resumeData,
-            ...(theme
-              ? {
-                  theme: {
-                    name: theme.name,
-                    primaryColor: theme.primaryColor,
-                    backgroundColor: theme.backgroundColor,
-                  },
-                }
-              : {}),
-          };
+    // Check if the user is on a non-free plan
+    if (plan !== "free") {
+      setLoading(true);
+      try {
+        const updatedResumeData = {
+          ...resumeData,
+          ...(theme
+            ? {
+                theme: {
+                  name: theme.name,
+                  primaryColor: theme.primaryColor,
+                  backgroundColor: theme.backgroundColor,
+                },
+              }
+            : {}),
+        };
 
-          const res = await updateUserResumeData(
-            user.email,
-            resumeName,
-            updatedResumeData,
-          );
-          if (res.success) {
-            router.push(`/review/${resumeName}`);
-          }
-        } finally {
-          setLoading(false);
+        // Update resume data directly for non-free plan users
+        const res = await updateUserResumeData(
+          user.email,
+          resumeName,
+          updatedResumeData,
+        );
+        if (!res.success) {
+          toast({
+            title: "Error updating resume",
+            description: result.error,
+            variant: "destructive",
+          });
+          return;
         }
+        if (res.success) {
+          toast({
+            title: "Success",
+            variant: "success",
+            description: res.message,
+          });
+          router.push(`/review/${resumeName}`);
+        }
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    // For free plan users, show modal if it hasn't been shown
+    const modalShown = checkModalShown();
+    if (!modalShown) {
+      setIsModalOpen(true);
+      // Save that modal has been shown
+      sessionStorage.setItem(`qualityModalShown_${user?.email}`, "true");
+    } else {
+      setLoading(true);
+      try {
+        const updatedResumeData = {
+          ...resumeData,
+          ...(theme
+            ? {
+                theme: {
+                  name: theme.name,
+                  primaryColor: theme.primaryColor,
+                  backgroundColor: theme.backgroundColor,
+                },
+              }
+            : {}),
+        };
+
+        const res = await updateUserResumeData(
+          user.email,
+          resumeName,
+          updatedResumeData,
+        );
+        if (!res.success) {
+          toast({
+            title: "Error updating resume",
+            description: result.error,
+            variant: "destructive",
+          });
+          return;
+        }
+        if (res.success) {
+          toast({
+            title: "Success",
+            variant: "success",
+            description: res.message,
+          });
+          router.push(`/review/${resumeName}`);
+        }
+      } finally {
+        setLoading(false);
       }
     }
   };
+
   const handleContinue = async () => {
     setLoading(true);
     try {
@@ -151,7 +210,20 @@ export default function ReviewForm({
         resumeName,
         updatedResumeData,
       );
+      if (!res.success) {
+        toast({
+          title: "Error updating resume",
+          description: result.error,
+          variant: "destructive",
+        });
+        return;
+      }
       if (res.success) {
+        toast({
+          title: "Success",
+          variant: "success",
+          description: res.message,
+        });
         router.push(`/review/${resumeName}`);
       }
     } finally {

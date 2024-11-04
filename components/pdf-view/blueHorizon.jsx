@@ -34,9 +34,11 @@ export default function BlueHorizonPDF({ resumeData }) {
   const styles = StyleSheet.create({
     page: {
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: "white",
       flexDirection: "row",
       direction: direction,
+      width: "100%",
+      height: 841.89,
     },
     sidebar: {
       textAlign: isArabic ? "right" : "left",

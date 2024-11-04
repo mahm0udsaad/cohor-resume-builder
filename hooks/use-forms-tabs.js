@@ -1,13 +1,13 @@
 import { useState, useCallback, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import {
-    Award,
-    Briefcase,
-    CheckCircle,
-    ChevronLeft,
-    GraduationCap,
-    User,
-  } from "lucide-react";
+  Award,
+  Briefcase,
+  CheckCircle,
+  ChevronLeft,
+  GraduationCap,
+  User,
+} from "lucide-react";
 export function useFormTabs({ user, router }) {
   const searchParams = useSearchParams();
 
@@ -46,10 +46,6 @@ export function useFormTabs({ user, router }) {
   };
 
   const handleNextTab = () => {
-    if (!user) {
-      router.push("/auth");
-      return;
-    }
     const currentIndex = tabs.findIndex((tab) => tab.id === activeTab);
     const nextTab = tabs[Math.min(tabs.length - 1, currentIndex + 1)];
     handleTabChange(nextTab.id);
