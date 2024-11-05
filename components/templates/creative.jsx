@@ -223,44 +223,46 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
           </section>
 
           {/* Additional Courses */}
-          <section>
-            <h3
-              style={{
-                fontSize: "1.8em",
-                borderBottom: `2px solid ${theme.primaryColor}`,
-                paddingBottom: "10px",
-                marginBottom: "20px",
-              }}
-            >
-              {t.courses}
-            </h3>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "20px",
-              }}
-            >
-              {resumeData.courses?.map((course, index) => (
-                <div key={index}>
-                  <h4 style={{ fontSize: "1.1em", marginBottom: "5px" }}>
-                    {course.name}
-                  </h4>
-                  <p
-                    style={{
-                      fontSize: "0.9em",
-                      color: theme.primaryColor,
-                    }}
-                  >
-                    {course.institution}
-                  </p>
-                  <p style={{ fontSize: "0.8em" }}>
-                    {formatDate(course.completionDate, resumeData.lng)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
+          {resumeData.courses[0]?.name.trim() !== "" && (
+            <section>
+              <h3
+                style={{
+                  fontSize: "1.8em",
+                  borderBottom: `2px solid ${theme.primaryColor}`,
+                  paddingBottom: "10px",
+                  marginBottom: "20px",
+                }}
+              >
+                {t.courses}
+              </h3>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "20px",
+                }}
+              >
+                {resumeData.courses?.map((course, index) => (
+                  <div key={index}>
+                    <h4 style={{ fontSize: "1.1em", marginBottom: "5px" }}>
+                      {course.name}
+                    </h4>
+                    <p
+                      style={{
+                        fontSize: "0.9em",
+                        color: theme.primaryColor,
+                      }}
+                    >
+                      {course.institution}
+                    </p>
+                    <p style={{ fontSize: "0.8em" }}>
+                      {formatDate(course.completionDate, resumeData.lng)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>

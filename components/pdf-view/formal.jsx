@@ -227,16 +227,20 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
           </View>
 
           {/* Courses Section */}
-          <View wrap={true} style={styles.section}>
-            <Text style={styles.sectionTitle}>{t.courses}</Text>
-            {resumeData.courses.map((course, index) => (
-              <View key={index} style={styles.experienceItem}>
-                <Text>{course.name}</Text>
-                <Text>{course.institution}</Text>
-                <Text>{formatDate(course.completionDate, resumeData.lng)}</Text>
-              </View>
-            ))}
-          </View>
+          {resumeData.courses[0]?.name.trim() !== "" && (
+            <View wrap={true} style={styles.section}>
+              <Text style={styles.sectionTitle}>{t.courses}</Text>
+              {resumeData.courses.map((course, index) => (
+                <View key={index} style={styles.experienceItem}>
+                  <Text>{course.name}</Text>
+                  <Text>{course.institution}</Text>
+                  <Text>
+                    {formatDate(course.completionDate, resumeData.lng)}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
         </View>
       </Page>
     </Document>

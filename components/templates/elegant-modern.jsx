@@ -170,36 +170,38 @@ export default function ElegantModernResumeTemplate({
             </ul>
           </section>
           {/* Additional Courses */}
-          <section style={sectionStyle}>
-            <h3 style={headingStyle}>
-              <span style={headingBeforeStyle}></span>
-              {t.courses}
-            </h3>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "1rem",
-              }}
-            >
-              {resumeData.courses.map((course, index) => (
-                <div key={index}>
-                  <h4 style={{ ...subHeadingStyle, fontSize: "1rem" }}>
-                    {course.name}
-                  </h4>
-                  <p>{course.institution}</p>
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      color: theme.primaryColor,
-                    }}
-                  >
-                    {formatDate(course.completionDate)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
+          {resumeData.courses[0]?.name.trim() !== "" && (
+            <section style={sectionStyle}>
+              <h3 style={headingStyle}>
+                <span style={headingBeforeStyle}></span>
+                {t.courses}
+              </h3>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "1rem",
+                }}
+              >
+                {resumeData.courses.map((course, index) => (
+                  <div key={index}>
+                    <h4 style={{ ...subHeadingStyle, fontSize: "1rem" }}>
+                      {course.name}
+                    </h4>
+                    <p>{course.institution}</p>
+                    <p
+                      style={{
+                        fontSize: "0.9rem",
+                        color: theme.primaryColor,
+                      }}
+                    >
+                      {formatDate(course.completionDate)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
 
         {/* Right Column */}

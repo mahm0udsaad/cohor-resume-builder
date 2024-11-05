@@ -48,7 +48,7 @@ export async function getUser(email) {
         name: user.name,
         email: user.email,
         plan: user.plan,
-        image: user.photoURL,
+        image: user.image,
       },
     };
   } catch (error) {
@@ -96,7 +96,7 @@ export async function getUserWithDetails(email) {
         id: user.id,
         email: user.email,
         name: user.name,
-        image: user.photoURL,
+        image: user.image,
         plan: user.plan,
       },
       personalInfo: user.personalInfo,

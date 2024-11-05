@@ -213,35 +213,37 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
           </View>
 
           {/* Courses */}
-          <View wrap={false} style={styles(theme, lng).section}>
-            <Text style={styles(theme, lng).heading}>{t.courses}</Text>
-            <View>
-              {resumeData.courses.map((course, index) => (
-                <View key={index} style={{ marginBottom: 10 }}>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      textAlign: lng === "ar" ? "right" : "left",
-                    }}
-                  >
-                    {course.name}
-                  </Text>
-                  <Text style={styles(theme, lng).text}>
-                    {course.institution}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      textAlign: lng === "ar" ? "right" : "left",
-                    }}
-                  >
-                    {formatDate(course.completionDate)}
-                  </Text>
-                </View>
-              ))}
+          {resumeData.courses[0]?.name.trim() !== "" && (
+            <View wrap={false} style={styles(theme, lng).section}>
+              <Text style={styles(theme, lng).heading}>{t.courses}</Text>
+              <View>
+                {resumeData.courses.map((course, index) => (
+                  <View key={index} style={{ marginBottom: 10 }}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        textAlign: lng === "ar" ? "right" : "left",
+                      }}
+                    >
+                      {course.name}
+                    </Text>
+                    <Text style={styles(theme, lng).text}>
+                      {course.institution}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 10,
+                        textAlign: lng === "ar" ? "right" : "left",
+                      }}
+                    >
+                      {formatDate(course.completionDate)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
             </View>
-          </View>
+          )}
         </View>
       </Page>
     </Document>

@@ -168,19 +168,22 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
               <Text style={styles.text}>{exp.responsibilities}</Text>
             </View>
           ))}
-
-          <Text style={styles.heading}>{t.courses}</Text>
-          {resumeData.courses.map((course, index) => (
-            <View key={index} style={styles.experienceItem}>
-              <Text style={{ fontSize: 14, fontWeight: "bold" }}>
-                {course.name}
-              </Text>
-              <Text style={styles.text}>{course.institution}</Text>
-              <Text style={styles.text}>
-                {t.completed}: {formatDate(course.completionDate)}
-              </Text>
-            </View>
-          ))}
+          {resumeData.courses[0]?.name.trim() !== "" && (
+            <>
+              <Text style={styles.heading}>{t.courses}</Text>
+              {resumeData.courses.map((course, index) => (
+                <View key={index} style={styles.experienceItem}>
+                  <Text style={{ fontSize: 14, fontWeight: "bold" }}>
+                    {course.name}
+                  </Text>
+                  <Text style={styles.text}>{course.institution}</Text>
+                  <Text style={styles.text}>
+                    {t.completed}: {formatDate(course.completionDate)}
+                  </Text>
+                </View>
+              ))}
+            </>
+          )}
         </View>
       </Page>
     </Document>

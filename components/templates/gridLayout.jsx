@@ -212,18 +212,20 @@ export default function GridLayoutResume({
           </div>
         </section>
 
-        <section style={styles.section}>
-          <h2 style={styles.sectionTitle}>{t.courses}</h2>
-          {resumeData.courses.map((course, index) => (
-            <div key={index} style={styles.experienceItem}>
-              <h3 style={styles.experienceTitle}>{course.name}</h3>
-              <p style={styles.sectionContent}>
-                {course.institution}, Completed{" "}
-                {formatDate(course.completionDate)}
-              </p>
-            </div>
-          ))}
-        </section>
+        {resumeData.courses[0]?.name.trim() !== "" && (
+          <section style={styles.section}>
+            <h2 style={styles.sectionTitle}>{t.courses}</h2>
+            {resumeData.courses.map((course, index) => (
+              <div key={index} style={styles.experienceItem}>
+                <h3 style={styles.experienceTitle}>{course.name}</h3>
+                <p style={styles.sectionContent}>
+                  {course.institution}, Completed{" "}
+                  {formatDate(course.completionDate)}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
     </div>
   );

@@ -197,22 +197,30 @@ export default function BlueHorizonPDF({ resumeData }) {
             ))}
 
             {/* Courses */}
-            <Text style={styles.mainSectionTitle}>{t.courses}</Text>
-            {resumeData.courses.map((course, index) => (
-              <View key={index} style={styles.courseItem}>
-                <Text style={{ fontSize: 14, fontWeight: 400 }}>
-                  {course.name}
-                </Text>
-                <Text style={{ fontSize: 12, fontWeight: 400 }}>
-                  {course.institution}
-                </Text>
-                <Text
-                  style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}
-                >
-                  {t.completed}: {formatDate(course.completionDate)}
-                </Text>
-              </View>
-            ))}
+            {resumeData.courses[0]?.name.trim() !== "" && (
+              <>
+                <Text style={styles.mainSectionTitle}>{t.courses}</Text>
+                {resumeData.courses.map((course, index) => (
+                  <View key={index} style={styles.courseItem}>
+                    <Text style={{ fontSize: 14, fontWeight: 400 }}>
+                      {course.name}
+                    </Text>
+                    <Text style={{ fontSize: 12, fontWeight: 400 }}>
+                      {course.institution}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        paddingVertical: 4,
+                        color: "#666",
+                      }}
+                    >
+                      {t.completed}: {formatDate(course.completionDate)}
+                    </Text>
+                  </View>
+                ))}
+              </>
+            )}
           </View>
         </View>
       </Page>

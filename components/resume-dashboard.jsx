@@ -1,12 +1,10 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { format } from "date-fns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -21,7 +19,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   PlusCircle,
   FileText,
@@ -105,7 +102,7 @@ export function ResumeDashboard({ initialUserInfo }) {
 
   const renderCardContent = (section, data) => {
     if (!data || (Array.isArray(data) && data.length === 0)) {
-      return <p>No {section} available.</p>; // Handle empty or null sections
+      return <p>No {section} available.</p>;
     }
 
     switch (section) {

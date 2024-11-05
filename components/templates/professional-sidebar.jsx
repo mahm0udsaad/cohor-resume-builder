@@ -132,21 +132,25 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme }) => {
         ))}
 
         {/* Courses Section */}
-        <h3
-          className="text-2xl font-bold mb-4 mt-8"
-          style={{ color: theme.primaryColor }}
-        >
-          {t.courses}
-        </h3>
-        {resumeData.courses.map((course, index) => (
-          <div key={index} className="mb-6">
-            <div className="font-bold">{course.name}</div>
-            <div>{course.institution}</div>
-            <div>
-              {t.completed}: {formatDate(course.completionDate)}
-            </div>
-          </div>
-        ))}
+        {resumeData.courses[0]?.name.trim() !== "" && (
+          <>
+            <h3
+              className="text-2xl font-bold mb-4 mt-8"
+              style={{ color: theme.primaryColor }}
+            >
+              {t.courses}
+            </h3>
+            {resumeData.courses.map((course, index) => (
+              <div key={index} className="mb-6">
+                <div className="font-bold">{course.name}</div>
+                <div>{course.institution}</div>
+                <div>
+                  {t.completed}: {formatDate(course.completionDate)}
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

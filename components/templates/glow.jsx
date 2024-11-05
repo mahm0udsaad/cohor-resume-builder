@@ -212,28 +212,30 @@ export default function MinimalistTwoColorResumeTemplate({
         </section>
 
         {/* Additional Courses */}
-        <section style={sectionStyle}>
-          <h3 style={headingStyle}>{t.courses}</h3> {/* Translated */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "1rem",
-            }}
-          >
-            {resumeData.courses?.map((course, index) => (
-              <div key={index}>
-                <h4 style={{ ...subHeadingStyle, fontSize: "1rem" }}>
-                  {course.name}
-                </h4>
-                <p style={textStyle}>{course.institution}</p>
-                <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
-                  {course.completionDate}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+        {resumeData.courses[0]?.name.trim() !== "" && (
+          <section style={sectionStyle}>
+            <h3 style={headingStyle}>{t.courses}</h3> {/* Translated */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                gap: "1rem",
+              }}
+            >
+              {resumeData.courses?.map((course, index) => (
+                <div key={index}>
+                  <h4 style={{ ...subHeadingStyle, fontSize: "1rem" }}>
+                    {course.name}
+                  </h4>
+                  <p style={textStyle}>{course.institution}</p>
+                  <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
+                    {course.completionDate}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
     </div>
   );

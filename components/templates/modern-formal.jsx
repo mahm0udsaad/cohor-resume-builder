@@ -211,25 +211,29 @@ export default function ModernFormalResumeTemplate({
             ))}
           </section>
 
-          <section>
-            <h3
-              style={{
-                color: theme.primaryColor,
-                borderBottom: `1px solid ${theme.primaryColor}`,
-                paddingBottom: "10px",
-              }}
-            >
-              {t.courses}
-            </h3>
-            {resumeData.courses.map((course, index) => (
-              <div key={index} style={{ marginBottom: "10px" }}>
-                <h4 style={{ margin: "0", color: "#2c3e50" }}>{course.name}</h4>
-                <p style={{ margin: "5px 0", color: "#7f8c8d" }}>
-                  {course.institution}, {formatDate(course.completionDate)}
-                </p>
-              </div>
-            ))}
-          </section>
+          {resumeData.courses[0]?.name.trim() !== "" && (
+            <section>
+              <h3
+                style={{
+                  color: theme.primaryColor,
+                  borderBottom: `1px solid ${theme.primaryColor}`,
+                  paddingBottom: "10px",
+                }}
+              >
+                {t.courses}
+              </h3>
+              {resumeData.courses.map((course, index) => (
+                <div key={index} style={{ marginBottom: "10px" }}>
+                  <h4 style={{ margin: "0", color: "#2c3e50" }}>
+                    {course.name}
+                  </h4>
+                  <p style={{ margin: "5px 0", color: "#7f8c8d" }}>
+                    {course.institution}, {formatDate(course.completionDate)}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
         </aside>
       </main>
     </div>

@@ -211,16 +211,18 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
         </section>
 
         {/* Courses Section */}
-        <section style={styles.section}>
-          <h2 style={styles.sectionTitle}>{t.courses}</h2>
-          {resumeData.courses.map((course, index) => (
-            <div key={index} style={styles.experienceItem}>
-              <h4>{course.name}</h4>
-              <p>{course.institution}</p>
-              <p>{formatDate(course.completionDate, resumeData.lng)}</p>
-            </div>
-          ))}
-        </section>
+        {resumeData.courses[0]?.name.trim() !== "" && (
+          <section style={styles.section}>
+            <h2 style={styles.sectionTitle}>{t.courses}</h2>
+            {resumeData.courses.map((course, index) => (
+              <div key={index} style={styles.experienceItem}>
+                <h4>{course.name}</h4>
+                <p>{course.institution}</p>
+                <p>{formatDate(course.completionDate, resumeData.lng)}</p>
+              </div>
+            ))}
+          </section>
+        )}
       </main>
     </div>
   );

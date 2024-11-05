@@ -137,28 +137,30 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
             ))}
           </section>
 
-          <section className="mb-6">
-            <h2
-              style={{ color: theme.primaryColor }}
-              className="text-lg font-semibold mb-4 sm:text-base"
-            >
-              {t.courses}
-            </h2>
-            {resumeData.courses?.map((course, index) => (
-              <div key={index} className="mb-4">
-                <h3
-                  style={{ color: theme.primaryColor }}
-                  className="text-sm font-semibold sm:text-xs"
-                >
-                  {course.name}
-                </h3>
-                <p className="text-sm sm:text-xs">{course.institution}</p>
-                <p className="text-sm text-gray-600 sm:text-xs">
-                  {formatDate(course.completionDate)}
-                </p>
-              </div>
-            ))}
-          </section>
+          {resumeData.courses[0]?.name.trim() !== "" && (
+            <section className="mb-6">
+              <h2
+                style={{ color: theme.primaryColor }}
+                className="text-lg font-semibold mb-4 sm:text-base"
+              >
+                {t.courses}
+              </h2>
+              {resumeData.courses?.map((course, index) => (
+                <div key={index} className="mb-4">
+                  <h3
+                    style={{ color: theme.primaryColor }}
+                    className="text-sm font-semibold sm:text-xs"
+                  >
+                    {course.name}
+                  </h3>
+                  <p className="text-sm sm:text-xs">{course.institution}</p>
+                  <p className="text-sm text-gray-600 sm:text-xs">
+                    {formatDate(course.completionDate)}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
         </div>
       </div>
     </div>

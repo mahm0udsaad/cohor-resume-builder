@@ -252,7 +252,7 @@ const BoldTemplate = ({ resumeData }) => {
             </View>
           )}
 
-          {resumeData.courses?.length > 0 && (
+          {resumeData.courses[0]?.name.trim() !== "" && (
             <View style={styles.section} wrap={false}>
               <Text style={styles.sectionTitle}>{t.courses}</Text>
               {resumeData.courses?.map((course, index) => (

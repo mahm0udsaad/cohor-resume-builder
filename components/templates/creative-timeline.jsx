@@ -238,31 +238,33 @@ function CreativeTimelineResumeTemplate({
             ))}
           </section>
 
-          <section style={{ ...sectionStyle, flex: "1", minWidth: "250px" }}>
-            <h3 style={headingStyle}>{t.courses}</h3>
-            {resumeData.courses.map((course, index) => (
-              <div key={index} style={{ marginBottom: "1rem" }}>
-                <h4
-                  style={{
-                    fontSize: "1.1rem",
-                    fontWeight: "bold",
-                    color: theme.primaryColor,
-                  }}
-                >
-                  {course.name}
-                </h4>
-                <p>{course.institution}</p>
-                <p
-                  style={{
-                    fontSize: "0.9rem",
-                    color: theme.secondaryColor,
-                  }}
-                >
-                  {formatDate(course.completionDate)}
-                </p>
-              </div>
-            ))}
-          </section>
+          {resumeData.courses[0]?.name.trim() !== "" && (
+            <section style={{ ...sectionStyle, flex: "1", minWidth: "250px" }}>
+              <h3 style={headingStyle}>{t.courses}</h3>
+              {resumeData.courses.map((course, index) => (
+                <div key={index} style={{ marginBottom: "1rem" }}>
+                  <h4
+                    style={{
+                      fontSize: "1.1rem",
+                      fontWeight: "bold",
+                      color: theme.primaryColor,
+                    }}
+                  >
+                    {course.name}
+                  </h4>
+                  <p>{course.institution}</p>
+                  <p
+                    style={{
+                      fontSize: "0.9rem",
+                      color: theme.secondaryColor,
+                    }}
+                  >
+                    {formatDate(course.completionDate)}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
         </div>
 
         {/* Languages */}

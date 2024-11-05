@@ -125,20 +125,22 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
         </section>
 
         {/* Courses Section */}
-        <section className="mb-6">
-          <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
-            {t.courses} {/* Use translation */}
-          </h2>
-          {resumeData.courses?.map((course, index) => (
-            <div key={index} className="mt-2">
-              <h4 className="font-semibold text-gray-800">{course.name}</h4>
-              <p className="text-sm text-gray-600">{course.institution}</p>
-              <p className="text-sm text-gray-600">
-                {formatDate(course.completionDate)}
-              </p>
-            </div>
-          ))}
-        </section>
+        {resumeData.courses[0]?.name.trim() !== "" && (
+          <section className="mb-6">
+            <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
+              {t.courses} {/* Use translation */}
+            </h2>
+            {resumeData.courses?.map((course, index) => (
+              <div key={index} className="mt-2">
+                <h4 className="font-semibold text-gray-800">{course.name}</h4>
+                <p className="text-sm text-gray-600">{course.institution}</p>
+                <p className="text-sm text-gray-600">
+                  {formatDate(course.completionDate)}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
     </div>
   );

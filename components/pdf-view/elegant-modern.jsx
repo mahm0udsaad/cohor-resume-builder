@@ -169,23 +169,24 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
             </View>
 
             {/* Courses */}
-            <View style={styles.section}>
-              <View style={styles.heading}>
-                <Text>{t.courses}</Text>
-                <View style={styles.headingBorder}></View>
-              </View>
-              {resumeData.courses.map((course, index) => (
-                <View key={index}>
-                  <Text style={styles.sectionSubHeader}>{course.name}</Text>
-                  <Text>{course.institution}</Text>
-                  <Text style={{ color: theme.primaryColor }}>
-                    {formatDate(course.completionDate)}
-                  </Text>
+            {resumeData.courses[0]?.name.trim() !== "" && (
+              <View style={styles.section}>
+                <View style={styles.heading}>
+                  <Text>{t.courses}</Text>
+                  <View style={styles.headingBorder}></View>
                 </View>
-              ))}
-            </View>
+                {resumeData.courses.map((course, index) => (
+                  <View key={index}>
+                    <Text style={styles.sectionSubHeader}>{course.name}</Text>
+                    <Text>{course.institution}</Text>
+                    <Text style={{ color: theme.primaryColor }}>
+                      {formatDate(course.completionDate)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
-
           {/* Right Column */}
           <View style={styles.rightColumn}>
             {/* Professional Summary */}

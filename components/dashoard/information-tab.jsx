@@ -117,7 +117,11 @@ export default function InformationTab({ initialData }) {
       className="max-w-5xl mx-auto p-6 space-y-8"
     >
       <div dir="ltr" className="space-y-8">
-        <PersonalInfo control={control} errors={errors} />
+        <PersonalInfo
+          control={control}
+          errors={errors}
+          contacts={userInfo.personalInfo.contact}
+        />
         <ExperienceSection control={control} errors={errors} />
         <EducationSection control={control} errors={errors} />
         <SkillsSection control={control} errors={errors} />
@@ -150,7 +154,7 @@ export default function InformationTab({ initialData }) {
   );
 }
 
-function PersonalInfo({ control }) {
+function PersonalInfo({ control, contacts }) {
   const { isEditing, handleEdit, handleCancel } = useEditingContext();
 
   const { fields, append, remove } = useFieldArray({
@@ -253,52 +257,52 @@ function PersonalInfo({ control }) {
         <div>
           <Label className="text-lg font-semibold">Contacts</Label>
           <div className="space-y-2 mt-2">
-            {fields.map((field, index) => (
-              <div key={field.id} className="flex items-center space-x-2">
-                {isEditing ? (
-                  <>
-                    <Controller
-                      name={`personalInfo.contact.${index}`}
-                      control={control}
-                      rules={{ required: "Contact is required" }}
-                      render={({ field }) => (
-                        <Input
-                          {...field}
-                          placeholder="Contact information"
-                          className="flex-grow"
-                        />
-                      )}
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => remove(index)}
+            <div className="flex items-center space-x-2">
+              {isEditing
+                ? fields.map((field, index) => (
+                    <div key={field.id} className="flex items-center space-x-2">
+                      <Controller
+                        name={`personalInfo.contact.${index}`}
+                        control={control}
+                        rules={{ required: "Contact is required" }}
+                        render={({ field: contactField }) => (
+                          <Input
+                            {...contactField}
+                            placeholder="Contact information"
+                            className="flex-grow"
+                          />
+                        )}
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => remove(index)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))
+                : contacts.map((contact) => (
+                    <Badge
+                      key={contact}
+                      variant="secondary"
+                      className="text-sm py-2 px-3"
                     >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </>
-                ) : (
-                  <Badge variant="secondary" className="text-sm py-2 px-3">
-                    {typeof field === "object" && field.value ? (
                       <>
-                        {field.value.includes("@") ? (
+                        {contact.includes("@") ? (
                           <Mail className="h-3 w-3 mx-2" />
-                        ) : field.value.startsWith("+") ||
-                          field.value.match(/^\d{10}$/) ? (
+                        ) : contact.startsWith("+") ||
+                          contact.match(/^\d{10}$/) ? (
                           <Phone className="h-3 w-3 mx-2" />
                         ) : (
                           <Globe className="h-3 w-3 mx-2" />
                         )}
-                        {field.value}
+                        {contact}
                       </>
-                    ) : (
-                      "Invalid contact"
-                    )}
-                  </Badge>
-                )}
-              </div>
-            ))}
+                    </Badge>
+                  ))}
+            </div>
             {isEditing && (
               <Button
                 type="button"
