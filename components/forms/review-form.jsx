@@ -121,7 +121,7 @@ export default function ReviewForm({
         if (!res.success) {
           toast({
             title: "Error updating resume",
-            description: result.error,
+            description: res.error,
             variant: "destructive",
           });
           return;
@@ -170,7 +170,7 @@ export default function ReviewForm({
         if (!res.success) {
           toast({
             title: "Error updating resume",
-            description: result.error,
+            description: res.error,
             variant: "destructive",
           });
           return;
@@ -213,7 +213,7 @@ export default function ReviewForm({
       if (!res.success) {
         toast({
           title: "Error updating resume",
-          description: result.error,
+          description: res.error,
           variant: "destructive",
         });
         return;

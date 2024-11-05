@@ -35,10 +35,11 @@ export default function BlueHorizonPDF({ resumeData }) {
     page: {
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
       backgroundColor: "white",
+    },
+    container: {
       flexDirection: "row",
-      direction: direction,
       width: "100%",
-      height: 841.89,
+      minHeight: 641.89,
     },
     sidebar: {
       textAlign: isArabic ? "right" : "left",
@@ -108,103 +109,111 @@ export default function BlueHorizonPDF({ resumeData }) {
     <Document>
       <Page wrap={false} size="A4" style={styles.page}>
         {/* Sidebar */}
-        <View style={styles.sidebar}>
-          <Text style={{ fontSize: 22, fontWeight: 700, marginBottom: 10 }}>
-            {resumeData.personalInfo.name}
-          </Text>
-          <Text style={{ fontSize: 14, fontWeight: 500, marginBottom: 20 }}>
-            {resumeData.personalInfo.jobTitle}
-          </Text>
-
-          {/* Contact Information */}
-          <Text style={styles.sectionTitle}>{t.contactInformation}</Text>
-          {resumeData.personalInfo.contact?.map((item, index) => (
-            <Text key={index} style={styles.text}>
-              {item}
+        <View style={styles.container}>
+          <View style={styles.sidebar}>
+            <Text style={{ fontSize: 22, fontWeight: 700, marginBottom: 10 }}>
+              {resumeData.personalInfo.name}
             </Text>
-          ))}
+            <Text style={{ fontSize: 14, fontWeight: 500, marginBottom: 20 }}>
+              {resumeData.personalInfo.jobTitle}
+            </Text>
 
-          {/* Skills */}
-          <Text style={styles.sectionTitle}>{t.skills}</Text>
-          {resumeData.skills.map((skill, index) => (
-            <View key={index}>
-              <Text style={styles.text}>{skill.name}</Text>
-              <View style={styles.skillBar}>
-                <View
-                  style={[
-                    styles.skillLevel,
-                    { width: getSkillWidth(skill.level) },
-                  ]}
-                ></View>
+            {/* Contact Information */}
+            <Text style={styles.sectionTitle}>{t.contactInformation}</Text>
+            {resumeData.personalInfo.contact?.map((item, index) => (
+              <Text key={index} style={styles.text}>
+                {item}
+              </Text>
+            ))}
+
+            {/* Skills */}
+            <Text style={styles.sectionTitle}>{t.skills}</Text>
+            {resumeData.skills.map((skill, index) => (
+              <View key={index}>
+                <Text style={styles.text}>{skill.name}</Text>
+                <View style={styles.skillBar}>
+                  <View
+                    style={[
+                      styles.skillLevel,
+                      { width: getSkillWidth(skill.level) },
+                    ]}
+                  ></View>
+                </View>
               </View>
-            </View>
-          ))}
+            ))}
 
-          {/* Languages */}
-          <Text style={styles.sectionTitle}>{t.languages}</Text>
-          {resumeData.languages.map((lang, index) => (
-            <Text key={index} style={styles.text}>
-              <Text style={{ fontWeight: 700 }}>{lang.name}:</Text>{" "}
-              {lang.proficiency}
-            </Text>
-          ))}
-        </View>
+            {/* Languages */}
+            <Text style={styles.sectionTitle}>{t.languages}</Text>
+            {resumeData.languages.map((lang, index) => (
+              <Text key={index} style={styles.text}>
+                <Text style={{ fontWeight: 700 }}>{lang.name}:</Text>{" "}
+                {lang.proficiency}
+              </Text>
+            ))}
+          </View>
 
-        {/* Main Section */}
-        <View style={styles.main}>
-          {/* Profile Summary */}
-          <Text style={styles.mainSectionTitle}>{t.profile}</Text>
-          <Text style={styles.text}>{resumeData.personalInfo.summary}</Text>
+          {/* Main Section */}
+          <View style={styles.main}>
+            {/* Profile Summary */}
+            <Text style={styles.mainSectionTitle}>{t.profile}</Text>
+            <Text style={styles.text}>{resumeData.personalInfo.summary}</Text>
 
-          {/* Work Experience */}
-          <Text style={styles.mainSectionTitle}>{t.workExperience}</Text>
-          {resumeData.experiences.map((job, index) => (
-            <View key={index} style={styles.experienceItem}>
-              <Text style={{ fontSize: 14, fontWeight: 400 }}>
-                {job.jobTitle}
-              </Text>
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>
-                {job.company}
-              </Text>
-              <Text style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}>
-                {formatDate(job.startDate)} -{" "}
-                {formatDate(job.endDate, resumeData.lng)}
-              </Text>
-              <Text style={styles.text}>{job.responsibilities}</Text>
-            </View>
-          ))}
+            {/* Work Experience */}
+            <Text style={styles.mainSectionTitle}>{t.workExperience}</Text>
+            {resumeData.experiences.map((job, index) => (
+              <View key={index} style={styles.experienceItem}>
+                <Text style={{ fontSize: 14, fontWeight: 400 }}>
+                  {job.jobTitle}
+                </Text>
+                <Text style={{ fontSize: 12, fontWeight: 300 }}>
+                  {job.company}
+                </Text>
+                <Text
+                  style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}
+                >
+                  {formatDate(job.startDate)} -{" "}
+                  {formatDate(job.endDate, resumeData.lng)}
+                </Text>
+                <Text style={styles.text}>{job.responsibilities}</Text>
+              </View>
+            ))}
 
-          {/* Education */}
-          <Text style={styles.mainSectionTitle}>{t.education}</Text>
-          {resumeData.educations.map((edu, index) => (
-            <View key={index} style={styles.educationItem}>
-              <Text style={{ fontSize: 14, fontWeight: 400 }}>
-                {edu.degree}
-              </Text>
-              <Text style={{ fontSize: 12, fontWeight: 300 }}>
-                {edu.institution}
-              </Text>
-              <Text style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}>
-                {formatDate(edu.graduationDate)}
-              </Text>
-            </View>
-          ))}
+            {/* Education */}
+            <Text style={styles.mainSectionTitle}>{t.education}</Text>
+            {resumeData.educations.map((edu, index) => (
+              <View key={index} style={styles.educationItem}>
+                <Text style={{ fontSize: 14, fontWeight: 400 }}>
+                  {edu.degree}
+                </Text>
+                <Text style={{ fontSize: 12, fontWeight: 300 }}>
+                  {edu.institution}
+                </Text>
+                <Text
+                  style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}
+                >
+                  {formatDate(edu.graduationDate)}
+                </Text>
+              </View>
+            ))}
 
-          {/* Courses */}
-          <Text style={styles.mainSectionTitle}>{t.courses}</Text>
-          {resumeData.courses.map((course, index) => (
-            <View key={index} style={styles.courseItem}>
-              <Text style={{ fontSize: 14, fontWeight: 400 }}>
-                {course.name}
-              </Text>
-              <Text style={{ fontSize: 12, fontWeight: 400 }}>
-                {course.institution}
-              </Text>
-              <Text style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}>
-                {t.completed}: {formatDate(course.completionDate)}
-              </Text>
-            </View>
-          ))}
+            {/* Courses */}
+            <Text style={styles.mainSectionTitle}>{t.courses}</Text>
+            {resumeData.courses.map((course, index) => (
+              <View key={index} style={styles.courseItem}>
+                <Text style={{ fontSize: 14, fontWeight: 400 }}>
+                  {course.name}
+                </Text>
+                <Text style={{ fontSize: 12, fontWeight: 400 }}>
+                  {course.institution}
+                </Text>
+                <Text
+                  style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}
+                >
+                  {t.completed}: {formatDate(course.completionDate)}
+                </Text>
+              </View>
+            ))}
+          </View>
         </View>
       </Page>
     </Document>

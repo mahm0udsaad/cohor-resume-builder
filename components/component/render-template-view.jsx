@@ -1,9 +1,22 @@
 "use client";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { templateComponents } from "@/helper/get-resume-engin";
-import { DownloadBtn } from "../btns/download-pdf";
-import { DownloadWithWatermarkBtn } from "../btns/download-pdf-watermark";
 import Confetti from "react-confetti";
+import dynamic from "next/dynamic";
+
+const DownloadBtn = dynamic(
+  () => import("../btns/download-pdf").then((mod) => mod.DownloadBtn),
+  {
+    ssr: false,
+  },
+);
+const DownloadWithWatermarkBtn = dynamic(
+  () =>
+    import("../btns/download-pdf-watermark").then(
+      (mod) => mod.DownloadWithWatermarkBtn,
+    ),
+  { ssr: false },
+);
 
 const ResumePreviewSkeleton = () => (
   <div className="animate-pulse space-y-4">
@@ -51,7 +64,7 @@ export default function ClientResumeTemplate({
   const content = useMemo(() => {
     return (
       <Suspense fallback={<ResumePreviewSkeleton />}>
-        <div className="resume-preview-container flex-1 relative">
+        <div className="w-4/5 mx-auto relative">
           <ResumeComponent
             resumeData={resumeData}
             selectedTheme={resumeData.theme}

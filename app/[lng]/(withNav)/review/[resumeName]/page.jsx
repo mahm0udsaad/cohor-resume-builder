@@ -1,18 +1,9 @@
 import { getResume } from "@/actions/resumes";
-import dynamic from "next/dynamic";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
-import { dummyDataAr } from "@/data/data";
 import { getUser } from "@/actions/userInfo/action";
-const ClientResumeTemplate = dynamic(
-  () => import("@/components/component/render-template-view"),
-  {
-    ssr: false,
-    loading: () => <Skeleton className={"w-full h-screen"} />,
-  },
-);
+import ClientResumeTemplate from "@/components/component/render-template-view";
 
 export default async function ReviewPage({ params: { lng, resumeName } }) {
   const session = await auth();

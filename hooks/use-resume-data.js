@@ -213,7 +213,6 @@ export function useResumeData(initialData, debounceTime = 3000) {
     dispatch({ type: "RESET", data });
   }, []);
 
-  // Return the state and actions
   return {
     resumeData,
     updateResumeData,

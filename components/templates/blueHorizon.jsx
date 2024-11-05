@@ -146,7 +146,8 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
             style={{
               color: theme.primaryColor,
               borderBottom: `1px solid ${theme.primaryColor}`,
-              paddingBottom: "5px",
+              paddingBottom: "8px",
+              marginBottom: "8px",
               fontWeight: 600,
             }}
           >
@@ -160,7 +161,8 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
             style={{
               color: theme.primaryColor,
               borderBottom: `1px solid ${theme.primaryColor}`,
-              paddingBottom: "5px",
+              paddingBottom: "8px",
+              marginBottom: "8px",
               fontWeight: 600,
             }}
           >
@@ -179,13 +181,14 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
           ))}
         </section>
 
-        {resumeData.educations[0].degree.trim("") !== "" && (
+        {resumeData.educations[0]?.degree.trim("") !== "" && (
           <section style={{ marginBottom: "20px" }}>
             <h3
               style={{
                 color: theme.primaryColor,
                 borderBottom: `1px solid ${theme.primaryColor}`,
-                paddingBottom: "5px",
+                paddingBottom: "8px",
+                marginBottom: "8px",
                 fontWeight: 600,
               }}
             >
@@ -206,13 +209,14 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
           </section>
         )}
 
-        {resumeData.courses[0].name.trim("") !== "" && (
+        {resumeData.courses[0]?.name.trim("") !== "" && (
           <section>
             <h3
               style={{
                 color: theme.primaryColor,
                 borderBottom: `1px solid ${theme.primaryColor}`,
-                paddingBottom: "5px",
+                paddingBottom: "8px",
+                marginBottom: "8px",
                 fontWeight: 600,
               }}
             >
