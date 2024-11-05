@@ -148,9 +148,6 @@ const validateResumeData = (data) => {
   ) {
     throw new Error("Invalid experience start date format");
   }
-  if (data.experiences?.some((exp) => exp.endDate && !parseDate(exp.endDate))) {
-    throw new Error("Invalid experience end date format");
-  }
 
   // Validate educations
   if (

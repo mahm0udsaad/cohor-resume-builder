@@ -13,7 +13,12 @@ import { Skeleton } from "./ui/skeleton";
 import { useTranslation } from "@/app/i18n/client";
 import { ResumePreview } from "./component/review-section";
 import { useFormTabs } from "@/hooks/use-forms-tabs";
-
+const DynamicLanguagesForm = dynamic(() => import("./forms/lang-form"), {
+  loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
+});
+const DynamicCoursesForm = dynamic(() => import("./forms/coureses-form"), {
+  loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
+});
 const DynamicPersonalInfoForm = dynamic(
   () => import("@/components/forms/personal-info-form"),
   {
@@ -62,7 +67,7 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
   return (
     <div className="min-h-screen">
       <div className="container-xl mx-auto p-4">
-        <div className={`grid grid-cols-1 md:grid-cols-2 gap-12  `}>
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-8`}>
           {/* Resume Form Column */}
           <div className="z-50 space-y-6 flex flex-col ">
             <Tabs
@@ -70,15 +75,15 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
               onValueChange={handleTabChange}
               className="w-full"
             >
-              <TabsList className="grid grid-cols-5 mb-8">
+              <TabsList className="flex gap-2 mb-8">
                 {tabs.map(({ id, icon: Icon }) => (
                   <TabsTrigger
                     key={id}
                     value={id}
                     className="flex gap-2 data-[state=active]:text-white data-[state=active]:bg-[#3B51A3]"
                   >
-                    <Icon className="h-4 w-4" />
-                    <span className="text-[12px] ">{t(`tabs.${id}`)}</span>
+                    <Icon className="size-4" />
+                    <span className="text-[11px] ">{t(`tabs.${id}`)}</span>
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -118,6 +123,20 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
                     <DynamicSkillsForm
                       lng={lng}
                       skills={resumeData.skills || []}
+                      updateData={updateResumeData}
+                    />
+                  </TabsContent>
+                  <TabsContent value="languages">
+                    <DynamicLanguagesForm
+                      lng={lng}
+                      languages={resumeData.languages || []}
+                      updateData={updateResumeData}
+                    />
+                  </TabsContent>
+                  <TabsContent value="courses">
+                    <DynamicCoursesForm
+                      lng={lng}
+                      courses={resumeData.courses || []}
                       updateData={updateResumeData}
                     />
                   </TabsContent>

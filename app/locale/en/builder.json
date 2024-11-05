@@ -4,7 +4,9 @@
     "experience": "Experience",
     "education": "Education",
     "skills": "Skills",
-    "review": "Review"
+    "review": "Review",
+    "languages": "Languages",
+    "courses": "Courses"
   },
   "buttons": {
     "previous": "Previous",

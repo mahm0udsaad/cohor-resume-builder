@@ -67,6 +67,7 @@
   },
   "reviewResume": {
     "title": "راجع سيرتك الذاتية",
+    "completedSections": "الاقسام المكتملة",
     "hideLanguages": "إخفاء اللغات",
     "addLanguages": "إضافة لغات",
     "hideCourses": "إخفاء الدورات",

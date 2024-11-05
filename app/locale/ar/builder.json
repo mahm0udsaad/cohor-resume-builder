@@ -4,7 +4,9 @@
     "experience": "الخبرة",
     "education": "التعليم",
     "skills": "المهارات",
-    "review": "مراجعة"
+    "review": "مراجعة",
+    "languages": "اللغات",
+    "courses": "الدورات"
   },
   "buttons": {
     "previous": "السابق",

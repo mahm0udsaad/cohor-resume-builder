@@ -1,90 +1,76 @@
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Trash2 } from "lucide-react";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import DatePicker from "../component/datePicker";
 import { useTranslation } from "@/app/i18n/client";
 import { useRouter } from "next/navigation";
 import { updateUserResumeData } from "@/actions/resumes";
 import { useSession } from "next-auth/react";
 import { QualityUpgradeModal } from "@/components/cards/quality-subscription-modal";
 import { useToast } from "@/hooks/use-toast";
+import { Progress } from "@/components/ui/progress";
+import {
+  CheckCircle,
+  XCircle,
+  Award,
+  BookOpen,
+  Briefcase,
+  User,
+  Globe,
+  Code,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { useFormTabs } from "@/hooks/use-forms-tabs";
+
 export default function ReviewForm({
   resumeData,
-  updateData,
   resumeName,
   theme,
   plan,
   lng,
 }) {
-  const [showLanguages, setShowLanguages] = useState(
-    !!resumeData?.languages?.length,
-  );
+  const [hoveredSection, setHoveredSection] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showCourses, setShowCourses] = useState(!!resumeData?.courses?.length);
   const [isLoading, setLoading] = useState(false);
   const { t } = useTranslation(lng, "forms");
   const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
-  const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
   const { toast } = useToast();
-  const handleLanguageChange = (index, field, value) => {
-    updateData({
-      type: "UPDATE",
-      path: ["languages", index, field],
-      value: value,
-    });
+  const { activeTab, handleTabChange } = useFormTabs({ user, router });
+
+  const sections = [
+    { title: t("personalInformation.title"), key: "personalInfo", icon: User },
+    { title: t("workExperience.title"), key: "experiences", icon: Briefcase },
+    { title: t("education.title"), key: "educations", icon: Award },
+    { title: t("skills.title"), key: "skills", icon: Code },
+    { title: t("languages.title"), key: "languages", icon: Globe },
+    { title: t("courses.title"), key: "courses", icon: BookOpen },
+  ];
+
+  const isComplete = (section) => {
+    if (Array.isArray(resumeData[section])) {
+      return (
+        resumeData[section].length > 0 &&
+        resumeData[section].some(
+          (item) => !Object.values(item).every((value) => value === ""),
+        )
+      );
+    }
+    if (typeof resumeData[section] === "object") {
+      return Object.values(resumeData[section]).some((value) => {
+        if (Array.isArray(value))
+          return value.length > 0 && value.some((item) => item !== "");
+        return value !== "";
+      });
+    }
+    return resumeData[section] !== "";
   };
 
-  const handleCourseChange = (index, field, value) => {
-    updateData({
-      type: "UPDATE",
-      path: ["courses", index, field],
-      value: value,
-    });
-  };
+  const completedSections = sections.filter((section) =>
+    isComplete(section.key),
+  ).length;
+  const completionPercentage = (completedSections / sections.length) * 100;
 
-  const addLanguage = () => {
-    updateData({
-      type: "ADD",
-      path: ["languages"],
-      value: { name: "", proficiency: "" },
-    });
-  };
-
-  const addCourse = () => {
-    updateData({
-      type: "ADD",
-      path: ["courses"],
-      value: { name: "", institution: "", completionDate: "" },
-    });
-  };
-
-  const deleteLanguage = (index) => {
-    updateData({
-      type: "REMOVE",
-      path: ["languages"],
-      index: index,
-    });
-  };
-
-  const deleteCourse = (index) => {
-    updateData({
-      type: "REMOVE",
-      path: ["courses"],
-      index: index,
-    });
-  };
   const checkModalShown = () => {
     if (typeof window !== "undefined") {
       return (
@@ -95,24 +81,20 @@ export default function ReviewForm({
   };
 
   const handleReview = async () => {
-    // Check if the user is on a non-free plan
     if (plan !== "free") {
       setLoading(true);
       try {
         const updatedResumeData = {
           ...resumeData,
-          ...(theme
-            ? {
-                theme: {
-                  name: theme.name,
-                  primaryColor: theme.primaryColor,
-                  backgroundColor: theme.backgroundColor,
-                },
-              }
-            : {}),
+          ...(theme && {
+            theme: {
+              name: theme.name,
+              primaryColor: theme.primaryColor,
+              backgroundColor: theme.backgroundColor,
+            },
+          }),
         };
 
-        // Update resume data directly for non-free plan users
         const res = await updateUserResumeData(
           user.email,
           resumeName,
@@ -140,52 +122,12 @@ export default function ReviewForm({
       return;
     }
 
-    // For free plan users, show modal if it hasn't been shown
     const modalShown = checkModalShown();
     if (!modalShown) {
       setIsModalOpen(true);
-      // Save that modal has been shown
       sessionStorage.setItem(`qualityModalShown_${user?.email}`, "true");
     } else {
-      setLoading(true);
-      try {
-        const updatedResumeData = {
-          ...resumeData,
-          ...(theme
-            ? {
-                theme: {
-                  name: theme.name,
-                  primaryColor: theme.primaryColor,
-                  backgroundColor: theme.backgroundColor,
-                },
-              }
-            : {}),
-        };
-
-        const res = await updateUserResumeData(
-          user.email,
-          resumeName,
-          updatedResumeData,
-        );
-        if (!res.success) {
-          toast({
-            title: "Error updating resume",
-            description: res.error,
-            variant: "destructive",
-          });
-          return;
-        }
-        if (res.success) {
-          toast({
-            title: "Success",
-            variant: "success",
-            description: res.message,
-          });
-          router.push(`/review/${resumeName}`);
-        }
-      } finally {
-        setLoading(false);
-      }
+      handleContinue();
     }
   };
 
@@ -194,15 +136,13 @@ export default function ReviewForm({
     try {
       const updatedResumeData = {
         ...resumeData,
-        ...(theme
-          ? {
-              theme: {
-                name: theme.name,
-                primaryColor: theme.primaryColor,
-                backgroundColor: theme.backgroundColor,
-              },
-            }
-          : {}),
+        ...(theme && {
+          theme: {
+            name: theme.name,
+            primaryColor: theme.primaryColor,
+            backgroundColor: theme.backgroundColor,
+          },
+        }),
       };
 
       const res = await updateUserResumeData(
@@ -230,178 +170,59 @@ export default function ReviewForm({
       setLoading(false);
     }
   };
+
   return (
-    <Card>
-      <CardContent className="p-6">
-        {resumeName !== "onboarding" && (
-          <h2 className="text-2xl font-semibold mb-4 text-black pb-2 border-b">
+    <Card className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+      <CardContent className="space-y-6 p-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
             {t("reviewResume.title")}
           </h2>
-        )}
-        <div className="mb-4">
-          <Button
-            onClick={() => setShowLanguages(!showLanguages)}
-            className="mr-2 bg-gray-50 text-black hover:bg-white "
-          >
-            {showLanguages
-              ? t("reviewResume.hideLanguages")
-              : t("reviewResume.addLanguages")}
-          </Button>
-          <Button
-            onClick={() => setShowCourses(!showCourses)}
-            className="mr-2 bg-gray-50 text-black hover:bg-white "
-          >
-            {showCourses
-              ? t("reviewResume.hideCourses")
-              : t("reviewResume.addCourses")}
-          </Button>
+          <p className="text-lg text-gray-600 dark:text-gray-300">
+            {t("reviewResume.completedSections", {
+              completed: completedSections,
+              total: sections.length,
+            })}
+          </p>
+          <Progress
+            value={completionPercentage}
+            className="w-full mt-2 text-green-500"
+          />
         </div>
-        {showLanguages && (
-          <div className="p-4">
-            <h3 className="text-xl font-semibold mb-4 text-black">
-              {t("reviewResume.languagesTitle")}
-            </h3>
-            {resumeData?.languages.map((lang, index) => (
-              <div key={index} className="mb-4 rounded relative">
-                <div className="flex gap-4 mb-2 mt-8">
-                  <div className="flex w-full">
-                    <div className="flex-1 px-4 ">
-                      <Label
-                        htmlFor={`languageName-${index}`}
-                        className="text-black"
-                      >
-                        {t("reviewResume.language")}
-                      </Label>
-                      <Input
-                        id={`languageName-${index}`}
-                        value={lang.name}
-                        onChange={(e) =>
-                          handleLanguageChange(index, "name", e.target.value)
-                        }
-                        placeholder={t("reviewResume.languagePlaceholder")}
-                        className="border-[#3B51A3] focus:ring-[#3B51A3]"
-                      />
-                    </div>
-                    <div>
-                      <Label
-                        htmlFor={`languageProficiency-${index}`}
-                        className="text-black"
-                      >
-                        {t("reviewResume.proficiency")}
-                      </Label>
-                      <Select
-                        value={lang.proficiency}
-                        onValueChange={(value) =>
-                          handleLanguageChange(index, "proficiency", value)
-                        }
-                      >
-                        <SelectTrigger className="border-[#3B51A3] focus:ring-[#3B51A3]">
-                          <SelectValue
-                            placeholder={t("reviewResume.selectProficiency")}
-                          />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {languageProficiencyOptions.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-full justify-center items-center mt-[1.3rem]">
-                    <Button
-                      onClick={() => deleteLanguage(index)}
-                      size="icon"
-                      variant="ghost"
-                    >
-                      <Trash2 className="size-4" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ))}
-            <Button
-              onClick={addLanguage}
-              className="mt-2 bg-gray-50 text-black hover:bg-white "
-            >
-              <Plus className="h-4 w-4 mr-2" /> {t("reviewResume.addLanguage")}
-            </Button>
-          </div>
-        )}
 
-        {showCourses && (
-          <>
-            <h3 className="text-xl font-semibold text-black">
-              {t("reviewResume.coursesTitle")}
-            </h3>
-            {resumeData?.courses.map((course, index) => (
-              <div key={index} className="flex flex-col mb-4 p-4 rounded ">
-                <div className="flex w-full items-center justify-end ">
-                  <Button
-                    onClick={() => deleteCourse(index)}
-                    size="icon"
-                    variant="ghost"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label
-                      htmlFor={`courseName-${index}`}
-                      className="text-black"
-                    >
-                      {t("reviewResume.courseName")}
-                    </Label>
-                    <Input
-                      id={`courseName-${index}`}
-                      value={course.name}
-                      onChange={(e) =>
-                        handleCourseChange(index, "name", e.target.value)
-                      }
-                      placeholder={t("reviewResume.courseNamePlaceholder")}
-                      className="border-[#3B51A3] focus:ring-[#3B51A3]"
-                    />
-                  </div>
-                  <div>
-                    <Label
-                      htmlFor={`institution-${index}`}
-                      className="text-black"
-                    >
-                      {t("reviewResume.institution")}
-                    </Label>
-                    <Input
-                      id={`institution-${index}`}
-                      value={course.institution}
-                      onChange={(e) =>
-                        handleCourseChange(index, "institution", e.target.value)
-                      }
-                      placeholder={t("reviewResume.institutionPlaceholder")}
-                      className="border-[#3B51A3] focus:ring-[#3B51A3]"
-                    />
-                  </div>
-                </div>
-                <div className="mt-2">
-                  <DatePicker
-                    value={course.completionDate}
-                    onChange={(value) =>
-                      handleCourseChange(index, "completionDate", value)
-                    }
-                    label={t("reviewResume.graduationDate")}
-                  />
-                </div>
-              </div>
-            ))}
-            <Button
-              onClick={addCourse}
-              className="mt-2 bg-gray-50 text-black hover:bg-white "
+        <div className="grid grid-cols-2 gap-4">
+          {sections.map((section) => (
+            <div
+              key={section.key}
+              onClick={() => handleTabChange(section.key)}
+              className={`cursor-pointer transition-transform transform hover:scale-105 hover:ring-2 hover:ring-blue-500 ${
+                activeTab === section.key
+                  ? "scale-105 ring-2 ring-blue-500"
+                  : ""
+              } bg-white dark:bg-gray-800 shadow-md rounded-lg`}
             >
-              <Plus className="h-4 w-4 mr-2" /> {t("reviewResume.addCourse")}
-            </Button>
-          </>
-        )}
+              <CardContent className="p-4 flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <section.icon
+                    className={`w-6 h-6 ${
+                      isComplete(section.key)
+                        ? "text-green-500"
+                        : "text-gray-400"
+                    }`}
+                  />
+                  <span className="font-semibold text-gray-700 dark:text-gray-200">
+                    {section.title}
+                  </span>
+                </div>
+                {isComplete(section.key) ? (
+                  <CheckCircle className="w-6 h-6 text-green-500" />
+                ) : (
+                  <XCircle className="w-6 h-6 text-red-500" />
+                )}
+              </CardContent>
+            </div>
+          ))}
+        </div>
 
         {resumeName !== "onboarding" && (
           <div className="mt-6">

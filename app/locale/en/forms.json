@@ -67,6 +67,7 @@
   },
   "reviewResume": {
     "title": "Review Your Resume",
+    "completedSections": "Completed Sections",
     "hideLanguages": "Hide Languages",
     "addLanguages": "Add Languages",
     "hideCourses": "Hide Courses",

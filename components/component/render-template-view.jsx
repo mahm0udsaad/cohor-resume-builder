@@ -99,7 +99,7 @@ export default function ClientResumeTemplate({
           width={dimensions.width}
           height={dimensions.height}
           recycle={false}
-          numberOfPieces={300}
+          numberOfPieces={1000}
         />
       )}
       {content}
