@@ -67,51 +67,59 @@ export async function completeOnboarding(email) {
 
   return updatedUser;
 }
-export async function getUserWithDetails(email) {
-  if (!email) {
-    return { success: false, error: "No authenticated user found" };
-  }
 
-  try {
-    // Fetch user data with related info from MongoDB
-    const user = await prisma.user.findUnique({
-      where: { email: email },
-      include: {
-        personalInfo: true,
-        experiences: true,
-        educations: true,
-        skills: true,
-        languages: true,
-        courses: true,
-        resumes: true,
-      },
-    });
-
-    if (!user) {
-      return { success: false, error: "User not found" };
+export const getUserWithDetails = cache(
+  async function getUserWithDetails(email) {
+    if (!email) {
+      return { success: false, error: "No authenticated user found" };
     }
 
-    return {
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        image: user.image,
-        plan: user.plan,
-      },
-      personalInfo: user.personalInfo,
-      experiences: user.experiences,
-      educations: user.educations,
-      skills: user.skills,
-      languages: user.languages,
-      courses: user.courses,
-      resumes: user.resumes,
-    };
-  } catch (error) {
-    console.error("Error fetching user with details:", error);
-    return { success: false, error: error.message };
-  }
-}
+    try {
+      // Fetch user data with related info from MongoDB
+      const user = await prisma.user.findUnique({
+        where: { email: email },
+        include: {
+          personalInfo: true,
+          experiences: true,
+          educations: true,
+          skills: true,
+          languages: true,
+          courses: true,
+          resumes: true,
+        },
+      });
+
+      if (!user) {
+        return { success: false, error: "User not found" };
+      }
+
+      return {
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          image: user.image,
+          plan: user.plan,
+        },
+        personalInfo: user.personalInfo,
+        experiences: user.experiences,
+        educations: user.educations,
+        skills: user.skills,
+        languages: user.languages,
+        courses: user.courses,
+        resumes: user.resumes,
+      };
+    } catch (error) {
+      console.error("Error fetching user with details:", error);
+      return { success: false, error: error.message };
+    }
+  },
+  {
+    // Cache the result for 1 hour
+    maxAge: 60 * 60 * 1000,
+  },
+);
+
 export async function updatePersonalInfo(userId, newPersonalInfo) {
   try {
     // Step 1: Fetch the existing personalInfo

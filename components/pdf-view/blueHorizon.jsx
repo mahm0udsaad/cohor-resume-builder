@@ -96,12 +96,14 @@ export default function BlueHorizonPDF({ resumeData }) {
 
   const getSkillWidth = (level) => {
     switch (level) {
-      case "advanced":
+      case "expert":
         return "100%";
-      case "intermediate":
+      case "experienced":
         return "70%";
+      case "skillful":
+        return "50%";
       default:
-        return "40%";
+        return "30%";
     }
   };
 

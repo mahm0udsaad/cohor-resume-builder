@@ -123,7 +123,7 @@ export default function SkillForm({ skills, updateData, lng }) {
           {t("skills.title")}
         </h2>
 
-        <div className="mb-6">
+        <div className="">
           <Label htmlFor="skill-search" className="text-main">
             {t("skills.addSkill")}
           </Label>
@@ -137,6 +137,7 @@ export default function SkillForm({ skills, updateData, lng }) {
               onChange={(e) => setSearchTerm(e.target.value)}
               onFocus={() => setIsDropdownOpen(true)}
               onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)}
+              autoComplete="off"
             />
             {isDropdownOpen && (
               <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
@@ -169,8 +170,10 @@ export default function SkillForm({ skills, updateData, lng }) {
             )}
           </div>
         </div>
-
-        <div className="grid grid-cols-2 gap-2">
+        <Button className="my-4" variant="ghost" onClick={resetSkills}>
+          {t("skills.reset")}
+        </Button>
+        <div className="grid grid-cols-2 gap-2 items-center p-4 border-2 border-dashed border-gray-300 rounded-md">
           {skills.map((skill, index) => (
             <div
               key={index}
@@ -208,18 +211,13 @@ export default function SkillForm({ skills, updateData, lng }) {
               </Button>
             </div>
           ))}
-        </div>
 
-        {skills.length === 0 && (
-          <div className="flex justify-between items-center p-4 border-2 border-dashed border-gray-300 rounded-md">
+          {skills.length === 0 && (
             <span className="text-gray-500">
               {t("skills.noSkillsSelected")}
             </span>
-            <Button variant="ghost" onClick={resetSkills}>
-              {t("skills.reset")}
-            </Button>
-          </div>
-        )}
+          )}
+        </div>
       </CardContent>
     </Card>
   );

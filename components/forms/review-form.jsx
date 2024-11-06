@@ -17,6 +17,7 @@ import {
   User,
   Globe,
   Code,
+  LanguagesIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useFormTabs } from "@/hooks/use-forms-tabs";
@@ -43,7 +44,7 @@ export default function ReviewForm({
     { title: t("workExperience.title"), key: "experiences", icon: Briefcase },
     { title: t("education.title"), key: "educations", icon: Award },
     { title: t("skills.title"), key: "skills", icon: Code },
-    { title: t("languages.title"), key: "languages", icon: Globe },
+    { title: t("languages.title"), key: "languages", icon: LanguagesIcon },
     { title: t("courses.title"), key: "courses", icon: BookOpen },
   ];
 
@@ -172,7 +173,7 @@ export default function ReviewForm({
   };
 
   return (
-    <Card className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+    <Card className=" overflow-hidden">
       <CardContent className="space-y-6 p-6">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
@@ -202,7 +203,7 @@ export default function ReviewForm({
               } bg-white dark:bg-gray-800 shadow-md rounded-lg`}
             >
               <CardContent className="p-4 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                   <section.icon
                     className={`w-6 h-6 ${
                       isComplete(section.key)

@@ -11,14 +11,14 @@ export default function ModernFormalResumeTemplate({
 
   const getSkillLevel = (level) => {
     switch (level) {
-      case "advanced":
-        return 90;
-      case "intermediate":
-        return 70;
-      case "basic":
-        return 50;
+      case "expert":
+        return "100%";
+      case "experienced":
+        return "70%";
+      case "skillful":
+        return "50%";
       default:
-        return 0;
+        return "30%";
     }
   };
   const theme = selectedTheme || {
@@ -183,7 +183,7 @@ export default function ModernFormalResumeTemplate({
                 >
                   <div
                     style={{
-                      width: `${getSkillLevel(skill.level)}%`,
+                      width: `${getSkillLevel(skill.level)}`,
                       height: "100%",
                       backgroundColor: theme.primaryColor,
                       transition: "width 0.5s ease-in-out",

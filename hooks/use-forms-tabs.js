@@ -4,14 +4,13 @@ import {
   Award,
   Briefcase,
   CheckCircle,
-  ChevronLeft,
   GraduationCap,
   User,
-  Globe,
   BookOpen,
+  LanguagesIcon,
 } from "lucide-react";
 
-export function useFormTabs({ user, router }) {
+export function useFormTabs({ router }) {
   const searchParams = useSearchParams();
 
   const tabs = [
@@ -19,7 +18,7 @@ export function useFormTabs({ user, router }) {
     { id: "experience", label: "Experience", icon: Briefcase },
     { id: "education", label: "Education", icon: GraduationCap },
     { id: "skills", label: "Skills", icon: Award },
-    { id: "languages", label: "Languages", icon: Globe },
+    { id: "languages", label: "Languages", icon: LanguagesIcon },
     { id: "courses", label: "Courses", icon: BookOpen },
     { id: "review", label: "Review", icon: CheckCircle },
   ];

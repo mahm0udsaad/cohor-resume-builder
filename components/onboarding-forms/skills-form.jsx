@@ -99,7 +99,7 @@ export default function SkillsForm({ control, t }) {
       defaultValue={[]}
       render={({ field: { value, onChange } }) => (
         <div className="space-y-6">
-          <div className="mb-6">
+          <div className="">
             <Label htmlFor="skill-search" className="text-main">
               {t("skills.addSkill")}
             </Label>
@@ -155,7 +155,11 @@ export default function SkillsForm({ control, t }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <Button type="button" variant="ghost" onClick={() => onChange([])}>
+            {t("skills.reset")}
+          </Button>
+
+          <div className="grid grid-cols-2 gap-2 justify-between items-center p-4 border-2 border-dashed border-gray-300 rounded-md">
             {value.map((skill, index) => (
               <div
                 key={index}
@@ -198,16 +202,10 @@ export default function SkillsForm({ control, t }) {
                 </Button>
               </div>
             ))}
-          </div>
-
-          {value.length === 0 && (
-            <div className="flex justify-between items-center p-4 border-2 border-dashed border-gray-300 rounded-md">
+            {value.length === 0 && (
               <span className="text-gray-500">{t("skills.noSkills")}</span>
-              <Button variant="ghost" onClick={() => onChange([])}>
-                {t("skills.reset")}
-              </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       )}
     />

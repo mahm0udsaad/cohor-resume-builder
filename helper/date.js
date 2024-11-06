@@ -1,8 +1,8 @@
 export function formatDate(dateInput, lng) {
   // If the input is already in the desired format, return it as is
   if (dateInput === "present" || dateInput === "Present") {
-    if (lng === "ar") return "الحاضر";
-    if (lng === "en") return "Present";
+    if (lng === "ar") return "اعمل هناك حاليا";
+    if (lng === "en") return "Currently Working There";
   }
   if (!dateInput) return "N/A";
   if (typeof dateInput === "string" && /^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {

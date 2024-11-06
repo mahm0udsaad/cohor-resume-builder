@@ -12,12 +12,23 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
   // Default theme values in case selectedTheme is undefined
   const defaultTheme = {
     primaryColor: "#2b2d2e",
-    backgroundColor: "#fffff",
+    backgroundColor: "#ffffff",
     accentColor: "#343a40",
   };
 
   const theme = selectedTheme || defaultTheme;
-
+  const getSkillWidth = (level) => {
+    switch (level) {
+      case "expert":
+        return "100%";
+      case "experienced":
+        return "70%";
+      case "skillful":
+        return "50%";
+      default:
+        return "30%";
+    }
+  };
   return (
     <div
       id="resume-template"
@@ -101,14 +112,10 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
               >
                 <div
                   style={{
-                    width:
-                      skill.level === "advanced"
-                        ? "100%"
-                        : skill.level === "intermediate"
-                        ? "70%"
-                        : "40%",
+                    width: getSkillWidth(skill.level),
                     backgroundColor: "#4caf50",
                     height: "100%",
+                    transition: "width 0.5s ease-in-out",
                   }}
                 ></div>
               </div>
