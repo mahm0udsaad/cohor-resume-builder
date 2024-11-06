@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { allSkills } from "@/data/data";
 
 const skillLevels = [
   { value: "beginner", label: "skills.beginner" },
@@ -22,71 +23,6 @@ const skillLevels = [
 export default function SkillsForm({ control, t }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const allSkills = [
-    "Technical Writing",
-    "Leadership",
-    "Communication",
-    "Problem-Solving",
-    "JavaScript",
-    "React",
-    "Node.js",
-    "Python",
-    "Java",
-    "C++",
-    "C#",
-    "Ruby",
-    "PHP",
-    "Swift",
-    "Kotlin",
-    "Go",
-    "Rust",
-    "TypeScript",
-    "Angular",
-    "Vue.js",
-    "Django",
-    "Flask",
-    "Laravel",
-    "Ruby on Rails",
-    "Spring",
-    "Express",
-    "Next.js",
-    "Gatsby",
-    "Svelte",
-    "Ember",
-    "Elixir",
-    "Scala",
-    "Perl",
-    "Bash",
-    "SQL",
-    "MongoDB",
-    "PostgreSQL",
-    "MySQL",
-    "Redis",
-    "AWS",
-    "Azure",
-    "GCP",
-    "Docker",
-    "Kubernetes",
-    "Git",
-    "Figma",
-    "Sketch",
-    "Photoshop",
-    "Illustrator",
-    "DevOps",
-    "CI/CD",
-    "Test-Driven Development",
-    "Machine Learning",
-    "Artificial Intelligence",
-    "Blockchain",
-    "Cybersecurity",
-    "Mobile Development",
-    "Game Development",
-    "GraphQL",
-    "WebAssembly",
-    "Accessibility",
-    "User Experience",
-  ];
 
   const filteredSkills = allSkills.filter((skill) =>
     skill.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -133,7 +69,7 @@ export default function SkillsForm({ control, t }) {
                         setSearchTerm("");
                       }}
                     >
-                      {skill}
+                      {t(`skills.availableSkills.${skill}`)}
                     </div>
                   ))}
                   {searchTerm && !filteredSkills.includes(searchTerm) && (
@@ -166,7 +102,10 @@ export default function SkillsForm({ control, t }) {
                 className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
               >
                 <div className="flex-1">
-                  <div className="text-sm font-medium">{skill.name}</div>
+                  <div className="text-sm font-medium">
+                    {" "}
+                    {t(`skills.availableSkills.${skill.name}`)}
+                  </div>
                 </div>
                 <div className="w-48">
                   <Select

@@ -75,7 +75,7 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
     <ul className="text-gray-700 mt-2 sm:text-[12px] text-[8px]">
       {resumeData.skills?.map((skill, index) => (
         <li key={index}>
-          {skill.name} - {skill.level}
+          {t.availableSkills[`${skill.name}`]} - {skill.level}
         </li>
       ))}
     </ul>

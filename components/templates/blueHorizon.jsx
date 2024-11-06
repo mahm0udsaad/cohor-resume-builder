@@ -100,7 +100,7 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
                   paddingBottom: "10px",
                 }}
               >
-                {skill.name}
+                {t.availableSkills[`${skill.name}`]}
               </p>
               <div
                 style={{

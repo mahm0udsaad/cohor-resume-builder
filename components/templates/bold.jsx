@@ -105,7 +105,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
           </h2>
           <ul className="list-disc list-inside text-sm">
             {resumeData.skills?.map((skill, index) => (
-              <li key={index}>{skill.name}</li>
+              <li key={index}>{t.availableSkills[`${skill.name}`]}</li>
             ))}
           </ul>
         </section>

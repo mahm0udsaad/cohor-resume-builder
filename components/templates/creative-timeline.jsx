@@ -197,7 +197,7 @@ function CreativeTimelineResumeTemplate({
                   fontSize: "0.9rem",
                 }}
               >
-                {skill.name}
+                {t.availableSkills[`${skill.name}`]}
               </span>
             ))}
           </div>

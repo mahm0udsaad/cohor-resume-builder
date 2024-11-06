@@ -7,4 +7,20 @@
 ## TO FIX
 
 1 - the use theme it returns the initial data after refresh
-1 - Fix the layout and styles for all the react components and pdf-views
+1 - Fix the layout and styles for all the react components and pdf-views :
+[
+creativeTimeLine,
+BlueHorizon,
+elegantModern,
+bold,
+professional,
+gridLayout,
+modern,
+creative,
+formal,
+glow,
+elegant,
+ProfessionalSidebar,
+minimal,
+classic,
+];

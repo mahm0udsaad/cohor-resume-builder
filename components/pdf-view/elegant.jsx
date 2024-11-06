@@ -190,7 +190,7 @@ const ElegantResume = ({ resumeData }) => {
             {resumeData.skills?.map((skill, index) => (
               <View key={index} style={styles.skillItem}>
                 <Text>•</Text>
-                <Text>{skill.name}</Text>
+                <Text>{t.availableSkills[`${skill.name}`]}</Text>
               </View>
             ))}
           </View>

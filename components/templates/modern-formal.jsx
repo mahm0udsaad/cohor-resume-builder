@@ -1,4 +1,4 @@
-import { translations } from "@/data/data";
+import { allSkills, translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 
 // Assuming data, t, formatDate, and isArabic are passed in as props
@@ -170,8 +170,8 @@ export default function ModernFormalResumeTemplate({
                     marginBottom: "5px",
                   }}
                 >
-                  <span>{skill.name}</span>
-                  <span>{t[skill.level]}</span>
+                  <span>{t.availableSkills[`${skill.name}`]}</span>
+                  {/* Translates skill name */}
                 </div>
                 <div
                   style={{
@@ -183,7 +183,7 @@ export default function ModernFormalResumeTemplate({
                 >
                   <div
                     style={{
-                      width: `${getSkillLevel(skill.level)}`,
+                      width: `${getSkillLevel(skill.level)}`, // Ensure getSkillLevel() returns a valid percentage
                       height: "100%",
                       backgroundColor: theme.primaryColor,
                       transition: "width 0.5s ease-in-out",

@@ -131,7 +131,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
             {resumeData.skills?.map((skill, index) => (
               <li key={index}>
-                {skill.name} - ({t[skill.level] || skill.level})
+                {t.availableSkills[`${skill.name}`]} - (
+                {t[skill.level] || skill.level})
               </li>
             ))}
           </ul>

@@ -243,7 +243,8 @@ const Modern = ({ resumeData }) => {
                   <View key={index} style={styles.skillItem}>
                     <Text>•</Text>
                     <Text>
-                      {skill.name} - ({t[skill.level] || skill.level})
+                      {t.availableSkills[`${skill.name}`]} - (
+                      {t[skill.level] || skill.level})
                     </Text>
                   </View>
                 ))}

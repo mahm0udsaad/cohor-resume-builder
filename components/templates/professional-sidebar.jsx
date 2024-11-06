@@ -73,7 +73,7 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme }) => {
               key={index}
               className="bg-white bg-opacity-20 text-white py-1 px-3 rounded-lg text-xs mr-2 mb-2"
             >
-              {skill.name}
+              {t.availableSkills[`${skill.name}`]}
             </span>
           ))}
         </div>

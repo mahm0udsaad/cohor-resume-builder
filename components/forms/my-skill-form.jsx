@@ -190,7 +190,9 @@ export default function SkillCard({ user, lng }) {
               className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border-b"
             >
               <div className="flex-1">
-                <h3 className="font-medium text-main">{skill.name}</h3>
+                <h3 className="font-medium text-main">
+                  {t.availableSkills[`${skill.name}`]}
+                </h3>
               </div>
               <div className="w-48">
                 <Select

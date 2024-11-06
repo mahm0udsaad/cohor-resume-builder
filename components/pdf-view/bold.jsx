@@ -233,7 +233,7 @@ const BoldTemplate = ({ resumeData }) => {
             <View style={styles.skillsList}>
               {resumeData.skills?.map((skill, index) => (
                 <Text key={index} style={styles.skillItem}>
-                  • {skill.name}
+                  • {t.availableSkills[`${skill.name}`]}
                 </Text>
               ))}
             </View>

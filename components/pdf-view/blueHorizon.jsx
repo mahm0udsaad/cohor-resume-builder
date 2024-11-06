@@ -132,7 +132,9 @@ export default function BlueHorizonPDF({ resumeData }) {
             <Text style={styles.sectionTitle}>{t.skills}</Text>
             {resumeData.skills.map((skill, index) => (
               <View key={index}>
-                <Text style={styles.text}>{skill.name}</Text>
+                <Text style={styles.text}>
+                  {t.availableSkills[`${skill.name}`]}
+                </Text>
                 <View style={styles.skillBar}>
                   <View
                     style={[

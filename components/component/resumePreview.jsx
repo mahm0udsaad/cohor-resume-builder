@@ -49,7 +49,7 @@ const Resume = ({ resumeData, selectedTheme }) => {
       {resumeData.skills[0]?.name &&
         resumeData.skills.map((skill, index) => (
           <li key={index}>
-            {skill.name} - {skill.level}
+            {t.availableSkills[`${skill.name}`]} - {skill.level}
           </li>
         ))}
     </ul>
@@ -208,7 +208,7 @@ const ModifiedResumeTemplate = ({ resumeData, selectedTheme }) => {
           </h2>
           <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
             {resumeData.skills?.map((skill, index) => (
-              <li key={index}>{skill.name}</li>
+              <li key={index}>{t.availableSkills[`${skill.name}`]}</li>
             ))}
           </ul>
         </section>

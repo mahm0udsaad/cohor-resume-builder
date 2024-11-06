@@ -178,7 +178,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
             <View style={styles.skills}>
               {resumeData.skills.map((skill, index) => (
                 <Text key={index} style={styles.skillBadge}>
-                  {skill.name}
+                  {t.availableSkills[`${skill.name}`]}
                 </Text>
               ))}
             </View>

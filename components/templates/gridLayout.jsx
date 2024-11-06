@@ -195,7 +195,7 @@ export default function GridLayoutResume({
           <ul style={styles.skillsList}>
             {resumeData.skills.map((skill, index) => (
               <li key={index} style={styles.skillItem}>
-                {skill.name} ({skill.level})
+                {t.availableSkills[`${skill.name}`]} ({skill.level})
               </li>
             ))}
           </ul>

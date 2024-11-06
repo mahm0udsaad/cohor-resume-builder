@@ -67,7 +67,7 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
               <ul className="list-none">
                 {resumeData.skills?.map((skill, index) => (
                   <li key={index} className="text-sm mb-1 sm:text-xs">
-                    • {skill.name}
+                    • {t.availableSkills[`${skill.name}`]}
                   </li>
                 ))}
               </ul>

@@ -10,76 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RocketIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import AutoSubscriptionModal from "@/components/cards/auto-subscription-modal";
-
-const templates = [
-  {
-    category: "creativeTimeLine",
-    name: "creativeTimeLine",
-    image: "/templates/creativeTimeLine.png",
-  },
-  {
-    category: "BlueHorizon",
-    name: "BlueHorizon",
-    image: "/templates/BlueHorizon.png",
-  },
-  {
-    name: "elegantModern",
-    image: "/templates/elegantModern.png",
-  },
-  {
-    name: "modernFormal",
-    image: "/templates/modernFormal.png",
-  },
-  {
-    name: "bold",
-    image: "/templates/bold.png",
-  },
-  {
-    name: "professional",
-    image: "/templates/professional.png",
-  },
-  {
-    category: "gridLayout",
-    name: "gridLayout",
-    image: "/templates/gridLayout.png",
-  },
-  {
-    category: "modern",
-    name: "modern",
-    image: "/templates/modern.png",
-  },
-  {
-    name: "creative",
-    image: "/templates/creative.png",
-  },
-  {
-    name: "formal",
-    image: "/templates/formal.png",
-  },
-  {
-    category: "glow",
-    name: "glow",
-    image: "/templates/glow.png",
-  },
-  {
-    name: "elegant",
-    image: "/templates/elegant.png",
-  },
-  {
-    category: "ProfessionalSidebar",
-    name: "ProfessionalSidebar",
-    image: "/templates/ProfessionalSidebar.png",
-  },
-  {
-    name: "minimal",
-    image: "/templates/minimal.png",
-  },
-  {
-    category: "classic",
-    name: "classic",
-    image: "/templates/classic.png",
-  },
-];
+import { templates } from "@/data/data";
 
 export default async function TemplateGallery({
   params: { lng },

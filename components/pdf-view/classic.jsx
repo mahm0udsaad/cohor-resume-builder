@@ -154,7 +154,7 @@ const Classic = ({ resumeData }) => {
       {resumeData.skills[0]?.name &&
         resumeData.skills.map((skill, index) => (
           <Text key={index}>
-            {skill.name} - {skill.level}
+            {t.availableSkills[`${skill.name}`]} - {skill.level}
           </Text>
         ))}
     </View>
