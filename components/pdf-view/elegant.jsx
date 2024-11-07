@@ -38,6 +38,7 @@ const createStyles = (theme, isArabic) =>
     },
     contactInfo: {
       flexDirection: isArabic ? "row-reverse" : "row",
+      flexWrap: "wrap",
       fontSize: 10,
       color: "#999",
     },
@@ -90,7 +91,7 @@ const createStyles = (theme, isArabic) =>
       marginBottom: 4,
     },
     skillsGrid: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       flexWrap: "wrap",
     },
     skillItem: {
@@ -151,10 +152,22 @@ const ElegantResume = ({ resumeData }) => {
           {resumeData.experiences?.map((job, index) => (
             <View key={index} style={styles.experienceItem}>
               <Text style={styles.experienceTitle}>{job.jobTitle}</Text>
-              <Text style={styles.companyInfo}>
-                {job.company} | {formatDate(job.startDate)} -{" "}
-                {formatDate(job.endDate, resumeData.lng)}
-              </Text>
+              <View
+                style={{
+                  flexDirection: isArabic ? "row-reverse" : "row",
+                  display: "flex",
+                  gap: 4,
+                }}
+              >
+                <Text style={styles.companyInfo}>{job.company}</Text>
+                <Text style={styles.companyInfo}>
+                  {formatDate(job.startDate)}
+                </Text>
+                <Text style={styles.companyInfo}> -</Text>
+                <Text style={styles.companyInfo}>
+                  {formatDate(job.endDate, resumeData.lng)}
+                </Text>
+              </View>
               <Text style={styles.responsibilities}>
                 {job.responsibilities}
               </Text>
@@ -168,9 +181,19 @@ const ElegantResume = ({ resumeData }) => {
           {resumeData.educations?.map((edu, index) => (
             <View key={index} style={styles.educationItem}>
               <Text style={styles.degree}>{edu.degree}</Text>
-              <Text style={styles.institution}>
-                {edu.institution} | {formatDate(edu.graduationDate)}
-              </Text>
+              <View
+                style={{
+                  flexDirection: isArabic ? "row-reverse" : "row",
+                  display: "flex",
+                  gap: 4,
+                }}
+              >
+                <Text style={styles.institution}>{edu.institution}</Text>
+                <Text style={styles.companyInfo}> |</Text>
+                <Text style={styles.companyInfo}>
+                  {formatDate(edu.graduationDate)}
+                </Text>
+              </View>
               {edu.gpaType === "numeric" && (
                 <Text style={styles.institution}>GPA: {edu.numericGpa}</Text>
               )}

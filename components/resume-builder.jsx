@@ -69,7 +69,7 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
       <div className="container-xl mx-auto p-4">
         <div className={`grid grid-cols-1 md:grid-cols-2 gap-8`}>
           {/* Resume Form Column */}
-          <div className="z-50 space-y-6 flex flex-col ">
+          <div className="space-y-6 flex flex-col ">
             <Tabs
               value={activeTab}
               onValueChange={handleTabChange}

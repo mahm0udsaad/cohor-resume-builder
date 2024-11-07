@@ -154,10 +154,20 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
                 <Text style={styles(theme, lng).subHeading}>
                   {exp.jobTitle} {t.at} {exp.company}
                 </Text>
-                <Text style={{ ...styles(theme, lng).text, fontSize: 10 }}>
-                  {formatDate(exp.startDate)} -{" "}
-                  {formatDate(exp.endDate, resumeData.lng)}
-                </Text>
+                <View
+                  style={{
+                    flexDirection: lng === "ar" ? "row-reverse" : "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={styles(theme, lng).text}>
+                    {formatDate(exp.startDate)}
+                  </Text>
+                  <Text style={styles(theme, lng).text}>-</Text>
+                  <Text style={styles(theme, lng).text}>
+                    {formatDate(exp.endDate, resumeData.lng)}
+                  </Text>
+                </View>
                 <Text style={styles(theme, lng).text}>
                   {exp.responsibilities}
                 </Text>
@@ -172,9 +182,29 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
               <View key={index} style={{ marginBottom: 10 }}>
                 <Text style={styles(theme, lng).subHeading}>{edu.degree}</Text>
                 <Text style={styles(theme, lng).text}>{edu.institution}</Text>
-                <Text style={{ fontSize: 10 }}>
+                <Text style={styles(theme, lng).text}>
                   {formatDate(edu.graduationDate)}
                 </Text>
+                {edu.gpaType === "numeric" && (
+                  <Text
+                    style={[
+                      styles(theme, lng).text,
+                      { marginTop: 2, fontSize: 10 },
+                    ]}
+                  >
+                    GPA: {edu.numericGpa}
+                  </Text>
+                )}
+                {edu.gpaType === "descriptive" && (
+                  <Text
+                    style={[
+                      styles(theme, lng).text,
+                      { marginTop: 2, fontSize: 10 },
+                    ]}
+                  >
+                    GPA: {edu.descriptiveGpa}
+                  </Text>
+                )}
               </View>
             ))}
           </View>
@@ -202,10 +232,10 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
             <Text style={styles(theme, lng).heading}>{t.languages}</Text>
             <View style={styles(theme, lng).list}>
               {resumeData.languages.map((lang, index) => (
-                <Text key={index}>
+                <Text key={index} style={styles(theme, lng).text}>
                   <Text>{lang.name}:</Text>{" "}
                   <Text style={styles(theme, lng).text}>
-                    t[lang.proficiency.toLowerCase()]
+                    {t[lang.proficiency.toLowerCase()]}
                   </Text>
                 </Text>
               ))}
@@ -231,12 +261,7 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
                     <Text style={styles(theme, lng).text}>
                       {course.institution}
                     </Text>
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        textAlign: lng === "ar" ? "right" : "left",
-                      }}
-                    >
+                    <Text style={styles(theme, lng).text}>
                       {formatDate(course.completionDate)}
                     </Text>
                   </View>

@@ -1,4 +1,5 @@
 import { translations } from "@/data/data";
+import { formatDate } from "@/helper/date";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -17,7 +18,7 @@ export default function MinimalistTwoColorResumeTemplate({
   const t = translations[resumeData.lng] || translations.en;
 
   const sectionStyle = {
-    marginBottom: "2rem",
+    marginBottom: "0.5rem",
   };
 
   const headingStyle = {
@@ -141,7 +142,8 @@ export default function MinimalistTwoColorResumeTemplate({
                   fontStyle: "italic",
                 }}
               >
-                {exp.startDate} - {exp.endDate}
+                {formatDate(exp.startDate)} -{" "}
+                {formatDate(exp.endDate, resumeData.lng)}
               </p>
               <p style={textStyle}>{exp.responsibilities}</p>
             </div>
@@ -156,7 +158,7 @@ export default function MinimalistTwoColorResumeTemplate({
               <h4 style={subHeadingStyle}>{edu.degree}</h4>
               <p style={textStyle}>{edu.institution}</p>
               <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
-                {edu.graduationDate}
+                {formatDate(edu.graduationDate)}
               </p>
               {edu.gpaType === "numeric" && (
                 <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
@@ -230,7 +232,7 @@ export default function MinimalistTwoColorResumeTemplate({
                   </h4>
                   <p style={textStyle}>{course.institution}</p>
                   <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
-                    {course.completionDate}
+                    {formatDate(course.completionDate)}
                   </p>
                 </div>
               ))}

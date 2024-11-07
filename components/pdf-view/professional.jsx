@@ -24,8 +24,7 @@ const createStyles = (selectedTheme, isRTL) =>
       paddingTop: 5,
     },
     section: {
-      paddingBottom: 15,
-      borderBottom: `0.5 solid ${selectedTheme?.primaryColor}`,
+      borderTop: `0.5 solid ${selectedTheme?.primaryColor}`,
       marginBottom: 10,
     },
     header: {
@@ -63,6 +62,7 @@ const createStyles = (selectedTheme, isRTL) =>
       fontFamily: isRTL ? "IBM Plex Sans Arabic" : "Times-Bold",
       color: selectedTheme?.primaryColor,
       marginBottom: 8,
+      paddingTop: 4,
     },
     text: {
       fontSize: 8,
@@ -93,6 +93,20 @@ const createStyles = (selectedTheme, isRTL) =>
       borderRadius: 5,
       marginRight: 8,
     },
+    gridSection: {
+      paddingTop: 2,
+      borderTop: `0.5 solid ${selectedTheme?.primaryColor}`,
+      flexDirection: isRTL ? "row-reverse" : "row",
+      flexWrap: "wrap",
+      marginBottom: 4,
+    },
+    gridItem: {
+      fontSize: 10,
+      gap: 2,
+      padding: 2,
+      width: "50%",
+      color: "#666",
+    },
   });
 
 const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
@@ -122,12 +136,12 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
           </View>
           {resumeData.personalInfo?.imageUrl && (
             <Image
-              src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
+              src={resumeData.personalInfo.imageUrl}
               style={{
                 width: 100,
                 height: 100,
                 borderRadius: "50%",
-                border: `2 solid ${selectedTheme?.primaryColor}`,
+                border: `1 solid ${selectedTheme?.primaryColor}`,
               }}
             />
           )}
@@ -155,53 +169,23 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
             <View key={index} style={styles.experienceSection}>
               <Text style={styles.experienceTitle}>{exp.jobTitle}</Text>
               <Text style={styles.company}>{exp.company}</Text>
-              <Text style={styles.date}>
-                {`${formatDate(exp.startDate, resumeData.lng)} - ${formatDate(
-                  exp.endDate,
-                  resumeData.lng,
-                )}`}
-              </Text>
+              <View
+                style={{
+                  flexDirection: isRTL ? "row-reverse" : "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.date}>{formatDate(exp.startDate)}</Text>
+                <Text style={styles.date}>-</Text>
+                <Text style={styles.date}>
+                  {formatDate(exp.endDate, resumeData.lng)}
+                </Text>
+              </View>
               <Text style={styles.text}>{exp.responsibilities}</Text>
             </View>
           ))}
         </View>
-        {/* Skills Section */}
-        <View wrap={false} style={styles.section}>
-          <Text style={styles.sectionTitle}>{t.skills}</Text>
-          <View
-            style={{
-              flexDirection: isRTL ? "row-reverse" : "row",
-              flexWrap: "wrap",
-              gap: 2,
-            }}
-          >
-            {resumeData.skills?.map((skill, index) => (
-              <Text key={index} style={styles.skillBadge}>
-                {t.availableSkills[`${skill.name}`]} - (
-                {t[skill.level] || skill.level})
-              </Text>
-            ))}
-          </View>
-        </View>
-        {/* Languages Section */}
-        {resumeData.languages[0]?.name.trim() !== "" && (
-          <View wrap={false} style={styles.section}>
-            <Text style={styles.sectionTitle}>{t.languages}</Text>
-            <View
-              style={{
-                flexDirection: isRTL ? "row-reverse" : "row",
-                flexWrap: "wrap",
-                gap: 2,
-              }}
-            >
-              {resumeData.languages?.map((lang, index) => (
-                <Text key={index} style={styles.skillBadge}>
-                  {lang.name} - ({t[lang.proficiency.toLowerCase()]})
-                </Text>
-              ))}
-            </View>
-          </View>
-        )}
+
         {/* Education Section */}
         <View wrap={false} style={styles.section}>
           <Text style={styles.sectionTitle}>{t.education}</Text>
@@ -214,6 +198,46 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
               </Text>
             </View>
           ))}
+        </View>
+
+        {/* Skills Section */}
+        <View wrap={false} style={styles.gridSection}>
+          <View style={styles.gridItem}>
+            <Text style={styles.sectionTitle}>{t.skills}</Text>
+            <View
+              style={{
+                flexDirection: isRTL ? "row-reverse" : "row",
+                flexWrap: "wrap",
+                gap: 2,
+              }}
+            >
+              {resumeData.skills?.map((skill, index) => (
+                <Text key={index} style={styles.skillBadge}>
+                  {t.availableSkills[`${skill.name}`]} - (
+                  {t[skill.level] || skill.level})
+                </Text>
+              ))}
+            </View>
+          </View>
+          {/* Languages Section */}
+          {resumeData.languages[0]?.name.trim() !== "" && (
+            <View style={styles.gridItem}>
+              <Text style={styles.sectionTitle}>{t.languages}</Text>
+              <View
+                style={{
+                  flexDirection: isRTL ? "row-reverse" : "row",
+                  flexWrap: "wrap",
+                  gap: 2,
+                }}
+              >
+                {resumeData.languages?.map((lang, index) => (
+                  <Text key={index} style={styles.skillBadge}>
+                    {lang.name} - ({t[lang.proficiency.toLowerCase()]})
+                  </Text>
+                ))}
+              </View>
+            </View>
+          )}
         </View>
       </Page>
     </Document>

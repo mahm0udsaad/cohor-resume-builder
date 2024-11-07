@@ -118,12 +118,13 @@ export default function GridLayoutResume({
     skillItem: {
       backgroundColor: theme.primaryColor, // Primary color for skill item background
       color: theme.backgroundColor, // Inverse text color for contrast
-      padding: "5px 10px",
+      padding: "5px 5px",
       borderRadius: "15px",
       fontSize: "12px",
       textAlign: "center",
     },
     languageItem: {
+      textAlign: "center",
       backgroundColor: theme.primaryColor, // Primary color for language item background
       color: theme.backgroundColor, // Inverse text color for contrast
       padding: "5px 10px",
@@ -186,6 +187,14 @@ export default function GridLayoutResume({
               <p style={styles.sectionContent}>
                 {edu.institution}, Graduated {formatDate(edu.graduationDate)}
               </p>
+              {edu.gpaType === "numeric" && (
+                <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
+              )}
+              {edu.gpaType === "descriptive" && (
+                <p className="text-sm text-gray-600">
+                  GPA: {edu.descriptiveGpa}
+                </p>
+              )}
             </div>
           ))}
         </section>
@@ -195,7 +204,8 @@ export default function GridLayoutResume({
           <ul style={styles.skillsList}>
             {resumeData.skills.map((skill, index) => (
               <li key={index} style={styles.skillItem}>
-                {t.availableSkills[`${skill.name}`]} ({skill.level})
+                {t.availableSkills[`${skill.name}`]} (
+                {t.levels[skill.level.toLowerCase()]})
               </li>
             ))}
           </ul>
@@ -203,7 +213,7 @@ export default function GridLayoutResume({
 
         <section style={styles.section}>
           <h2 style={styles.sectionTitle}>{t.languages}</h2>
-          <div>
+          <div style={styles.skillsList}>
             {resumeData.languages.map((lang, index) => (
               <span key={index} style={styles.languageItem}>
                 {lang.name} ({t[lang.proficiency.toLowerCase()]})

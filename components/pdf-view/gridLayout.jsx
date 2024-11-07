@@ -35,38 +35,38 @@ export default function GridLayoutResumePDF({ resumeData }) {
       display: "flex",
       flexDirection: "column",
       padding: 10,
-      textAlign: direction, // RTL or LTR
+      textAlign: direction,
     },
     container: {
       display: "flex",
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       justifyContent: "space-between",
       gap: 20,
     },
     header: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       backgroundColor: theme.primaryColor,
       borderRadius: 8,
       padding: 20,
-      alignItems: "center",
       marginBottom: 14,
     },
     avatar: {
       width: 120,
       height: 120,
-      borderRadius: 60,
-      objectFit: "cover",
+      borderRadius: "50%",
       border: `2px solid ${theme.accentColor}`,
     },
     headerInfo: {
       marginLeft: 20,
     },
     name: {
+      textAlign: direction,
       fontSize: 32,
       fontWeight: "bold",
       color: "#ffffff",
     },
     jobTitle: {
+      textAlign: direction,
       fontSize: 18,
       color: "#d1d5db",
       marginTop: 5,
@@ -78,11 +78,11 @@ export default function GridLayoutResumePDF({ resumeData }) {
       marginBottom: 14,
     },
     sectionTitle: {
-      textAlign: direction, // RTL or LTR
+      textAlign: direction,
       fontSize: 20,
       fontWeight: "bold",
       color: theme.accentColor,
-      borderBottom: `1px solid ${theme.primaryColor}`,
+      borderBottom: `1px solid ${theme.accentColor}`,
       paddingBottom: 10,
       marginBottom: 15,
     },
@@ -106,7 +106,7 @@ export default function GridLayoutResumePDF({ resumeData }) {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 5,
+      gap: 2,
     },
     skillItem: {
       backgroundColor: theme.primaryColor,
@@ -114,9 +114,11 @@ export default function GridLayoutResumePDF({ resumeData }) {
       padding: "5px 10px",
       borderRadius: 15,
       fontSize: 9,
+      textAlign: "center",
       fontWeight: "bold",
     },
     languageItem: {
+      textAlign: "center",
       backgroundColor: theme.primaryColor,
       color: theme.backgroundColor,
       padding: 6,
@@ -126,7 +128,7 @@ export default function GridLayoutResumePDF({ resumeData }) {
     },
     contactInfo: {
       display: "flex",
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       flexWrap: "wrap",
       color: "#d1d5db",
       gap: 6,
@@ -181,20 +183,23 @@ export default function GridLayoutResumePDF({ resumeData }) {
                 </View>
               ))}
             </View>
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t.courses}</Text>
-              {resumeData.courses.map((course, index) => (
-                <View key={index} style={styles.experienceItem}>
-                  <Text style={styles.subHeader}>{course.name}</Text>
-                  <Text style={styles.sectionContent}>
-                    {course.institution}
-                  </Text>
-                  <Text style={styles.sectionContent}>
-                    {formatDate(course.completionDate)}
-                  </Text>
+            {resumeData.courses.length !== 0 &&
+              resumeData.courses[0]?.name.trim() !== "" && (
+                <View style={styles.section}>
+                  <Text style={styles.sectionTitle}>{t.courses}</Text>
+                  {resumeData.courses.map((course, index) => (
+                    <View key={index} style={styles.experienceItem}>
+                      <Text style={styles.subHeader}>{course.name}</Text>
+                      <Text style={styles.sectionContent}>
+                        {course.institution}
+                      </Text>
+                      <Text style={styles.sectionContent}>
+                        {formatDate(course.completionDate)}
+                      </Text>
+                    </View>
+                  ))}
                 </View>
-              ))}
-            </View>
+              )}
           </View>
 
           <View style={{ flex: 1 }}>
@@ -204,6 +209,16 @@ export default function GridLayoutResumePDF({ resumeData }) {
                 <View key={index} style={styles.experienceItem}>
                   <Text style={styles.subHeader}>{edu.degree}</Text>
                   <Text style={styles.sectionContent}>{edu.institution}</Text>
+                  {edu.gpaType === "numeric" && (
+                    <Text style={{ marginTop: 2, fontSize: 10 }}>
+                      GPA: {edu.numericGpa}
+                    </Text>
+                  )}
+                  {edu.gpaType === "descriptive" && (
+                    <Text style={{ marginTop: 2, fontSize: 10 }}>
+                      GPA: {edu.descriptiveGpa}
+                    </Text>
+                  )}
                 </View>
               ))}
             </View>
@@ -212,9 +227,22 @@ export default function GridLayoutResumePDF({ resumeData }) {
               <Text style={styles.sectionTitle}>{t.skills}</Text>
               <View style={styles.skillsList}>
                 {resumeData.skills.map((skill, index) => (
-                  <Text key={index} style={styles.skillItem}>
-                    {t.availableSkills[`${skill.name}`]} ({skill.level})
-                  </Text>
+                  <View key={index} style={styles.skillItem}>
+                    <Text
+                      style={{
+                        textAlign: "center",
+                      }}
+                    >
+                      {t.availableSkills[`${skill.name}`]}
+                    </Text>
+                    <Text
+                      style={{
+                        textAlign: "center",
+                      }}
+                    >
+                      ({t.levels[skill.level.toLowerCase()]})
+                    </Text>
+                  </View>
                 ))}
               </View>
             </View>
@@ -223,9 +251,22 @@ export default function GridLayoutResumePDF({ resumeData }) {
               <Text style={styles.sectionTitle}>{t.languages}</Text>
               <View style={styles.skillsList}>
                 {resumeData.languages.map((lang, index) => (
-                  <Text key={index} style={styles.languageItem}>
-                    {lang.name} ({t[lang.proficiency.toLowerCase()]})
-                  </Text>
+                  <View key={index} style={styles.languageItem}>
+                    <Text
+                      style={{
+                        textAlign: "center",
+                      }}
+                    >
+                      {lang.name}
+                    </Text>
+                    <Text
+                      style={{
+                        textAlign: "center",
+                      }}
+                    >
+                      ({t[lang.proficiency.toLowerCase()]})
+                    </Text>
+                  </View>
                 ))}
               </View>
             </View>
