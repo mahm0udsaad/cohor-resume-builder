@@ -77,9 +77,7 @@ export default function ModernFormalResumeTemplate({
           }}
         >
           {resumeData.personalInfo.contact?.map((item, index) => (
-            <p key={index} style={{ margin: "5px 0" }}>
-              {item}
-            </p>
+            <p key={index}>{item}</p>
           ))}
         </div>
       </header>
@@ -145,6 +143,14 @@ export default function ModernFormalResumeTemplate({
                 <p style={{ margin: "5px 0", color: "#7f8c8d" }}>
                   {edu.institution}, {formatDate(edu.graduationDate)}
                 </p>
+                {edu.gpaType === "numeric" && (
+                  <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
+                )}
+                {edu.gpaType === "descriptive" && (
+                  <p className="text-sm text-gray-600">
+                    GPA: {edu.descriptiveGpa}
+                  </p>
+                )}
               </div>
             ))}
           </section>
@@ -194,25 +200,8 @@ export default function ModernFormalResumeTemplate({
             ))}
           </section>
 
-          <section style={{ marginBottom: "30px" }}>
-            <h3
-              style={{
-                color: theme.primaryColor,
-                borderBottom: `1px solid ${theme.primaryColor}`,
-                paddingBottom: "10px",
-              }}
-            >
-              {t.languages}
-            </h3>
-            {resumeData.languages.map((lang, index) => (
-              <p key={index} style={{ margin: "5px 0" }}>
-                <strong>{lang.name}:</strong> {lang.proficiency}
-              </p>
-            ))}
-          </section>
-
-          {resumeData.courses[0]?.name.trim() !== "" && (
-            <section>
+          {resumeData.languages.length !== 0 && (
+            <section style={{ marginBottom: "30px" }}>
               <h3
                 style={{
                   color: theme.primaryColor,
@@ -220,20 +209,40 @@ export default function ModernFormalResumeTemplate({
                   paddingBottom: "10px",
                 }}
               >
-                {t.courses}
+                {t.languages}
               </h3>
-              {resumeData.courses.map((course, index) => (
-                <div key={index} style={{ marginBottom: "10px" }}>
-                  <h4 style={{ margin: "0", color: "#2c3e50" }}>
-                    {course.name}
-                  </h4>
-                  <p style={{ margin: "5px 0", color: "#7f8c8d" }}>
-                    {course.institution}, {formatDate(course.completionDate)}
-                  </p>
-                </div>
+              {resumeData.languages.map((lang, index) => (
+                <p key={index} style={{ margin: "5px 0" }}>
+                  <strong>{lang.name}:</strong>{" "}
+                  {t[lang.proficiency.toLowerCase()]}
+                </p>
               ))}
             </section>
           )}
+          {resumeData.courses.length !== 0 &&
+            resumeData.courses[0]?.name.trim() !== "" && (
+              <section>
+                <h3
+                  style={{
+                    color: theme.primaryColor,
+                    borderBottom: `1px solid ${theme.primaryColor}`,
+                    paddingBottom: "10px",
+                  }}
+                >
+                  {t.courses}
+                </h3>
+                {resumeData.courses.map((course, index) => (
+                  <div key={index} style={{ marginBottom: "10px" }}>
+                    <h4 style={{ margin: "0", color: "#2c3e50" }}>
+                      {course.name}
+                    </h4>
+                    <p style={{ margin: "5px 0", color: "#7f8c8d" }}>
+                      {course.institution}, {formatDate(course.completionDate)}
+                    </p>
+                  </div>
+                ))}
+              </section>
+            )}
         </aside>
       </main>
     </div>

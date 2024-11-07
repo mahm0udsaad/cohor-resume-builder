@@ -42,7 +42,7 @@ export default function ModernFormalResumeTemplatePDF({
 
   const styles = StyleSheet.create({
     page: {
-      fontFamily: isArabic ? "Amiri" : "Helvetica",
+      fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
       padding: 20,
       backgroundColor: theme.backgroundColor,
       color: "#333",
@@ -62,6 +62,7 @@ export default function ModernFormalResumeTemplatePDF({
       paddingBottom: 10,
     },
     sectionTitle: {
+      textAlign: isArabic ? "right" : "left",
       color: theme.primaryColor,
       borderBottom: `1px solid ${theme.primaryColor}`,
       paddingBottom: 10,
@@ -149,12 +150,27 @@ export default function ModernFormalResumeTemplatePDF({
                     <Text style={{ fontWeight: "bold", fontSize: 16 }}>
                       {job.jobTitle}
                     </Text>
-                    <Text style={{ paddingVertical: 4 }}>{`${
-                      job.company
-                    } | ${formatDate(job.startDate)} - ${formatDate(
-                      job.endDate,
-                      resumeData.lng,
-                    )}`}</Text>
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: isArabic ? "row-reverse" : "row",
+                        gap: 4,
+                        paddingVertical: 4,
+                      }}
+                    >
+                      <Text>{job.company}</Text>|
+                      <View
+                        style={{
+                          display: "flex",
+                          flexDirection: isArabic ? "row-reverse" : "row",
+                          gap: 4,
+                        }}
+                      >
+                        <Text>{formatDate(job.startDate)}</Text>
+                        <Text>-</Text>
+                        <Text>{formatDate(job.endDate, resumeData.lng)}</Text>
+                      </View>
+                    </View>
                     <Text>{job.responsibilities}</Text>
                   </View>
                 ))}
@@ -168,6 +184,16 @@ export default function ModernFormalResumeTemplatePDF({
                     <Text style={{ marginTop: 4 }}>{`${
                       edu.institution
                     }, ${formatDate(edu.graduationDate)}`}</Text>
+                    {edu.gpaType === "numeric" && (
+                      <Text style={{ marginTop: 2, fontSize: 10 }}>
+                        GPA: {edu.numericGpa}
+                      </Text>
+                    )}
+                    {edu.gpaType === "descriptive" && (
+                      <Text style={{ marginTop: 2, fontSize: 10 }}>
+                        GPA: {edu.descriptiveGpa}
+                      </Text>
+                    )}
                   </View>
                 ))}
               </View>
@@ -198,26 +224,32 @@ export default function ModernFormalResumeTemplatePDF({
                 ))}
               </View>
 
-              <View>
-                <Text style={styles.sectionTitle}>{t.languages}</Text>
-                {resumeData.languages.map((lang, index) => (
-                  <Text key={index} style={styles.content}>
-                    {`${lang.name}: ${lang.proficiency}`}
-                  </Text>
-                ))}
-              </View>
-
-              <View>
-                <Text style={styles.sectionTitle}>{t.courses}</Text>
-                {resumeData.courses.map((course, index) => (
-                  <View key={index} style={styles.content}>
-                    <Text>{course.name}</Text>
-                    <Text style={{ marginTop: 4 }}>{`${
-                      course.institution
-                    }, ${formatDate(course.completionDate)}`}</Text>
+              {resumeData.languages.length !== 0 &&
+                resumeData.languages[0]?.name.trim() !== "" && (
+                  <View>
+                    <Text style={styles.sectionTitle}>{t.languages}</Text>
+                    {resumeData.languages.map((lang, index) => (
+                      <Text key={index} style={styles.content}>
+                        {`${lang.name}: ${t[lang.proficiency.toLowerCase()]}`}
+                      </Text>
+                    ))}
                   </View>
-                ))}
-              </View>
+                )}
+
+              {resumeData.courses.length !== 0 &&
+                resumeData.courses[0]?.name.trim() !== "" && (
+                  <View>
+                    <Text style={styles.sectionTitle}>{t.courses}</Text>
+                    {resumeData.courses.map((course, index) => (
+                      <View key={index} style={styles.content}>
+                        <Text>{course.name}</Text>
+                        <Text style={{ marginTop: 4 }}>{`${
+                          course.institution
+                        }, ${formatDate(course.completionDate)}`}</Text>
+                      </View>
+                    ))}
+                  </View>
+                )}
             </View>
           </View>
         </View>

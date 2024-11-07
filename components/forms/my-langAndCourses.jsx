@@ -147,7 +147,9 @@ export default function LanguageAndCourseCard({ user, lng }) {
             >
               <div>
                 <h4 className="font-medium">{lang.name}</h4>
-                <p className="text-sm text-gray-600">{lang.proficiency}</p>
+                <p className="text-sm text-gray-600">
+                  t[lang.proficiency.toLowerCase()]
+                </p>
               </div>
               <div className="flex gap-2">
                 <Button

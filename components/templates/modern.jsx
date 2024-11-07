@@ -146,7 +146,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
             <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
               {resumeData.languages?.map((lang, index) => (
                 <li key={index}>
-                  {lang.name} - ({lang.proficiency})
+                  {lang.name} - ({t[lang.proficiency.toLowerCase()]})
                 </li>
               ))}
             </ul>

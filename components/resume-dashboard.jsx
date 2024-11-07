@@ -208,7 +208,7 @@ export function ResumeDashboard({ initialUserInfo }) {
               <li key={index} className="flex justify-between items-center">
                 <span>
                   <span className="font-semibold">{lang.name || "N/A"}</span> -{" "}
-                  {lang.proficiency || "N/A"}
+                  {t[lang.proficiency.toLowerCase()] || "N/A"}
                 </span>
                 <Button
                   variant="ghost"

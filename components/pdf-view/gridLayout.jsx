@@ -224,7 +224,7 @@ export default function GridLayoutResumePDF({ resumeData }) {
               <View style={styles.skillsList}>
                 {resumeData.languages.map((lang, index) => (
                   <Text key={index} style={styles.languageItem}>
-                    {lang.name} ({lang.proficiency})
+                    {lang.name} ({t[lang.proficiency.toLowerCase()]})
                   </Text>
                 ))}
               </View>

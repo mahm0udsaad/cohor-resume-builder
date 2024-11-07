@@ -204,7 +204,7 @@ const MinimalTemplate = ({ resumeData }) => {
               {resumeData.languages?.map((lang, index) => (
                 <View key={index} style={styles.skillItem}>
                   <Text>{lang.name}</Text>
-                  <Text> - {lang.proficiency}</Text>
+                  <Text> - {t[lang.proficiency.toLowerCase()]}</Text>
                 </View>
               ))}
             </View>

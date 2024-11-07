@@ -164,7 +164,8 @@ export default function ElegantModernResumeTemplate({
             <ul style={{ listStyleType: "none", padding: 0 }}>
               {resumeData.languages.map((lang, index) => (
                 <li key={index} style={{ marginBottom: "0.5rem" }}>
-                  <strong>{lang.name}:</strong> {lang.proficiency}
+                  <strong>{lang.name}:</strong>{" "}
+                  t[lang.proficiency.toLowerCase()]
                 </li>
               ))}
             </ul>

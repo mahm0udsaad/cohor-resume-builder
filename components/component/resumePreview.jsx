@@ -59,7 +59,7 @@ const Resume = ({ resumeData, selectedTheme }) => {
     <ul className="text-gray-700 mt-2">
       {resumeData.languages?.map((lang, index) => (
         <li key={index}>
-          {lang.name} - {lang.proficiency}
+          {lang.name} - {t[lang.proficiency.toLowerCase()]}
         </li>
       ))}
     </ul>

@@ -84,6 +84,7 @@ export const templateComponents = {
   modernFormal: ModernFormalResumeTemplate,
 };
 export const templates = [
+  { name: "professional", Component: ProfessionalResume },
   { name: "modernFormal", Component: ModernFormalResumeTemplate },
   { name: "bold", Component: BoldTemplate },
   { name: "elegant", Component: ElegantTemplate },
@@ -91,7 +92,6 @@ export const templates = [
   { category: "classic", name: "classic", Component: ClassicTemplate },
   { name: "elegantModern", Component: ElegantModernResumeTemplate },
   { name: "bold", Component: BoldTemplate },
-  { name: "professional", Component: ProfessionalResume },
   { category: "gridLayout", name: "gridLayout", Component: GridLayoutResume },
   { name: "formal", Component: FormalTemplate },
   { category: "modern", name: "modern", Component: ModernTemplate },

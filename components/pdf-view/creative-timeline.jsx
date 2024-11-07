@@ -34,6 +34,23 @@ const createStyles = (theme, isRTL) =>
       border: "4px solid white",
       marginBottom: "10px",
     },
+    courseTitle: {
+      textAlign: isRTL ? "right" : "left",
+      fontSize: "13px", // Matches 1.1rem in web
+      fontWeight: "bold",
+      color: theme.primaryColor,
+      marginBottom: "4px",
+    },
+    institution: {
+      textAlign: isRTL ? "right" : "left",
+      fontSize: "12px", // Regular paragraph size
+      marginBottom: "4px",
+    },
+    completionDate: {
+      textAlign: isRTL ? "right" : "left",
+      fontSize: "10px", // Matches 0.9rem in web
+      color: theme.secondaryColor,
+    },
     sectionTitle: {
       color: theme.primaryColor,
       textAlign: isRTL ? "right" : "left",
@@ -128,18 +145,27 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
             src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
             style={styles.headerImage}
           />
-          <Text>{resumeData.personalInfo.name}</Text>
-          <Text>{resumeData.personalInfo.jobTitle}</Text>
+          <Text style={{ fontSize: "25px" }}>
+            {resumeData.personalInfo.name}
+          </Text>
+          <Text style={{ fontSize: "16px" }}>
+            {resumeData.personalInfo.jobTitle}
+          </Text>
           <View
             style={{
               display: "flex",
               flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              flexWrap: "wrap",
               gap: 8,
               marginTop: "10px",
             }}
           >
             {resumeData.personalInfo.contact?.map((item, index) => (
-              <Text key={index}>{item}</Text>
+              <Text key={index} style={{ fontSize: "12px" }}>
+                {item}
+              </Text>
             ))}
           </View>
         </View>
@@ -152,7 +178,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
           </View>
 
           {/* Work Experience */}
-          <View wrap={false}>
+          <View wrap={false} style={{ marginBottom: "20px" }}>
             <Text style={styles.sectionTitle}>{t.workExperience}</Text>
             {resumeData.experiences.map((exp, index) => (
               <View key={index} style={styles.timelineItem}>
@@ -173,7 +199,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
           </View>
 
           {/* Skills */}
-          <View wrap={false}>
+          <View wrap={false} style={{ marginBottom: "20px" }}>
             <Text style={styles.sectionTitle}>{t.skills}</Text>
             <View style={styles.skills}>
               {resumeData.skills.map((skill, index) => (
@@ -185,7 +211,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
           </View>
 
           {/* Education */}
-          <View wrap={false}>
+          <View wrap={false} style={{ marginBottom: "20px" }}>
             <Text style={styles.sectionTitle}>{t.education}</Text>
             {resumeData.educations.map((edu, index) => (
               <View key={index}>
@@ -198,17 +224,36 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
             ))}
           </View>
 
-          {/* Languages */}
-          <View wrap={false}>
-            <Text style={styles.sectionTitle}>{t.languages}</Text>
-            <View style={styles.languages}>
-              {resumeData.languages.map((lang, index) => (
-                <Text key={index} style={styles.languageBadge}>
-                  {lang.name} - {lang.proficiency}
-                </Text>
-              ))}
-            </View>
-          </View>
+          {resumeData.languages.length !== 0 &&
+            resumeData.languages[0]?.name.trim() !== "" && (
+              <View wrap={false} style={{ marginBottom: "20px" }}>
+                <Text style={styles.sectionTitle}>{t.languages}</Text>
+                <View style={styles.languages}>
+                  {resumeData.languages.map((lang, index) => (
+                    <Text key={index} style={styles.languageBadge}>
+                      {lang.name} - {t[lang.proficiency.toLowerCase()]}
+                    </Text>
+                  ))}
+                </View>
+              </View>
+            )}
+
+          {/* Courses */}
+          {resumeData.courses.length !== 0 &&
+            resumeData.courses[0]?.name.trim() !== "" && (
+              <View wrap={false} style={{ marginBottom: "20px" }}>
+                <Text style={styles.sectionTitle}>{t.courses}</Text>
+                {resumeData.courses.map((course, index) => (
+                  <View key={index}>
+                    <Text style={styles.courseTitle}>{course.name}</Text>
+                    <Text style={styles.institution}>{course.institution}</Text>
+                    <Text style={styles.completionDate}>
+                      {formatDate(course.completionDate)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
         </View>
       </Page>
     </Document>

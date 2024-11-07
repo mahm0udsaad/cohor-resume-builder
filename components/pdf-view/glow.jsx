@@ -205,7 +205,7 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
                 <Text key={index}>
                   <Text>{lang.name}:</Text>{" "}
                   <Text style={styles(theme, lng).text}>
-                    {lang.proficiency}
+                    t[lang.proficiency.toLowerCase()]
                   </Text>
                 </Text>
               ))}

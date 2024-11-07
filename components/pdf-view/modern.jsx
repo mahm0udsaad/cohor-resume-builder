@@ -52,7 +52,6 @@ const createStyles = (isRTL) =>
     sectionTitle: {
       fontSize: 16,
       fontWeight: "bold",
-      color: "grey",
       borderBottomWidth: 1,
       borderBottomColor: "#CBD5E0",
       marginTop: 5,
@@ -262,7 +261,7 @@ const Modern = ({ resumeData }) => {
                   <View key={index} style={styles.skillItem}>
                     <Text>•</Text>
                     <Text>
-                      {lang.name} - ({lang.proficiency})
+                      {lang.name} - ({t[lang.proficiency.toLowerCase()]})
                     </Text>
                   </View>
                 ))}

@@ -19,16 +19,14 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
 
   const styles = {
     container: {
+      backgroundColor: theme.primaryColor,
       fontFamily: "Arial, sans-serif",
-      backgroundColor: "#ffffff",
       color: theme.accentColor, // Use accent color for text
-      borderRadius: "8px",
       overflow: "hidden",
     },
     header: {
       backgroundColor: theme.primaryColor,
       padding: "20px",
-      borderBottom: `1px solid ${theme.accentColor}`,
     },
     headerContent: {
       display: "flex",
@@ -62,6 +60,9 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
     },
     main: {
       padding: "20px",
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      backgroundColor: "#FFFFFF",
     },
     section: {
       marginBottom: "20px",
@@ -70,7 +71,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
       fontSize: "20px",
       fontWeight: "bold",
       color: theme.accentColor, // Section title uses accent color for better contrast
-      borderBottom: `2px solid ${theme.accentColor}`,
+      borderBottom: `1px solid ${theme.accentColor}`,
       paddingBottom: "5px",
       marginBottom: "10px",
     },
@@ -192,7 +193,8 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
           <ul style={styles.skillsList}>
             {resumeData.skills.map((skill, index) => (
               <li key={index} style={styles.skillItem}>
-                {t.availableSkills[`${skill.name}`]} ({skill.level})
+                {t.availableSkills[`${skill.name}`]} (
+                {t.levels[skill.level.toLowerCase()]})
               </li>
             ))}
           </ul>
@@ -204,7 +206,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
           <ul style={styles.skillsList}>
             {resumeData.languages.map((lang, index) => (
               <li key={index} style={styles.languageItem}>
-                {lang.name} - {lang.proficiency}
+                {lang.name} - {t[lang.proficiency.toLowerCase()]}
               </li>
             ))}
           </ul>

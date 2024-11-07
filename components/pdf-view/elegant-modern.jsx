@@ -11,17 +11,18 @@ import {
 } from "@react-pdf/renderer";
 
 // Define styles using react-pdf's StyleSheet
-const createStyles = (theme) =>
+const createStyles = (theme, isArabic) =>
   StyleSheet.create({
     page: {
       fontSize: 10,
-      fontFamily: "Helvetica",
+      fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
+      minHeight: 641.89,
     },
     header: {
       backgroundColor: "#3498db", // Primary color from your theme
       color: "white",
       padding: 20,
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       justifyContent: "space-between",
       alignItems: "center",
     },
@@ -32,18 +33,21 @@ const createStyles = (theme) =>
       height: 60,
     },
     twoColumnLayout: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       flexGrow: 1,
       padding: 20,
     },
     leftColumn: {
       flex: 1,
-      paddingRight: 10,
-      borderRight: "1px solid #2c3e50", // Background color from your theme
+      paddingRight: isArabic ? 0 : 10,
+      paddingLeft: isArabic ? 10 : 0,
+      borderRight: isArabic ? "none" : "1px solid #2c3e50",
+      borderLeft: isArabic ? "1px solid #2c3e50" : "none",
     },
     rightColumn: {
       flex: 2,
-      paddingLeft: 10,
+      paddingLeft: isArabic ? 0 : 10,
+      paddingRight: isArabic ? 10 : 0,
     },
     section: {
       marginBottom: 20,
@@ -53,19 +57,22 @@ const createStyles = (theme) =>
       fontWeight: "bold",
       color: "#3498db", // Primary color from your theme
       position: "relative",
-      paddingLeft: 10,
+      paddingRight: isArabic ? 10 : 0,
+      paddingLeft: isArabic ? 0 : 10,
       marginBottom: 10,
+      textAlign: isArabic ? "right" : "left",
     },
     headingBorder: {
       position: "absolute",
-      left: 0,
+      left: isArabic ? "auto" : 0,
+      right: isArabic ? 0 : "auto",
       width: 4,
       height: "100%",
-      backgroundColor: "#3498db", // Primary color
+      backgroundColor: "#3498db",
     },
     text: {
       fontSize: 10,
-      textAlign: "left",
+      textAlign: isArabic ? "right" : "left",
       lineHeight: 1.5,
     },
     listItem: {
@@ -77,31 +84,39 @@ const createStyles = (theme) =>
       color: "white",
       padding: 5,
       borderRadius: 4,
-      marginRight: 5,
+      marginRight: isArabic ? 0 : 5,
+      marginLeft: isArabic ? 5 : 0,
       fontSize: 9,
     },
     date: {
       color: theme.primaryColor,
       paddingBottom: 5,
       paddingTop: 5,
+      textAlign: isArabic ? "right" : "left",
     },
-    sectionSubHeader: { fontWeight: "bold", fontSize: 12 },
+    sectionSubHeader: {
+      fontWeight: "bold",
+      fontSize: 12,
+      textAlign: isArabic ? "right" : "left",
+    },
   });
 
 const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
+  const isArabic = resumeData.lng === "ar";
   const theme = resumeData.theme || {
     primaryColor: "#3498db",
     accentColor: "#000000",
     backgroundColor: "#2c3e50",
   };
-  const styles = createStyles(theme);
+  const styles = createStyles(theme, isArabic);
   const t = translations[resumeData.lng] || translations.en;
-  if (resumeData.lng === "ar") {
+  if (isArabic) {
     Font.register({
       family: "IBM Plex Sans Arabic",
       src: "/fonts/ar.ttf",
     });
   }
+
   return (
     <Document>
       <Page wrap={false} style={styles.page} size="A4">
@@ -134,7 +149,13 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
                 <View style={styles.headingBorder}></View>
               </View>
               {resumeData.personalInfo.contact?.map((item, index) => (
-                <Text key={index} style={styles.text}>
+                <Text
+                  key={index}
+                  style={{
+                    fontSize: 10,
+                    textAlign: isArabic ? "right" : "left",
+                  }}
+                >
                   {item}
                 </Text>
               ))}
@@ -146,7 +167,14 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
                 <Text>{t.skills}</Text>
                 <View style={styles.headingBorder}></View>
               </View>
-              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 4 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  flexDirection: isArabic ? "row-reverse" : "row",
+                  gap: 4,
+                }}
+              >
                 {resumeData.skills.map((skill, index) => (
                   <Text key={index} style={styles.skillTag}>
                     {t.availableSkills[`${skill.name}`]}
@@ -163,7 +191,7 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
               </View>
               {resumeData.languages.map((lang, index) => (
                 <Text key={index} style={styles.text}>
-                  <Text>{lang.name}:</Text> {lang.proficiency}
+                  <Text>{lang.name}:</Text> {t[lang.proficiency.toLowerCase()]}
                 </Text>
               ))}
             </View>
@@ -228,12 +256,14 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
                 <View key={index}>
                   <Text style={styles.sectionSubHeader}>{edu.degree}</Text>
                   <Text style={styles.text}>{edu.institution}</Text>
-                  <Text>{formatDate(edu.graduationDate)}</Text>
+                  <Text style={{ textAlign: isArabic ? "right" : "left" }}>
+                    {formatDate(edu.graduationDate)}
+                  </Text>
                   {edu.gpaType === "numeric" && (
-                    <Text>GPA: {edu.numericGpa}</Text>
+                    <Text style={styles.text}>GPA: {edu.numericGpa}</Text>
                   )}
                   {edu.gpaType === "descriptive" && (
-                    <Text>GPA: {edu.descriptiveGpa}</Text>
+                    <Text style={styles.text}>GPA: {edu.descriptiveGpa}</Text>
                   )}
                 </View>
               ))}

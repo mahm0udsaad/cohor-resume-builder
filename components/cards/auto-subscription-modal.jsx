@@ -54,13 +54,14 @@ export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
   ];
 
   useEffect(() => {
+    if (user?.plan === "proPlus") return;
     if (defaultOpen) {
       setIsOpen(true);
     } else {
       const timer = setTimeout(() => setIsOpen(true), 10000);
       return () => clearTimeout(timer);
     }
-  }, [defaultOpen]);
+  }, [defaultOpen, user?.plan]);
 
   const handlePayment = async (planName) => {
     const currentUrl = window.location.href;

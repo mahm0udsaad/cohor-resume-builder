@@ -87,7 +87,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
       fontSize: 20,
       fontWeight: "bold",
       color: theme.accentColor,
-      borderBottomWidth: 2,
+      borderBottomWidth: 1,
       borderBottomColor: theme.accentColor,
       paddingBottom: 5,
       marginBottom: 10,
@@ -208,7 +208,8 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
             <View style={styles.skillsList}>
               {resumeData.skills.map((skill, index) => (
                 <Text key={index} style={styles.skillItem}>
-                  {t.availableSkills[`${skill.name}`]} ({skill.level})
+                  {t.availableSkills[`${skill.name}`]} (
+                  {t.levels[skill.level.toLowerCase()]})
                 </Text>
               ))}
             </View>
@@ -220,7 +221,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
             <View style={styles.skillsList}>
               {resumeData.languages.map((lang, index) => (
                 <Text key={index} style={styles.languageItem}>
-                  {lang.name} - {lang.proficiency}
+                  {lang.name} - {t[lang.proficiency.toLowerCase()]}
                 </Text>
               ))}
             </View>

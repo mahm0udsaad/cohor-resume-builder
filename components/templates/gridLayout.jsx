@@ -206,7 +206,7 @@ export default function GridLayoutResume({
           <div>
             {resumeData.languages.map((lang, index) => (
               <span key={index} style={styles.languageItem}>
-                {lang.name} ({lang.proficiency})
+                {lang.name} ({t[lang.proficiency.toLowerCase()]})
               </span>
             ))}
           </div>

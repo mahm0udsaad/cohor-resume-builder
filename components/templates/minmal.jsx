@@ -89,7 +89,10 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
                 >
                   {lang.name}
                 </h3>
-                -<p className="text-sm sm:text-xs">{lang.proficiency}</p>
+                -
+                <p className="text-sm sm:text-xs">
+                  t[lang.proficiency.toLowerCase()]
+                </p>
               </div>
             ))}
           </section>

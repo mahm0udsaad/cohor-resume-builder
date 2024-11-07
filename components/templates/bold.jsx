@@ -26,7 +26,7 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
         <p className="text-lg mt-2">{resumeData.personalInfo.jobTitle}</p>
       </header>
       {/* Contact Information */}
-      <div className="flex gap-2 p-6 text-center border-b border-gray-300">
+      <div className="flex justify-center flex-wrap gap-2 p-6 text-center border-b border-gray-300">
         {resumeData.personalInfo.contact?.map((contact, index) => (
           <p key={index} className="text-sm">
             {contact}
@@ -111,36 +111,39 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
         </section>
 
         {/* Languages Section */}
-        <section className="mb-6">
-          <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
-            {t.languages} {/* Use translation */}
-          </h2>
-          <ul className="list-disc list-inside text-sm">
-            {resumeData.languages?.map((lang, index) => (
-              <li key={index}>
-                {lang.name} - {lang.proficiency}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* Courses Section */}
-        {resumeData.courses[0]?.name.trim() !== "" && (
+        {resumeData.languages.length !== 0 && (
           <section className="mb-6">
             <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
-              {t.courses} {/* Use translation */}
+              {t.languages} {/* Use translation */}
             </h2>
-            {resumeData.courses?.map((course, index) => (
-              <div key={index} className="mt-2">
-                <h4 className="font-semibold text-gray-800">{course.name}</h4>
-                <p className="text-sm text-gray-600">{course.institution}</p>
-                <p className="text-sm text-gray-600">
-                  {formatDate(course.completionDate)}
-                </p>
-              </div>
-            ))}
+            <ul className="list-disc list-inside text-sm">
+              {resumeData.languages?.map((lang, index) => (
+                <li key={index}>
+                  {lang.name} - {t[lang.proficiency.toLowerCase()]}
+                </li>
+              ))}
+            </ul>
           </section>
         )}
+
+        {/* Courses Section */}
+        {resumeData.courses.length !== 0 &&
+          resumeData.courses[0]?.name.trim() !== "" && (
+            <section className="mb-6">
+              <h2 className="uppercase text-lg font-semibold  border-b border-gray-400 pb-2 mb-4">
+                {t.courses} {/* Use translation */}
+              </h2>
+              {resumeData.courses?.map((course, index) => (
+                <div key={index} className="mt-2">
+                  <h4 className="font-semibold text-gray-800">{course.name}</h4>
+                  <p className="text-sm text-gray-600">{course.institution}</p>
+                  <p className="text-sm text-gray-600">
+                    {formatDate(course.completionDate)}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
       </div>
     </div>
   );

@@ -11,10 +11,8 @@ import { formatDate } from "@/helper/date";
 import React from "react";
 
 export default function BlueHorizonPDF({ resumeData }) {
-  const isArabic = resumeData.lng === "ar"; // Detect Arabic for RTL layout
-  const { lng } = resumeData;
-  const t = translations[lng] || translations["en"]; // Fallback to English if translation isn't available
-  const direction = isArabic ? "rtl" : "ltr"; // RTL for Arabic, LTR for others
+  const isArabic = resumeData.lng === "ar";
+  const t = translations[resumeData.lng] || translations["en"];
 
   if (isArabic) {
     Font.register({
@@ -50,7 +48,7 @@ export default function BlueHorizonPDF({ resumeData }) {
     },
     main: {
       width: "70%",
-      padding: 20,
+      padding: 16,
       textAlign: isArabic ? "right" : "left",
     },
     sectionTitle: {
@@ -67,6 +65,7 @@ export default function BlueHorizonPDF({ resumeData }) {
       color: theme.primaryColor,
       paddingBottom: 5,
       marginBottom: 10,
+      marginTop: 10,
     },
     text: {
       fontSize: 12,
@@ -116,14 +115,14 @@ export default function BlueHorizonPDF({ resumeData }) {
             <Text style={{ fontSize: 22, fontWeight: 700, marginBottom: 10 }}>
               {resumeData.personalInfo.name}
             </Text>
-            <Text style={{ fontSize: 14, fontWeight: 500, marginBottom: 20 }}>
+            <Text style={{ fontSize: 14, fontWeight: 400, marginBottom: 20 }}>
               {resumeData.personalInfo.jobTitle}
             </Text>
 
             {/* Contact Information */}
             <Text style={styles.sectionTitle}>{t.contactInformation}</Text>
             {resumeData.personalInfo.contact?.map((item, index) => (
-              <Text key={index} style={styles.text}>
+              <Text key={index} style={{ fontSize: 10, marginBottom: 5 }}>
                 {item}
               </Text>
             ))}
@@ -151,7 +150,7 @@ export default function BlueHorizonPDF({ resumeData }) {
             {resumeData.languages.map((lang, index) => (
               <Text key={index} style={styles.text}>
                 <Text style={{ fontWeight: 700 }}>{lang.name}:</Text>{" "}
-                {lang.proficiency}
+                {t[lang.proficiency.toLowerCase()]}
               </Text>
             ))}
           </View>
@@ -166,7 +165,7 @@ export default function BlueHorizonPDF({ resumeData }) {
             <Text style={styles.mainSectionTitle}>{t.workExperience}</Text>
             {resumeData.experiences.map((job, index) => (
               <View key={index} style={styles.experienceItem}>
-                <Text style={{ fontSize: 14, fontWeight: 400 }}>
+                <Text style={{ fontSize: 14, fontWeight: 500 }}>
                   {job.jobTitle}
                 </Text>
                 <Text style={{ fontSize: 12, fontWeight: 300 }}>
@@ -186,7 +185,7 @@ export default function BlueHorizonPDF({ resumeData }) {
             <Text style={styles.mainSectionTitle}>{t.education}</Text>
             {resumeData.educations.map((edu, index) => (
               <View key={index} style={styles.educationItem}>
-                <Text style={{ fontSize: 14, fontWeight: 400 }}>
+                <Text style={{ fontSize: 14, fontWeight: 500 }}>
                   {edu.degree}
                 </Text>
                 <Text style={{ fontSize: 12, fontWeight: 300 }}>
@@ -206,10 +205,10 @@ export default function BlueHorizonPDF({ resumeData }) {
                 <Text style={styles.mainSectionTitle}>{t.courses}</Text>
                 {resumeData.courses.map((course, index) => (
                   <View key={index} style={styles.courseItem}>
-                    <Text style={{ fontSize: 14, fontWeight: 400 }}>
+                    <Text style={{ fontSize: 14, fontWeight: 500 }}>
                       {course.name}
                     </Text>
-                    <Text style={{ fontSize: 12, fontWeight: 400 }}>
+                    <Text style={{ fontSize: 12, fontWeight: 300 }}>
                       {course.institution}
                     </Text>
                     <Text

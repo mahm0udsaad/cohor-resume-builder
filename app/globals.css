@@ -97,6 +97,9 @@ body::-webkit-scrollbar-thumb {
   background-color: var(--main-color);
   border-radius: 3rem;
 }
+#resume-template {
+  min-height: 641.89px !important;
+}
 .bg-main {
   background-color: var(--main-color) !important;
 }

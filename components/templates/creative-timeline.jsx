@@ -132,7 +132,12 @@ function CreativeTimelineResumeTemplate({
             {resumeData.personalInfo.jobTitle}
           </h2>
           <div
-            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "1rem",
+              flexWrap: "wrap",
+            }}
           >
             {resumeData.personalInfo.contact?.map((item, index) => (
               <span key={index}>{item}</span>
@@ -204,68 +209,31 @@ function CreativeTimelineResumeTemplate({
         </section>
 
         {/* Education and Courses */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "2rem",
-          }}
-        >
-          <section style={{ ...sectionStyle, flex: "1", minWidth: "250px" }}>
-            <h3 style={headingStyle}>{t.education}</h3>
-            {resumeData.educations.map((edu, index) => (
-              <div key={index} style={{ marginBottom: "1rem" }}>
-                <h4
-                  style={{
-                    fontSize: "1.1rem",
-                    fontWeight: "bold",
-                    color: theme.primaryColor,
-                  }}
-                >
-                  {edu.degree}
-                </h4>
-                <p>{edu.institution}</p>
-                <p
-                  style={{
-                    fontSize: "0.9rem",
-                    color: theme.secondaryColor,
-                  }}
-                >
-                  {formatDate(edu.graduationDate)}
-                </p>
-              </div>
-            ))}
-          </section>
-
-          {resumeData.courses[0]?.name.trim() !== "" && (
-            <section style={{ ...sectionStyle, flex: "1", minWidth: "250px" }}>
-              <h3 style={headingStyle}>{t.courses}</h3>
-              {resumeData.courses.map((course, index) => (
-                <div key={index} style={{ marginBottom: "1rem" }}>
-                  <h4
-                    style={{
-                      fontSize: "1.1rem",
-                      fontWeight: "bold",
-                      color: theme.primaryColor,
-                    }}
-                  >
-                    {course.name}
-                  </h4>
-                  <p>{course.institution}</p>
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      color: theme.secondaryColor,
-                    }}
-                  >
-                    {formatDate(course.completionDate)}
-                  </p>
-                </div>
-              ))}
-            </section>
-          )}
-        </div>
+        <section style={{ ...sectionStyle, flex: "1", minWidth: "250px" }}>
+          <h3 style={headingStyle}>{t.education}</h3>
+          {resumeData.educations.map((edu, index) => (
+            <div key={index} style={{ marginBottom: "1rem" }}>
+              <h4
+                style={{
+                  fontSize: "1.1rem",
+                  fontWeight: "bold",
+                  color: theme.primaryColor,
+                }}
+              >
+                {edu.degree}
+              </h4>
+              <p>{edu.institution}</p>
+              <p
+                style={{
+                  fontSize: "0.9rem",
+                  color: theme.secondaryColor,
+                }}
+              >
+                {formatDate(edu.graduationDate)}
+              </p>
+            </div>
+          ))}
+        </section>
 
         {/* Languages */}
         <section style={sectionStyle}>
@@ -282,11 +250,40 @@ function CreativeTimelineResumeTemplate({
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                 }}
               >
-                <strong>{lang.name}:</strong> {lang.proficiency}
+                <strong>{lang.name}:</strong>{" "}
+                {t[lang.proficiency.toLowerCase()]}
               </div>
             ))}
           </div>
         </section>
+
+        {resumeData.courses[0]?.name.trim() !== "" && (
+          <section style={{ ...sectionStyle, flex: "1", minWidth: "250px" }}>
+            <h3 style={headingStyle}>{t.courses}</h3>
+            {resumeData.courses.map((course, index) => (
+              <div key={index} style={{ marginBottom: "1rem" }}>
+                <h4
+                  style={{
+                    fontSize: "1.1rem",
+                    fontWeight: "bold",
+                    color: theme.primaryColor,
+                  }}
+                >
+                  {course.name}
+                </h4>
+                <p>{course.institution}</p>
+                <p
+                  style={{
+                    fontSize: "0.9rem",
+                    color: theme.secondaryColor,
+                  }}
+                >
+                  {formatDate(course.completionDate)}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
       </main>
     </div>
   );

@@ -1,3 +1,4 @@
+import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 import {
   Page,
@@ -32,38 +33,42 @@ const createStyles = (theme, rtl) =>
     },
     rightColumn: {
       width: "75%",
-      paddingLeft: rtl ? 0 : 40,
-      paddingRight: rtl ? 40 : 0,
+      paddingLeft: rtl ? 0 : 20,
+      paddingRight: rtl ? 20 : 0,
     },
     profileImage: {
-      width: 150,
-      height: 150,
+      width: 120,
+      height: 120,
       borderRadius: "50%",
-      border: "4 solid white",
+      border: "2px solid white",
       marginBottom: 20,
     },
     name: {
       fontSize: 28,
       marginBottom: 10,
+      textAlign: rtl ? "right" : "left",
     },
     jobTitle: {
       fontSize: 16,
       marginBottom: 20,
+      textAlign: rtl ? "right" : "left",
     },
     sectionTitle: {
-      fontSize: 20,
+      fontSize: 16,
       marginBottom: 5,
       marginTop: 5,
-      borderBottom: "2 solid white",
+      borderBottom: "2px solid white",
       paddingBottom: 5,
+      textAlign: rtl ? "right" : "left",
     },
     contactItem: {
       fontSize: 12,
       marginBottom: 5,
+      textAlign: rtl ? "right" : "left",
     },
     skillsContainer: {
       display: "flex",
-      flexDirection: "row",
+      flexDirection: rtl ? "row-reverse" : "row",
       flexWrap: "wrap",
       gap: 8,
       marginBottom: 15,
@@ -78,10 +83,11 @@ const createStyles = (theme, rtl) =>
       marginBottom: 14,
     },
     sectionHeading: {
-      fontSize: 24,
-      borderBottom: `2px solid ${theme.primaryColor}`,
+      fontSize: 18,
+      borderBottom: `1px solid ${theme.primaryColor}`,
       paddingBottom: 10,
       marginBottom: 14,
+      textAlign: rtl ? "right" : "left",
     },
     experienceContainer: {
       marginBottom: 10,
@@ -89,27 +95,32 @@ const createStyles = (theme, rtl) =>
     experienceTitle: {
       fontSize: 16,
       marginBottom: 5,
+      textAlign: rtl ? "right" : "left",
     },
     experienceCompany: {
       fontSize: 14,
       color: theme.primaryColor,
       marginBottom: 5,
+      textAlign: rtl ? "right" : "left",
     },
     dateText: {
       fontSize: 12,
       marginBottom: 10,
       color: "gray",
+      textAlign: rtl ? "right" : "left",
     },
     educationDateText: {
       fontSize: 12,
       color: "gray",
+      textAlign: rtl ? "right" : "left",
     },
     responsibilityText: {
       fontSize: 12,
+      textAlign: rtl ? "right" : "left",
     },
     courseContainer: {
       display: "grid",
-      gridTemplateColumns: "1fr 1fr",
+      gridTemplateColumns: rtl ? "1fr 1fr" : "1fr 1fr",
       gap: 8,
     },
   });
@@ -121,7 +132,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
     name: "Original",
     primaryColor: "#3498db",
     secondaryColor: "#2c3e50",
-    backgroundColor: "#ecf0f1",
+    backgroundColor: "#ffffff",
   };
   if (rtl) {
     Font.register({
@@ -130,6 +141,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
     });
   }
   const styles = createStyles(theme, rtl);
+  const t = translations[resumeData.lng] || translations["en"];
 
   return (
     <Document>
@@ -137,10 +149,20 @@ const CreativeResumeTemplate = ({ resumeData }) => {
         <View style={styles.container}>
           {/* Left Column - static, doesn't wrap */}
           <View style={styles.leftColumn} wrap={false}>
-            <Image
-              src={resumeData.personalInfo.imageUrl}
-              style={styles.profileImage}
-            />
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                src={resumeData.personalInfo.imageUrl}
+                style={styles.profileImage}
+              />
+            </View>
+
             <Text style={styles.name}>{resumeData.personalInfo.name}</Text>
             <Text style={styles.jobTitle}>
               {resumeData.personalInfo.jobTitle}
@@ -148,7 +170,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
 
             {/* Contact Section */}
             <View>
-              <Text style={styles.sectionTitle}>Contact</Text>
+              <Text style={styles.sectionTitle}>{t.contact}</Text>
               {resumeData.personalInfo.contact?.map((item, index) => (
                 <Text key={index} style={styles.contactItem}>
                   {item}
@@ -158,7 +180,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
 
             {/* Skills Section */}
             <View>
-              <Text style={styles.sectionTitle}>Skills</Text>
+              <Text style={styles.sectionTitle}>{t.skills}</Text>
               <View style={styles.skillsContainer}>
                 {resumeData.skills.map((skill, index) => (
                   <Text key={index} style={styles.skillBadge}>
@@ -170,37 +192,38 @@ const CreativeResumeTemplate = ({ resumeData }) => {
 
             {/* Languages Section */}
             <View>
-              <Text style={styles.sectionTitle}>Languages</Text>
+              <Text style={styles.sectionTitle}>{t.languages}</Text>
               {resumeData.languages.map((lang, index) => (
                 <Text key={index} style={styles.contactItem}>
-                  {lang.name}: {lang.proficiency}
+                  {lang.name}: {t[lang.proficiency.toLowerCase()]}
                 </Text>
               ))}
             </View>
-            {resumeData.courses[0]?.name.trim() !== "" && (
-              <View>
-                <Text style={styles.sectionTitle}>Additional Courses</Text>
-                <View style={styles.courseContainer}>
-                  {resumeData.courses.map((course, index) => (
-                    <View key={index}>
-                      <Text style={styles.contactItem}>{course.name}</Text>
-                      <Text style={styles.contactItem}>
-                        {course.institution}
-                      </Text>
-                      <Text style={styles.dateText}>
-                        {course.completionDate}
-                      </Text>
-                    </View>
-                  ))}
+            {resumeData.courses.length !== 0 &&
+              resumeData.courses[0]?.name.trim() !== "" && (
+                <View>
+                  <Text style={styles.sectionTitle}>{t.courses}</Text>
+                  <View style={styles.courseContainer}>
+                    {resumeData.courses.map((course, index) => (
+                      <View key={index}>
+                        <Text style={styles.contactItem}>{course.name}</Text>
+                        <Text style={styles.contactItem}>
+                          {course.institution}
+                        </Text>
+                        <Text style={styles.dateText}>
+                          {course.completionDate}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
                 </View>
-              </View>
-            )}
+              )}
           </View>
 
           {/* Right Column - can wrap to next page */}
           <View style={styles.rightColumn}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionHeading}>Professional Summary</Text>
+              <Text style={styles.sectionHeading}>{t.profile}</Text>
               <Text style={styles.responsibilityText}>
                 {resumeData.personalInfo.summary}
               </Text>
@@ -208,15 +231,25 @@ const CreativeResumeTemplate = ({ resumeData }) => {
 
             {/* Professional Experience */}
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionHeading}>Professional Experience</Text>
+              <Text style={styles.sectionHeading}>{t.workExperience}</Text>
               {resumeData.experiences.map((exp, index) => (
                 <View key={index} style={styles.experienceContainer}>
                   <Text style={styles.experienceTitle}>{exp.jobTitle}</Text>
                   <Text style={styles.experienceCompany}>{exp.company}</Text>
-                  <Text style={styles.dateText}>
-                    {formatDate(exp.startDate)} -{" "}
-                    {formatDate(exp.endDate, resumeData.lng)}
-                  </Text>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: rtl ? "row-reverse" : "row",
+                    }}
+                  >
+                    <Text style={styles.dateText}>
+                      {formatDate(exp.startDate, resumeData.lng)}
+                    </Text>
+                    <Text style={styles.dateText}> - </Text>
+                    <Text style={styles.dateText}>
+                      {formatDate(exp.endDate, resumeData.lng)}
+                    </Text>
+                  </View>
                   <Text style={styles.responsibilityText}>
                     {exp.responsibilities}
                   </Text>
@@ -226,7 +259,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
 
             {/* Education */}
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionHeading}>Education</Text>
+              <Text style={styles.sectionHeading}> {t.education}</Text>
               {resumeData.educations.map((edu, index) => (
                 <View key={index} style={styles.experienceContainer}>
                   <Text style={styles.experienceTitle}>{edu.degree}</Text>
@@ -236,11 +269,31 @@ const CreativeResumeTemplate = ({ resumeData }) => {
                   <Text style={styles.educationDateText}>
                     {formatDate(edu.graduationDate)}
                   </Text>
+                  {edu.gpaType === "numeric" && (
+                    <Text
+                      style={{
+                        ...styles.responsibilityText,
+                        marginTop: 2,
+                        fontSize: 10,
+                      }}
+                    >
+                      GPA: {edu.numericGpa}
+                    </Text>
+                  )}
+                  {edu.gpaType === "descriptive" && (
+                    <Text
+                      style={{
+                        ...styles.responsibilityText,
+                        marginTop: 2,
+                        fontSize: 10,
+                      }}
+                    >
+                      GPA: {edu.descriptiveGpa}
+                    </Text>
+                  )}
                 </View>
               ))}
             </View>
-
-            {/* Additional Courses */}
           </View>
         </View>
       </Page>

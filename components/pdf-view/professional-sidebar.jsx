@@ -127,7 +127,7 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
           <Text style={styles.sectionTitle}>{t.languages}</Text>
           {resumeData.languages.map((lang, index) => (
             <Text key={index} style={styles.text}>
-              {lang.name} - {lang.proficiency}
+              {lang.name} - {t[lang.proficiency.toLowerCase()]}
             </Text>
           ))}
         </View>

@@ -82,7 +82,7 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme }) => {
         <h3 className="text-2xl font-bold mb-4 mt-8">{t.languages}</h3>
         {resumeData.languages.map((lang, index) => (
           <div key={index} className="mb-2">
-            {lang.name} - {lang.proficiency}
+            {lang.name} - {t[lang.proficiency.toLowerCase()]}
           </div>
         ))}
       </div>

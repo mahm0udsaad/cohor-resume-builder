@@ -196,7 +196,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
             >
               {resumeData.languages?.map((lang, index) => (
                 <Text key={index} style={styles.skillBadge}>
-                  {lang.name} - ({lang.proficiency})
+                  {lang.name} - ({t[lang.proficiency.toLowerCase()]})
                 </Text>
               ))}
             </View>

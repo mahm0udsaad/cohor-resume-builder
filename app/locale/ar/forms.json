@@ -234,7 +234,10 @@
     }
   },
   "languages": {
-    "title": "اللغات"
+    "title": "اللغات",
+    "Intermediate": "متوسط",
+    "Beginner": "مبتدئ",
+    "Advanced": "متقدم"
   },
   "courses": {
     "title": "الدورات والتدريب"

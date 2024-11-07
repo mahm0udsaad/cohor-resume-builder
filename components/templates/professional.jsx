@@ -147,8 +147,8 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme, className }) => {
             <div className="flex flex-wrap gap-2">
               {resumeData.skills?.map((skill, index) => (
                 <Badge key={index} variant="outline" className="text-sm">
-                  {t.availableSkills[`${skill.name}`]} - (
-                  {t[skill.level] || skill.level})
+                  {t.availableSkills[skill.name]} - (
+                  {t.levels[skill.level.toLowerCase()]})
                 </Badge>
               ))}
             </div>
@@ -165,7 +165,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme, className }) => {
               <ul className="list-none">
                 {resumeData.languages?.map((lang, index) => (
                   <li key={index} className="text-gray-700">
-                    {lang.name} - ({lang.proficiency})
+                    {lang.name} - ({t[lang.proficiency.toLowerCase()]})
                   </li>
                 ))}
               </ul>

@@ -209,6 +209,15 @@ export const dummyDataAr = {
 
 export const translations = {
   en: {
+    levels: {
+      skillful: "Skillful",
+      experienced: "Experienced",
+      expert: "Expert",
+      beginner: "Beginner",
+    },
+    intermediate: "Intermediate",
+    beginner: "Beginner",
+    advanced: "Advanced",
     profile: "Profile",
     personalInfo: "Personal Information",
     workExperience: "Work Experience",
@@ -217,7 +226,6 @@ export const translations = {
     skills: "Skills",
     languages: "Languages",
     summary: "Summary",
-    beginner: "Beginner",
     skillful: "Skillful",
     experienced: "Experienced",
     expert: "Expert",
@@ -314,10 +322,12 @@ export const translations = {
     },
   },
   ar: {
-    beginner: "مبتدئ",
-    skillful: "ماهر",
-    experienced: "ذو خبرة",
-    expert: "خبير",
+    levels: {
+      skillful: "ماهر",
+      experienced: "ذو خبرة",
+      expert: "خبير",
+      beginner: "مبتدئ",
+    },
     profile: "الملف الشخصي",
     personalInfo: "المعلومات الشخصية",
     workExperience: "الخبرة العملية",
@@ -325,6 +335,9 @@ export const translations = {
     courses: "الدورات",
     skills: "المهارات",
     languages: "اللغات",
+    beginner: "مبتدئ",
+    intermediate: "متوسط",
+    advanced: "متقدم",
     summary: "الملخص",
     contactInformation: "معلومات الاتصال",
     availableSkills: {
@@ -421,9 +434,9 @@ export const translations = {
 
 export const templates = [
   {
-    category: "creativeTimeLine",
-    name: "creativeTimeLine",
-    image: "/templates/creativeTimeLine.png",
+    category: "modern",
+    name: "modern",
+    image: "/templates/modern.png",
   },
   {
     category: "BlueHorizon",
@@ -439,6 +452,11 @@ export const templates = [
     image: "/templates/modernFormal.png",
   },
   {
+    category: "creativeTimeLine",
+    name: "creativeTimeLine",
+    image: "/templates/creativeTimeLine.png",
+  },
+  {
     name: "bold",
     image: "/templates/bold.png",
   },
@@ -451,11 +469,7 @@ export const templates = [
     name: "gridLayout",
     image: "/templates/gridLayout.png",
   },
-  {
-    category: "modern",
-    name: "modern",
-    image: "/templates/modern.png",
-  },
+
   {
     name: "creative",
     image: "/templates/creative.png",

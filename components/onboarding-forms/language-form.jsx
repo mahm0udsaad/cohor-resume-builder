@@ -88,7 +88,7 @@ export default function LanguagesForm({ control, errors, t }) {
                   <SelectContent>
                     {proficiencyLevels.map((level) => (
                       <SelectItem key={level} value={level}>
-                        {level}
+                        {t(`languages.${level}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>

@@ -15,6 +15,7 @@ import { translations } from "@/data/data";
 const createStyles = (isArabic) =>
   StyleSheet.create({
     page: {
+      minHeight: 641.89,
       backgroundColor: "white",
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
       color: "#374151", // text-gray-700
@@ -26,23 +27,13 @@ const createStyles = (isArabic) =>
           }
         : {}),
     },
-    watermarkContainer: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: "60%", // Adjust size as needed
-      height: "60%", // Adjust size as needed
-      backgroundColor: "rgba(0, 0, 139, 0.5)", // Dark blue with opacity
-      justifyContent: "center",
-      alignItems: "center",
-    },
     header: {
       padding: 16,
-      flexDirection: "row",
+      display: "flex",
+      width: "100%",
       justifyContent: "space-between",
       color: "white",
-      flexDirection: isArabic ? "row-reverse" : "",
+      flexDirection: isArabic ? "row-reverse" : "row",
     },
     headerName: {
       fontSize: 20,
@@ -89,6 +80,7 @@ const createStyles = (isArabic) =>
     },
     jobTitle: {
       fontSize: 14,
+      marginBottom: 5,
       fontWeight: "bold",
     },
     jobInfo: {
@@ -121,16 +113,21 @@ const createStyles = (isArabic) =>
       fontWeight: "bold",
     },
     institution: {
+      margin: 5,
       fontSize: 10,
     },
     skillsList: {
       marginLeft: 12,
     },
     skillItem: {
+      flexDirection: isArabic ? "row-reverse" : "row",
+      gap: 2,
       fontSize: 10,
       paddingTop: 4,
     },
     languageItem: {
+      flexDirection: isArabic ? "row-reverse" : "row",
+      gap: 2,
       fontSize: 10,
     },
     courseItem: {
@@ -217,10 +214,12 @@ const BoldTemplate = ({ resumeData }) => {
                   {edu.institution} // {formatDate(edu.graduationDate)}
                 </Text>
                 {edu.gpaType === "numeric" && (
-                  <Text style={styles.institution}>GPA: {edu.numericGpa}</Text>
+                  <Text style={{ marginTop: 2, fontSize: 10 }}>
+                    GPA: {edu.numericGpa}
+                  </Text>
                 )}
                 {edu.gpaType === "descriptive" && (
-                  <Text style={styles.institution}>
+                  <Text style={{ marginTop: 2, fontSize: 10 }}>
                     GPA: {edu.descriptiveGpa}
                   </Text>
                 )}
@@ -232,9 +231,10 @@ const BoldTemplate = ({ resumeData }) => {
             <Text style={styles.sectionTitle}>{t.skills}</Text>
             <View style={styles.skillsList}>
               {resumeData.skills?.map((skill, index) => (
-                <Text key={index} style={styles.skillItem}>
-                  • {t.availableSkills[`${skill.name}`]}
-                </Text>
+                <View key={index} style={styles.skillItem}>
+                  <Text>•</Text>
+                  <Text>{t.availableSkills[`${skill.name}`]}</Text>
+                </View>
               ))}
             </View>
           </View>
@@ -244,28 +244,32 @@ const BoldTemplate = ({ resumeData }) => {
               <Text style={styles.sectionTitle}>{t.languages}</Text>
               <View style={styles.skillsList}>
                 {resumeData.languages?.map((lang, index) => (
-                  <Text key={index} style={styles.languageItem}>
-                    • {lang.name} - {lang.proficiency}
-                  </Text>
+                  <View key={index} style={styles.languageItem}>
+                    <Text>•</Text>
+                    <Text>
+                      {lang.name} - {t[lang.proficiency.toLowerCase()]}
+                    </Text>
+                  </View>
                 ))}
               </View>
             </View>
           )}
 
-          {resumeData.courses[0]?.name.trim() !== "" && (
-            <View style={styles.section} wrap={false}>
-              <Text style={styles.sectionTitle}>{t.courses}</Text>
-              {resumeData.courses?.map((course, index) => (
-                <View key={index} style={styles.courseItem}>
-                  <Text style={styles.courseName}>{course.name}</Text>
-                  <Text style={styles.courseInfo}>{course.institution}</Text>
-                  <Text style={styles.courseInfo}>
-                    {formatDate(course.completionDate)}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
+          {resumeData.courses.length !== 0 &&
+            resumeData.courses[0]?.name.trim() !== "" && (
+              <View style={styles.section} wrap={false}>
+                <Text style={styles.sectionTitle}>{t.courses}</Text>
+                {resumeData.courses?.map((course, index) => (
+                  <View key={index} style={styles.courseItem}>
+                    <Text style={styles.courseName}>{course.name}</Text>
+                    <Text style={styles.courseInfo}>{course.institution}</Text>
+                    <Text style={styles.courseInfo}>
+                      {formatDate(course.completionDate)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
         </View>
       </Page>
     </Document>

@@ -61,19 +61,17 @@ export default function ClientResumeTemplate({
     };
   }, []);
 
-  const content = useMemo(() => {
-    return (
-      <Suspense fallback={<ResumePreviewSkeleton />}>
-        <div className="w-4/5 mx-auto relative">
-          <ResumeComponent
-            resumeData={resumeData}
-            selectedTheme={resumeData.theme}
-            className="scale-[0.6] transform translate-y-[-20%]"
-          />
-        </div>
-      </Suspense>
-    );
-  }, [ResumeComponent, resumeData, selectedTheme]);
+  const content = (
+    <Suspense fallback={<ResumePreviewSkeleton />}>
+      <div className="w-4/5 mx-auto relative">
+        <ResumeComponent
+          resumeData={resumeData}
+          selectedTheme={resumeData.theme}
+          className="scale-[0.6] transform translate-y-[-20%]"
+        />
+      </div>
+    </Suspense>
+  );
 
   return (
     <div className="flex w-full items-start overflow-auto notfs bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg min-h-[90dvh] max-h-screen shadow-lg">

@@ -10,7 +10,7 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
     name: "Original",
     primaryColor: "#3498db",
     secondaryColor: "#2c3e50",
-    backgroundColor: "#ecf0f1",
+    backgroundColor: "#ffffff",
   };
 
   return (
@@ -43,17 +43,27 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
             borderRadius: "10px",
           }}
         >
-          <Image
-            src={resumeData.personalInfo?.imageUrl || "/placeholder.svg"}
-            alt={resumeData.personalInfo?.name}
-            width={200}
-            height={200}
+          <div
             style={{
-              borderRadius: "50%",
-              border: "4px solid white",
-              marginBottom: "20px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
+          >
+            <Image
+              src={resumeData.personalInfo?.imageUrl || "/placeholder.svg"}
+              alt={resumeData.personalInfo?.name}
+              width={150}
+              height={150}
+              style={{
+                borderRadius: "50%",
+                border: "4px solid white",
+                marginBottom: "20px",
+              }}
+            />
+          </div>
+
           <h1 style={{ fontSize: "1.5em", marginBottom: "10px" }}>
             {resumeData.personalInfo?.name}
           </h1>
@@ -123,7 +133,8 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
             </h3>
             {resumeData.languages?.map((lang, index) => (
               <p key={index} style={{ marginBottom: "5px" }}>
-                <strong>{lang.name}:</strong> {lang.proficiency}
+                <strong>{lang.name}:</strong>{" "}
+                {t[lang.proficiency.toLowerCase()]}
               </p>
             ))}
           </div>

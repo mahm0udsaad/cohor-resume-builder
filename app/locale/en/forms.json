@@ -233,7 +233,10 @@
     }
   },
   "languages": {
-    "title": "Languages"
+    "title": "Languages",
+    "Intermediate": "Intermediate",
+    "Beginner": "Beginner",
+    "Advanced": "Advanced"
   },
   "courses": {
     "title": "Courses & Training"

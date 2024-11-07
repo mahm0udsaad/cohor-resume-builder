@@ -205,7 +205,8 @@ export default function MinimalistTwoColorResumeTemplate({
           >
             {resumeData.languages?.map((lang, index) => (
               <li key={index}>
-                <strong>{lang.name}:</strong> {lang.proficiency}
+                <strong>{lang.name}:</strong>{" "}
+                {t[lang.proficiency.toLowerCase()]}
               </li>
             ))}
           </ul>

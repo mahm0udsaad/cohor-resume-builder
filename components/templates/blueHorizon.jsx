@@ -135,7 +135,7 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
           </h3>
           {resumeData.languages.map((lang, index) => (
             <p key={index} style={{ margin: "5px 0" }}>
-              <strong>{lang.name}:</strong> {lang.proficiency}
+              <strong>{lang.name}:</strong> {t[lang.proficiency.toLowerCase()]}
             </p>
           ))}
         </section>

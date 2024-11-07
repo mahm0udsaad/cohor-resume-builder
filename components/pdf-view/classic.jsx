@@ -164,7 +164,7 @@ const Classic = ({ resumeData }) => {
     <View wrap={false} style={styles.section}>
       {resumeData.languages?.map((lang, index) => (
         <Text key={index}>
-          {lang.name} - {lang.proficiency}
+          {lang.name} - {t[lang.proficiency.toLowerCase()]}
         </Text>
       ))}
     </View>
