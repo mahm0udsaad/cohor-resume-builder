@@ -51,7 +51,7 @@ export function ResumePreview({
   // Memoize the content to prevent unnecessary re-renders
   const content = useMemo(() => {
     if (showTemplates) {
-      return <DynamicTemplatesGallery />;
+      return <DynamicTemplatesGallery plan={plan} />;
     }
 
     return (

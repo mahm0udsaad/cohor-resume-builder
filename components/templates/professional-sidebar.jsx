@@ -1,8 +1,9 @@
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
+import { cn } from "@/lib/utils";
 import React from "react";
 
-const ProfessionalSidebar = ({ resumeData, selectedTheme }) => {
+const ProfessionalSidebar = ({ resumeData, selectedTheme, className }) => {
   // Detect Arabic for RTL layout
   const isArabic = resumeData.lng === "ar";
   const { lng } = resumeData;
@@ -25,7 +26,10 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme }) => {
   return (
     <div
       id="resume-template"
-      className={`flex flex-col lg:flex-row mx-auto font-sans text-gray-800`}
+      className={cn(
+        "flex flex-col lg:flex-row mx-auto font-sans text-gray-800",
+        className,
+      )}
       style={{ backgroundColor: theme.backgroundColor, direction: direction }}
     >
       {/* Sidebar */}
@@ -79,12 +83,16 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme }) => {
         </div>
 
         {/* Languages */}
-        <h3 className="text-2xl font-bold mb-4 mt-8">{t.languages}</h3>
-        {resumeData.languages.map((lang, index) => (
-          <div key={index} className="mb-2">
-            {lang.name} - {t[lang.proficiency.toLowerCase()]}
-          </div>
-        ))}
+        {resumeData.languages?.length > 0 && (
+          <>
+            <h3 className="text-2xl font-bold mb-4 mt-8">{t.languages}</h3>
+            {resumeData.languages.map((lang, index) => (
+              <div key={index} className="mb-2">
+                {lang.name} - {t[lang.proficiency.toLowerCase()]}
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       {/* Main Section */}
@@ -132,25 +140,26 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme }) => {
         ))}
 
         {/* Courses Section */}
-        {resumeData.courses[0]?.name.trim() !== "" && (
-          <>
-            <h3
-              className="text-2xl font-bold mb-4 mt-8"
-              style={{ color: theme.primaryColor }}
-            >
-              {t.courses}
-            </h3>
-            {resumeData.courses.map((course, index) => (
-              <div key={index} className="mb-6">
-                <div className="font-bold">{course.name}</div>
-                <div>{course.institution}</div>
-                <div>
-                  {t.completed}: {formatDate(course.completionDate)}
+        {resumeData.courses.length !== 0 &&
+          resumeData.courses[0]?.name.trim() !== "" && (
+            <>
+              <h3
+                className="text-2xl font-bold mb-4 mt-8"
+                style={{ color: theme.primaryColor }}
+              >
+                {t.courses}
+              </h3>
+              {resumeData.courses.map((course, index) => (
+                <div key={index} className="mb-6">
+                  <div className="font-bold">{course.name}</div>
+                  <div>{course.institution}</div>
+                  <div>
+                    {t.completed}: {formatDate(course.completionDate)}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </>
-        )}
+              ))}
+            </>
+          )}
       </div>
     </div>
   );

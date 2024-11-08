@@ -8,6 +8,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LanguagesIcon } from "lucide-react";
@@ -42,11 +43,28 @@ export default function LanguageSwitcher({ currentLang }) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => handleLanguageChange("en")}>
-            English
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleLanguageChange("ar")}>
+          <DropdownMenuItem
+            className="gap-4"
+            onClick={() => handleLanguageChange("ar")}
+          >
+            <img
+              src={`https://flagcdn.com/w40/sa.png`}
+              alt={`sa flag`}
+              className="size-5 rounded-sm"
+            />
             العربية
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className="gap-4"
+            onClick={() => handleLanguageChange("en")}
+          >
+            <img
+              src={`https://flagcdn.com/w40/us.png`}
+              alt={`uk flag`}
+              className="size-5 rounded-sm"
+            />
+            English
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

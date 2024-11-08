@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 import { memo } from "react";
@@ -23,7 +22,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme, className }) => {
         direction: styles.textDirection,
         backgroundColor: selectedTheme?.backgroundColor || "#ffffff",
       }}
-      className={cn(" px-4 ", className)}
+      className={className}
     >
       <div className="p-3" style={{ borderColor: selectedTheme?.primaryColor }}>
         <div className="flex items-center justify-between">

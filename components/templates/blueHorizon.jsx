@@ -2,7 +2,7 @@ import React from "react";
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 
-export default function BlueHorizon({ resumeData, selectedTheme }) {
+export default function BlueHorizon({ resumeData, selectedTheme, className }) {
   const isArabic = resumeData.lng === "ar";
 
   const { lng } = resumeData;
@@ -31,6 +31,7 @@ export default function BlueHorizon({ resumeData, selectedTheme }) {
   };
   return (
     <div
+      className={className}
       id="resume-template"
       dir={direction}
       style={{

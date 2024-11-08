@@ -10,8 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RocketIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import AutoSubscriptionModal from "@/components/cards/auto-subscription-modal";
-import { templates } from "@/data/data";
-
+import { getAvailableTemplates } from "@/utils/templates";
 export default async function TemplateGallery({
   params: { lng },
   searchParams,
@@ -20,19 +19,6 @@ export default async function TemplateGallery({
   const session = await auth();
   if (!session) redirect("/auth");
   const { user } = await getUser(session?.user.email);
-
-  // Function to get available templates based on user plan
-  const getAvailableTemplates = (userPlan) => {
-    switch (userPlan) {
-      case "proPlus":
-        return templates; // All templates
-      case "pro":
-        return templates.slice(0, 10); // First 10 templates
-      case "free":
-      default:
-        return templates.slice(0, 2); // First 2 templates
-    }
-  };
 
   const availableTemplates = getAvailableTemplates(user?.plan);
   const showUpgradeAlert = !user?.plan || user.plan === "free";

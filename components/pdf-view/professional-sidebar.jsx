@@ -15,7 +15,6 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
   const isArabic = resumeData.lng === "ar"; // Detect Arabic for RTL layout
   const { lng } = resumeData;
   const t = translations[lng] || translations["en"]; // Fallback to English if translation isn't available
-  const direction = isArabic ? "rtl" : "ltr"; // RTL for Arabic, LTR for others
 
   if (isArabic) {
     Font.register({
@@ -36,8 +35,7 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
     page: {
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
       backgroundColor: theme.backgroundColor,
-      flexDirection: "row",
-      direction: direction,
+      flexDirection: isArabic ? "row-reverse" : "row",
     },
     sidebar: {
       textAlign: isArabic ? "right" : "left",
@@ -52,11 +50,11 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
       textAlign: isArabic ? "right" : "left",
     },
     avatar: {
-      width: 150,
-      height: 150,
+      width: 120,
+      height: 120,
       borderRadius: "50%",
       objectFit: "cover",
-      border: `4px solid white`,
+      border: "4px solid white",
       marginBottom: 20,
     },
     sectionTitle: {
@@ -65,11 +63,13 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
       marginBottom: 10,
       borderBottom: "1px solid white",
       paddingBottom: 5,
+      textAlign: isArabic ? "right" : "left",
     },
     text: {
       fontSize: 12,
       lineHeight: 1.5,
       marginBottom: 8,
+      textAlign: isArabic ? "right" : "left",
     },
     skillItem: {
       backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -77,16 +77,19 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
       padding: "5px 10px",
       borderRadius: 10,
       fontSize: 10,
-      marginRight: 5,
+      marginRight: isArabic ? 0 : 5,
+      marginLeft: isArabic ? 5 : 0,
       marginBottom: 5,
     },
     experienceItem: {
       marginBottom: 12,
+      textAlign: isArabic ? "right" : "left",
     },
     heading: {
       fontSize: 20,
       color: theme.primaryColor,
       marginBottom: 10,
+      textAlign: isArabic ? "right" : "left",
     },
   });
 
@@ -95,10 +98,18 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
       <Page wrap={false} size="A4" style={styles.page}>
         {/* Sidebar */}
         <View style={styles.sidebar}>
-          <Image
-            src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
-            style={styles.avatar}
-          />
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
+              style={styles.avatar}
+            />
+          </View>
           <Text style={styles.sectionTitle}>{t.contact}</Text>
           {resumeData.personalInfo.contact?.map((item, index) => (
             <Text key={index} style={styles.text}>
@@ -162,28 +173,38 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
                 {exp.jobTitle}
               </Text>
               <Text style={{ fontSize: 14 }}>{exp.company}</Text>
-              <Text style={{ fontSize: 12, color: "#6b7280" }}>
-                {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
-              </Text>
+              <View
+                style={{
+                  flexDirection: lng === "ar" ? "row-reverse" : "row",
+                  alignItems: "center",
+                  color: "#6b7280",
+                  fontSize: 12,
+                }}
+              >
+                <Text>{formatDate(exp.startDate)}</Text>
+                <Text>-</Text>
+                <Text>{formatDate(exp.endDate, lng)}</Text>
+              </View>
               <Text style={styles.text}>{exp.responsibilities}</Text>
             </View>
           ))}
-          {resumeData.courses[0]?.name.trim() !== "" && (
-            <>
-              <Text style={styles.heading}>{t.courses}</Text>
-              {resumeData.courses.map((course, index) => (
-                <View key={index} style={styles.experienceItem}>
-                  <Text style={{ fontSize: 14, fontWeight: "bold" }}>
-                    {course.name}
-                  </Text>
-                  <Text style={styles.text}>{course.institution}</Text>
-                  <Text style={styles.text}>
-                    {t.completed}: {formatDate(course.completionDate)}
-                  </Text>
-                </View>
-              ))}
-            </>
-          )}
+          {resumeData.courses.length !== 0 &&
+            resumeData.courses[0]?.name.trim() !== "" && (
+              <>
+                <Text style={styles.heading}>{t.courses}</Text>
+                {resumeData.courses.map((course, index) => (
+                  <View key={index} style={styles.experienceItem}>
+                    <Text style={{ fontSize: 14, fontWeight: "bold" }}>
+                      {course.name}
+                    </Text>
+                    <Text style={styles.text}>{course.institution}</Text>
+                    <Text style={styles.text}>
+                      {t.completed}: {formatDate(course.completionDate)}
+                    </Text>
+                  </View>
+                ))}
+              </>
+            )}
         </View>
       </Page>
     </Document>

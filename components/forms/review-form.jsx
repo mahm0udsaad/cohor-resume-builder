@@ -15,11 +15,9 @@ import {
   BookOpen,
   Briefcase,
   User,
-  Globe,
   Code,
   LanguagesIcon,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { useFormTabs } from "@/hooks/use-forms-tabs";
 
 export default function ReviewForm({
@@ -29,7 +27,6 @@ export default function ReviewForm({
   plan,
   lng,
 }) {
-  const [hoveredSection, setHoveredSection] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { t } = useTranslation(lng, "forms");

@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "@/app/i18n/client";
 
 export const themes = [
   {
@@ -51,6 +52,7 @@ export const themes = [
 
 export function ThemeSelector({ selectedTheme, setSelectedTheme, lng, plan }) {
   const [isHovered, setIsHovered] = useState(false);
+  const { t } = useTranslation(lng, "common");
   const timeoutRef = useRef(null);
 
   const handleMouseEnter = () => {
@@ -142,7 +144,7 @@ export function ThemeSelector({ selectedTheme, setSelectedTheme, lng, plan }) {
             </TooltipProvider>
             {plan == "free" && (
               <p className="text-sm w-[17rem] mx-4">
-                Upgrade your plan to change the theme.
+                {t("upgradeToSeeThemes")}
               </p>
             )}
           </motion.div>

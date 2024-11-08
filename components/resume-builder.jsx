@@ -75,12 +75,12 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
               onValueChange={handleTabChange}
               className="w-full"
             >
-              <TabsList className="flex gap-2 mb-8">
+              <TabsList className="flex mb-8">
                 {tabs.map(({ id, icon: Icon }) => (
                   <TabsTrigger
                     key={id}
                     value={id}
-                    className="flex gap-2 data-[state=active]:text-white data-[state=active]:bg-[#3B51A3]"
+                    className="flex gap-1 data-[state=active]:text-white data-[state=active]:bg-[#3B51A3]"
                   >
                     <Icon className="size-4" />
                     <span className="text-[11px] ">{t(`tabs.${id}`)}</span>

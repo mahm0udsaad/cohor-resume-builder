@@ -1,45 +1,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
   const [loading, setLoading] = useState(false);
 
-  const loadArabicFonts = async () => {
-    const googleFontsLink = document.createElement("link");
-    googleFontsLink.rel = "stylesheet";
-    googleFontsLink.href =
-      "https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap";
-    document.head.appendChild(googleFontsLink);
-
-    const styleSheet = document.createElement("style");
-    styleSheet.textContent = `
-      .arabic-text {
-        font-family: 'Cairo', 'Tajawal', 'Noto Naskh Arabic', system-ui, -apple-system, sans-serif;
-      }
-    `;
-    document.head.appendChild(styleSheet);
-
-    await document.fonts.ready;
-    return { googleFontsLink, styleSheet };
-  };
-
   const downloadWithWatermark = async () => {
     try {
       setLoading(true);
-
-      const [html2canvasModule, jsPDFModule] = await Promise.all([
-        import("html2canvas"),
-        import("jspdf"),
-      ]);
-
-      const html2canvas = html2canvasModule.default;
-      const jsPDF = jsPDFModule.default;
-
-      let arabicFontsData;
-      if (resumeData.lng === "ar") {
-        arabicFontsData = await loadArabicFonts();
-      }
 
       const element = document.getElementById("resume-template");
       if (!element) {
@@ -50,34 +20,19 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "px",
-        format: "A3",
+        format: [650, 800],
       });
 
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
 
-      // Clone and prepare the element with PDF dimensions
+      // Clone and prepare the element with exact PDF dimensions
       const clonedElement = element.cloneNode(true);
       clonedElement.style.position = "absolute";
       clonedElement.style.left = "-9999px";
-      // Set the exact dimensions to match PDF size
       clonedElement.style.width = `${pageWidth}px`;
       clonedElement.style.height = `${pageHeight}px`;
-
-      // Add styles to make content stretch
-      const styleSheet = document.createElement("style");
-      document.head.appendChild(styleSheet);
-
-      if (resumeData.lng === "ar") {
-        const applyArabicStyles = (element) => {
-          element.classList.add("arabic-text");
-          Array.from(element.children).forEach((child) =>
-            applyArabicStyles(child),
-          );
-        };
-        applyArabicStyles(clonedElement);
-      }
-
+      clonedElement.style.transform = "scale(1)"; // Remove scaling issues
       document.body.appendChild(clonedElement);
 
       // Add watermark
@@ -87,11 +42,10 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) rotate(-45deg);
-        z-index: 1000;
+        font-size: 50px;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.1);
         pointer-events: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       `;
 
       watermark.innerHTML = `
@@ -99,9 +53,9 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
           src="/ar-logo.png" 
           alt="Watermark" 
           style="
-            width: 500px;
+            width: 400px;
             height: auto;
-            opacity: 0.3;
+            opacity: 0.2;
           "
         />
       `;
@@ -110,44 +64,22 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Capture with exact PDF dimensions
+      // Capture with `html2canvas` using specific width and height
       const canvas = await html2canvas(clonedElement, {
-        scale: 2,
+        scale: 2, // Adjust scale if needed
         useCORS: true,
         allowTaint: true,
-        backgroundColor: "#ffffff",
-        logging: false,
         width: pageWidth,
         height: pageHeight,
-        onclone: (clonedDoc) => {
-          if (resumeData.lng === "ar") {
-            const style = clonedDoc.createElement("style");
-            style.textContent = `
-              * {
-                font-family: 'Cairo', 'Tajawal', 'Noto Naskh Arabic', system-ui, -apple-system, sans-serif !important;
-                direction: rtl;
-              }
-            `;
-            clonedDoc.head.appendChild(style);
-          }
-        },
+        backgroundColor: "#ffffff",
       });
 
-      // Clean up
+      // Clean up cloned element from the DOM
       document.body.removeChild(clonedElement);
-      document.head.removeChild(styleSheet);
-      if (arabicFontsData) {
-        document.head.removeChild(arabicFontsData.styleSheet);
-        document.head.removeChild(arabicFontsData.googleFontsLink);
-      }
 
-      // Convert to mm for PDF
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-
+      // Add image to PDF
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
-      // Add image using full page dimensions
-      pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, "JPEG", 0, 0, pageWidth, pageHeight);
 
       const filename = `${resumeData.personalInfo?.name || "resume"}_free.pdf`;
       pdf.save(filename);

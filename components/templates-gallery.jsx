@@ -1,15 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { templates } from "@/data/data";
 import Link from "next/link";
+import { getAvailableTemplates } from "@/utils/templates";
 
-const TemplateGallery = ({ main }) => {
+const TemplateGallery = ({ plan }) => {
+  const availableTemplates = getAvailableTemplates(plan);
   return (
-    <div
-      className={`grid ${
-        main ? "container mx-auto my-12 md:grid-cols-2" : "overflow-y-auto"
-      } grid-cols-1 gap-6 h-screen notfs`}
-    >
-      {templates.map((template, index) => {
+    <div className={`grid overflow-y-auto grid-cols-1 gap-6 h-screen notfs`}>
+      {availableTemplates.map((template, index) => {
         const { name, image } = template;
 
         return (

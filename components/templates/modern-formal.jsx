@@ -1,10 +1,11 @@
-import { allSkills, translations } from "@/data/data";
+import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 
 // Assuming data, t, formatDate, and isArabic are passed in as props
 export default function ModernFormalResumeTemplate({
   resumeData,
   selectedTheme,
+  className,
 }) {
   const isArabic = resumeData.lng === "ar";
   const t = isArabic ? translations.ar : translations.en;
@@ -28,6 +29,7 @@ export default function ModernFormalResumeTemplate({
   return (
     <div
       id="resume-template"
+      className={className}
       style={{
         fontFamily: isArabic ? "'Amiri', serif" : "Arial, sans-serif", // Adjust font for Arabic
         padding: "20px",

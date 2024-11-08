@@ -2,7 +2,7 @@ import React from "react";
 import { translations } from "@/data/data"; // Import your translations
 import { formatDate } from "@/helper/date"; // Assume a date formatter utility
 
-const ProfessionalResume = ({ resumeData, selectedTheme }) => {
+const ProfessionalResume = ({ resumeData, selectedTheme, className }) => {
   const isArabic = resumeData.lng === "ar"; // Detect Arabic for RTL layout
   const { lng } = resumeData;
   const t = translations[lng] || translations["en"]; // Use fallback to English if translation isn't available
@@ -123,6 +123,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
   return (
     <div
       id="resume-template"
+      className={className}
       style={{
         ...styles.container,
         direction: direction, // Set text direction based on language
