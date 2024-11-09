@@ -29,9 +29,9 @@ export default function Sidebar({
       } md:translate-x-0 md:static absolute inset-y-0 left-0 z-30`}
     >
       <div className="p-4 flex justify-between items-center border-b">
-        <div className="flex  items-center">
+        <div className="flex bg-white rounded-md items-center">
           <Image
-            src="/cogor-logo.svg"
+            src="/ar-logo.png"
             alt="Logo"
             width={100}
             height={100}
@@ -44,21 +44,31 @@ export default function Sidebar({
       </div>
       <nav className="flex-1 p-2 space-y-4">
         <button
-          className={`flex justify-start items-center gap-4 w-full rounded-md text-left p-4 hover:bg-[#2c3e7a] ${
+          className={`border flex justify-start items-center gap-4 w-full rounded-md text-left p-4 hover:bg-[#2c3e7a] ${
             activeTab === "Information" ? "bg-white text-black" : ""
           }`}
           onClick={() => setActiveTab("Information")}
         >
-          <File size={20} className="mx-2 text-[#2c3e7a]" />
+          <File
+            size={20}
+            className={`mx-2 ${
+              activeTab === "Information" ? "text-[#2c3e7a]" : "text-white"
+            }`}
+          />
           {t("dashboard.tabs.myInformation")}
         </button>
         <button
-          className={`flex justify-start items-center w-full rounded-md text-left p-4 hover:bg-[#2c3e7a] ${
+          className={`border flex justify-start items-center w-full rounded-md text-left p-4 hover:bg-[#2c3e7a] ${
             activeTab === "Resumes" ? "bg-white text-black" : ""
           }`}
           onClick={() => setActiveTab("Resumes")}
         >
-          <Layout size={20} className="mx-2 text-[#2c3e7a]" />
+          <Layout
+            size={20}
+            className={`mx-2 ${
+              activeTab === "Resumes" ? "text-[#2c3e7a]" : "text-white"
+            }`}
+          />
           {t("dashboard.tabs.myResumes")}
         </button>
       </nav>
@@ -90,7 +100,7 @@ function UserProfileButton({ userInfo, handleSignOut }) {
             alt="User"
             width={24}
             height={24}
-            className="rounded-full mx-2"
+            className="rounded-md mx-2"
           />
           User Profile
         </Button>

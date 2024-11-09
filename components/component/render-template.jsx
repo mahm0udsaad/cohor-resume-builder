@@ -11,9 +11,10 @@ import {
 import { DeleteConfirmation } from "../btns/delete-dialog";
 import { Skeleton } from "../ui/skeleton";
 import { getResumeTemplate } from "@/helper/get-resume-engin";
-import { DownloadBtn } from "../btns/download-pdf";
 import { useTranslation } from "@/app/i18n/client";
 import { Font } from "@react-pdf/renderer";
+import { Button } from "../ui/button";
+import { Edit, Edit2 } from "lucide-react";
 
 const ResumeCard = ({ resume, user, isNewCard = false, list, lng }) => {
   const { t } = useTranslation(lng, "common");
@@ -90,11 +91,11 @@ const ResumeCard = ({ resume, user, isNewCard = false, list, lng }) => {
         </Link>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <DownloadBtn
-          templateName={resume.name}
-          data={resumeData}
-          userName={user.name.split(" ")[0]}
-        />
+        <Link href={`/edit/${resume.name}`}>
+          <Button variant="outline" className="mx-2">
+            <Edit className="size-6" />
+          </Button>
+        </Link>
         <DeleteConfirmation lng={lng} email={user.email} resumeId={resume.id} />
       </CardFooter>
     </Card>

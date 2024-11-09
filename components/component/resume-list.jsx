@@ -3,14 +3,7 @@ import ResumeCard from "./render-template";
 const ResumeList = ({ lng, user, resumes }) => {
   return (
     <div className="grid lg:grid-cols-2  gap-4 mt-4">
-      <ResumeCard
-        list
-        key={resumes[0].id}
-        resume={resumes[0]}
-        user={user}
-        lng={lng}
-      />
-      {/* {resumes &&
+      {resumes &&
         resumes.map((resume) => (
           <ResumeCard
             list
@@ -19,7 +12,7 @@ const ResumeList = ({ lng, user, resumes }) => {
             user={user}
             lng={lng}
           />
-        ))} */}
+        ))}
     </div>
   );
 };

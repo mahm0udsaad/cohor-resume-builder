@@ -76,12 +76,16 @@ export const templateComponents = {
   elegantmodern: ElegantModernResumeTemplate,
   glow: GlowResumeTemplate,
   creativeTimeLine: CreativeTimelineResumeTemplate,
+  creativetimeline: CreativeTimelineResumeTemplate,
   professional: ProfessionalResume,
   gridLayout: GridLayoutResume,
+  gridlayout: GridLayoutResume,
   ProfessionalSidebar: ProfessionalSidebar,
+  professionalsidebar: ProfessionalSidebar,
   BlueHorizon: BlueHorizon,
   bluehorizon: BlueHorizon,
   modernFormal: ModernFormalResumeTemplate,
+  modernformal: ModernFormalResumeTemplate, // unified casing
 };
 export const templates = [
   { name: "professional", Component: ProfessionalResume },

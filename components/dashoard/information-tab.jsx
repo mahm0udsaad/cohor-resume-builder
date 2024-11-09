@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useTransition,
-} from "react";
+import React, { useRef, useState, useTransition } from "react";
 import {
   Briefcase,
   GraduationCap,
@@ -14,8 +8,6 @@ import {
   Languages as LanguagesIcon,
   Book,
   Edit,
-  ChevronDown,
-  ChevronUp,
   Plus,
   Trash2,
   Calendar,
@@ -25,17 +17,15 @@ import {
   Globe,
   X,
   Loader2,
+  Image,
+  Upload,
+  UploadCloud,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  useForm,
-  useFieldArray,
-  Controller,
-  FieldValues,
-} from "react-hook-form";
+import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 import {
   Select,
@@ -49,7 +39,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -57,6 +47,9 @@ import { saveOnboardingData } from "@/actions/userInfo/action";
 import { useSession } from "next-auth/react";
 import { formatDate } from "@/helper/date";
 import { useEditingContext } from "@/context/edit-context";
+import { uploadToCloud } from "@/lib/cloud";
+import Spinner from "../skeleton/spinner";
+import { allSkills } from "@/data/data";
 
 function SectionHeader({ icon: Icon, title }) {
   return (
@@ -71,7 +64,7 @@ function SectionHeader({ icon: Icon, title }) {
 
 export default function InformationTab({ initialData }) {
   const [userInfo, setUserInfo] = useState(initialData);
-  const { isEditing, handleEdit, handleCancel } = useEditingContext();
+  const { handleCancel, isEditing, handleEdit } = useEditingContext();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const { data: session } = useSession();
@@ -81,6 +74,7 @@ export default function InformationTab({ initialData }) {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm({
     defaultValues: userInfo,
   });
@@ -119,19 +113,41 @@ export default function InformationTab({ initialData }) {
       <div dir="ltr" className="space-y-8">
         <PersonalInfo
           control={control}
+          setValue={setValue}
           errors={errors}
           contacts={userInfo.personalInfo.contact}
         />
         <ExperienceSection control={control} errors={errors} />
-        <EducationSection control={control} errors={errors} />
-        <SkillsSection control={control} errors={errors} />
-        <LanguagesSection control={control} errors={errors} />
+        <EducationSection
+          control={control}
+          errors={errors}
+          setValue={setValue}
+        />
+        <div className="flex gap-2 w-full">
+          <SkillsSection control={control} errors={errors} />
+          <LanguagesSection control={control} errors={errors} />
+        </div>
         <CoursesSection control={control} errors={errors} />
       </div>
       <div className="sticky bottom-0 bg-background border-t border-border p-4 flex justify-between items-center">
-        <Button type="button" variant="outline" onClick={handleReset}>
-          Reset Changes
-        </Button>
+        {isEditing ? (
+          <Button type="button" variant="outline" onClick={handleReset}>
+            Reset Changes
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={isEditing ? handleCancel : handleEdit}
+          >
+            {isEditing ? (
+              <X className="h-4 w-4 mx-2" />
+            ) : (
+              <Edit className="h-4 w-4 mx-2" />
+            )}
+            {isEditing ? "Cancel" : "Edit"}
+          </Button>
+        )}
         <Button
           type="submit"
           className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
@@ -154,13 +170,49 @@ export default function InformationTab({ initialData }) {
   );
 }
 
-function PersonalInfo({ control, contacts }) {
+function PersonalInfo({ control, contacts, setValue }) {
   const { isEditing, handleEdit, handleCancel } = useEditingContext();
+  const imageInputRef = useRef(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "personalInfo.contact",
   });
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+
+    // Create a local blob URL for immediate display
+    const localImageUrl = URL.createObjectURL(file);
+
+    // Update the form with the local blob URL immediately
+    setValue("personalInfo.imageUrl", localImageUrl);
+
+    // Prepare and upload the image
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const result = await uploadToCloud(formData);
+      // Update the form with the cloud URL
+      setTimeout(() => {
+        setValue("personalInfo.imageUrl", result.adImage);
+      }, 10000);
+    } catch (error) {
+      console.error("Failed to upload image:", error);
+      // Keep the local blob URL if upload fails
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const triggerImageUpload = () => {
+    imageInputRef.current?.click();
+  };
 
   return (
     <Card className="overflow-hidden transition-all duration-300 ease-in-out">
@@ -187,12 +239,35 @@ function PersonalInfo({ control, contacts }) {
               name="personalInfo.imageUrl"
               control={control}
               render={({ field }) => (
-                <img
-                  src={field.value || "/placeholder.svg"}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
+                <>
+                  <img
+                    src={field.value || "/placeholder.svg"}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                  {isEditing && (
+                    <Button
+                      className="h-full absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 hover:opacity-100 transition-opacity"
+                      type="button"
+                      onClick={triggerImageUpload}
+                      disabled={isUploading}
+                    >
+                      {isUploading ? (
+                        <Spinner />
+                      ) : (
+                        <UploadCloud className="size-6 mx-2" />
+                      )}
+                    </Button>
+                  )}
+                </>
               )}
+            />
+            <Input
+              ref={imageInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
             />
           </div>
           <div className="space-y-2 text-center md:text-left">
@@ -455,9 +530,15 @@ function ExperienceSection({ control, errors }) {
   );
 }
 
-function EducationSection({ control, errors }) {
+function EducationSection({ control, errors, setValue }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
+    control,
+    name: "educations",
+  });
+
+  // Watch all GPA types to force re-render when they change
+  const educations = useWatch({
     control,
     name: "educations",
   });
@@ -466,142 +547,166 @@ function EducationSection({ control, errors }) {
     <Card className="border-t-4 border-t-purple-500 transition-all duration-300 ease-in-out">
       <SectionHeader icon={GraduationCap} title="Education" />
       <CardContent className="space-y-6">
-        {fields.map((field, index) => (
-          <Card key={field.id} className="bg-muted">
-            <CardContent className="space-y-4 pt-6">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">Education {index + 1}</h3>
-                {isEditing && (
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => remove(index)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
+        {fields.map((field, index) => {
+          // Get the current GPA type from watched values
+          const currentGpaType = educations?.[index]?.gpaType;
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label>Degree</Label>
-                  <Controller
-                    name={`educations.${index}.degree`}
-                    control={control}
-                    rules={{ required: "Degree is required" }}
-                    render={({ field }) =>
-                      isEditing ? (
-                        <Input {...field} className="mt-1" />
-                      ) : (
-                        <p className="mt-1 font-medium">{field.value}</p>
-                      )
-                    }
-                  />
+          return (
+            <Card key={field.id} className="bg-muted">
+              <CardContent className="space-y-4 pt-6">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold">
+                    Education {index + 1}
+                  </h3>
+                  {isEditing && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => remove(index)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
-                <div>
-                  <Label>Institution</Label>
-                  <Controller
-                    name={`educations.${index}.institution`}
-                    control={control}
-                    rules={{ required: "Institution is required" }}
-                    render={({ field }) =>
-                      isEditing ? (
-                        <Input {...field} className="mt-1" />
-                      ) : (
-                        <p className="mt-1">{field.value}</p>
-                      )
-                    }
-                  />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Degree</Label>
+                    <Controller
+                      name={`educations.${index}.degree`}
+                      control={control}
+                      rules={{ required: "Degree is required" }}
+                      render={({ field }) =>
+                        isEditing ? (
+                          <Input {...field} className="mt-1" />
+                        ) : (
+                          <p className="mt-1 font-medium">{field.value}</p>
+                        )
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Label>Institution</Label>
+                    <Controller
+                      name={`educations.${index}.institution`}
+                      control={control}
+                      rules={{ required: "Institution is required" }}
+                      render={({ field }) =>
+                        isEditing ? (
+                          <Input {...field} className="mt-1" />
+                        ) : (
+                          <p className="mt-1">{field.value}</p>
+                        )
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <Controller
-                name={`educations.${index}.graduationDate`}
-                control={control}
-                rules={{ required: "Graduation date is required" }}
-                render={({ field }) => (
-                  <DatePicker
-                    label="Graduation Date"
-                    value={field.value}
-                    onChange={field.onChange}
-                    isEditing={isEditing}
-                  />
-                )}
-              />
-
-              <div>
-                <Label>GPA Type</Label>
                 <Controller
-                  name={`educations.${index}.gpaType`}
+                  name={`educations.${index}.graduationDate`}
                   control={control}
-                  render={({ field }) =>
-                    isEditing ? (
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger className="mt-1">
-                          <SelectValue placeholder="Select GPA type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="numeric">Numeric</SelectItem>
-                          <SelectItem value="descriptive">
-                            Descriptive
-                          </SelectItem>
-                          <SelectItem value="none">None</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <p className="mt-1 capitalize">{field.value}</p>
-                    )
-                  }
+                  rules={{ required: "Graduation date is required" }}
+                  render={({ field }) => (
+                    <DatePicker
+                      label="Graduation Date"
+                      value={field.value}
+                      onChange={field.onChange}
+                      isEditing={isEditing}
+                    />
+                  )}
                 />
-              </div>
 
-              {field.gpaType === "numeric" && (
                 <div>
-                  <Label>Numeric GPA</Label>
+                  <Label>GPA Type</Label>
                   <Controller
-                    name={`educations.${index}.numericGpa`}
+                    name={`educations.${index}.gpaType`}
                     control={control}
-                    rules={{ required: "Numeric GPA is required" }}
                     render={({ field }) =>
                       isEditing ? (
-                        <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          className="mt-1"
-                        />
+                        <Select
+                          value={field.value}
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            // Clear the other GPA field when switching types
+                            if (value === "numeric") {
+                              setValue(
+                                `educations.${index}.descriptiveGpa`,
+                                "",
+                              );
+                            } else if (value === "descriptive") {
+                              setValue(`educations.${index}.numericGpa`, "");
+                            } else {
+                              setValue(`educations.${index}.numericGpa`, "");
+                              setValue(
+                                `educations.${index}.descriptiveGpa`,
+                                "",
+                              );
+                            }
+                          }}
+                        >
+                          <SelectTrigger className="mt-1">
+                            <SelectValue placeholder="Select GPA type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="numeric">Numeric</SelectItem>
+                            <SelectItem value="descriptive">
+                              Descriptive
+                            </SelectItem>
+                            <SelectItem value="none">None</SelectItem>
+                          </SelectContent>
+                        </Select>
                       ) : (
-                        <p className="mt-1">{field.value}</p>
+                        <p className="mt-1 capitalize">{field.value}</p>
                       )
                     }
                   />
                 </div>
-              )}
 
-              {field.gpaType === "descriptive" && (
-                <div>
-                  <Label>Descriptive GPA</Label>
-                  <Controller
-                    name={`educations.${index}.descriptiveGpa`}
-                    control={control}
-                    rules={{ required: "Descriptive GPA is required" }}
-                    render={({ field }) =>
-                      isEditing ? (
-                        <Input {...field} className="mt-1" />
-                      ) : (
-                        <p className="mt-1">{field.value}</p>
-                      )
-                    }
-                  />
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        ))}
+                {currentGpaType === "numeric" && (
+                  <div>
+                    <Label>Numeric GPA</Label>
+                    <Controller
+                      name={`educations.${index}.numericGpa`}
+                      control={control}
+                      rules={{ required: "Numeric GPA is required" }}
+                      render={({ field }) =>
+                        isEditing ? (
+                          <Input
+                            {...field}
+                            type="number"
+                            step="0.01"
+                            className="mt-1"
+                          />
+                        ) : (
+                          <p className="mt-1">{field.value}</p>
+                        )
+                      }
+                    />
+                  </div>
+                )}
+
+                {currentGpaType === "descriptive" && (
+                  <div>
+                    <Label>Descriptive GPA</Label>
+                    <Controller
+                      name={`educations.${index}.descriptiveGpa`}
+                      control={control}
+                      rules={{ required: "Descriptive GPA is required" }}
+                      render={({ field }) =>
+                        isEditing ? (
+                          <Input {...field} className="mt-1" />
+                        ) : (
+                          <p className="mt-1">{field.value}</p>
+                        )
+                      }
+                    />
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
 
         {isEditing && (
           <Button
@@ -627,6 +732,13 @@ function EducationSection({ control, errors }) {
   );
 }
 
+const skillLevels = [
+  { value: "beginner", label: "Beginner" },
+  { value: "intermediate", label: "Intermediate" },
+  { value: "advanced", label: "Advanced" },
+  { value: "expert", label: "Expert" },
+];
+
 function SkillsSection({ control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
@@ -634,45 +746,97 @@ function SkillsSection({ control, errors }) {
     name: "skills",
   });
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const filteredSkills = allSkills.filter((skill) =>
+    skill.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const handleAddSkill = (skillName) => {
+    if (!fields.some((field) => field.name === skillName)) {
+      append({ name: skillName, level: "beginner" });
+      setSearchTerm("");
+      setIsDropdownOpen(false);
+    }
+  };
+
   return (
-    <Card className="border-t-4 border-t-emerald-500 transition-all duration-300 ease-in-out">
+    <Card className="w-full border-t-4 border-t-emerald-500 transition-all duration-300 ease-in-out">
       <SectionHeader icon={Code} title="Skills" />
-      <CardContent>
-        <div className="space-y-4">
+      <CardContent className="space-y-4">
+        {isEditing && (
+          <div className="space-y-2">
+            <Label htmlFor="skill-search">Add Skill</Label>
+            <div className="relative">
+              <Input
+                type="text"
+                id="skill-search"
+                className="w-full"
+                placeholder="Search or type a skill"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onFocus={() => setIsDropdownOpen(true)}
+                onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)}
+                autoComplete="off"
+              />
+              {isDropdownOpen && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                  {filteredSkills.map((skill) => (
+                    <div
+                      key={skill}
+                      className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${
+                        fields.some((f) => f.name === skill)
+                          ? "bg-gray-100"
+                          : ""
+                      }`}
+                      onClick={() => handleAddSkill(skill)}
+                    >
+                      {skill}
+                    </div>
+                  ))}
+                  {searchTerm && !filteredSkills.includes(searchTerm) && (
+                    <div
+                      className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                      onClick={() => handleAddSkill(searchTerm)}
+                    >
+                      Add "{searchTerm}" as new skill
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div className="flex flex-wrap">
           {fields.map((field, index) => (
-            <div key={field.id} className="flex items-center space-x-2">
+            <div
+              key={field.id}
+              className={`flex items-center space-x-1 p-1 ${
+                isEditing ? "bg-gray-50 rounded-lg" : ""
+              }`}
+            >
               {isEditing ? (
                 <>
-                  <Controller
-                    name={`skills.${index}.name`}
-                    control={control}
-                    rules={{ required: "Skill name is required" }}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        placeholder="Skill name"
-                        className="flex-grow"
-                      />
-                    )}
-                  />
+                  <div className="font-medium min-w-[120px]">{field.name}</div>
                   <Controller
                     name={`skills.${index}.level`}
                     control={control}
-                    render={({ field }) => (
+                    render={({ field: levelField }) => (
                       <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
+                        value={levelField.value}
+                        onValueChange={levelField.onChange}
                       >
                         <SelectTrigger className="w-[140px]">
                           <SelectValue placeholder="Skill level" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="beginner">Beginner</SelectItem>
-                          <SelectItem value="intermediate">
-                            Intermediate
-                          </SelectItem>
-                          <SelectItem value="advanced">Advanced</SelectItem>
-                          <SelectItem value="expert">Expert</SelectItem>
+                          {skillLevels.map((level) => (
+                            <SelectItem key={level.value} value={level.value}>
+                              {level.label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     )}
@@ -693,15 +857,8 @@ function SkillsSection({ control, errors }) {
               )}
             </div>
           ))}
-          {isEditing && (
-            <Button
-              type="button"
-              onClick={() => append({ name: "", level: "beginner" })}
-              className="w-full"
-            >
-              <Plus className="w-4 h-4 mx-2" />
-              Add Skill
-            </Button>
+          {fields.length === 0 && (
+            <div className="text-gray-500">No skills added yet</div>
           )}
         </div>
       </CardContent>
@@ -717,12 +874,12 @@ function LanguagesSection({ control, errors }) {
   });
 
   return (
-    <Card className="border-t-4 border-t-yellow-500 transition-all duration-300 ease-in-out">
+    <Card className="w-full border-t-4 border-t-yellow-500 transition-all duration-300 ease-in-out">
       <SectionHeader icon={LanguagesIcon} title="Languages" />
       <CardContent>
-        <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-2">
           {fields.map((field, index) => (
-            <div key={field.id} className="flex items-center space-x-2">
+            <div key={field.id} className="flex items-center gap-2">
               {isEditing ? (
                 <>
                   <Controller

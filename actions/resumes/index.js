@@ -3,38 +3,75 @@
 import { parseDate } from "@/helper/date";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { getUserWithDetails } from "../userInfo/action";
 
 export async function addResumeToUser(email, resumeName) {
   try {
-    // Find the user by ID to ensure they exist
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    console.log("Adding resume:", email, resumeName);
 
-    if (!user) {
-      return { success: false, error: "User not found" };
-    }
+    // Fetch the user's details, including their existing resumes
+    const {
+      user,
+      personalInfo,
+      experiences,
+      educations,
+      skills,
+      languages,
+      courses,
+      resumes,
+    } = await getUserWithDetails(email);
 
     // Check if the user already has a resume with the given name
-    const existingResume = await prisma.resume.findFirst({
-      where: { name: resumeName, userId: user.id },
-    });
-
+    const existingResume = resumes.find((resume) => resume.name === resumeName);
     if (existingResume) {
       return { success: true, resume: existingResume };
     }
 
-    // Add a new resume entry to the user's resumes list
-    const updatedUser = await prisma.resume.create({
+    // Create a new resume with the user's initial data
+    const newResume = await prisma.resume.create({
       data: {
-        name: resumeName, // Set the name of the resume template
-        user: {
-          connect: { email }, // Associate the resume with the user
+        name: resumeName,
+        userId: user.id,
+        personalInfo: {
+          name: personalInfo?.name,
+          jobTitle: personalInfo?.jobTitle,
+          imageUrl: personalInfo?.imageUrl,
+          phoneNumber: personalInfo?.phoneNumber,
+          summary: personalInfo?.summary,
+          contact: personalInfo?.contact || [],
         },
+        experiences: experiences.map((exp) => ({
+          jobTitle: exp.jobTitle,
+          company: exp.company,
+          startDate: exp.startDate,
+          endDate: exp.endDate,
+          responsibilities: exp.responsibilities,
+        })),
+        educations: educations.map((edu) => ({
+          degree: edu.degree,
+          institution: edu.institution,
+          graduationDate: edu.graduationDate,
+          gpaType: edu.gpaType,
+          numericGpa: edu.numericGpa,
+          descriptiveGpa: edu.descriptiveGpa,
+        })),
+        skills: skills.map((skill) => ({
+          name: skill.name,
+          level: skill.level,
+        })),
+        languages: languages.map((lang) => ({
+          name: lang.name,
+          proficiency: lang.proficiency,
+        })),
+        courses: courses.map((course) => ({
+          name: course.name,
+          institution: course.institution,
+          completionDate: course.completionDate,
+        })),
       },
     });
 
-    return { success: true, resume: updatedUser };
+    return { success: true, resume: newResume };
   } catch (error) {
     console.error("Error adding resume:", error);
     return { success: false, error: error.message };
@@ -295,6 +332,7 @@ export const updateUserResumeData = async (
     };
   }
 };
+
 export async function saveSkills(userId, skills) {
   try {
     const updatedUser = await prisma.user.update({
