@@ -111,19 +111,14 @@ const UserBtn = ({ lng }) => {
             <span>{t("userDropdown.logout")}</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <div className="pt-2 flex items-center justify-center gap-4 color-blue-500">
-              <Link className="underline text-blue-500" href="/privacy-policy">
-                {t("userDropdown.privacy")}
-              </Link>
-              <Link
-                className="underline text-blue-500"
-                href="/terms-conditions"
-              >
-                {t("userDropdown.terms")}
-              </Link>
-            </div>
-          </DropdownMenuItem>
+          <div className="pt-2 flex items-center justify-center gap-4 color-blue-500">
+            <Link className="underline text-blue-500" href="/privacy-policy">
+              {t("userDropdown.privacy")}
+            </Link>
+            <Link className="underline text-blue-500" href="/terms-conditions">
+              {t("userDropdown.terms")}
+            </Link>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
