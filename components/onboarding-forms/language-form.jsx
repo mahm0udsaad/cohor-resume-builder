@@ -18,9 +18,6 @@ export default function LanguagesForm({ control, errors, t }) {
     control,
     name: "languages",
   });
-  if (fields.length === 0) {
-    append({ name: "", proficiency: "" });
-  }
   return (
     <div className="space-y-6">
       {fields.map((field, index) => (

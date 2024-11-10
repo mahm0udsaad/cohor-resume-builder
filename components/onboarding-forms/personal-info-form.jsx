@@ -43,36 +43,29 @@ export default function PersonalInfoForm({ control, errors, t }) {
             )}
           />
         </div>
-        <div>
-          <Label htmlFor="phoneNumber">{t("personalInfo.phone")}</Label>
-          <Controller
-            name="phoneNumber"
-            control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                id="phoneNumber"
-                placeholder={t("personalInfo.phonePlaceholder")}
-              />
-            )}
-          />
-          {errors.phoneNumber && (
-            <p className="mt-1 text-sm text-red-600">
-              {errors.phoneNumber.message}
-            </p>
-          )}
-        </div>
+
         <Controller
           name="contact"
           control={control}
-          defaultValue={[""]}
+          defaultValue={["", ""]}
           render={({ field: { onChange, value } }) => (
             <>
               {value.map((contact, index) => (
-                <>
-                  <div key={index} className="flex items-end">
+                <div
+                  key={index}
+                  className={
+                    index === value.length - 1 && index % 2 === 0
+                      ? "col-span-2"
+                      : ""
+                  }
+                >
+                  <div className="flex items-end gap-2">
                     <div className="flex-1">
-                      <Label>{t("personalInfo.contact")}</Label>
+                      <Label>
+                        {index === 0
+                          ? t("personalInfo.phone")
+                          : t("personalInfo.contact")}
+                      </Label>
                       <Input
                         value={contact}
                         onChange={(e) => {
@@ -80,10 +73,14 @@ export default function PersonalInfoForm({ control, errors, t }) {
                           newContacts[index] = e.target.value;
                           onChange(newContacts);
                         }}
-                        placeholder={t("personalInfo.contactPlaceholder")}
+                        placeholder={
+                          index === 0
+                            ? t("personalInfo.phonePlaceholder")
+                            : t("personalInfo.contactPlaceholder")
+                        }
                       />
                     </div>
-                    {index > 0 && (
+                    {index > 1 && (
                       <Button
                         type="button"
                         onClick={() => {
@@ -102,25 +99,25 @@ export default function PersonalInfoForm({ control, errors, t }) {
                       </Button>
                     )}
                   </div>
-                </>
+                </div>
               ))}
               {value.length < 5 && (
-                <Button
-                  type="button"
-                  onClick={() => onChange([...value, ""])}
-                  variant="outline"
-                  className="col-span-2"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  {t("personalInfo.addContact")}
-                </Button>
+                <div className={value.length % 2 === 0 ? "col-span-2" : ""}>
+                  <Button
+                    type="button"
+                    onClick={() => onChange([...value, ""])}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    {t("personalInfo.addContact")}
+                  </Button>
+                </div>
               )}
             </>
           )}
         />
       </div>
-
-      {/* Phone Number and Contact Fields in Two-Column Layout */}
 
       <div>
         <Label htmlFor="summary">{t("personalInfo.summary")}</Label>

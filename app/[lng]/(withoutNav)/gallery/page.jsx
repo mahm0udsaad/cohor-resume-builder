@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Lock } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
 import SearchForm from "@/components/forms/search";
 import Image from "next/image";
@@ -10,19 +10,33 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RocketIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import AutoSubscriptionModal from "@/components/cards/auto-subscription-modal";
-import { getAvailableTemplates } from "@/utils/templates";
-export default async function TemplateGallery({
-  params: { lng },
-  searchParams,
-}) {
-  const { t } = await useTranslation(lng, "common");
+import { templates } from "@/data/data";
+
+async function TemplateGallery({ params: { lng }, searchParams }) {
   const session = await auth();
   if (!session) redirect("/auth");
   const { user } = await getUser(session?.user.email);
-
-  const availableTemplates = getAvailableTemplates(user?.plan);
+  const { t } = await useTranslation(lng, "common");
   const showUpgradeAlert = !user?.plan || user.plan === "free";
   const showPricing = searchParams?.hasOwnProperty("showPricing");
+
+  const getTemplateStatus = (templateIndex, userPlan) => {
+    switch (userPlan) {
+      case "proPlus":
+        return { isLocked: false, requiredPlan: null };
+      case "pro":
+        return {
+          isLocked: templateIndex >= 10,
+          requiredPlan: templateIndex >= 10 ? "proPlus" : null,
+        };
+      case "free":
+      default:
+        return {
+          isLocked: templateIndex >= 2,
+          requiredPlan: templateIndex >= 10 ? "proPlus" : "pro",
+        };
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -32,7 +46,7 @@ export default async function TemplateGallery({
             {t("galleryHeader.title")}
           </h1>
           <Link href="/" className="text-blue-600">
-            <div className="coursor-pointer rounded-md transition delay-300 hover:shadow-lg hover:bg-[#3b51a3] hover:text-white group w-[16rem] h-[2.5rem] flex justify-center items-center">
+            <div className="cursor-pointer rounded-md transition delay-300 hover:shadow-lg hover:bg-[#3b51a3] hover:text-white group w-64 h-10 flex justify-center items-center">
               <ArrowLeft
                 className={`mx-2 h-4 w-4 transition-transform ${
                   lng === "ar"
@@ -48,7 +62,6 @@ export default async function TemplateGallery({
         </div>
       </header>
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <SearchForm lng={lng} />
         {showUpgradeAlert && (
           <div className="px-4 mb-8 sm:px-0">
             <Alert className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
@@ -68,7 +81,7 @@ export default async function TemplateGallery({
                     >
                       <span>{t("upgradeAlert.actionText")}</span>
                       <svg
-                        className={`w-4 h-4 ms-1 rtl:rotate-180 transition-transform group-hover:translate-x-1`}
+                        className="w-4 h-4 ms-1 rtl:rotate-180"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -89,37 +102,66 @@ export default async function TemplateGallery({
         )}
         <div className="px-4 py-6 sm:px-0">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {availableTemplates.map((template) => (
-              <Link
-                key={template.name}
-                href={`/builder/${template.name}`}
-                className="group"
-                prefetch={false}
-              >
-                <div className="overflow-hidden rounded-lg bg-background shadow transition-all">
-                  <div className="aspect-[3/4] overflow-hidden">
-                    <Image
-                      src={template.image}
-                      alt={template.name}
-                      loading="lazy"
-                      width={400}
-                      height={300}
-                      className="transition-all group-hover:scale-[0.9] duration-300"
-                    />
-                  </div>
-                  <div className="bg-main px-4 pb-2 flex justify-between items-center">
-                    <h3 className="font-semibold text-white text-lg mb-2">
-                      {template.name}
-                    </h3>
-                    <Badge variant="secondary">{template.category}</Badge>
-                  </div>
+            {templates.map((template, index) => {
+              const { isLocked, requiredPlan } = getTemplateStatus(
+                index,
+                user?.plan,
+              );
+
+              return (
+                <div key={template.name} className="relative group">
+                  {isLocked ? (
+                    <div className="cursor-not-allowed">
+                      <div className="overflow-hidden rounded-lg bg-background shadow transition-all opacity-75">
+                        <div className="aspect-[3/4] overflow-hidden relative">
+                          <div className="absolute inset-0 bg-gray-900/50 flex flex-col items-center justify-center z-10">
+                            <Lock className="w-8 h-8 text-white mb-2" />
+                            <span className="text-white font-medium text-sm">
+                              Upgrade to {requiredPlan} to unlock
+                            </span>
+                          </div>
+                          <Image
+                            src={template.image}
+                            alt={template.name}
+                            loading="lazy"
+                            width={400}
+                            height={300}
+                            className="filter grayscale"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <Link href={`/builder/${template.name}`} prefetch={false}>
+                      <div className="overflow-hidden rounded-lg bg-background shadow transition-all hover:shadow-lg">
+                        <div className="aspect-[3/4] overflow-hidden">
+                          <Image
+                            src={template.image}
+                            alt={template.name}
+                            loading="lazy"
+                            width={400}
+                            height={300}
+                            className="transition-all group-hover:scale-[0.9] duration-300"
+                          />
+                        </div>
+                        <div className="bg-main px-4 pb-2 flex justify-between items-center">
+                          <h3 className="font-semibold text-white text-lg mb-2">
+                            {template.name}
+                          </h3>
+                          <Badge variant="secondary">{template.category}</Badge>
+                        </div>
+                      </div>
+                    </Link>
+                  )}
                 </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
       </main>
-      <AutoSubscriptionModal defaultOpen={showPricing} user={user} lng={lng} />
+      <AutoSubscriptionModal lng={lng} user={user} defaultOpen={showPricing} />
     </div>
   );
 }
+
+export default TemplateGallery;

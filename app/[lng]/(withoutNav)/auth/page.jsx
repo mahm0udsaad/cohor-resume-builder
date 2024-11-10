@@ -8,6 +8,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import AnimatedCheckEmailCard from "@/components/cards/verfy-card";
 import { Button } from "@/components/ui/button";
+import {
+  GoogleSignInButton,
+  MagicLinkButton,
+} from "../../../../components/btns/auth-btns";
 
 export default async function AuthPage({ params: { lng }, searchParams }) {
   const { t } = await useTranslation(lng, "auth");
@@ -81,9 +85,7 @@ export default async function AuthPage({ params: { lng }, searchParams }) {
                 </div>
 
                 <div>
-                  <Button className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#3b51a3] hover:bg-[#2a3b7a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3b51a3]">
-                    {t("sendMagicLink")}
-                  </Button>
+                  <MagicLinkButton lng={lng} />
                 </div>
               </form>
 
@@ -106,10 +108,7 @@ export default async function AuthPage({ params: { lng }, searchParams }) {
                       await signIn("google");
                     }}
                   >
-                    <Button className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                      <span className="sr-only">{t("signInWithGoogle")}</span>
-                      <GoogleLogo />
-                    </Button>
+                    <GoogleSignInButton lng={lng} />
                   </form>
                 </div>
               </div>

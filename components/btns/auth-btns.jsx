@@ -4,52 +4,44 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { googleSignIn } from "@/actions/auth/actions";
-export const MagicLinkButton = ({ text }) => {
-  const [isLoading, setIsLoading] = useState(false);
+import { useFormStatus } from "react-dom";
+import { useTranslation } from "@/app/i18n/client";
+
+export const MagicLinkButton = ({ lng }) => {
+  const { t } = useTranslation(lng, "auth");
+  const { pending } = useFormStatus();
 
   return (
     <Button
-      disabled={isLoading}
+      disabled={pending}
       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#3b51a3] hover:bg-[#2a3b7a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3b51a3]"
-      onClick={() => setIsLoading(true)}
     >
-      {isLoading ? (
+      {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Sending...
+          {t("sending")}
         </>
       ) : (
-        text
+        t("sendMagicLink")
       )}
     </Button>
   );
 };
 
-export const GoogleSignInButton = ({ text }) => {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleGoogleSignIn = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      await googleSignIn();
-    } catch (error) {
-      console.error("Google sign in failed:", error);
-      setIsLoading(false);
-    }
-  };
+export const GoogleSignInButton = ({ lng }) => {
+  const { pending } = useFormStatus();
+  const { t } = useTranslation(lng, "auth");
 
   return (
     <Button
-      onClick={handleGoogleSignIn}
-      disabled={isLoading}
+      disabled={pending}
       className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
     >
-      {isLoading ? (
+      {pending ? (
         <Loader2 className="h-5 w-5 animate-spin" />
       ) : (
         <>
-          <span className="sr-only">{text}</span>
+          <span className="sr-only">{t("signInWithGoogle")}</span>
           <GoogleLogo />
         </>
       )}

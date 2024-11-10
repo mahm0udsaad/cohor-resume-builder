@@ -217,30 +217,33 @@ export default function BlueHorizon({ resumeData, selectedTheme, className }) {
           </section>
         )}
 
-        {resumeData.courses[0]?.name.trim("") !== "" && (
-          <section>
-            <h3
-              style={{
-                color: theme.primaryColor,
-                borderBottom: `1px solid ${theme.primaryColor}`,
-                paddingBottom: "8px",
-                marginBottom: "8px",
-                fontWeight: 600,
-              }}
-            >
-              {t.courses}
-            </h3>
-            {resumeData.courses.map((course, index) => (
-              <div key={index} style={{ marginBottom: "10px" }}>
-                <h4 style={{ margin: "0", fontWeight: 600 }}>{course.name}</h4>
-                <p style={{ margin: "0" }}>{course.institution}</p>
-                <p style={{ margin: "0", color: "#666" }}>
-                  {formatDate(course.completionDate)}
-                </p>
-              </div>
-            ))}
-          </section>
-        )}
+        {resumeData.courses.length !== 0 &&
+          resumeData.courses[0]?.name.trim("") !== "" && (
+            <section>
+              <h3
+                style={{
+                  color: theme.primaryColor,
+                  borderBottom: `1px solid ${theme.primaryColor}`,
+                  paddingBottom: "8px",
+                  marginBottom: "8px",
+                  fontWeight: 600,
+                }}
+              >
+                {t.courses}
+              </h3>
+              {resumeData.courses.map((course, index) => (
+                <div key={index} style={{ marginBottom: "10px" }}>
+                  <h4 style={{ margin: "0", fontWeight: 600 }}>
+                    {course.name}
+                  </h4>
+                  <p style={{ margin: "0" }}>{course.institution}</p>
+                  <p style={{ margin: "0", color: "#666" }}>
+                    {formatDate(course.completionDate)}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
       </div>
     </div>
   );
