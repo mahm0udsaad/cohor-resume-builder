@@ -42,7 +42,7 @@ export default function OnboardingFlow({ lng }) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [isRedirecting] = useState(false);
   const [formData, setFormData] = useState({
     personalInfo: {
       name: "",

@@ -10,7 +10,8 @@
     "tryAgainButton": "جرب سياقًا مختلفًا",
     "loadingText": "جاري إنشاء الاقتراحات...",
     "buttonAriaLabel": "إنشاء باستخدام الذكاء الاصطناعي",
-    "summary": "الملخص"
+    "summary": "الملخص",
+    "error": "حدث خطأ ما. الرجاء المحاولة مرة أخرى."
   },
   "onboarding": {
     "title": "أكمل ملفك الشخصي",
@@ -19,7 +20,11 @@
   "buttons": {
     "previous": "السابق",
     "next": "التالي",
-    "complete": "أكتمل"
+    "complete": "أكتمل",
+    "resetChanges": "إعادة تعيين التغييرات",
+    "editProfile": "تعديل",
+    "saveAllChanges": "حفظ جميع التغييرات",
+    "saving": "جاري الحفظ..."
   },
   "degree": "الدرجة",
   "institution": "المؤسسة",
@@ -47,7 +52,16 @@
     "removeContact": "إزالة جهة الاتصال",
     "summary": "الملخص المهني",
     "summaryPlaceholder": "نظرة عامة موجزة عن خلفيتك المهنية وأهم نقاط قوتك",
-    "generateAI": "إنشاء باستخدام الذكاء الاصطناعي"
+    "generateAI": "إنشاء باستخدام الذكاء الاصطناعي",
+    "uploadImage": "رفع صورة",
+    "profileImage": "الصورة الشخصية",
+    "contacts": "معلومات الاتصال",
+    "addContactInfo": "معلومات الاتصال",
+    "contactTypes": {
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "website": "الموقع الإلكتروني"
+    }
   },
   "workExperience": {
     "title": "الخبرات العملية",
@@ -204,6 +218,7 @@
     "gpa": "المعدل التراكمي",
     "optional": "اختياري",
     "noGpa": "بدون معدل تراكمي",
+    "noneGpa": "بدون معدل تراكمي",
     "numericGpa": "معدل تراكمي رقمي",
     "descriptiveGpa": "معدل تراكمي وصفي",
     "numericGpaPlaceholder": "أدخل المعدل التراكمي (مثل 3.5)",
@@ -247,5 +262,34 @@
   "cancelButton": "إلغاء",
   "deleteButton": "حذف",
   "successTitle": "نجاح",
-  "deleteSuccessMessage": "تم حذف السيرة الذاتية بنجاح"
+  "deleteSuccessMessage": "تم حذف السيرة الذاتية بنجاح",
+  "form": {
+    "validation": {
+      "nameRequired": "الاسم مطلوب",
+      "jobTitleRequired": "المسمى الوظيفي مطلوب",
+      "summaryRequired": "الملخص مطلوب",
+      "contactRequired": "معلومات الاتصال مطلوبة"
+    }
+  },
+  "notifications": {
+    "profileUpdate": {
+      "success": {
+        "title": "تم تحديث الملف الشخصي",
+        "description": "تم تحديث معلوماتك بنجاح."
+      },
+      "error": {
+        "title": "فشل تحديث الملف الشخصي",
+        "description": "حدث خطأ ما. الرجاء المحاولة مرة أخرى."
+      }
+    }
+  },
+  "common": {
+    "actions": {
+      "upload": "رفع",
+      "remove": "حذف"
+    },
+    "status": {
+      "uploading": "جاري الرفع..."
+    }
+  }
 }

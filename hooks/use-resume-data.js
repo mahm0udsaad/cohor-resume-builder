@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useRef, useCallback } from "react";
+import { useReducer, useEffect, useRef, useCallback, useState } from "react";
 
 const initialState = {
   lng: "en",
@@ -34,22 +34,24 @@ const initialState = {
 };
 
 function getInitialData(dbData) {
-  // Handle case where no data is provided or data fetch failed
-  if (!dbData || dbData.success === false) {
-    // Only try to access sessionStorage on client side
-    if (typeof window !== "undefined") {
-      try {
-        const storedData = sessionStorage.getItem("resumeData");
-        return storedData ? JSON.parse(storedData) : initialState;
-      } catch (error) {
-        console.error("Error reading from sessionStorage:", error);
-        return initialState;
+  // Check if we have stored data first
+  if (typeof window !== "undefined") {
+    try {
+      const storedData = sessionStorage.getItem("resumeData");
+      if (storedData) {
+        return JSON.parse(storedData);
       }
+    } catch (error) {
+      console.error("Error reading from sessionStorage:", error);
     }
+  }
+
+  // Handle first mount or case where no stored data exists
+  if (!dbData || dbData.success === false) {
     return initialState;
   }
 
-  // If we have valid dbData, construct the initial state
+  // If we have valid dbData on first mount, construct the initial state
   return {
     lng: dbData.lng || "en",
     personalInfo: {
@@ -87,7 +89,6 @@ function updateNestedState(state, action) {
   const newState = structuredClone(state);
   let current = newState;
 
-  // Navigate to the correct nested level
   action.path.slice(0, -1).forEach((key) => {
     if (!current[key]) {
       current[key] = Array.isArray(current[key]) ? [] : {};
@@ -123,7 +124,6 @@ function resumeReducer(state, action) {
     case "ADD":
     case "REMOVE": {
       const newState = updateNestedState(state, action);
-      // Sort experiences if they were modified
       if (action.path[0] === "experiences") {
         newState.experiences = sortExperiencesByDate(newState.experiences);
       }
@@ -143,19 +143,22 @@ function resumeReducer(state, action) {
         },
       };
     case "RESET":
-      return getInitialData(action.data);
+      return getInitialData(action.data, action.isFirstMount);
     default:
       console.warn(`Unknown action type: ${action.type}`);
       return state;
   }
 }
 
-export function useResumeData(initialData, debounceTime = 3000) {
+export function useResumeData(initialData, debounceTime = 1000) {
+  // Track if this is the first mount
+  const [isFirstMount] = useState(true);
+
   // Initialize the reducer with a function to handle initial state setup
   const [resumeData, dispatch] = useReducer(
     resumeReducer,
     initialData,
-    getInitialData,
+    (initialData) => getInitialData(initialData, isFirstMount),
   );
 
   // Ref for managing debounce timeout
@@ -163,15 +166,12 @@ export function useResumeData(initialData, debounceTime = 3000) {
 
   // Save to sessionStorage with debouncing
   useEffect(() => {
-    // Skip if we're not in a browser environment
     if (typeof window === "undefined") return;
 
-    // Clear any existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    // Set new timeout to save data
     timeoutRef.current = setTimeout(() => {
       try {
         sessionStorage.setItem("resumeData", JSON.stringify(resumeData));
@@ -184,7 +184,6 @@ export function useResumeData(initialData, debounceTime = 3000) {
       }
     }, debounceTime);
 
-    // Cleanup timeout on unmount or when dependencies change
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -209,9 +208,12 @@ export function useResumeData(initialData, debounceTime = 3000) {
     dispatch({ type: "UPDATE_IMAGE_URL", url });
   }, []);
 
-  const resetResumeData = useCallback((data) => {
-    dispatch({ type: "RESET", data });
-  }, []);
+  const resetResumeData = useCallback(
+    (data) => {
+      dispatch({ type: "RESET", data, isFirstMount });
+    },
+    [isFirstMount],
+  );
 
   return {
     resumeData,

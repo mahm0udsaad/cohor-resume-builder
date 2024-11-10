@@ -1,5 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
+import { signIn } from "@/lib/auth";
+
 export async function storeUser(userData) {
   try {
     const { email, name, image } = userData;
@@ -41,5 +43,33 @@ export async function getUserByEmail(email) {
   } catch (error) {
     console.error("Error fetching user:", error);
     return { success: false, error: error.message };
+  }
+}
+
+export async function handleMagicLinkSignIn(email) {
+  try {
+    await signIn("nodemailer", { email, callbackUrl: "/dashboard" });
+    return { success: true };
+  } catch (error) {
+    console.error("Magic link sign in failed:", error);
+    return { success: false, error: "Failed to send magic link" };
+  }
+}
+export async function googleSignIn() {
+  try {
+    await signIn("google");
+    return { success: true };
+  } catch (error) {
+    console.error("Magic link sign in failed:", error);
+    return { success: false, error: "Failed to send magic link" };
+  }
+}
+export async function resendVerificationEmail(email) {
+  try {
+    await signIn("nodemailer", { email, callbackUrl: "/dashboard" });
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to resend verification email:", error);
+    return { success: false, error: "Failed to resend verification link" };
   }
 }

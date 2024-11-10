@@ -50,6 +50,7 @@ import { useEditingContext } from "@/context/edit-context";
 import { uploadToCloud } from "@/lib/cloud";
 import Spinner from "../skeleton/spinner";
 import { allSkills } from "@/data/data";
+import { useTranslation } from "@/app/i18n/client";
 
 function SectionHeader({ icon: Icon, title }) {
   return (
@@ -62,7 +63,8 @@ function SectionHeader({ icon: Icon, title }) {
   );
 }
 
-export default function InformationTab({ initialData }) {
+export default function InformationTab({ lng, initialData }) {
+  const { t } = useTranslation(lng, "forms");
   const [userInfo, setUserInfo] = useState(initialData);
   const { handleCancel, isEditing, handleEdit } = useEditingContext();
   const { toast } = useToast();
@@ -75,9 +77,7 @@ export default function InformationTab({ initialData }) {
     formState: { errors },
     reset,
     setValue,
-  } = useForm({
-    defaultValues: userInfo,
-  });
+  } = useForm({ defaultValues: userInfo });
 
   const onSubmit = (data) => {
     startTransition(async () => {
@@ -87,14 +87,14 @@ export default function InformationTab({ initialData }) {
       if (result.success) {
         handleCancel();
         toast({
-          title: "Profile Updated",
-          description: "Your information has been successfully updated.",
+          title: t("notifications.profileUpdate.success.title"),
+          description: t("notifications.profileUpdate.success.description"),
           variant: "success",
         });
       } else {
         toast({
-          title: "Profile Update Failed",
-          description: "Something went wrong. Please try again.",
+          title: t("notifications.profileUpdate.error.title"),
+          description: t("notifications.profileUpdate.error.description"),
           variant: "destructive",
         });
       }
@@ -110,29 +110,31 @@ export default function InformationTab({ initialData }) {
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-5xl mx-auto p-6 space-y-8"
     >
-      <div dir="ltr" className="space-y-8">
+      <div className="space-y-8">
         <PersonalInfo
+          t={t}
           control={control}
           setValue={setValue}
           errors={errors}
           contacts={userInfo.personalInfo.contact}
         />
-        <ExperienceSection control={control} errors={errors} />
+        <ExperienceSection t={t} control={control} errors={errors} />
         <EducationSection
+          t={t}
           control={control}
           errors={errors}
           setValue={setValue}
         />
         <div className="flex gap-2 w-full">
-          <SkillsSection control={control} errors={errors} />
-          <LanguagesSection control={control} errors={errors} />
+          <SkillsSection t={t} control={control} errors={errors} />
+          <LanguagesSection t={t} control={control} errors={errors} />
         </div>
-        <CoursesSection control={control} errors={errors} />
+        <CoursesSection t={t} control={control} errors={errors} />
       </div>
       <div className="sticky bottom-0 bg-background border-t border-border p-4 flex justify-between items-center">
         {isEditing ? (
           <Button type="button" variant="outline" onClick={handleReset}>
-            Reset Changes
+            {t("buttons.resetChanges")}
           </Button>
         ) : (
           <Button
@@ -145,23 +147,23 @@ export default function InformationTab({ initialData }) {
             ) : (
               <Edit className="h-4 w-4 mx-2" />
             )}
-            {isEditing ? "Cancel" : "Edit"}
+            {isEditing ? t("buttons.cancel") : t("buttons.editProfile")}
           </Button>
         )}
         <Button
           type="submit"
           className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-          disabled={isPending}
+          disabled={isPending || !isEditing}
         >
           {isPending ? (
             <>
               <Loader2 className="mx-2 h-4 w-4 animate-spin" />
-              Saving...
+              {t("buttons.saving")}
             </>
           ) : (
             <>
               <Save className="mx-2 h-4 w-4" />
-              Save All Changes
+              {t("buttons.saveAllChanges")}
             </>
           )}
         </Button>
@@ -170,7 +172,7 @@ export default function InformationTab({ initialData }) {
   );
 }
 
-function PersonalInfo({ control, contacts, setValue }) {
+function PersonalInfo({ t, control, contacts, setValue }) {
   const { isEditing, handleEdit, handleCancel } = useEditingContext();
   const imageInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -186,25 +188,19 @@ function PersonalInfo({ control, contacts, setValue }) {
 
     setIsUploading(true);
 
-    // Create a local blob URL for immediate display
     const localImageUrl = URL.createObjectURL(file);
-
-    // Update the form with the local blob URL immediately
     setValue("personalInfo.imageUrl", localImageUrl);
 
-    // Prepare and upload the image
     const formData = new FormData();
     formData.append("file", file);
 
     try {
       const result = await uploadToCloud(formData);
-      // Update the form with the cloud URL
       setTimeout(() => {
         setValue("personalInfo.imageUrl", result.adImage);
       }, 10000);
     } catch (error) {
       console.error("Failed to upload image:", error);
-      // Keep the local blob URL if upload fails
     } finally {
       setIsUploading(false);
     }
@@ -216,7 +212,7 @@ function PersonalInfo({ control, contacts, setValue }) {
 
   return (
     <Card className="overflow-hidden transition-all duration-300 ease-in-out">
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 ">
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8">
         <div className="flex flex-row items-center justify-end space-y-0 pb-2">
           <Button
             type="button"
@@ -230,10 +226,10 @@ function PersonalInfo({ control, contacts, setValue }) {
             ) : (
               <Edit className="h-4 w-4 mx-2" />
             )}
-            {isEditing ? "Cancel" : "Edit"}
+            {isEditing ? t("cancel") : t("buttons.editProfile")}
           </Button>
         </div>
-        <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 mt-6">
+        <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 gap-4 space-x-8 mt-6">
           <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
             <Controller
               name="personalInfo.imageUrl"
@@ -242,7 +238,7 @@ function PersonalInfo({ control, contacts, setValue }) {
                 <>
                   <img
                     src={field.value || "/placeholder.svg"}
-                    alt="Profile"
+                    alt={t("Profile")}
                     className="w-full h-full object-cover"
                   />
                   {isEditing && (
@@ -274,12 +270,12 @@ function PersonalInfo({ control, contacts, setValue }) {
             <Controller
               name="personalInfo.name"
               control={control}
-              rules={{ required: "Name is required" }}
+              rules={{ required: t("Name is required") }}
               render={({ field }) =>
                 isEditing ? (
                   <Input
                     {...field}
-                    placeholder="Your Name"
+                    placeholder={t("Your Name")}
                     className="text-3xl font-bold bg-white/20 border-white/40 text-white placeholder-white/60"
                   />
                 ) : (
@@ -292,12 +288,12 @@ function PersonalInfo({ control, contacts, setValue }) {
             <Controller
               name="personalInfo.jobTitle"
               control={control}
-              rules={{ required: "Job title is required" }}
+              rules={{ required: t("Job title is required") }}
               render={({ field }) =>
                 isEditing ? (
                   <Input
                     {...field}
-                    placeholder="Job Title"
+                    placeholder={t("Job Title")}
                     className="text-xl bg-white/20 border-white/40 text-white placeholder-white/60"
                   />
                 ) : (
@@ -310,16 +306,18 @@ function PersonalInfo({ control, contacts, setValue }) {
       </div>
       <CardContent className="space-y-6 mt-6 transition-all duration-300 ease-in-out">
         <div>
-          <Label className="text-lg font-semibold">Summary</Label>
+          <Label className="text-lg font-semibold">
+            {t("personalInfo.summary")}
+          </Label>
           <Controller
             name="personalInfo.summary"
             control={control}
-            rules={{ required: "Summary is required" }}
+            rules={{ required: t("Summary is required") }}
             render={({ field }) =>
               isEditing ? (
                 <Textarea
                   {...field}
-                  placeholder="A brief summary about yourself"
+                  placeholder={t("A brief summary about yourself")}
                   className="mt-2"
                   rows={4}
                 />
@@ -330,20 +328,22 @@ function PersonalInfo({ control, contacts, setValue }) {
           />
         </div>
         <div>
-          <Label className="text-lg font-semibold">Contacts</Label>
+          <Label className="text-lg font-semibold">
+            {t("personalInfo.contacts")}
+          </Label>
           <div className="space-y-2 mt-2">
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-wrap items-center gap-2">
               {isEditing
                 ? fields.map((field, index) => (
                     <div key={field.id} className="flex items-center space-x-2">
                       <Controller
                         name={`personalInfo.contact.${index}`}
                         control={control}
-                        rules={{ required: "Contact is required" }}
+                        rules={{ required: t("Contact is required") }}
                         render={({ field: contactField }) => (
                           <Input
                             {...contactField}
-                            placeholder="Contact information"
+                            placeholder={t("Contact information")}
                             className="flex-grow"
                           />
                         )}
@@ -387,7 +387,7 @@ function PersonalInfo({ control, contacts, setValue }) {
                 className="mt-2"
               >
                 <Plus className="h-4 w-4 mx-2" />
-                Add Contact
+                {t("Add Contact")}
               </Button>
             )}
           </div>
@@ -397,7 +397,7 @@ function PersonalInfo({ control, contacts, setValue }) {
   );
 }
 
-function ExperienceSection({ control, errors }) {
+function ExperienceSection({ t, control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -406,14 +406,14 @@ function ExperienceSection({ control, errors }) {
 
   return (
     <Card className="border-t-4 border-t-blue-500 transition-all duration-300 ease-in-out">
-      <SectionHeader icon={Briefcase} title="Work Experience" />
+      <SectionHeader icon={Briefcase} title={t("workExperience.title")} />
       <CardContent className="space-y-6">
         {fields.map((field, index) => (
           <Card key={field.id} className="bg-muted">
             <CardContent className="space-y-4 pt-6">
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-semibold">
-                  Work Experience {index + 1}
+                  {t("workExperience.title")} {index + 1}
                 </h3>
                 {isEditing && (
                   <Button
@@ -429,11 +429,11 @@ function ExperienceSection({ control, errors }) {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Job Title</Label>
+                  <Label>{t("workExperience.jobTitle")}</Label>
                   <Controller
                     name={`experiences.${index}.jobTitle`}
                     control={control}
-                    rules={{ required: "Job title is required" }}
+                    rules={{ required: t("Job title is required") }}
                     render={({ field }) =>
                       isEditing ? (
                         <Input {...field} className="mt-1" />
@@ -444,11 +444,11 @@ function ExperienceSection({ control, errors }) {
                   />
                 </div>
                 <div>
-                  <Label>Company</Label>
+                  <Label>{t("workExperience.company")}</Label>
                   <Controller
                     name={`experiences.${index}.company`}
                     control={control}
-                    rules={{ required: "Company is required" }}
+                    rules={{ required: t("Company is required") }}
                     render={({ field }) =>
                       isEditing ? (
                         <Input {...field} className="mt-1" />
@@ -464,14 +464,16 @@ function ExperienceSection({ control, errors }) {
                 <Controller
                   name={`experiences.${index}.startDate`}
                   control={control}
-                  rules={{ required: "Start date is required" }}
+                  rules={{ required: t("Start date is required") }}
                   render={({ field }) => (
-                    <DatePicker
-                      label="Start Date"
-                      value={field.value}
-                      onChange={field.onChange}
-                      isEditing={isEditing}
-                    />
+                    <div>
+                      <Label>{t("workExperience.startDate")}</Label>
+                      {isEditing ? (
+                        <Input {...field} type="date" className="mt-1" />
+                      ) : (
+                        <p className="mt-1">{formatDate(field.value)}</p>
+                      )}
+                    </div>
                   )}
                 />
                 <Controller
@@ -479,7 +481,7 @@ function ExperienceSection({ control, errors }) {
                   control={control}
                   render={({ field }) => (
                     <DatePicker
-                      label="End Date"
+                      label={t("workExperience.endDate")}
                       value={field.value}
                       onChange={field.onChange}
                       isEditing={isEditing}
@@ -489,16 +491,17 @@ function ExperienceSection({ control, errors }) {
               </div>
 
               <div>
-                <Label>Responsibilities</Label>
+                <Label>{t("workExperience.responsibilities")}</Label>
                 <Controller
                   name={`experiences.${index}.responsibilities`}
                   control={control}
-                  rules={{ required: "Responsibilities are required" }}
                   render={({ field }) =>
                     isEditing ? (
-                      <Textarea {...field} rows={3} className="mt-1" />
+                      <Textarea {...field} rows={4} className="mt-1" />
                     ) : (
-                      <p className="mt-1">{field.value}</p>
+                      <p className="mt-1 text-muted-foreground">
+                        {field.value}
+                      </p>
                     )
                   }
                 />
@@ -506,10 +509,10 @@ function ExperienceSection({ control, errors }) {
             </CardContent>
           </Card>
         ))}
-
         {isEditing && (
           <Button
             type="button"
+            variant="outline"
             onClick={() =>
               append({
                 jobTitle: "",
@@ -519,10 +522,9 @@ function ExperienceSection({ control, errors }) {
                 responsibilities: "",
               })
             }
-            className="w-full"
           >
-            <Plus className="w-4 h-4 mx-2" />
-            Add Work Experience
+            <Plus className="h-4 w-4 mx-2" />
+            {t("Add Experience")}
           </Button>
         )}
       </CardContent>
@@ -530,14 +532,13 @@ function ExperienceSection({ control, errors }) {
   );
 }
 
-function EducationSection({ control, errors, setValue }) {
+function EducationSection({ t, control, errors, setValue }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "educations",
   });
 
-  // Watch all GPA types to force re-render when they change
   const educations = useWatch({
     control,
     name: "educations",
@@ -545,10 +546,9 @@ function EducationSection({ control, errors, setValue }) {
 
   return (
     <Card className="border-t-4 border-t-purple-500 transition-all duration-300 ease-in-out">
-      <SectionHeader icon={GraduationCap} title="Education" />
+      <SectionHeader icon={GraduationCap} title={t("education.title")} />
       <CardContent className="space-y-6">
         {fields.map((field, index) => {
-          // Get the current GPA type from watched values
           const currentGpaType = educations?.[index]?.gpaType;
 
           return (
@@ -556,7 +556,7 @@ function EducationSection({ control, errors, setValue }) {
               <CardContent className="space-y-4 pt-6">
                 <div className="flex justify-between items-center">
                   <h3 className="text-lg font-semibold">
-                    Education {index + 1}
+                    {t("education.title")} {index + 1}
                   </h3>
                   {isEditing && (
                     <Button
@@ -572,11 +572,11 @@ function EducationSection({ control, errors, setValue }) {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>Degree</Label>
+                    <Label>{t("education.degree")}</Label>
                     <Controller
                       name={`educations.${index}.degree`}
                       control={control}
-                      rules={{ required: "Degree is required" }}
+                      rules={{ required: t("degree_required") }}
                       render={({ field }) =>
                         isEditing ? (
                           <Input {...field} className="mt-1" />
@@ -587,11 +587,11 @@ function EducationSection({ control, errors, setValue }) {
                     />
                   </div>
                   <div>
-                    <Label>Institution</Label>
+                    <Label>{t("institution")}</Label>
                     <Controller
                       name={`educations.${index}.institution`}
                       control={control}
-                      rules={{ required: "Institution is required" }}
+                      rules={{ required: t("institution_required") }}
                       render={({ field }) =>
                         isEditing ? (
                           <Input {...field} className="mt-1" />
@@ -606,10 +606,10 @@ function EducationSection({ control, errors, setValue }) {
                 <Controller
                   name={`educations.${index}.graduationDate`}
                   control={control}
-                  rules={{ required: "Graduation date is required" }}
+                  rules={{ required: t("education.graduation_date") }}
                   render={({ field }) => (
                     <DatePicker
-                      label="Graduation Date"
+                      label={t("education.graduationDate")}
                       value={field.value}
                       onChange={field.onChange}
                       isEditing={isEditing}
@@ -618,7 +618,7 @@ function EducationSection({ control, errors, setValue }) {
                 />
 
                 <div>
-                  <Label>GPA Type</Label>
+                  <Label>{t("education.gpa")}</Label>
                   <Controller
                     name={`educations.${index}.gpaType`}
                     control={control}
@@ -628,7 +628,6 @@ function EducationSection({ control, errors, setValue }) {
                           value={field.value}
                           onValueChange={(value) => {
                             field.onChange(value);
-                            // Clear the other GPA field when switching types
                             if (value === "numeric") {
                               setValue(
                                 `educations.${index}.descriptiveGpa`,
@@ -646,18 +645,24 @@ function EducationSection({ control, errors, setValue }) {
                           }}
                         >
                           <SelectTrigger className="mt-1">
-                            <SelectValue placeholder="Select GPA type" />
+                            <SelectValue placeholder={t("select_gpa_type")} />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="numeric">Numeric</SelectItem>
-                            <SelectItem value="descriptive">
-                              Descriptive
+                            <SelectItem value="numeric">
+                              {t("education.numericGpa")}
                             </SelectItem>
-                            <SelectItem value="none">None</SelectItem>
+                            <SelectItem value="descriptive">
+                              {t("education.descriptiveGpa")}
+                            </SelectItem>
+                            <SelectItem value="none">
+                              {t("education.noGpa")}
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       ) : (
-                        <p className="mt-1 capitalize">{field.value}</p>
+                        <p className="mt-1">
+                          {t(`education.${field.value}Gpa`)}
+                        </p>
                       )
                     }
                   />
@@ -665,11 +670,11 @@ function EducationSection({ control, errors, setValue }) {
 
                 {currentGpaType === "numeric" && (
                   <div>
-                    <Label>Numeric GPA</Label>
+                    <Label>{t("education.numericGpa")}</Label>
                     <Controller
                       name={`educations.${index}.numericGpa`}
                       control={control}
-                      rules={{ required: "Numeric GPA is required" }}
+                      rules={{ required: t("numeric_gpa_required") }}
                       render={({ field }) =>
                         isEditing ? (
                           <Input
@@ -688,11 +693,11 @@ function EducationSection({ control, errors, setValue }) {
 
                 {currentGpaType === "descriptive" && (
                   <div>
-                    <Label>Descriptive GPA</Label>
+                    <Label>{t("education.descriptiveGpa")}</Label>
                     <Controller
                       name={`educations.${index}.descriptiveGpa`}
                       control={control}
-                      rules={{ required: "Descriptive GPA is required" }}
+                      rules={{ required: t("descriptive_gpa_required") }}
                       render={({ field }) =>
                         isEditing ? (
                           <Input {...field} className="mt-1" />
@@ -724,14 +729,13 @@ function EducationSection({ control, errors, setValue }) {
             className="w-full"
           >
             <Plus className="w-4 h-4 mx-2" />
-            Add Education
+            {t("education.add_education")}
           </Button>
         )}
       </CardContent>
     </Card>
   );
 }
-
 const skillLevels = [
   { value: "beginner", label: "Beginner" },
   { value: "intermediate", label: "Intermediate" },
@@ -739,7 +743,7 @@ const skillLevels = [
   { value: "expert", label: "Expert" },
 ];
 
-function SkillsSection({ control, errors }) {
+function SkillsSection({ t, control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -763,17 +767,17 @@ function SkillsSection({ control, errors }) {
 
   return (
     <Card className="w-full border-t-4 border-t-emerald-500 transition-all duration-300 ease-in-out">
-      <SectionHeader icon={Code} title="Skills" />
+      <SectionHeader icon={Code} title={t("skills.title")} />
       <CardContent className="space-y-4">
         {isEditing && (
           <div className="space-y-2">
-            <Label htmlFor="skill-search">Add Skill</Label>
+            <Label htmlFor="skill-search">{t("skills.addSkill")}</Label>
             <div className="relative">
               <Input
                 type="text"
                 id="skill-search"
                 className="w-full"
-                placeholder="Search or type a skill"
+                placeholder={t("skills.selectOrTypeSkill")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onFocus={() => setIsDropdownOpen(true)}
@@ -792,7 +796,7 @@ function SkillsSection({ control, errors }) {
                       }`}
                       onClick={() => handleAddSkill(skill)}
                     >
-                      {skill}
+                      {t(`skills.availableSkills.${skill}`) || skill}
                     </div>
                   ))}
                   {searchTerm && !filteredSkills.includes(searchTerm) && (
@@ -800,7 +804,8 @@ function SkillsSection({ control, errors }) {
                       className="px-4 py-2 cursor-pointer hover:bg-gray-100"
                       onClick={() => handleAddSkill(searchTerm)}
                     >
-                      Add "{searchTerm}" as new skill
+                      {t("skills.addSkill")} "{searchTerm}"{" "}
+                      {t("skills.as_new_skill")}
                     </div>
                   )}
                 </div>
@@ -829,12 +834,12 @@ function SkillsSection({ control, errors }) {
                         onValueChange={levelField.onChange}
                       >
                         <SelectTrigger className="w-[140px]">
-                          <SelectValue placeholder="Skill level" />
+                          <SelectValue placeholder={t("skills.skillLevel")} />
                         </SelectTrigger>
                         <SelectContent>
                           {skillLevels.map((level) => (
                             <SelectItem key={level.value} value={level.value}>
-                              {level.label}
+                              {t(`skills.${level.label.toLowerCase()}`)}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -858,7 +863,7 @@ function SkillsSection({ control, errors }) {
             </div>
           ))}
           {fields.length === 0 && (
-            <div className="text-gray-500">No skills added yet</div>
+            <div className="text-gray-500">{t("skills.noSkillsSelected")}</div>
           )}
         </div>
       </CardContent>
@@ -866,7 +871,7 @@ function SkillsSection({ control, errors }) {
   );
 }
 
-function LanguagesSection({ control, errors }) {
+function LanguagesSection({ t, control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -875,7 +880,7 @@ function LanguagesSection({ control, errors }) {
 
   return (
     <Card className="w-full border-t-4 border-t-yellow-500 transition-all duration-300 ease-in-out">
-      <SectionHeader icon={LanguagesIcon} title="Languages" />
+      <SectionHeader icon={LanguagesIcon} title={t("languages.title")} />
       <CardContent>
         <div className="flex flex-wrap items-center gap-2">
           {fields.map((field, index) => (
@@ -885,11 +890,11 @@ function LanguagesSection({ control, errors }) {
                   <Controller
                     name={`languages.${index}.name`}
                     control={control}
-                    rules={{ required: "Language name is required" }}
+                    rules={{ required: t("languages.languageNameRequired") }}
                     render={({ field }) => (
                       <Input
                         {...field}
-                        placeholder="Language name"
+                        placeholder={t("languages.language")}
                         className="flex-grow"
                       />
                     )}
@@ -903,15 +908,20 @@ function LanguagesSection({ control, errors }) {
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger className="w-[140px]">
-                          <SelectValue placeholder="Proficiency" />
+                          <SelectValue
+                            placeholder={t("languages.selectProficiency")}
+                          />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="beginner">Beginner</SelectItem>
-                          <SelectItem value="intermediate">
-                            Intermediate
+                          <SelectItem value="beginner">
+                            {t("languages.Beginner")}
                           </SelectItem>
-                          <SelectItem value="advanced">Advanced</SelectItem>
-                          <SelectItem value="native">Native</SelectItem>
+                          <SelectItem value="intermediate">
+                            {t("languages.Intermediate")}
+                          </SelectItem>
+                          <SelectItem value="advanced">
+                            {t("languages.Advanced")}
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -939,7 +949,7 @@ function LanguagesSection({ control, errors }) {
               className="w-full"
             >
               <Plus className="w-4 h-4 mx-2" />
-              Add Language
+              {t("reviewResume.addLanguage")}
             </Button>
           )}
         </div>
@@ -948,7 +958,7 @@ function LanguagesSection({ control, errors }) {
   );
 }
 
-function CoursesSection({ control, errors }) {
+function CoursesSection({ t, control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -957,13 +967,15 @@ function CoursesSection({ control, errors }) {
 
   return (
     <Card className="border-t-4 border-t-orange-500 transition-all duration-300 ease-in-out">
-      <SectionHeader icon={Book} title="Courses" />
+      <SectionHeader icon={Book} title={t("courses.title")} />
       <CardContent className="space-y-6">
         {fields.map((field, index) => (
           <Card key={field.id} className="bg-muted">
             <CardContent className="space-y-4 pt-6">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">Course {index + 1}</h3>
+                <h3 className="text-lg font-semibold">
+                  {t("courses.title")} {index + 1}
+                </h3>
                 {isEditing && (
                   <Button
                     type="button"
@@ -978,11 +990,11 @@ function CoursesSection({ control, errors }) {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Course Name</Label>
+                  <Label>{t("reviewResume.courseName")}</Label>
                   <Controller
                     name={`courses.${index}.name`}
                     control={control}
-                    rules={{ required: "Course name is required" }}
+                    rules={{ required: t("reviewResume.courseNameRequired") }}
                     render={({ field }) =>
                       isEditing ? (
                         <Input {...field} className="mt-1" />
@@ -993,11 +1005,11 @@ function CoursesSection({ control, errors }) {
                   />
                 </div>
                 <div>
-                  <Label>Institution</Label>
+                  <Label>{t("reviewResume.institution")}</Label>
                   <Controller
                     name={`courses.${index}.institution`}
                     control={control}
-                    rules={{ required: "Institution is required" }}
+                    rules={{ required: t("reviewResume.institutionRequired") }}
                     render={({ field }) =>
                       isEditing ? (
                         <Input {...field} className="mt-1" />
@@ -1012,10 +1024,10 @@ function CoursesSection({ control, errors }) {
               <Controller
                 name={`courses.${index}.completionDate`}
                 control={control}
-                rules={{ required: "Completion date is required" }}
+                rules={{ required: t("reviewResume.completionDateRequired") }}
                 render={({ field }) => (
                   <DatePicker
-                    label="Completion Date"
+                    label={t("reviewResume.completionDate")}
                     value={field.value}
                     onChange={field.onChange}
                     isEditing={isEditing}
@@ -1039,7 +1051,7 @@ function CoursesSection({ control, errors }) {
             className="w-full"
           >
             <Plus className="w-4 h-4 mx-2" />
-            Add Course
+            {t("reviewResume.addCourse")}
           </Button>
         )}
       </CardContent>

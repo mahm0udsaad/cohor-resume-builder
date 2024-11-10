@@ -10,7 +10,8 @@
     "tryAgainButton": "Try different context",
     "loadingText": "Generating suggestions...",
     "buttonAriaLabel": "Generate with AI",
-    "summary": "Summary"
+    "summary": "Summary",
+    "error": "Something went wrong. Please try again."
   },
   "onboarding": {
     "title": "Complete Your Profile",
@@ -19,7 +20,11 @@
   "buttons": {
     "previous": "Previous",
     "next": "Next",
-    "Complete": "Complete"
+    "Complete": "Complete",
+    "resetChanges": "Reset Changes",
+    "editProfile": "Edit",
+    "saveAllChanges": "Save All Changes",
+    "saving": "Saving..."
   },
   "degree": "Degree",
   "institution": "Institution",
@@ -47,7 +52,16 @@
     "removeContact": "Remove contact",
     "summary": "Professional Summary",
     "summaryPlaceholder": "Brief overview of your professional background and key strengths",
-    "generateAI": "Generate with AI"
+    "generateAI": "Generate with AI",
+    "uploadImage": "Upload Image",
+    "profileImage": "Profile",
+    "contacts": "Contacts",
+    "addContactInfo": "Contact information",
+    "contactTypes": {
+      "email": "Email",
+      "phone": "Phone",
+      "website": "Website"
+    }
   },
   "workExperience": {
     "title": "Work Experience",
@@ -203,6 +217,7 @@
     "gpa": "GPA",
     "optional": "Optional",
     "noGpa": "No GPA",
+    "noneGpa": "No GPA",
     "numericGpa": "Numeric GPA",
     "descriptiveGpa": "Descriptive GPA",
     "numericGpaPlaceholder": "Enter GPA (e.g., 3.5)",
@@ -246,5 +261,34 @@
   "cancelButton": "Cancel",
   "deleteButton": "Delete",
   "successTitle": "Success",
-  "deleteSuccessMessage": "Resume deleted successfully"
+  "deleteSuccessMessage": "Resume deleted successfully",
+  "form": {
+    "validation": {
+      "nameRequired": "Name is required",
+      "jobTitleRequired": "Job title is required",
+      "summaryRequired": "Summary is required",
+      "contactRequired": "Contact is required"
+    }
+  },
+  "notifications": {
+    "profileUpdate": {
+      "success": {
+        "title": "Profile Updated",
+        "description": "Your information has been successfully updated."
+      },
+      "error": {
+        "title": "Profile Update Failed",
+        "description": "Something went wrong. Please try again."
+      }
+    }
+  },
+  "common": {
+    "actions": {
+      "upload": "Upload",
+      "remove": "Remove"
+    },
+    "status": {
+      "uploading": "Uploading..."
+    }
+  }
 }
