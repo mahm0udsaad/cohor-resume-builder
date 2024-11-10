@@ -10,9 +10,7 @@ export default function CoursesForm({ control, errors, t }) {
     control,
     name: "courses",
   });
-  if (fields.length === 0) {
-    append({ name: "", institution: "", completionDate: "" });
-  }
+
   return (
     <div className="space-y-6">
       {fields.map((field, index) => (

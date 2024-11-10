@@ -13,6 +13,8 @@ const DashboardPage = async ({ params: { lng } }) => {
   const { personalInfo, experiences, educations, skills, languages, courses } =
     userInfo;
 
+  console.log(userInfo);
+
   return (
     <EditingProvider>
       <DashboardWithSidebarComponent

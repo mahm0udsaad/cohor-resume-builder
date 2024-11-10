@@ -68,7 +68,7 @@ const UserBtn = ({ lng }) => {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="size-fit">
             <Image
-              src={session?.user?.image || "/avatar.svg"}
+              src={session?.user?.image || "/user.png"}
               alt={session?.user?.name || "User"}
               width={40}
               height={40}

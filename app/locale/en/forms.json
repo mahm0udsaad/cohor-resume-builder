@@ -1,4 +1,5 @@
 {
+  "preparingDashboard": "Preparing Dashboard",
   "aiSuggestion": {
     "contextTitle": "Provide Additional Context",
     "contextDescription": "Add any specific details or requirements to help generate better suggestions.",

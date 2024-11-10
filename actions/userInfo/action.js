@@ -48,7 +48,7 @@ export async function getUser(email) {
         name: user.name,
         email: user.email,
         plan: user.plan,
-        image: user.image,
+        image: user.image || "/user.png",
       },
     };
   } catch (error) {
@@ -98,7 +98,7 @@ export const getUserWithDetails = cache(
           id: user.id,
           email: user.email,
           name: user.name,
-          image: user.image,
+          image: user.image || "/user.png",
           plan: user.plan,
         },
         personalInfo: user.personalInfo,

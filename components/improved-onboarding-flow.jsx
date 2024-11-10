@@ -166,7 +166,7 @@ export default function OnboardingFlow({ lng }) {
 
           <div className="flex-grow overflow-y-auto px-4">
             {steps.map((step, index) => (
-              <div key={index} className="flex items-start mb-6">
+              <div key={step.title} className="flex items-start mb-6">
                 <div className="flex flex-col items-center mx-4">
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center ${

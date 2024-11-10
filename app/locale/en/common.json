@@ -294,5 +294,11 @@
   "upgradeMessage": "Upgrade to Pro and significantly increase your chances of landing that dream job!",
   "upgradeToPro": "Upgrade to Pro",
   "continueWithBasic": "Continue with Basic Version",
-  "upgradeToSeeThemes": "Upgrade your plan to change the theme."
+  "upgradeToSeeThemes": "Upgrade your plan to change the theme.",
+  "emptyResumeCard": {
+    "title": "Your Resume Journey Starts Here",
+    "description": "Craft a resume that opens doors to amazing opportunities",
+    "highlights": "Highlight your experiences, showcase your skills, and let your achievements shine. Your perfect resume is just a click away!",
+    "button": "Create Your First Resume"
+  }
 }

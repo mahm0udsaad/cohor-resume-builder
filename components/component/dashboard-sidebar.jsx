@@ -72,7 +72,7 @@ export default function Sidebar({
           {t("dashboard.tabs.myResumes")}
         </button>
       </nav>
-      <div className="p-4 space-y-2">
+      <div className="flex p-4 gap-2">
         <UserProfileButton userInfo={userInfo} handleSignOut={handleSignOut} />
         <SubscriptionModal
           lng={lng}
@@ -93,16 +93,15 @@ function UserProfileButton({ userInfo, handleSignOut }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="w-full bg-white text-[#3b51a3] hover:bg-gray-200">
+        <Button className="w-[4rem] bg-white text-[#3b51a3] hover:bg-gray-200">
           <Image
             priority
             src={userInfo.image}
             alt="User"
-            width={24}
-            height={24}
-            className="rounded-md mx-2"
+            width={35}
+            height={35}
+            className="rounded-md"
           />
-          User Profile
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-56">
