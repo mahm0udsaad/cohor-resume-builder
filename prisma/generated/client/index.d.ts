@@ -4857,26 +4857,32 @@ export namespace Prisma {
     id: string | null
     name: string | null
     email: string | null
-    emailVerified: Date | null
+    emailVerified: boolean | null
+    password: string | null
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
     plan: string | null
     planExpiryDate: Date | null
     hasCompletedOnboarding: boolean | null
+    verificationCode: string | null
+    verificationExpires: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
     name: string | null
     email: string | null
-    emailVerified: Date | null
+    emailVerified: boolean | null
+    password: string | null
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
     plan: string | null
     planExpiryDate: Date | null
     hasCompletedOnboarding: boolean | null
+    verificationCode: string | null
+    verificationExpires: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4884,12 +4890,15 @@ export namespace Prisma {
     name: number
     email: number
     emailVerified: number
+    password: number
     image: number
     createdAt: number
     updatedAt: number
     plan: number
     planExpiryDate: number
     hasCompletedOnboarding: number
+    verificationCode: number
+    verificationExpires: number
     _all: number
   }
 
@@ -4899,12 +4908,15 @@ export namespace Prisma {
     name?: true
     email?: true
     emailVerified?: true
+    password?: true
     image?: true
     createdAt?: true
     updatedAt?: true
     plan?: true
     planExpiryDate?: true
     hasCompletedOnboarding?: true
+    verificationCode?: true
+    verificationExpires?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4912,12 +4924,15 @@ export namespace Prisma {
     name?: true
     email?: true
     emailVerified?: true
+    password?: true
     image?: true
     createdAt?: true
     updatedAt?: true
     plan?: true
     planExpiryDate?: true
     hasCompletedOnboarding?: true
+    verificationCode?: true
+    verificationExpires?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4925,12 +4940,15 @@ export namespace Prisma {
     name?: true
     email?: true
     emailVerified?: true
+    password?: true
     image?: true
     createdAt?: true
     updatedAt?: true
     plan?: true
     planExpiryDate?: true
     hasCompletedOnboarding?: true
+    verificationCode?: true
+    verificationExpires?: true
     _all?: true
   }
 
@@ -5010,13 +5028,16 @@ export namespace Prisma {
     id: string
     name: string
     email: string
-    emailVerified: Date | null
+    emailVerified: boolean | null
+    password: string | null
     image: string | null
     createdAt: Date
     updatedAt: Date | null
     plan: string
     planExpiryDate: Date | null
     hasCompletedOnboarding: boolean
+    verificationCode: string | null
+    verificationExpires: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -5041,6 +5062,7 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    password?: boolean
     image?: boolean
     personalInfo?: boolean | PersonalInfoDefaultArgs<ExtArgs>
     experiences?: boolean | ExperienceDefaultArgs<ExtArgs>
@@ -5053,6 +5075,8 @@ export namespace Prisma {
     plan?: boolean
     planExpiryDate?: boolean
     hasCompletedOnboarding?: boolean
+    verificationCode?: boolean
+    verificationExpires?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     resumes?: boolean | User$resumesArgs<ExtArgs>
@@ -5066,12 +5090,15 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    password?: boolean
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     plan?: boolean
     planExpiryDate?: boolean
     hasCompletedOnboarding?: boolean
+    verificationCode?: boolean
+    verificationExpires?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5094,13 +5121,16 @@ export namespace Prisma {
       id: string
       name: string
       email: string
-      emailVerified: Date | null
+      emailVerified: boolean | null
+      password: string | null
       image: string | null
       createdAt: Date
       updatedAt: Date | null
       plan: string
       planExpiryDate: Date | null
       hasCompletedOnboarding: boolean
+      verificationCode: string | null
+      verificationExpires: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {
       personalInfo: Prisma.$PersonalInfoPayload | null
@@ -5507,13 +5537,16 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
-    readonly emailVerified: FieldRef<"User", 'DateTime'>
+    readonly emailVerified: FieldRef<"User", 'Boolean'>
+    readonly password: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly plan: FieldRef<"User", 'String'>
     readonly planExpiryDate: FieldRef<"User", 'DateTime'>
     readonly hasCompletedOnboarding: FieldRef<"User", 'Boolean'>
+    readonly verificationCode: FieldRef<"User", 'String'>
+    readonly verificationExpires: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -8772,12 +8805,15 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     emailVerified: 'emailVerified',
+    password: 'password',
     image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     plan: 'plan',
     planExpiryDate: 'planExpiryDate',
-    hasCompletedOnboarding: 'hasCompletedOnboarding'
+    hasCompletedOnboarding: 'hasCompletedOnboarding',
+    verificationCode: 'verificationCode',
+    verificationExpires: 'verificationExpires'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -9144,7 +9180,8 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
-    emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    emailVerified?: BoolNullableFilter<"User"> | boolean | null
+    password?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
     personalInfo?: XOR<PersonalInfoNullableCompositeFilter, PersonalInfoObjectEqualityInput> | null
     experiences?: ExperienceCompositeListFilter | ExperienceObjectEqualityInput[]
@@ -9157,6 +9194,8 @@ export namespace Prisma {
     plan?: StringFilter<"User"> | string
     planExpiryDate?: DateTimeNullableFilter<"User"> | Date | string | null
     hasCompletedOnboarding?: BoolFilter<"User"> | boolean
+    verificationCode?: StringNullableFilter<"User"> | string | null
+    verificationExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     resumes?: ResumeListRelationFilter
@@ -9168,6 +9207,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    password?: SortOrder
     image?: SortOrder
     personalInfo?: PersonalInfoOrderByInput
     experiences?: ExperienceOrderByCompositeAggregateInput
@@ -9180,6 +9220,8 @@ export namespace Prisma {
     plan?: SortOrder
     planExpiryDate?: SortOrder
     hasCompletedOnboarding?: SortOrder
+    verificationCode?: SortOrder
+    verificationExpires?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     resumes?: ResumeOrderByRelationAggregateInput
@@ -9193,7 +9235,8 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
-    emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    emailVerified?: BoolNullableFilter<"User"> | boolean | null
+    password?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
     personalInfo?: XOR<PersonalInfoNullableCompositeFilter, PersonalInfoObjectEqualityInput> | null
     experiences?: ExperienceCompositeListFilter | ExperienceObjectEqualityInput[]
@@ -9206,6 +9249,8 @@ export namespace Prisma {
     plan?: StringFilter<"User"> | string
     planExpiryDate?: DateTimeNullableFilter<"User"> | Date | string | null
     hasCompletedOnboarding?: BoolFilter<"User"> | boolean
+    verificationCode?: StringNullableFilter<"User"> | string | null
+    verificationExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     resumes?: ResumeListRelationFilter
@@ -9217,12 +9262,15 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    password?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     plan?: SortOrder
     planExpiryDate?: SortOrder
     hasCompletedOnboarding?: SortOrder
+    verificationCode?: SortOrder
+    verificationExpires?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -9235,13 +9283,16 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
-    emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    emailVerified?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
+    password?: StringNullableWithAggregatesFilter<"User"> | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     plan?: StringWithAggregatesFilter<"User"> | string
     planExpiryDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     hasCompletedOnboarding?: BoolWithAggregatesFilter<"User"> | boolean
+    verificationCode?: StringNullableWithAggregatesFilter<"User"> | string | null
+    verificationExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type VerificationTokenWhereInput = {
@@ -9669,9 +9720,10 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -9684,6 +9736,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     resumes?: ResumeCreateNestedManyWithoutUserInput
@@ -9692,9 +9746,10 @@ export namespace Prisma {
 
   export type UserUncheckedCreateInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -9707,6 +9762,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     resumes?: ResumeUncheckedCreateNestedManyWithoutUserInput
@@ -9716,7 +9773,8 @@ export namespace Prisma {
   export type UserUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -9729,6 +9787,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     resumes?: ResumeUpdateManyWithoutUserNestedInput
@@ -9738,7 +9798,8 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -9751,6 +9812,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     resumes?: ResumeUncheckedUpdateManyWithoutUserNestedInput
@@ -9759,9 +9822,10 @@ export namespace Prisma {
 
   export type UserCreateManyInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -9774,12 +9838,15 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -9792,12 +9859,15 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -9810,6 +9880,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VerificationTokenCreateInput = {
@@ -10297,15 +10369,9 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
     isSet?: boolean
   }
 
@@ -10403,6 +10469,18 @@ export namespace Prisma {
     completionDate?: Date | string | null
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -10482,12 +10560,15 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    password?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     plan?: SortOrder
     planExpiryDate?: SortOrder
     hasCompletedOnboarding?: SortOrder
+    verificationCode?: SortOrder
+    verificationExpires?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -10495,12 +10576,15 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    password?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     plan?: SortOrder
     planExpiryDate?: SortOrder
     hasCompletedOnboarding?: SortOrder
+    verificationCode?: SortOrder
+    verificationExpires?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -10508,12 +10592,24 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    password?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     plan?: SortOrder
     planExpiryDate?: SortOrder
     hasCompletedOnboarding?: SortOrder
+    verificationCode?: SortOrder
+    verificationExpires?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -10821,8 +10917,8 @@ export namespace Prisma {
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
     unset?: boolean
   }
 
@@ -10865,6 +10961,11 @@ export namespace Prisma {
     push?: CourseCreateInput | CourseCreateInput[]
     updateMany?: CourseUpdateManyInput
     deleteMany?: CourseDeleteManyInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+    unset?: boolean
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -11223,15 +11324,9 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
     isSet?: boolean
   }
 
@@ -11295,9 +11390,30 @@ export namespace Prisma {
     completionDate?: DateTimeNullableFilter<"Course"> | Date | string | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -11325,9 +11441,10 @@ export namespace Prisma {
 
   export type UserCreateWithoutAccountsInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11340,6 +11457,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     resumes?: ResumeCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
@@ -11347,9 +11466,10 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutAccountsInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11362,6 +11482,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     resumes?: ResumeUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -11386,7 +11508,8 @@ export namespace Prisma {
   export type UserUpdateWithoutAccountsInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11399,6 +11522,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     resumes?: ResumeUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
@@ -11407,7 +11532,8 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutAccountsInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11420,6 +11546,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     resumes?: ResumeUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -11427,9 +11555,10 @@ export namespace Prisma {
 
   export type UserCreateWithoutSessionsInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11442,6 +11571,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     resumes?: ResumeCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
@@ -11449,9 +11580,10 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutSessionsInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11464,6 +11596,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     resumes?: ResumeUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -11488,7 +11622,8 @@ export namespace Prisma {
   export type UserUpdateWithoutSessionsInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11501,6 +11636,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     resumes?: ResumeUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
@@ -11509,7 +11646,8 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutSessionsInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11522,6 +11660,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     resumes?: ResumeUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
@@ -11529,9 +11669,10 @@ export namespace Prisma {
 
   export type UserCreateWithoutSubscriptionsInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11544,6 +11685,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     resumes?: ResumeCreateNestedManyWithoutUserInput
@@ -11551,9 +11694,10 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11566,6 +11710,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     resumes?: ResumeUncheckedCreateNestedManyWithoutUserInput
@@ -11590,7 +11736,8 @@ export namespace Prisma {
   export type UserUpdateWithoutSubscriptionsInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11603,6 +11750,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     resumes?: ResumeUpdateManyWithoutUserNestedInput
@@ -11611,7 +11760,8 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -11624,6 +11774,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     resumes?: ResumeUncheckedUpdateManyWithoutUserNestedInput
@@ -11992,9 +12144,10 @@ export namespace Prisma {
 
   export type UserCreateWithoutResumesInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -12007,6 +12160,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
@@ -12014,9 +12169,10 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutResumesInput = {
     id?: string
-    name: string
+    name?: string
     email: string
-    emailVerified?: Date | string | null
+    emailVerified?: boolean | null
+    password?: string | null
     image?: string | null
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -12029,6 +12185,8 @@ export namespace Prisma {
     plan?: string
     planExpiryDate?: Date | string | null
     hasCompletedOnboarding?: boolean
+    verificationCode?: string | null
+    verificationExpires?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
@@ -12072,7 +12230,8 @@ export namespace Prisma {
   export type UserUpdateWithoutResumesInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -12085,6 +12244,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
@@ -12093,7 +12254,8 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutResumesInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
@@ -12106,6 +12268,8 @@ export namespace Prisma {
     plan?: StringFieldUpdateOperationsInput | string
     planExpiryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     hasCompletedOnboarding?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput

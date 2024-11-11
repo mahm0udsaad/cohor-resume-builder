@@ -59,8 +59,9 @@ model User {
   id                     String         @id @default(auto()) @map("_id") @db.ObjectId
   name                   String         @default("user")
   email                  String         @unique
-  emailVerified          DateTime?
-  image                  String?
+  emailVerified          Boolean?
+  password               String?
+  image                  String?        @default("/user.png")
   accounts               Account[]
   sessions               Session[]
   resumes                Resume[]
@@ -76,6 +77,8 @@ model User {
   plan                   String         @default("free")
   planExpiryDate         DateTime?
   hasCompletedOnboarding Boolean        @default(false)
+  verificationCode       String? // For email verification
+  verificationExpires    DateTime? // Expiration time for verification code
 
   @@map("users")
 }

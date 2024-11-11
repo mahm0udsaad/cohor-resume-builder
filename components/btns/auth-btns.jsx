@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { googleSignIn } from "@/actions/auth/actions";
 import { useFormStatus } from "react-dom";
 import { useTranslation } from "@/app/i18n/client";
 
@@ -27,7 +25,28 @@ export const MagicLinkButton = ({ lng }) => {
     </Button>
   );
 };
+export function AuthButton({ lng, searchParams, isLoading }) {
+  const { t } = useTranslation(lng, "auth");
 
+  return (
+    <Button
+      type="submit"
+      className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#3b51a3] hover:bg-[#2a3b7a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3b51a3]"
+      disabled={isLoading}
+    >
+      {isLoading ? (
+        <div className="flex items-center">
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          {t("loading")}
+        </div>
+      ) : searchParams?.register ? (
+        t("signUp")
+      ) : (
+        t("signIn")
+      )}
+    </Button>
+  );
+}
 export const GoogleSignInButton = ({ lng }) => {
   const { pending } = useFormStatus();
   const { t } = useTranslation(lng, "auth");

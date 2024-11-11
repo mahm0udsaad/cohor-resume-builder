@@ -57,9 +57,10 @@ model Subscription {
 
 model User {
   id                     String         @id @default(auto()) @map("_id") @db.ObjectId
-  name                   String
+  name                   String         @default("user")
   email                  String         @unique
-  emailVerified          DateTime?
+  emailVerified          Boolean?
+  password               String?
   image                  String?
   accounts               Account[]
   sessions               Session[]
@@ -76,6 +77,8 @@ model User {
   plan                   String         @default("free")
   planExpiryDate         DateTime?
   hasCompletedOnboarding Boolean        @default(false)
+  verificationCode       String? // For email verification
+  verificationExpires    DateTime? // Expiration time for verification code
 
   @@map("users")
 }

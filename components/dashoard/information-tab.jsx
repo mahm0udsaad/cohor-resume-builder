@@ -116,7 +116,7 @@ export default function InformationTab({ lng, initialData }) {
           control={control}
           setValue={setValue}
           errors={errors}
-          contacts={userInfo.personalInfo.contact}
+          contacts={userInfo.personalInfo?.contact || []}
         />
         <ExperienceSection t={t} control={control} errors={errors} />
         <EducationSection

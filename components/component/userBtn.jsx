@@ -52,7 +52,7 @@ const UserBtn = ({ lng }) => {
               {t("nav.signIn")}
             </Button>
           </Link>
-          <Link href="/auth">
+          <Link href="/auth?register=true">
             <Button className="bg-[#3b51a3] hover:bg-[#2a3b7a] text-white">
               {t("nav.signUp")}
             </Button>
