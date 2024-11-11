@@ -131,7 +131,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
   if (isRTL) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/ar.ttf",
+      src: "/fonts/Cairo-Medium.ttf",
     });
   }
   const styles = createStyles(theme, isRTL);

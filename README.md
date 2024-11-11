@@ -1,5 +1,4 @@
-## TODO
-
 ## TO FIX
 
-## create a round that test and inhance all the parts in the app
+- Email & Password Sign in Instead of magic links
+- inhance The Free PDFs

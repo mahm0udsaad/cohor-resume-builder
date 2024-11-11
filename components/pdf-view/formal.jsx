@@ -25,7 +25,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
   if (isArabic) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/ar.ttf",
+      src: "/fonts/Cairo-Medium.ttf",
     });
   }
   const theme = selectedTheme || defaultTheme;

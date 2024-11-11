@@ -19,7 +19,7 @@ export default function GridLayoutResumePDF({ resumeData }) {
   if (isArabic) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/ar.ttf",
+      src: "/fonts/Cairo-Medium.ttf",
     });
   }
   const theme = resumeData.theme || {

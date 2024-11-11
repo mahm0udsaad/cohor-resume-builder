@@ -79,8 +79,15 @@ function getInitialData(dbData) {
 
 function sortExperiencesByDate(experiences) {
   return [...experiences].sort((a, b) => {
-    const dateA = a.endDate === "Present" ? new Date() : new Date(a.endDate);
-    const dateB = b.endDate === "Present" ? new Date() : new Date(b.endDate);
+    if (a.endDate === "Present" && b.endDate !== "Present") {
+      return -1;
+    }
+    if (a.endDate !== "Present" && b.endDate === "Present") {
+      return 1;
+    }
+
+    const dateA = new Date(a.endDate);
+    const dateB = new Date(b.endDate);
     return dateB - dateA;
   });
 }
