@@ -113,7 +113,6 @@ export default function OnboardingFlow({ lng }) {
       goToNextStep();
     } else {
       setIsSubmitting(true);
-      console.log("Complete user data:", formData);
       // Here you would typically send the data to your backend
       const result = await saveOnboardingData(user.email, formData);
       if (result.success) {

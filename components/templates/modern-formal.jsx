@@ -84,9 +84,12 @@ export default function ModernFormalResumeTemplate({
         </div>
       </header>
 
-      <main style={{ display: "flex", gap: "40px" }}>
+      <main dir="ltr" style={{ display: "flex", gap: "40px" }}>
         <div style={{ flex: "2" }}>
-          <section style={{ marginBottom: "30px" }}>
+          <section
+            dir={resumeData.lng === "ar" ? "rtl" : "ltr"}
+            style={{ marginBottom: "30px" }}
+          >
             <h3
               style={{
                 color: theme.primaryColor,
@@ -99,7 +102,10 @@ export default function ModernFormalResumeTemplate({
             <p>{resumeData.personalInfo.summary}</p>
           </section>
 
-          <section style={{ marginBottom: "30px" }}>
+          <section
+            dir={resumeData.lng === "ar" ? "rtl" : "ltr"}
+            style={{ marginBottom: "30px" }}
+          >
             <h3
               style={{
                 color: theme.primaryColor,
@@ -129,7 +135,7 @@ export default function ModernFormalResumeTemplate({
             ))}
           </section>
 
-          <section>
+          <section dir={resumeData.lng === "ar" ? "rtl" : "ltr"}>
             <h3
               style={{
                 color: theme.primaryColor,
@@ -158,7 +164,10 @@ export default function ModernFormalResumeTemplate({
           </section>
         </div>
 
-        <aside style={{ flex: "1" }}>
+        <aside
+          dir={resumeData.lng === "ar" ? "rtl" : "ltr"}
+          style={{ flex: "1" }}
+        >
           <section style={{ marginBottom: "30px" }}>
             <h3
               style={{

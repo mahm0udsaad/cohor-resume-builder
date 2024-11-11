@@ -5030,7 +5030,7 @@ export namespace Prisma {
     email: string
     emailVerified: boolean | null
     password: string | null
-    image: string | null
+    image: string
     createdAt: Date
     updatedAt: Date | null
     plan: string
@@ -5123,7 +5123,7 @@ export namespace Prisma {
       email: string
       emailVerified: boolean | null
       password: string | null
-      image: string | null
+      image: string
       createdAt: Date
       updatedAt: Date | null
       plan: string
@@ -9182,7 +9182,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     emailVerified?: BoolNullableFilter<"User"> | boolean | null
     password?: StringNullableFilter<"User"> | string | null
-    image?: StringNullableFilter<"User"> | string | null
+    image?: StringFilter<"User"> | string
     personalInfo?: XOR<PersonalInfoNullableCompositeFilter, PersonalInfoObjectEqualityInput> | null
     experiences?: ExperienceCompositeListFilter | ExperienceObjectEqualityInput[]
     educations?: EducationCompositeListFilter | EducationObjectEqualityInput[]
@@ -9237,7 +9237,7 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     emailVerified?: BoolNullableFilter<"User"> | boolean | null
     password?: StringNullableFilter<"User"> | string | null
-    image?: StringNullableFilter<"User"> | string | null
+    image?: StringFilter<"User"> | string
     personalInfo?: XOR<PersonalInfoNullableCompositeFilter, PersonalInfoObjectEqualityInput> | null
     experiences?: ExperienceCompositeListFilter | ExperienceObjectEqualityInput[]
     educations?: EducationCompositeListFilter | EducationObjectEqualityInput[]
@@ -9285,7 +9285,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
-    image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    image?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     plan?: StringWithAggregatesFilter<"User"> | string
@@ -9724,7 +9724,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -9750,7 +9750,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -9775,7 +9775,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -9800,7 +9800,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -9826,7 +9826,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -9847,7 +9847,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -9868,7 +9868,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11445,7 +11445,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11470,7 +11470,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11510,7 +11510,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11534,7 +11534,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11559,7 +11559,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11584,7 +11584,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11624,7 +11624,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11648,7 +11648,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11673,7 +11673,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11698,7 +11698,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11738,7 +11738,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -11762,7 +11762,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -12148,7 +12148,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -12173,7 +12173,7 @@ export namespace Prisma {
     email: string
     emailVerified?: boolean | null
     password?: string | null
-    image?: string | null
+    image?: string
     personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -12232,7 +12232,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
@@ -12256,7 +12256,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
     experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
     educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]

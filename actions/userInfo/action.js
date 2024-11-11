@@ -20,12 +20,35 @@ export const getCurrentUser = cache(
 );
 
 export async function getUserOnboardingStatus(email) {
-  const user = await prisma.user.findUnique({
-    where: { email: email },
-    select: { hasCompletedOnboarding: true },
-  });
+  // Input validation
+  if (!email) {
+    throw new Error("Email is required to check onboarding status");
+  }
 
-  return user?.hasCompletedOnboarding || false;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email.toLowerCase().trim(), // Normalize email
+      },
+      select: {
+        hasCompletedOnboarding: true,
+      },
+    });
+
+    // If no user is found, return false
+    return user?.hasCompletedOnboarding ?? false;
+  } catch (error) {
+    // Log the error for debugging (adjust based on your logging setup)
+    console.error("Error checking user onboarding status:", error);
+
+    // Check for specific Prisma errors
+    if (error.code === "P2023") {
+      throw new Error("Invalid email format");
+    }
+
+    // Re-throw other unexpected errors
+    throw new Error("Failed to check onboarding status");
+  }
 }
 
 export async function getUser(email) {
@@ -60,7 +83,7 @@ export async function completeOnboarding(email) {
   if (!email) throw new Error("Email is required");
 
   const updatedUser = await prisma.user.update({
-    where: { email },
+    where: { email: email },
     data: { hasCompletedOnboarding: true },
   });
   console.log("Updated user:", updatedUser);

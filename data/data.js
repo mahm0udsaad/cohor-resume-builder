@@ -328,7 +328,7 @@ export const translations = {
       expert: "خبير",
       beginner: "مبتدئ",
     },
-    profile: "الملف الشخصي",
+    profile: "نبذه تعريفيه",
     personalInfo: "المعلومات الشخصية",
     workExperience: "الخبرة العملية",
     education: "التعليم",

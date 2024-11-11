@@ -66,7 +66,7 @@ export default function AuthForm({ lng, searchParams }) {
             variant: "destructive",
           });
         } else {
-          const onboardingStatus = await getUserOnboardingStatus(result.email);
+          const onboardingStatus = await getUserOnboardingStatus(result);
           if (onboardingStatus) {
             redirect("/dashboard");
           } else {

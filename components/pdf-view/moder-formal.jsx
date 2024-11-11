@@ -46,7 +46,6 @@ export default function ModernFormalResumeTemplatePDF({
       padding: 20,
       backgroundColor: theme.backgroundColor,
       color: "#333",
-      direction: isArabic ? "rtl" : "ltr",
     },
     container: {
       width: "100%",
@@ -132,7 +131,7 @@ export default function ModernFormalResumeTemplatePDF({
             </View>
           </View>
 
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+          <View style={{ display: "flex", flexDirection: "row", gap: 14 }}>
             <View
               style={{ width: "70%", display: "flex", flexDirection: "column" }}
             >
@@ -236,20 +235,19 @@ export default function ModernFormalResumeTemplatePDF({
                   </View>
                 )}
 
-              {resumeData.courses.length !== 0 &&
-                resumeData.courses[0]?.name.trim() !== "" && (
-                  <View>
-                    <Text style={styles.sectionTitle}>{t.courses}</Text>
-                    {resumeData.courses.map((course, index) => (
-                      <View key={index} style={styles.content}>
-                        <Text>{course.name}</Text>
-                        <Text style={{ marginTop: 4 }}>{`${
-                          course.institution
-                        }, ${formatDate(course.completionDate)}`}</Text>
-                      </View>
-                    ))}
-                  </View>
-                )}
+              {resumeData.courses.length !== 0 && (
+                <View>
+                  <Text style={styles.sectionTitle}>{t.courses}</Text>
+                  {resumeData.courses.map((course, index) => (
+                    <View key={index} style={styles.content}>
+                      <Text>{course.name}</Text>
+                      <Text style={{ marginTop: 4 }}>{`${
+                        course.institution
+                      }, ${formatDate(course.completionDate)}`}</Text>
+                    </View>
+                  ))}
+                </View>
+              )}
             </View>
           </View>
         </View>
