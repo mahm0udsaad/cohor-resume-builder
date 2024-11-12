@@ -29,7 +29,7 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
       {/* Main content area (85% width) */}
       <div className="w-11/12 p-8">
         <header className="mb-6">
-          <h1 className="text-5xl font-bold text-gray-800 pb-4">
+          <h1 className="text-3xl font-bold text-gray-800 pb-4">
             {resumeData.personalInfo?.name}
           </h1>
           <div className="flex flex-wrap">
@@ -57,8 +57,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           </div>
         </header>
 
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+        <section className="mb-3">
+          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
             {t.profile} {/* Translated Work Experience */}
           </h2>
           <div className="mb-5">
@@ -68,8 +68,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           </div>
         </section>
 
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+        <section className="mb-3">
+          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
             {t.workExperience} {/* Translated Work Experience */}
           </h2>
           {resumeData.experiences?.map((job, index) => (
@@ -86,8 +86,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           ))}
         </section>
 
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+        <section className="mb-3">
+          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
             {t.education} {/* Translated Education */}
           </h2>
           {resumeData.educations?.map((edu, index) => (
@@ -110,8 +110,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
 
         {resumeData.courses.length !== 0 &&
           resumeData.courses[0]?.name.trim() !== "" && (
-            <section className="mb-6">
-              <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+            <section className="mb-3">
+              <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
                 {t.courses} {/* Translated Courses */}
               </h2>
               {resumeData.courses.map((course, index) => (
@@ -125,8 +125,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
             </section>
           )}
 
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+        <section className="mb-3">
+          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
             {t.skills} {/* Translated Skills */}
           </h2>
           <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
@@ -140,8 +140,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
         </section>
 
         {resumeData.languages[0]?.name.trim() !== "" && (
-          <section className="mb-6">
-            <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+          <section className="mb-3">
+            <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
               {t.languages} {/* Translated Languages */}
             </h2>
             <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
