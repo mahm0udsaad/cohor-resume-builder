@@ -197,23 +197,24 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
             </View>
 
             {/* Courses */}
-            {resumeData.courses[0]?.name.trim() !== "" && (
-              <View style={styles.section}>
-                <View style={styles.heading}>
-                  <Text>{t.courses}</Text>
-                  <View style={styles.headingBorder}></View>
-                </View>
-                {resumeData.courses.map((course, index) => (
-                  <View key={index}>
-                    <Text style={styles.sectionSubHeader}>{course.name}</Text>
-                    <Text>{course.institution}</Text>
-                    <Text style={{ color: theme.primaryColor }}>
-                      {formatDate(course.completionDate)}
-                    </Text>
+            {resumeData.courses.length !== 0 &&
+              resumeData.courses[0]?.name.trim() !== "" && (
+                <View style={styles.section}>
+                  <View style={styles.heading}>
+                    <Text>{t.courses}</Text>
+                    <View style={styles.headingBorder}></View>
                   </View>
-                ))}
-              </View>
-            )}
+                  {resumeData.courses.map((course, index) => (
+                    <View key={index}>
+                      <Text style={styles.sectionSubHeader}>{course.name}</Text>
+                      <Text>{course.institution}</Text>
+                      <Text style={{ color: theme.primaryColor }}>
+                        {formatDate(course.completionDate)}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              )}
           </View>
           {/* Right Column */}
           <View style={styles.rightColumn}>
@@ -237,10 +238,22 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
                   <Text style={styles.sectionSubHeader}>
                     {exp.jobTitle} at {exp.company}
                   </Text>
-                  <Text style={styles.date}>
-                    {formatDate(exp.startDate)} -{" "}
-                    {formatDate(exp.endDate, resumeData.lng)}
-                  </Text>
+                  <View
+                    style={{
+                      flexDirection: isArabic ? "row-reverse" : "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text style={styles.date}>{formatDate(exp.startDate)}</Text>
+                    <Text style={{ ...styles.date, marginHorizontal: 2 }}>
+                      {" "}
+                      -{" "}
+                    </Text>
+                    <Text style={styles.date}>
+                      {formatDate(exp.endDate, resumeData.lng)}
+                    </Text>
+                  </View>
+
                   <Text style={styles.text}>{exp.responsibilities}</Text>
                 </View>
               ))}

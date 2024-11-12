@@ -57,8 +57,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           </div>
         </header>
 
-        <section className="mb-3">
-          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
+        <section className="mb-1">
+          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-4 mb-2">
             {t.profile} {/* Translated Work Experience */}
           </h2>
           <div className="mb-5">
@@ -68,17 +68,23 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           </div>
         </section>
 
-        <section className="mb-3">
-          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
+        <section className="mb-1">
+          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-4 mb-2">
             {t.workExperience} {/* Translated Work Experience */}
           </h2>
           {resumeData.experiences?.map((job, index) => (
             <div key={index} className="mb-5">
               <h3 className="text-xl font-semibold">{job.jobTitle}</h3>
-              <p className="text-sm text-gray-600">
-                {job.company} | {formatDate(job.startDate)} -{" "}
-                {formatDate(job.endDate, resumeData.lng)}
-              </p>
+              <div className="flex flex-wrap">
+                <p className="text-sm text-gray-600 mr-2">{job.company}</p>
+                <p className="text-sm text-gray-600 mr-2">
+                  {formatDate(job.startDate)}
+                </p>
+                <p className="text-sm text-gray-600 mr-2">-</p>
+                <p className="text-sm text-gray-600">
+                  {formatDate(job.endDate, resumeData.lng)}
+                </p>
+              </div>
               <p className="text-sm text-gray-600 mt-2">
                 {job.responsibilities}
               </p>
@@ -86,8 +92,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           ))}
         </section>
 
-        <section className="mb-3">
-          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
+        <section className="mb-1">
+          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-4 mb-2">
             {t.education} {/* Translated Education */}
           </h2>
           {resumeData.educations?.map((edu, index) => (
@@ -110,8 +116,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
 
         {resumeData.courses.length !== 0 &&
           resumeData.courses[0]?.name.trim() !== "" && (
-            <section className="mb-3">
-              <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
+            <section className="mb-1">
+              <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-4 mb-2">
                 {t.courses} {/* Translated Courses */}
               </h2>
               {resumeData.courses.map((course, index) => (
@@ -125,8 +131,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
             </section>
           )}
 
-        <section className="mb-3">
-          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
+        <section className="mb-1">
+          <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-4 mb-2">
             {t.skills} {/* Translated Skills */}
           </h2>
           <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
@@ -140,8 +146,8 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
         </section>
 
         {resumeData.languages[0]?.name.trim() !== "" && (
-          <section className="mb-3">
-            <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-0.5 mb-2">
+          <section className="mb-1">
+            <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-4 mb-2">
               {t.languages} {/* Translated Languages */}
             </h2>
             <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">

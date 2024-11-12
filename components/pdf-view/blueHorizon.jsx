@@ -171,12 +171,30 @@ export default function BlueHorizonPDF({ resumeData }) {
                 <Text style={{ fontSize: 12, fontWeight: 300 }}>
                   {job.company}
                 </Text>
-                <Text
-                  style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}
+                <View
+                  style={{
+                    flexDirection: isArabic ? "row-reverse" : "row",
+                    alignItems: "center",
+                    display: "flex",
+                    gap: 2,
+                  }}
                 >
-                  {formatDate(job.startDate)} -{" "}
-                  {formatDate(job.endDate, resumeData.lng)}
-                </Text>
+                  <Text
+                    style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}
+                  >
+                    {formatDate(job.startDate)}
+                  </Text>
+                  <Text
+                    style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}
+                  >
+                    -{" "}
+                  </Text>
+                  <Text
+                    style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}
+                  >
+                    {formatDate(job.endDate, resumeData.lng)}
+                  </Text>
+                </View>
                 <Text style={styles.text}>{job.responsibilities}</Text>
               </View>
             ))}

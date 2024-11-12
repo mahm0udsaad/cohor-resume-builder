@@ -189,10 +189,19 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
                   {exp.jobTitle}
                 </Text>
                 <Text style={styles.subHeader}>{exp.company}</Text>
-                <Text style={styles.text}>
-                  {formatDate(exp.startDate)} -{" "}
-                  {formatDate(exp.endDate, resumeData.lng)}
-                </Text>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: isRTL ? "row-reverse" : "row",
+                    gap: 4,
+                  }}
+                >
+                  <Text style={styles.text}>{formatDate(exp.startDate)}</Text>
+                  <Text style={styles.text}>-</Text>
+                  <Text style={styles.text}>
+                    {formatDate(exp.endDate, resumeData.lng)}
+                  </Text>
+                </View>
                 <Text style={styles.text}>{exp.responsibilities}</Text>
               </View>
             ))}

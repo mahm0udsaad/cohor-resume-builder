@@ -101,8 +101,11 @@ export default function ReviewForm({
         if (!res.success) {
           toast({
             title: "Error updating resume",
-            description: res.error,
             variant: "destructive",
+            action: {
+              label: "Retry",
+              onClick: handleReview,
+            },
           });
           return;
         }

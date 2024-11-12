@@ -156,14 +156,14 @@ const ElegantResume = ({ resumeData }) => {
                 style={{
                   flexDirection: isArabic ? "row-reverse" : "row",
                   display: "flex",
-                  gap: 4,
+                  gap: 2,
                 }}
               >
                 <Text style={styles.companyInfo}>{job.company}</Text>
                 <Text style={styles.companyInfo}>
                   {formatDate(job.startDate)}
                 </Text>
-                <Text style={styles.companyInfo}> -</Text>
+                <Text style={styles.companyInfo}>-</Text>
                 <Text style={styles.companyInfo}>
                   {formatDate(job.endDate, resumeData.lng)}
                 </Text>
@@ -206,7 +206,7 @@ const ElegantResume = ({ resumeData }) => {
           ))}
         </View>
 
-        {/* Skills Section */}
+        {/* Skills Secti  on */}
         <View style={styles.section} wrap={false}>
           <Text style={styles.sectionTitle}>{t.skills}</Text>
           <View style={styles.skillsGrid}>

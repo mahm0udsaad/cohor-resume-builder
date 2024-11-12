@@ -177,10 +177,22 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
                 <Text style={styles.experienceTitle}>
                   {exp.jobTitle} - {exp.company}
                 </Text>
-                <Text style={styles.experienceDate}>
-                  {formatDate(exp.startDate, resumeData.lng)} -{" "}
-                  {formatDate(exp.endDate, resumeData.lng)}
-                </Text>
+                <View
+                  style={{
+                    flexDirection: isArabic ? "row-reverse" : "row",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <Text style={styles.experienceDate}>
+                    {formatDate(exp.startDate, resumeData.lng)}
+                  </Text>
+                  <Text style={styles.experienceDate}>-</Text>
+                  <Text style={styles.experienceDate}>
+                    {formatDate(exp.endDate, resumeData.lng)}
+                  </Text>
+                </View>
                 <Text style={styles.sectionContent}>
                   {exp.responsibilities}
                 </Text>

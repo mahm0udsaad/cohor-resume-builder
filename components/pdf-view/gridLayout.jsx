@@ -173,10 +173,21 @@ export default function GridLayoutResumePDF({ resumeData }) {
                   <Text style={styles.subHeader}>
                     {exp.jobTitle} - {exp.company}
                   </Text>
-                  <Text style={styles.sectionContent}>
-                    {formatDate(exp.startDate, resumeData.lng)} -{" "}
-                    {formatDate(exp.endDate, resumeData.lng)}
-                  </Text>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: isArabic ? "row-reverse" : "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text style={styles.sectionContent}>
+                      {formatDate(exp.startDate, resumeData.lng)}
+                    </Text>
+                    <Text style={styles.sectionContent}> - </Text>
+                    <Text style={styles.sectionContent}>
+                      {formatDate(exp.endDate, resumeData.lng)}
+                    </Text>
+                  </View>
                   <Text style={styles.sectionContent}>
                     {exp.responsibilities}
                   </Text>

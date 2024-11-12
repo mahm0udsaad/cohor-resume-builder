@@ -165,7 +165,7 @@ export default function ElegantModernResumeTemplate({
               {resumeData.languages.map((lang, index) => (
                 <li key={index} style={{ marginBottom: "0.5rem" }}>
                   <strong>{lang.name}:</strong>{" "}
-                  t[lang.proficiency.toLowerCase()]
+                  {t[lang.proficiency.toLowerCase()]}
                 </li>
               ))}
             </ul>
@@ -180,7 +180,6 @@ export default function ElegantModernResumeTemplate({
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
                   gap: "1rem",
                 }}
               >

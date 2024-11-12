@@ -9,7 +9,6 @@ import {
   Image,
   Font,
 } from "@react-pdf/renderer";
-import { memo } from "react";
 
 const createStyles = (theme, rtl) =>
   StyleSheet.create({
@@ -85,8 +84,8 @@ const createStyles = (theme, rtl) =>
     sectionHeading: {
       fontSize: 18,
       borderBottom: `1px solid ${theme.primaryColor}`,
-      paddingBottom: 10,
-      marginBottom: 14,
+      paddingBottom: 6,
+      marginBottom: 10,
       textAlign: rtl ? "right" : "left",
     },
     experienceContainer: {
@@ -134,12 +133,14 @@ const CreativeResumeTemplate = ({ resumeData }) => {
     secondaryColor: "#2c3e50",
     backgroundColor: "#ffffff",
   };
+
   if (rtl) {
     Font.register({
       family: "IBM Plex Sans Arabic",
       src: "/fonts/Cairo-Medium.ttf",
     });
   }
+
   const styles = createStyles(theme, rtl);
   const t = translations[resumeData.lng] || translations["en"];
 
@@ -199,25 +200,6 @@ const CreativeResumeTemplate = ({ resumeData }) => {
                 </Text>
               ))}
             </View>
-            {resumeData.courses.length !== 0 &&
-              resumeData.courses[0]?.name.trim() !== "" && (
-                <View>
-                  <Text style={styles.sectionTitle}>{t.courses}</Text>
-                  <View style={styles.courseContainer}>
-                    {resumeData.courses.map((course, index) => (
-                      <View key={index}>
-                        <Text style={styles.contactItem}>{course.name}</Text>
-                        <Text style={styles.contactItem}>
-                          {course.institution}
-                        </Text>
-                        <Text style={styles.dateText}>
-                          {course.completionDate}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
-                </View>
-              )}
           </View>
 
           {/* Right Column - can wrap to next page */}
@@ -294,6 +276,24 @@ const CreativeResumeTemplate = ({ resumeData }) => {
                 </View>
               ))}
             </View>
+            {resumeData.courses?.length !== 0 && (
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionHeading}>{t.courses}</Text>
+                <View style={styles.courseContainer}>
+                  {resumeData.courses.map((course, index) => (
+                    <View key={index}>
+                      <Text style={styles.contactItem}>{course.name}</Text>
+                      <Text style={styles.contactItem}>
+                        {course.institution}
+                      </Text>
+                      <Text style={styles.dateText}>
+                        {formatDate(course.completionDate)}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
           </View>
         </View>
       </Page>
@@ -301,4 +301,4 @@ const CreativeResumeTemplate = ({ resumeData }) => {
   );
 };
 
-export default memo(CreativeResumeTemplate);
+export default CreativeResumeTemplate;

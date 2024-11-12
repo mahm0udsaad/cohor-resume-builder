@@ -194,10 +194,23 @@ const BoldTemplate = ({ resumeData }) => {
             {resumeData.experiences?.map((job, index) => (
               <View key={index} style={styles.experienceItem}>
                 <Text style={styles.jobTitle}>{job.jobTitle}</Text>
-                <Text style={styles.jobInfo}>
-                  {job.company} // {formatDate(job.startDate)} -{" "}
-                  {formatDate(job.endDate, resumeData.lng)}
-                </Text>
+                <View
+                  style={{
+                    flexDirection: isArabic ? "row-reverse" : "row",
+                    display: "flex",
+                    gap: 2,
+                  }}
+                >
+                  <Text style={styles.jobInfo}>{job.company}</Text>
+                  //
+                  <Text style={styles.jobInfo}>
+                    {formatDate(job.startDate)}
+                  </Text>
+                  <Text style={styles.jobInfo}>-</Text>
+                  <Text style={styles.jobInfo}>
+                    {formatDate(job.endDate, resumeData.lng)}
+                  </Text>
+                </View>
                 <Text style={styles.responsibilities}>
                   {job.responsibilities}
                 </Text>
