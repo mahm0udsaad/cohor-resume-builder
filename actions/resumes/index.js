@@ -80,10 +80,19 @@ export async function addResumeToUser(email, resumeName) {
   }
 }
 
-export async function getUserResumes(userId) {
+export async function getUserResumes(email) {
   try {
+    // First, let's verify we can find the user
+    const userExists = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    console.log("User exists:", userExists);
+
     const resumes = await prisma.resume.findMany({
-      where: { userId },
+      where: {
+        userId: userExists.id,
+      },
       include: {
         theme: true,
       },

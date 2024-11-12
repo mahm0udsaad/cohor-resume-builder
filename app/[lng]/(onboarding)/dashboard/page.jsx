@@ -9,11 +9,9 @@ const DashboardPage = async ({ params: { lng } }) => {
   const session = await auth();
   if (!session) redirect("/auth");
   const userInfo = await getUserWithDetails(session.user.email);
-  const resumes = await getUserResumes(session?.user.id);
+  const resumes = await getUserResumes(session.user.email);
   const { personalInfo, experiences, educations, skills, languages, courses } =
     userInfo;
-
-  console.log(userInfo);
 
   return (
     <EditingProvider>
