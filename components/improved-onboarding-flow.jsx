@@ -25,7 +25,6 @@ import {
   completeOnboarding,
   saveOnboardingData,
 } from "../actions/userInfo/action";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const steps = [
@@ -37,7 +36,7 @@ const steps = [
   { title: "courses.title", icon: Award },
 ];
 
-export default function OnboardingFlow({ lng }) {
+export default function OnboardingFlow({ lng, user }) {
   const { t } = useTranslation(lng, "forms");
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
@@ -75,8 +74,6 @@ export default function OnboardingFlow({ lng }) {
     languages: [{ name: "", proficiency: "" }],
     courses: [{ name: "", institution: "", completionDate: "" }],
   });
-  const { data: session } = useSession();
-  const user = session?.user;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
