@@ -253,7 +253,8 @@
     "title": "اللغات",
     "Intermediate": "متوسط",
     "Beginner": "مبتدئ",
-    "Advanced": "متقدم"
+    "Advanced": "متقدم",
+    "Native": "اللغه الام"
   },
   "courses": {
     "title": "الدورات والتدريب"

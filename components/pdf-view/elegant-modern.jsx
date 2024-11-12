@@ -177,7 +177,7 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
               >
                 {resumeData.skills.map((skill, index) => (
                   <Text key={index} style={styles.skillTag}>
-                    {t.availableSkills[`${skill.name}`]}
+                    {t.availableSkills[`${skill.name}`] || skill.name}
                   </Text>
                 ))}
               </View>

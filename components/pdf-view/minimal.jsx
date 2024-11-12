@@ -193,7 +193,9 @@ const MinimalTemplate = ({ resumeData }) => {
               {resumeData.skills?.map((skill, index) => (
                 <View key={index} style={styles.skillItem}>
                   <Text style={styles.bullet}>•</Text>
-                  <Text>{t.availableSkills[`${skill.name}`]}</Text>
+                  <Text>
+                    {t.availableSkills[`${skill.name}`] || skill.name}
+                  </Text>
                 </View>
               ))}
             </View>

@@ -221,7 +221,7 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
             >
               {resumeData.skills.map((skill, index) => (
                 <Text key={index} style={styles(theme, lng).skill}>
-                  {t.availableSkills[`${skill.name}`]}
+                  {t.availableSkills[`${skill.name}`] || skill.name}
                 </Text>
               ))}
             </View>

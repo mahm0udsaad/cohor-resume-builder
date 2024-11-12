@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const proficiencyLevels = ["Beginner", "Intermediate", "Advanced"];
+const proficiencyLevels = ["Beginner", "Intermediate", "Advanced", "Native"];
 
 export default function LanguagesForm({ control, errors, t }) {
   const { fields, append, remove } = useFieldArray({

@@ -233,7 +233,7 @@ export default function GridLayoutResumePDF({ resumeData }) {
                         textAlign: "center",
                       }}
                     >
-                      {t.availableSkills[`${skill.name}`]}
+                      {t.availableSkills[`${skill.name}`] || skill.name}
                     </Text>
                     <Text
                       style={{

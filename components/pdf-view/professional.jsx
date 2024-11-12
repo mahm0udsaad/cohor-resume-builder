@@ -213,7 +213,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
             >
               {resumeData.skills?.map((skill, index) => (
                 <Text key={index} style={styles.skillBadge}>
-                  {t.availableSkills[`${skill.name}`]} - (
+                  {t.availableSkills[`${skill.name}`] || skill.name} - (
                   {t[skill.level] || skill.level})
                 </Text>
               ))}

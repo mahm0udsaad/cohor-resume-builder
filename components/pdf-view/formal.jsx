@@ -208,7 +208,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
             <View style={styles.skillsList}>
               {resumeData.skills.map((skill, index) => (
                 <Text key={index} style={styles.skillItem}>
-                  {t.availableSkills[`${skill.name}`]} (
+                  {t.availableSkills[`${skill.name}`] || skill.name} (
                   {t.levels[skill.level.toLowerCase()]})
                 </Text>
               ))}

@@ -187,7 +187,9 @@ export default function ModernFormalResumeTemplate({
                     marginBottom: "5px",
                   }}
                 >
-                  <span>{t.availableSkills[`${skill.name}`]}</span>
+                  <span>
+                    {t.availableSkills[`${skill.name}`] || skill.name}
+                  </span>
                   {/* Translates skill name */}
                 </div>
                 <div

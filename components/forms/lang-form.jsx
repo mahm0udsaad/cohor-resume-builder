@@ -16,7 +16,12 @@ import { Card, CardContent } from "../ui/card";
 export default function LanguagesForm({ languages, updateData, lng }) {
   const { t } = useTranslation(lng, "forms");
 
-  const languageProficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
+  const languageProficiencyOptions = [
+    "Beginner",
+    "Intermediate",
+    "Advanced",
+    "Native",
+  ];
 
   const handleLanguageChange = (index, field, value) => {
     updateData({

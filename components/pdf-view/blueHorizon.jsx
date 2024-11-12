@@ -35,7 +35,7 @@ export default function BlueHorizonPDF({ resumeData }) {
       backgroundColor: "white",
     },
     container: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       width: "100%",
       minHeight: 641.89,
     },
@@ -132,7 +132,7 @@ export default function BlueHorizonPDF({ resumeData }) {
             {resumeData.skills.map((skill, index) => (
               <View key={index}>
                 <Text style={styles.text}>
-                  {t.availableSkills[`${skill.name}`]}
+                  {t.availableSkills[`${skill.name}`] || skill.name}
                 </Text>
                 <View style={styles.skillBar}>
                   <View

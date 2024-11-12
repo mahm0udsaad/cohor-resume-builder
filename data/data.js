@@ -227,6 +227,7 @@ export const translations = {
     languages: "Languages",
     summary: "Summary",
     skillful: "Skillful",
+    native: "Native",
     experienced: "Experienced",
     expert: "Expert",
     contactInformation: "Contact Information",
@@ -338,6 +339,7 @@ export const translations = {
     beginner: "مبتدئ",
     intermediate: "متوسط",
     advanced: "متقدم",
+    native: "اللغه الام",
     summary: "الملخص",
     contactInformation: "معلومات الاتصال",
     availableSkills: {

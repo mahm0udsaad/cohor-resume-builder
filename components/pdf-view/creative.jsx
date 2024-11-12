@@ -184,7 +184,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
               <View style={styles.skillsContainer}>
                 {resumeData.skills.map((skill, index) => (
                   <Text key={index} style={styles.skillBadge}>
-                    {t.availableSkills[`${skill.name}`]}
+                    {t.availableSkills[`${skill.name}`] || skill.name}
                   </Text>
                 ))}
               </View>

@@ -252,7 +252,8 @@
     "title": "Languages",
     "Intermediate": "Intermediate",
     "Beginner": "Beginner",
-    "Advanced": "Advanced"
+    "Advanced": "Advanced",
+    "Native": "Native"
   },
   "courses": {
     "title": "Courses & Training"

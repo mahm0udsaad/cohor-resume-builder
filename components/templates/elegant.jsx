@@ -135,7 +135,9 @@ const ElegantResume = ({ resumeData, selectedTheme, className }) => {
         </h3>
         <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2 sm:text-xs sm:gap-1">
           {resumeData.skills?.map((skill, index) => (
-            <li key={index}>{t.availableSkills[`${skill.name}`]}</li>
+            <li key={index}>
+              {t.availableSkills[`${skill.name}`] || skill.name}
+            </li>
           ))}
         </ul>
       </section>

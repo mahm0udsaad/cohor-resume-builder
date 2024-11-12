@@ -191,7 +191,7 @@ export default function SkillCard({ user, lng }) {
             >
               <div className="flex-1">
                 <h3 className="font-medium text-main">
-                  {t.availableSkills[`${skill.name}`]}
+                  {t.availableSkills[`${skill.name}`] || skill.name}
                 </h3>
               </div>
               <div className="w-48">

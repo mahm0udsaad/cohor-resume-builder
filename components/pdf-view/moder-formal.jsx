@@ -208,7 +208,7 @@ export default function ModernFormalResumeTemplatePDF({
                   <View key={index}>
                     <View style={styles.skillContainer}>
                       <Text style={{ fontSize: 14 }}>
-                        {t.availableSkills[`${skill.name}`]}
+                        {t.availableSkills[`${skill.name}`] || skill.name}
                       </Text>
                     </View>
                     <View style={styles.skillBar}>

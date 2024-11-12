@@ -149,7 +149,7 @@ export default function ElegantModernResumeTemplate({
                     fontSize: "0.9rem",
                   }}
                 >
-                  {t.availableSkills[`${skill.name}`]}
+                  {t.availableSkills[`${skill.name}`] || skill.name}
                 </span>
               ))}
             </div>

@@ -51,7 +51,16 @@ export default function SkillForm({ skills, updateData, lng }) {
   const resetSkills = () => {
     updateData({ type: "UPDATE", path: ["skills"], value: [] });
   };
+  const hasTranslation = (skill) => {
+    const translation = t(`skills.availableSkills.${skill.name}`, {
+      fallback: null,
+    });
+    if (translation?.startsWith("skills.availableSkills.")) {
+      return skill.name;
+    }
 
+    return translation === null ? skill.name : translation;
+  };
   return (
     <Card>
       <CardContent className="p-6">
@@ -118,7 +127,7 @@ export default function SkillForm({ skills, updateData, lng }) {
               <div className="flex-1">
                 <div className="text-sm font-medium">
                   {" "}
-                  {t(`skills.availableSkills.${skill.name}`)}
+                  {hasTranslation(skill)}
                 </div>
               </div>
               <div className="w-48">

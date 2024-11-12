@@ -113,7 +113,7 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
                     fontSize: "0.9em",
                   }}
                 >
-                  {t.availableSkills[`${skill.name}`]}
+                  {t.availableSkills[`${skill.name}`] || skill.name}
                 </span>
               ))}
             </div>
