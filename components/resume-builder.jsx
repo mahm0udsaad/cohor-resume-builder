@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 
 import { useResumeData } from "@/hooks/use-resume-data";
 import { useTheme } from "@/hooks/use-theme";
@@ -13,6 +13,10 @@ import { Skeleton } from "./ui/skeleton";
 import { useTranslation } from "@/app/i18n/client";
 import { ResumePreview } from "./component/review-section";
 import { useFormTabs } from "@/hooks/use-forms-tabs";
+import { useToast } from "@/hooks/use-toast";
+import { updateUserResumeData } from "@/actions/resumes";
+import { ToastAction } from "./ui/toast";
+import { QualityUpgradeModal } from "./cards/quality-subscription-modal";
 const DynamicLanguagesForm = dynamic(() => import("./forms/lang-form"), {
   loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
 });
@@ -52,6 +56,10 @@ const DynamicReviewForm = dynamic(
 
 export function ResumeBuilder({ initalData, resumeName, lng }) {
   const user = initalData.user;
+  const plan = user.plan;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const { toast } = useToast();
   const { resumeData, updateResumeData, toggleLanguage, updateImageUrl } =
     useResumeData(initalData);
 
@@ -63,6 +71,110 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
 
   const { activeTab, handleTabChange, handleNextTab, handlePreviousTab, tabs } =
     useFormTabs({ user, router });
+
+  const checkModalShown = () => {
+    if (typeof window !== "undefined") {
+      return (
+        sessionStorage.getItem(`qualityModalShown_${user?.email}`) === "true"
+      );
+    }
+    return false;
+  };
+
+  const handleReview = async () => {
+    if (plan !== "free") {
+      setLoading(true);
+      try {
+        const updatedResumeData = {
+          ...resumeData,
+          ...(selectedTheme && {
+            theme: {
+              name: selectedTheme.name,
+              primaryColor: selectedTheme.primaryColor,
+              backgroundColor: selectedTheme.backgroundColor,
+            },
+          }),
+        };
+
+        const res = await updateUserResumeData(
+          user.email,
+          resumeName,
+          updatedResumeData,
+        );
+        if (!res.success) {
+          toast({
+            title: "Error updating resume",
+            variant: "destructive",
+            action: (
+              <ToastAction onClick={handleReview} altText="Try again">
+                Try again
+              </ToastAction>
+            ),
+          });
+          return;
+        }
+        if (res.success) {
+          toast({
+            title: t("notifications.resumeAddedSuccess"),
+            variant: "success",
+            description: t("notifications.resumeAddedSuccessDesc"),
+          });
+          router.push(`/review/${resumeName}`);
+        }
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    const modalShown = checkModalShown();
+    if (!modalShown) {
+      setIsModalOpen(true);
+      sessionStorage.setItem(`qualityModalShown_${user?.email}`, "true");
+    } else {
+      handleContinue();
+    }
+  };
+
+  const handleContinue = async () => {
+    setLoading(true);
+    try {
+      const updatedResumeData = {
+        ...resumeData,
+        ...(selectedTheme && {
+          theme: {
+            name: selectedTheme.name,
+            primaryColor: selectedTheme.primaryColor,
+            backgroundColor: selectedTheme.backgroundColor,
+          },
+        }),
+      };
+
+      const res = await updateUserResumeData(
+        user.email,
+        resumeName,
+        updatedResumeData,
+      );
+      if (!res.success) {
+        toast({
+          title: "Error updating resume",
+          description: res.error,
+          variant: "destructive",
+        });
+        return;
+      }
+      if (res.success) {
+        toast({
+          title: t("notifications.resumeAddedSuccess"),
+          variant: "success",
+          description: t("notifications.resumeAddedSuccessDesc"),
+        });
+        router.push(`/review/${resumeName}`);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -163,19 +275,41 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
                 />
                 {t("buttons.previous")} {/* Translation for 'Previous' */}
               </Button>
-              <Button
-                disabled={activeTab === "review"}
-                onClick={handleNextTab}
-                className={`bg-[#3B51A3] hover:bg-white hover:text-black`}
-              >
-                {t("buttons.next")} {/* Translation for 'Next' */}
-                <ChevronLeft
-                  className={`h-4 w-4 mx-2 ${lng == "ar" ? "" : "rotate-180"}`}
-                />
-              </Button>
+              {activeTab === "review" ? (
+                <Button
+                  onClick={handleReview}
+                  disabled={isLoading}
+                  className=" bg-main"
+                >
+                  {isLoading ? (
+                    <Loader2 className="animate-spin w-5 h-5 text-white" />
+                  ) : (
+                    t("review")
+                  )}
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleNextTab}
+                  className={`bg-[#3B51A3] hover:bg-white hover:text-black`}
+                >
+                  {t("buttons.next")} {/* Translation for 'Next' */}
+                  <ChevronLeft
+                    className={`h-4 w-4 mx-2 ${
+                      lng == "ar" ? "" : "rotate-180"
+                    }`}
+                  />
+                </Button>
+              )}
             </div>
           </div>
 
+          <QualityUpgradeModal
+            isOpen={isModalOpen}
+            setIsOpen={setIsModalOpen}
+            onContinue={handleContinue}
+            lng={lng}
+            user={user}
+          />
           {/* Resume Preview Column */}
           <ResumePreview
             template={resumeName}

@@ -2,6 +2,8 @@
 
 import prisma from "@/lib/prisma";
 import { templates } from "@/data/data";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 const getTemplateStatus = (templateIndex, userPlan) => {
   switch (userPlan) {
@@ -28,6 +30,8 @@ const getAvailableTemplates = (plan) => {
 };
 
 export async function getDashboardData() {
+  const session = await auth();
+  if (session?.user?.email !== "Jawad@cohr.sa") redirect("/Admin");
   // Get all users with their resumes
   const users = await prisma.user.findMany({
     include: {

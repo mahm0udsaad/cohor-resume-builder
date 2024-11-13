@@ -301,7 +301,7 @@ export default function OnboardingFlow({ lng, user }) {
                       className="bg-gray-200 hover:bg-gray-300 text-gray-600 font-semibold px-4 py-2 rounded-lg disabled:opacity-50"
                       disabled={currentStep === 0}
                     >
-                      {t("back")}
+                      {t("buttons.previous")}
                     </button>
                     <button
                       type="submit"
@@ -310,9 +310,9 @@ export default function OnboardingFlow({ lng, user }) {
                       {isSubmitting ? (
                         <Loader2 className="animate-spin w-5 h-5 text-white" />
                       ) : currentStep === steps.length - 1 ? (
-                        t("submit")
+                        t("buttons.complete")
                       ) : (
-                        t("next")
+                        t("buttons.next")
                       )}
                     </button>
                   </div>

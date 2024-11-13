@@ -1,4 +1,20 @@
 {
+  "review": "مراجعه",
+  "notifications": {
+    "resumeAddedSuccess": "تم إضافة السيرة الذاتية بنجاح",
+    "resumeAddedSuccessDesc": "تم إضافة سيرتك الذاتية بنجاح، سوف يتم تحويلك إلى صفحة المراجعة.",
+    "resumeUpdatedSuccess": "تم تحديث السيرة الذاتية بنجاح",
+    "profileUpdate": {
+      "success": {
+        "title": "تم تحديث الملف الشخصي",
+        "description": "تم تحديث معلوماتك بنجاح."
+      },
+      "error": {
+        "title": "فشل تحديث الملف الشخصي",
+        "description": "حدث خطأ ما. الرجاء المحاولة مرة أخرى."
+      }
+    }
+  },
   "tabs": {
     "personal": "شخصي",
     "experience": "الخبرة",

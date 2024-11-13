@@ -34,7 +34,6 @@ export default function ReviewForm({
   const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
-  const { toast } = useToast();
   const { activeTab, handleTabChange } = useFormTabs({ user, router });
 
   const sections = [
@@ -69,110 +68,6 @@ export default function ReviewForm({
     isComplete(section.key),
   ).length;
   const completionPercentage = (completedSections / sections.length) * 100;
-
-  const checkModalShown = () => {
-    if (typeof window !== "undefined") {
-      return (
-        sessionStorage.getItem(`qualityModalShown_${user?.email}`) === "true"
-      );
-    }
-    return false;
-  };
-
-  const handleReview = async () => {
-    if (plan !== "free") {
-      setLoading(true);
-      try {
-        const updatedResumeData = {
-          ...resumeData,
-          ...(theme && {
-            theme: {
-              name: theme.name,
-              primaryColor: theme.primaryColor,
-              backgroundColor: theme.backgroundColor,
-            },
-          }),
-        };
-
-        const res = await updateUserResumeData(
-          user.email,
-          resumeName,
-          updatedResumeData,
-        );
-        if (!res.success) {
-          toast({
-            title: "Error updating resume",
-            variant: "destructive",
-            action: (
-              <ToastAction onClick={handleReview} altText="Try again">
-                Try again
-              </ToastAction>
-            ),
-          });
-          return;
-        }
-        if (res.success) {
-          toast({
-            title: t("notifications.resumeAddedSuccess"),
-            variant: "success",
-            description: t("notifications.resumeAddedSuccessDesc"),
-          });
-          router.push(`/review/${resumeName}`);
-        }
-      } finally {
-        setLoading(false);
-      }
-      return;
-    }
-
-    const modalShown = checkModalShown();
-    if (!modalShown) {
-      setIsModalOpen(true);
-      sessionStorage.setItem(`qualityModalShown_${user?.email}`, "true");
-    } else {
-      handleContinue();
-    }
-  };
-
-  const handleContinue = async () => {
-    setLoading(true);
-    try {
-      const updatedResumeData = {
-        ...resumeData,
-        ...(theme && {
-          theme: {
-            name: theme.name,
-            primaryColor: theme.primaryColor,
-            backgroundColor: theme.backgroundColor,
-          },
-        }),
-      };
-
-      const res = await updateUserResumeData(
-        user.email,
-        resumeName,
-        updatedResumeData,
-      );
-      if (!res.success) {
-        toast({
-          title: "Error updating resume",
-          description: res.error,
-          variant: "destructive",
-        });
-        return;
-      }
-      if (res.success) {
-        toast({
-          title: t("notifications.resumeAddedSuccess"),
-          variant: "success",
-          description: t("notifications.resumeAddedSuccessDesc"),
-        });
-        router.push(`/review/${resumeName}`);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Card className=" overflow-hidden">
@@ -226,26 +121,7 @@ export default function ReviewForm({
             </div>
           ))}
         </div>
-
-        {resumeName !== "onboarding" && (
-          <div className="mt-6">
-            <Button
-              onClick={handleReview}
-              disabled={isLoading}
-              className="w-full bg-main"
-            >
-              {isLoading ? "Loading..." : t("reviewResume.title")}
-            </Button>
-          </div>
-        )}
       </CardContent>
-      <QualityUpgradeModal
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-        onContinue={handleContinue}
-        lng={lng}
-        user={user}
-      />
     </Card>
   );
 }
