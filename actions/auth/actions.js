@@ -4,7 +4,6 @@ import { createTransport } from "nodemailer";
 import { z } from "zod"; // For input validation
 import { revalidatePath } from "next/cache";
 import { signIn } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 
 export async function handleCredentialsAuth(formData) {
@@ -19,6 +18,8 @@ export async function handleCredentialsAuth(formData) {
     });
   } catch (error) {
     return { error: "authError" };
+  } finally {
+    revalidatePath("/auth");
   }
 }
 
