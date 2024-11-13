@@ -1,4 +1,5 @@
 {
+  "complete": "اكتمل",
   "preparingDashboard": "تحضير لوحة التحكم",
   "aiSuggestion": {
     "contextTitle": "قدم سياقًا إضافيًا",
@@ -117,6 +118,7 @@
     "skillful": "ماهر",
     "experienced": "ذو خبرة",
     "expert": "خبير",
+    "advanced": "خبير",
     "noSkills": "لا توجد مهارات",
     "availableSkills": {
       "Project Management": "إدارة المشاريع",
@@ -207,6 +209,7 @@
   },
   "education": {
     "title": "التعليم",
+    "add_education": "إضافة تعليم",
     "addEducation": "أضف تعليم",
     "editEducation": "تعديل التعليم",
     "degree": "الدرجة",
@@ -251,6 +254,7 @@
   },
   "languages": {
     "title": "اللغات",
+    "language": "اللغه",
     "Intermediate": "متوسط",
     "Beginner": "مبتدئ",
     "Advanced": "متقدم",

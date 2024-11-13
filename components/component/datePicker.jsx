@@ -25,6 +25,7 @@ const DatePicker = ({
   onChange,
   disabled,
   label,
+  isEditing = true,
   displayFormat = "MMM yyyy",
   inputFormat = "yyyy-MM-dd",
 }) => {
@@ -101,61 +102,65 @@ const DatePicker = ({
   return (
     <div className="relative" onClick={handleClick}>
       <Label className="text-main">{label}</Label>
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant={"outline"}
-            className={cn(
-              "w-full mt-2 justify-start text-left font-normal border-[#3B51A3] focus:ring-[#3B51A3]",
-              !displayValue && "text-muted-foreground",
-              disabled && "cursor-not-allowed opacity-50",
-            )}
-            disabled={disabled}
-          >
-            <CalendarIcon className="mx-2 h-4 w-4" />
-            {displayValue || <span>Pick a date</span>}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          className="w-auto p-0 z-[60]"
-          align="start"
-          onClick={handleClick}
-        >
-          <div className="flex items-center justify-between px-4 pt-2">
-            <Select
-              open={isYearSelectOpen}
-              onOpenChange={setIsYearSelectOpen}
-              value={calendarDate.getFullYear().toString()}
-              onValueChange={handleYearChange}
+      {isEditing ? (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-full mt-2 justify-start text-left font-normal border-[#3B51A3] focus:ring-[#3B51A3]",
+                !displayValue && "text-muted-foreground",
+                disabled && "cursor-not-allowed opacity-50",
+              )}
+              disabled={disabled}
             >
-              <SelectTrigger className="w-full">
-                <SelectValue>{calendarDate.getFullYear()}</SelectValue>
-              </SelectTrigger>
-              <SelectContent position="popper" className="z-[60]">
-                {years.map((year) => (
-                  <SelectItem key={year} value={year.toString()}>
-                    {year}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <Calendar
-            mode="single"
-            selected={
-              value instanceof Date
-                ? value
-                : typeof value === "string" && value !== "Present"
-                ? parseISO(value)
-                : undefined
-            }
-            onSelect={handleSelect}
-            month={calendarDate}
-            onMonthChange={setCalendarDate}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
+              <CalendarIcon className="mx-2 h-4 w-4" />
+              {displayValue || <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            className="w-auto p-0 z-[60]"
+            align="start"
+            onClick={handleClick}
+          >
+            <div className="flex items-center justify-between px-4 pt-2">
+              <Select
+                open={isYearSelectOpen}
+                onOpenChange={setIsYearSelectOpen}
+                value={calendarDate.getFullYear().toString()}
+                onValueChange={handleYearChange}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue>{calendarDate.getFullYear()}</SelectValue>
+                </SelectTrigger>
+                <SelectContent position="popper" className="z-[60]">
+                  {years.map((year) => (
+                    <SelectItem key={year} value={year.toString()}>
+                      {year}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Calendar
+              mode="single"
+              selected={
+                value instanceof Date
+                  ? value
+                  : typeof value === "string" && value !== "Present"
+                  ? parseISO(value)
+                  : undefined
+              }
+              onSelect={handleSelect}
+              month={calendarDate}
+              onMonthChange={setCalendarDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      ) : (
+        <p>{displayValue}</p>
+      )}
     </div>
   );
 };

@@ -16,7 +16,7 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
         throw new Error("Resume template element not found");
       }
 
-      // Create PDF first to get dimensions
+      // Create PDF with fixed dimensions
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "px",
@@ -31,8 +31,10 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
       clonedElement.style.position = "absolute";
       clonedElement.style.left = "-9999px";
       clonedElement.style.width = `${pageWidth}px`;
-      clonedElement.style.height = `${pageHeight}px`;
-      clonedElement.style.transform = "scale(1)"; // Remove scaling issues
+      clonedElement.style.minHeight = `${pageHeight}px`; // Set minimum height
+      clonedElement.style.height = "auto"; // Allow content to expand beyond min height
+      clonedElement.style.transform = "scale(1)";
+      clonedElement.style.backgroundColor = "#ffffff";
       document.body.appendChild(clonedElement);
 
       // Add watermark
@@ -46,40 +48,46 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
         font-weight: bold;
         color: rgba(0, 0, 0, 0.1);
         pointer-events: none;
+        z-index: 1000;
       `;
-
-      watermark.innerHTML = `
-        <img 
-          src="/ar-logo.png" 
-          alt="Watermark" 
-          style="
-            width: 400px;
-            height: auto;
-            opacity: 0.2;
-          "
-        />
-      `;
-
+      watermark.innerHTML = ``;
       clonedElement.appendChild(watermark);
 
+      // Wait for any potential dynamic content to render
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Capture with `html2canvas` using specific width and height
+      // Get actual height after content renders
+      const actualHeight = Math.max(clonedElement.scrollHeight, pageHeight);
+
+      // Update PDF height if content exceeds minimum height
+      if (actualHeight > pageHeight) {
+        pdf.internal.pageSize.setHeight(actualHeight);
+        pdf.internal.pageSize.setWidth(pageWidth);
+      }
+
+      // Capture with html2canvas
       const canvas = await html2canvas(clonedElement, {
-        scale: 2, // Adjust scale if needed
+        scale: 2,
         useCORS: true,
         allowTaint: true,
         width: pageWidth,
-        height: pageHeight,
+        height: actualHeight,
         backgroundColor: "#ffffff",
+        logging: false,
+        onclone: (clonedDoc) => {
+          const clonedElement = clonedDoc.getElementById("resume-template");
+          if (clonedElement) {
+            clonedElement.style.minHeight = `${pageHeight}px`;
+          }
+        },
       });
 
-      // Clean up cloned element from the DOM
+      // Clean up cloned element
       document.body.removeChild(clonedElement);
 
       // Add image to PDF
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
-      pdf.addImage(imgData, "JPEG", 0, 0, pageWidth, pageHeight);
+      pdf.addImage(imgData, "JPEG", 0, 0, pageWidth, actualHeight);
 
       const filename = `${resumeData.personalInfo?.name || "resume"}_free.pdf`;
       pdf.save(filename);
@@ -92,15 +100,19 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
 
   return (
     <Button
-      variant="outline"
       onClick={downloadWithWatermark}
+      variant="outline"
+      className="w-full gap-2"
       disabled={loading}
-      className="border shadow-lg hover:shadow-none flex h-fit items-center gap-2 rounded-md px-3 py-2 hover:bg-blue-600 hover:text-white"
     >
       {loading ? (
-        <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
+        </div>
       ) : (
-        <Download className="h-4 w-4" />
+        <>
+          <Download className="w-4 h-4" />
+        </>
       )}
     </Button>
   );

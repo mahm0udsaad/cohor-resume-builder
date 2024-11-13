@@ -10,15 +10,12 @@ import {
   Edit,
   Plus,
   Trash2,
-  Calendar,
   Save,
   Phone,
   Mail,
   Globe,
   X,
   Loader2,
-  Image,
-  Upload,
   UploadCloud,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,24 +31,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { parseISO } from "date-fns";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { saveOnboardingData } from "@/actions/userInfo/action";
 import { useSession } from "next-auth/react";
-import { formatDate } from "@/helper/date";
 import { useEditingContext } from "@/context/edit-context";
 import { uploadToCloud } from "@/lib/cloud";
 import Spinner from "../skeleton/spinner";
 import { allSkills } from "@/data/data";
 import { useTranslation } from "@/app/i18n/client";
-
+import DatePicker from "@/components/component/datePicker";
 function SectionHeader({ icon: Icon, title }) {
   return (
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -125,7 +114,7 @@ export default function InformationTab({ lng, initialData }) {
           errors={errors}
           setValue={setValue}
         />
-        <div className="flex gap-2 w-full">
+        <div className="lg:flex gap-2 w-full">
           <SkillsSection t={t} control={control} errors={errors} />
           <LanguagesSection t={t} control={control} errors={errors} />
         </div>
@@ -466,14 +455,12 @@ function ExperienceSection({ t, control, errors }) {
                   control={control}
                   rules={{ required: t("Start date is required") }}
                   render={({ field }) => (
-                    <div>
-                      <Label>{t("workExperience.startDate")}</Label>
-                      {isEditing ? (
-                        <Input {...field} type="date" className="mt-1" />
-                      ) : (
-                        <p className="mt-1">{formatDate(field.value)}</p>
-                      )}
-                    </div>
+                    <DatePicker
+                      label={t("workExperience.startDate")}
+                      value={field.value}
+                      onChange={field.onChange}
+                      isEditing={isEditing}
+                    />
                   )}
                 />
                 <Controller
@@ -738,11 +725,10 @@ function EducationSection({ t, control, errors, setValue }) {
 }
 const skillLevels = [
   { value: "beginner", label: "Beginner" },
-  { value: "intermediate", label: "Intermediate" },
-  { value: "advanced", label: "Advanced" },
+  { value: "skillful", label: "Skillful" },
+  { value: "experienced", label: "Experienced" },
   { value: "expert", label: "Expert" },
 ];
-
 function SkillsSection({ t, control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
@@ -818,7 +804,7 @@ function SkillsSection({ t, control, errors }) {
           {fields.map((field, index) => (
             <div
               key={field.id}
-              className={`flex items-center space-x-1 p-1 ${
+              className={`flex w-full items-center justify-between gap-1 p-1 ${
                 isEditing ? "bg-gray-50 rounded-lg" : ""
               }`}
             >
@@ -884,7 +870,10 @@ function LanguagesSection({ t, control, errors }) {
       <CardContent>
         <div className="flex flex-wrap items-center gap-2">
           {fields.map((field, index) => (
-            <div key={field.id} className="flex items-center gap-2">
+            <div
+              key={field.id}
+              className="w-full justify-between flex items-center gap-2"
+            >
               {isEditing ? (
                 <>
                   <Controller
@@ -921,6 +910,9 @@ function LanguagesSection({ t, control, errors }) {
                           </SelectItem>
                           <SelectItem value="advanced">
                             {t("languages.Advanced")}
+                          </SelectItem>
+                          <SelectItem value="native">
+                            {t("languages.Native")}
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -1058,37 +1050,3 @@ function CoursesSection({ t, control, errors }) {
     </Card>
   );
 }
-
-const DatePicker = ({ label, value, onChange, isEditing }) => {
-  const displayValue = formatDate(value);
-  return (
-    <div className="space-y-2">
-      <Label>{label}</Label>
-      {isEditing ? (
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={`w-full justify-start text-left font-normal ${
-                !value && "text-muted-foreground"
-              }`}
-            >
-              <Calendar className="mx-2 h-4 w-4" />
-              {value ? formatDate(value) : <span>Pick a date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <CalendarComponent
-              mode="single"
-              selected={typeof value === "string" ? parseISO(value) : value}
-              onSelect={(date) => onChange(date ? date.toISOString() : "")}
-              initialFocus
-            />
-          </PopoverContent>
-        </Popover>
-      ) : (
-        <p className="mt-1">{displayValue}</p>
-      )}
-    </div>
-  );
-};

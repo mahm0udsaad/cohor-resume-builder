@@ -19,6 +19,7 @@ import {
   LanguagesIcon,
 } from "lucide-react";
 import { useFormTabs } from "@/hooks/use-forms-tabs";
+import { ToastAction } from "../ui/toast";
 
 export default function ReviewForm({
   resumeData,
@@ -102,10 +103,11 @@ export default function ReviewForm({
           toast({
             title: "Error updating resume",
             variant: "destructive",
-            action: {
-              label: "Retry",
-              onClick: handleReview,
-            },
+            action: (
+              <ToastAction onClick={handleReview} altText="Try again">
+                Try again
+              </ToastAction>
+            ),
           });
           return;
         }

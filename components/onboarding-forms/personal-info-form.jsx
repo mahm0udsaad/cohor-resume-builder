@@ -64,6 +64,8 @@ export default function PersonalInfoForm({ control, errors, t }) {
                       <Label>
                         {index === 0
                           ? t("personalInfo.phone")
+                          : index === 1
+                          ? t("personalInfo.email")
                           : t("personalInfo.contact")}
                       </Label>
                       <Input
@@ -73,9 +75,13 @@ export default function PersonalInfoForm({ control, errors, t }) {
                           newContacts[index] = e.target.value;
                           onChange(newContacts);
                         }}
+                        name={index === 1 ? "email" : undefined}
+                        type={index === 1 ? "email" : "text"}
                         placeholder={
                           index === 0
                             ? t("personalInfo.phonePlaceholder")
+                            : index === 1
+                            ? t("personalInfo.emailPlaceholder")
                             : t("personalInfo.contactPlaceholder")
                         }
                       />

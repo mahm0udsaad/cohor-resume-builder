@@ -21,7 +21,7 @@
   "buttons": {
     "previous": "Previous",
     "next": "Next",
-    "Complete": "Complete",
+    "complete": "Complete",
     "resetChanges": "Reset Changes",
     "editProfile": "Edit",
     "saveAllChanges": "Save All Changes",
@@ -206,6 +206,7 @@
   },
   "education": {
     "title": "Education",
+    "add_education": "Add Education",
     "addEducation": "Add Education",
     "editEducation": "Edit Education",
     "degree": "Degree",
@@ -250,6 +251,7 @@
   },
   "languages": {
     "title": "Languages",
+    "Language": "Language",
     "Intermediate": "Intermediate",
     "Beginner": "Beginner",
     "Advanced": "Advanced",

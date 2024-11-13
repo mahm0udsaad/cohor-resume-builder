@@ -80,8 +80,8 @@ function PersonalInfoForm({ data, updateData, updateImageUrl, lng, plan }) {
                 id="email"
                 name="email"
                 type="email"
-                value={data.contact[0]}
-                onChange={(e) => handleContactChange(0, e.target.value)}
+                value={data.contact[1]}
+                onChange={(e) => handleContactChange(1, e.target.value)}
                 placeholder={t("personalInfo.emailPlaceholder")}
                 className="border-[#3B51A3] focus:ring-[#3B51A3]"
               />
@@ -108,8 +108,8 @@ function PersonalInfoForm({ data, updateData, updateImageUrl, lng, plan }) {
               <Input
                 id="phone"
                 name="phone"
-                value={data.contact[1]}
-                onChange={(e) => handleContactChange(1, e.target.value)}
+                value={data.contact[0]}
+                onChange={(e) => handleContactChange(0, e.target.value)}
                 placeholder={t("personalInfo.phonePlaceholder")}
                 className="border-[#3B51A3] focus:ring-[#3B51A3]"
               />

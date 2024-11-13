@@ -12,7 +12,6 @@ export default function Sidebar({
   isSidebarOpen,
   setIsSidebarOpen,
   userInfo,
-  handleSignOut,
 }) {
   const { t } = useTranslation(lng, "common");
 
@@ -71,7 +70,7 @@ export default function Sidebar({
         <SubscriptionModal
           lng={lng}
           user={userInfo}
-          currentPlan={userInfo.plan}
+          currentPlan={userInfo?.plan}
           onSuccess={(paymentData) => {
             // Handle successful payment
             console.log("Payment successful:", paymentData);
