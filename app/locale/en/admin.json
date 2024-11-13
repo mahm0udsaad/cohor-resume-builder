@@ -1,0 +1,26 @@
+{
+  "adminDashboard": {
+    "title": "Admin Dashboard",
+    "tabs": {
+      "free": "Free",
+      "pro": "Pro",
+      "proPlus": "Pro Plus"
+    },
+    "cards": {
+      "totalUsers": "Total Users",
+      "templates": "Templates",
+      "resumesCreated": "Resumes Created",
+      "planPerformance": "Plan Performance",
+      "subscribedTo": "Subscribed to {{plan}}",
+      "availableFor": "Available for {{plan}}",
+      "totalFor": "Total for {{plan}}",
+      "resumesPerUser": "Resumes per User"
+    },
+    "details": {
+      "users": "Users",
+      "templates": "Templates",
+      "subscribedUsers": "Subscribed Users for {{plan}}",
+      "availableTemplates": "Available Templates for {{plan}}"
+    }
+  }
+}

@@ -13,8 +13,10 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Users, FileText, Layout, TrendingUp } from "lucide-react";
+import { useTranslation } from "@/app/i18n/client";
 
-export default function AdminDashboard({ initialData }) {
+export default function AdminDashboard({ initialData, lng }) {
+  const { t } = useTranslation(lng, "admin");
   const [activeTab, setActiveTab] = useState("free");
 
   const planColors = {
@@ -23,16 +25,10 @@ export default function AdminDashboard({ initialData }) {
     proPlus: "bg-green-100 text-green-800",
   };
 
-  const displayPlanName = {
-    free: "Free",
-    pro: "Pro",
-    proPlus: "Pro Plus",
-  };
-
   return (
     <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-[#3b51a3]">
-        Admin Dashboard
+        {t("adminDashboard.title")}
       </h1>
       <Tabs
         value={activeTab}
@@ -44,19 +40,19 @@ export default function AdminDashboard({ initialData }) {
             value="free"
             className="data-[state=active]:bg-[#3b51a3] data-[state=active]:text-white"
           >
-            Free
+            {t("adminDashboard.tabs.free")}
           </TabsTrigger>
           <TabsTrigger
             value="pro"
             className="data-[state=active]:bg-[#3b51a3] data-[state=active]:text-white"
           >
-            Pro
+            {t("adminDashboard.tabs.pro")}
           </TabsTrigger>
           <TabsTrigger
             value="proPlus"
             className="data-[state=active]:bg-[#3b51a3] data-[state=active]:text-white"
           >
-            Pro Plus
+            {t("adminDashboard.tabs.proPlus")}
           </TabsTrigger>
         </TabsList>
         {Object.entries(initialData).map(([plan, data]) => (
@@ -65,7 +61,7 @@ export default function AdminDashboard({ initialData }) {
               <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Total Users
+                    {t("adminDashboard.cards.totalUsers")}
                   </CardTitle>
                   <Users className="h-4 w-4 text-[#3b51a3]" />
                 </CardHeader>
@@ -74,14 +70,16 @@ export default function AdminDashboard({ initialData }) {
                     {data.users.length}
                   </div>
                   <p className="text-xs text-gray-500">
-                    Subscribed to {displayPlanName[plan]}
+                    {t("adminDashboard.cards.subscribedTo", {
+                      plan: t(`adminDashboard.tabs.${plan}`),
+                    })}
                   </p>
                 </CardContent>
               </Card>
               <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Templates
+                    {t("adminDashboard.cards.templates")}
                   </CardTitle>
                   <Layout className="h-4 w-4 text-[#3b51a3]" />
                 </CardHeader>
@@ -90,14 +88,16 @@ export default function AdminDashboard({ initialData }) {
                     {data.templates.length}
                   </div>
                   <p className="text-xs text-gray-500">
-                    Available for {displayPlanName[plan]}
+                    {t("adminDashboard.cards.availableFor", {
+                      plan: t(`adminDashboard.tabs.${plan}`),
+                    })}
                   </p>
                 </CardContent>
               </Card>
               <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Resumes Created
+                    {t("adminDashboard.cards.resumesCreated")}
                   </CardTitle>
                   <FileText className="h-4 w-4 text-[#3b51a3]" />
                 </CardHeader>
@@ -106,14 +106,16 @@ export default function AdminDashboard({ initialData }) {
                     {data.resumes}
                   </div>
                   <p className="text-xs text-gray-500">
-                    Total for {displayPlanName[plan]}
+                    {t("adminDashboard.cards.totalFor", {
+                      plan: t(`adminDashboard.tabs.${plan}`),
+                    })}
                   </p>
                 </CardContent>
               </Card>
               <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Plan Performance
+                    {t("adminDashboard.cards.planPerformance")}
                   </CardTitle>
                   <TrendingUp className="h-4 w-4 text-[#3b51a3]" />
                 </CardHeader>
@@ -123,24 +125,30 @@ export default function AdminDashboard({ initialData }) {
                       ? (data.resumes / data.users.length).toFixed(1)
                       : "0.0"}
                   </div>
-                  <p className="text-xs text-gray-500">Resumes per user</p>
+                  <p className="text-xs text-gray-500">
+                    {t("adminDashboard.cards.resumesPerUser")}
+                  </p>
                 </CardContent>
               </Card>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <Card className="col-span-1 bg-white shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <CardTitle className="text-[#3b51a3]">Users</CardTitle>
+                  <CardTitle className="text-[#3b51a3]">
+                    {t("adminDashboard.details.users")}
+                  </CardTitle>
                   <CardDescription>
-                    Users subscribed to the {displayPlanName[plan]} plan
+                    {t("adminDashboard.details.subscribedUsers", {
+                      plan: t(`adminDashboard.tabs.${plan}`),
+                    })}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <ScrollArea className="h-[300px] pr-4">
+                  <ScrollArea className="h-[300px] px-4">
                     {data.users.map((user) => (
                       <div
                         key={user.id}
-                        className="flex items-center space-x-4 mb-4 p-2 rounded-lg hover:bg-gray-100"
+                        className="flex items-center gap-4 mb-4 p-2 rounded-lg hover:bg-gray-100"
                       >
                         <Avatar>
                           <AvatarImage src={user.image} alt={user.name} />
@@ -154,8 +162,8 @@ export default function AdminDashboard({ initialData }) {
                             {user.email}
                           </p>
                         </div>
-                        <Badge className={`ml-auto ${planColors[plan]}`}>
-                          {displayPlanName[plan]}
+                        <Badge className={`mx-auto ${planColors[plan]}`}>
+                          {t(`adminDashboard.tabs.${plan}`)}
                         </Badge>
                       </div>
                     ))}
@@ -164,17 +172,21 @@ export default function AdminDashboard({ initialData }) {
               </Card>
               <Card className="col-span-1 bg-white shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <CardTitle className="text-[#3b51a3]">Templates</CardTitle>
+                  <CardTitle className="text-[#3b51a3]">
+                    {t("adminDashboard.details.templates")}
+                  </CardTitle>
                   <CardDescription>
-                    Available templates for the {displayPlanName[plan]} plan
+                    {t("adminDashboard.details.availableTemplates", {
+                      plan: t(`adminDashboard.tabs.${plan}`),
+                    })}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <ScrollArea className="h-[300px] pr-4">
+                  <ScrollArea className="h-[300px] px-4">
                     {data.templates.map((template, index) => (
                       <div
                         key={index}
-                        className="flex items-center space-x-4 mb-4 p-2 rounded-lg hover:bg-gray-100"
+                        className="flex items-center gap-4 mb-4 p-2 rounded-lg hover:bg-gray-100"
                       >
                         <Layout className="h-5 w-5 text-[#3b51a3]" />
                         <p className="text-sm font-medium leading-none">

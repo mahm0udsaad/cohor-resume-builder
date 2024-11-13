@@ -1,0 +1,26 @@
+{
+  "adminDashboard": {
+    "title": "لوحة تحكم الإدارة",
+    "tabs": {
+      "free": "مجاني",
+      "pro": "محترف",
+      "proPlus": "محترف بلس"
+    },
+    "cards": {
+      "totalUsers": "إجمالي المستخدمين",
+      "templates": "القوالب",
+      "resumesCreated": "السير الذاتية المنشأة",
+      "planPerformance": "أداء الخطة",
+      "subscribedTo": "مشترك في {{plan}}",
+      "availableFor": "متاح لـ {{plan}}",
+      "totalFor": "إجمالي لـ {{plan}}",
+      "resumesPerUser": "السير الذاتية لكل مستخدم"
+    },
+    "details": {
+      "users": "المستخدمون",
+      "templates": "القوالب",
+      "subscribedUsers": "المستخدمون المشتركين في {{plan}}",
+      "availableTemplates": "القوالب المتاحة لـ {{plan}}"
+    }
+  }
+}
