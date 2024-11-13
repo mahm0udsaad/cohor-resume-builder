@@ -4,9 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { handleCredentialsAuth, register } from "@/actions/auth/actions";
-import { getUserOnboardingStatus } from "@/actions/userInfo/action";
 import { useToast } from "@/hooks/use-toast";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AuthButton } from "../btns/auth-btns";
 
 export default function AuthForm({ lng, searchParams }) {
@@ -51,6 +50,8 @@ export default function AuthForm({ lng, searchParams }) {
           });
         }
       } catch (err) {
+        console.log(err);
+
         toast({
           title: t("unknownError"),
           variant: "destructive",
@@ -66,14 +67,14 @@ export default function AuthForm({ lng, searchParams }) {
             variant: "destructive",
           });
         } else {
-          const onboardingStatus = await getUserOnboardingStatus(result);
-          if (onboardingStatus) {
-            redirect("/dashboard");
-          } else {
-            redirect("/onboarding");
-          }
+          toast({
+            title: t("loginSuccess"),
+            variant: "success",
+            description: t("loginSuccessDesc"),
+          });
         }
       } catch (err) {
+        console.log(err);
         toast({
           title: t("unknownError"),
           variant: "destructive",

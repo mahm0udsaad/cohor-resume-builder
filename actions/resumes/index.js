@@ -294,13 +294,21 @@ export const updateUserResumeData = async (
         : {};
 
     if (existingResume) {
-      // Update existing resume
-      await prisma.resume.update({
-        where: { id: existingResume.id },
+      // Delete the old resume and create new one
+      await prisma.resume.delete({ where: { id: existingResume.id } });
+      await prisma.resume.create({
         data: {
+          name: resumeName,
+          userId: user.id,
           ...formattedResumeData,
           modifiedAt: new Date(),
-          ...themeData,
+          ...(updatedResumeData.theme
+            ? {
+                theme: {
+                  create: updatedResumeData.theme,
+                },
+              }
+            : {}),
         },
       });
     } else {
@@ -324,10 +332,9 @@ export const updateUserResumeData = async (
 
     // Revalidate the path to update the UI
     revalidatePath("/resumes");
-
     return {
       success: true,
-      message: `Resume ${existingResume ? "updated" : "created"} successfully`,
+      existingResume: existingResume,
       resume: formattedResumeData,
     };
   } catch (error) {

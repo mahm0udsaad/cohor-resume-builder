@@ -238,7 +238,7 @@ function PersonalInfo({ t, control, contacts, setValue }) {
                 <>
                   <img
                     src={field.value || "/placeholder.svg"}
-                    alt={t("Profile")}
+                    alt={"Profile"}
                     className="w-full h-full object-cover"
                   />
                   {isEditing && (

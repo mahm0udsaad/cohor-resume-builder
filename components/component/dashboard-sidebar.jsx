@@ -1,15 +1,9 @@
 "use client";
 import Image from "next/image";
-import { X, LogOut, File, Layout } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { X, File, Layout } from "lucide-react";
 import { SubscriptionModal } from "@/components/cards/subscription-modal";
 import { useTranslation } from "@/app/i18n/client";
+import { DashUserBtn } from "./userBtn";
 
 export default function Sidebar({
   lng,
@@ -73,7 +67,7 @@ export default function Sidebar({
         </button>
       </nav>
       <div className="flex p-4 gap-2">
-        <UserProfileButton userInfo={userInfo} handleSignOut={handleSignOut} />
+        <DashUserBtn lng={lng} />
         <SubscriptionModal
           lng={lng}
           user={userInfo}
@@ -86,38 +80,5 @@ export default function Sidebar({
         />
       </div>
     </div>
-  );
-}
-
-function UserProfileButton({ userInfo, handleSignOut }) {
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button className="w-[4rem] bg-white text-[#3b51a3] hover:bg-gray-200">
-          <Image
-            priority
-            src={userInfo.image}
-            alt="User"
-            width={35}
-            height={35}
-            className="rounded-md"
-          />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-56">
-        <div className="space-y-2">
-          <p className="font-semibold">{userInfo.name}</p>
-          <p className="text-sm text-gray-500">{userInfo.email}</p>
-          <Button
-            variant="outline"
-            className="w-full text-red-600"
-            onClick={handleSignOut}
-          >
-            <LogOut className="mx-2 h-4 w-4" />
-            Sign out
-          </Button>
-        </div>
-      </PopoverContent>
-    </Popover>
   );
 }

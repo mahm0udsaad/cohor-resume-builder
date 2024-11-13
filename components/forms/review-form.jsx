@@ -111,9 +111,9 @@ export default function ReviewForm({
         }
         if (res.success) {
           toast({
-            title: "Success",
+            title: t("notifications.resumeAddedSuccess"),
             variant: "success",
-            description: res.message,
+            description: t("notifications.resumeAddedSuccessDesc"),
           });
           router.push(`/review/${resumeName}`);
         }
@@ -161,9 +161,9 @@ export default function ReviewForm({
       }
       if (res.success) {
         toast({
-          title: "Success",
+          title: t("notifications.resumeAddedSuccess"),
           variant: "success",
-          description: res.message,
+          description: t("notifications.resumeAddedSuccessDesc"),
         });
         router.push(`/review/${resumeName}`);
       }

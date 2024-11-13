@@ -210,8 +210,8 @@ export function SubscriptionModal({
   };
 
   const renderPlanContent = () => (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-[#3b51a3] to-[#8a94d9] mb-4">
+    <div className="p-2">
+      <h1 className=" text-2xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-[#3b51a3] to-[#8a94d9] mb-4">
         {t("subscription.title")}
       </h1>
       <p className="text-center mb-6">{t("subscription.subtitle")}</p>
@@ -343,7 +343,7 @@ export function SubscriptionModal({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-700 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl">
+        <Button className="w-4/5 bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-700 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl">
           {t("subscription.upgradeButton")}
         </Button>
       </DialogTrigger>

@@ -6,20 +6,16 @@ import { GoogleSignInButton } from "@/components/btns/auth-btns";
 import AuthForm from "../../../../components/forms/auth";
 import { auth, signIn } from "@/lib/auth";
 import { redirect } from "next/navigation";
-
+import { getUserOnboardingStatus } from "@/actions/userInfo/action";
 export default async function AuthPage({ params: { lng }, searchParams }) {
   const { t } = await useTranslation(lng, "auth");
   const isRegistering = searchParams.register;
   const session = await auth();
 
   if (session) {
-    const { getUserOnboardingStatus } = await import(
-      "@/actions/userInfo/action"
-    );
     const hasCompletedOnboarding = await getUserOnboardingStatus(
       session.user.email,
     );
-
     if (hasCompletedOnboarding) {
       redirect("/dashboard");
     } else {
@@ -49,7 +45,11 @@ export default async function AuthPage({ params: { lng }, searchParams }) {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
-          <AuthForm lng={lng} searchParams={searchParams} />
+          <AuthForm
+            user={session?.user}
+            lng={lng}
+            searchParams={searchParams}
+          />
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
