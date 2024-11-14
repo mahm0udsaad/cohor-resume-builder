@@ -22,7 +22,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
   const { t } = await useTranslation(lng, "common");
   const showUpgradeAlert = !user?.plan || user.plan === "free";
   const showPricing = searchParams?.hasOwnProperty("showPricing");
-  const userPlanTemplates = await getUserPlanTemplates(user?.plan);
+  const userPlanTemplates = await getUserPlanTemplates(user?.plan || "free");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -88,61 +88,64 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
         )}
         <div className="px-4 py-6 sm:px-0">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {templates.map(async (template) => {
-              const { isLocked, requiredPlan } = await getTemplateStatus(
-                template.name,
-                userPlanTemplates,
-              );
-              console.log(template, isLocked, requiredPlan);
+            {templates?.map &&
+              templates.map(async (template) => {
+                const { isLocked, requiredPlan } = await getTemplateStatus(
+                  template.name,
+                  userPlanTemplates,
+                );
+                console.log(template, isLocked, requiredPlan);
 
-              return (
-                <div key={template.name} className="relative group">
-                  {isLocked ? (
-                    <div className="cursor-not-allowed">
-                      <div className="overflow-hidden rounded-lg bg-background shadow transition-all opacity-75">
-                        <div className="aspect-[3/4] overflow-hidden relative">
-                          <div className="absolute inset-0 bg-gray-900/50 flex flex-col items-center justify-center z-10">
-                            <Lock className="w-8 h-8 text-white mb-2" />
-                            <span className="text-white font-medium text-sm">
-                              Upgrade to {requiredPlan} to unlock
-                            </span>
+                return (
+                  <div key={template.name} className="relative group">
+                    {isLocked ? (
+                      <div className="cursor-not-allowed">
+                        <div className="overflow-hidden rounded-lg bg-background shadow transition-all opacity-75">
+                          <div className="aspect-[3/4] overflow-hidden relative">
+                            <div className="absolute inset-0 bg-gray-900/50 flex flex-col items-center justify-center z-10">
+                              <Lock className="w-8 h-8 text-white mb-2" />
+                              <span className="text-white font-medium text-sm">
+                                Upgrade to {requiredPlan} to unlock
+                              </span>
+                            </div>
+                            <Image
+                              src={template.image}
+                              alt={template.name}
+                              loading="lazy"
+                              width={400}
+                              height={300}
+                              className="filter grayscale"
+                            />
                           </div>
-                          <Image
-                            src={template.image}
-                            alt={template.name}
-                            loading="lazy"
-                            width={400}
-                            height={300}
-                            className="filter grayscale"
-                          />
                         </div>
                       </div>
-                    </div>
-                  ) : (
-                    <Link href={`/builder/${template.name}`} prefetch={false}>
-                      <div className="overflow-hidden rounded-lg bg-background shadow transition-all hover:shadow-lg">
-                        <div className="aspect-[3/4] overflow-hidden">
-                          <Image
-                            src={template.image}
-                            alt={template.name}
-                            loading="lazy"
-                            width={400}
-                            height={300}
-                            className="transition-all group-hover:scale-[0.9] duration-300"
-                          />
+                    ) : (
+                      <Link href={`/builder/${template.name}`} prefetch={false}>
+                        <div className="overflow-hidden rounded-lg bg-background shadow transition-all hover:shadow-lg">
+                          <div className="aspect-[3/4] overflow-hidden">
+                            <Image
+                              src={template.image}
+                              alt={template.name}
+                              loading="lazy"
+                              width={400}
+                              height={300}
+                              className="transition-all group-hover:scale-[0.9] duration-300"
+                            />
+                          </div>
+                          <div className="bg-main px-4 pb-2 flex justify-between items-center">
+                            <h3 className="font-semibold text-white text-lg mb-2">
+                              {template.name}
+                            </h3>
+                            <Badge variant="secondary">
+                              {template.category}
+                            </Badge>
+                          </div>
                         </div>
-                        <div className="bg-main px-4 pb-2 flex justify-between items-center">
-                          <h3 className="font-semibold text-white text-lg mb-2">
-                            {template.name}
-                          </h3>
-                          <Badge variant="secondary">{template.category}</Badge>
-                        </div>
-                      </div>
-                    </Link>
-                  )}
-                </div>
-              );
-            })}
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
           </div>
         </div>
       </main>
