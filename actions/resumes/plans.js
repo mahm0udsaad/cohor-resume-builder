@@ -57,12 +57,19 @@ export async function getTemplateStatus(templateName, userPlanTemplates) {
     };
   }
 
-  const requiredPlan = await findRequiredPlanForTemplate(templateName);
-
-  return {
-    isLocked: true,
-    requiredPlan,
-  };
+  try {
+    const requiredPlan = await findRequiredPlanForTemplate(templateName);
+    return {
+      isLocked: true,
+      requiredPlan,
+    };
+  } catch (error) {
+    console.error("Error checking template status:", error);
+    return {
+      isLocked: true,
+      requiredPlan: null,
+    };
+  }
 }
 
 export async function getPlansWithPrices() {

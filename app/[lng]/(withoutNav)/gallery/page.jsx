@@ -14,6 +14,7 @@ import {
   getUserPlanTemplates,
   getTemplateStatus,
 } from "@/actions/resumes/plans";
+
 async function TemplateGallery({ params: { lng }, searchParams }) {
   const session = await auth();
   if (!session) redirect("/auth");
@@ -92,6 +93,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
                 template.name,
                 userPlanTemplates,
               );
+              console.log(template, isLocked, requiredPlan);
 
               return (
                 <div key={template.name} className="relative group">
