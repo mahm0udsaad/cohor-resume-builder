@@ -1,37 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { templates } from "@/data/data";
+import {
+  getUserPlanTemplates,
+  getTemplateStatus,
+} from "@/actions/resumes/plans";
 
-const TemplateGallery = ({ plan }) => {
-  const getTemplateStatus = (templateIndex, userPlan) => {
-    switch (userPlan) {
-      case "proPlus":
-        return { isLocked: false, requiredPlan: null };
-      case "pro":
-        return {
-          isLocked: templateIndex >= 10,
-          requiredPlan: templateIndex >= 10 ? "proPlus" : null,
-        };
-      case "free":
-      default:
-        return {
-          isLocked: templateIndex >= 2,
-          requiredPlan: templateIndex >= 10 ? "proPlus" : "pro",
-        };
-    }
-  };
+const TemplateGallery = async ({ plan }) => {
+  const [userPlanTemplates, setUserPlanTemplates] = useState([]);
+  // Fetch available templates for user's plan
+  useEffect(() => {
+    const fetchUserPlanTemplates = async () => {
+      const templates = await getUserPlanTemplates(plan);
+      setUserPlanTemplates(templates);
+    };
+    fetchUserPlanTemplates();
+  }, [plan]);
 
   return (
     <div className="grid overflow-y-auto grid-cols-1 gap-6 h-screen notfs">
-      {templates.map((template, index) => {
+      {templates.map(async (template) => {
         const { name, image } = template;
-        const { isLocked, requiredPlan } = getTemplateStatus(index, plan);
+        const { isLocked, requiredPlan } = await getTemplateStatus(
+          name,
+          userPlanTemplates,
+        );
 
         return (
-          <Card key={index}>
+          <Card key={name}>
             {isLocked ? (
               <div className="cursor-not-allowed">
                 <CardContent className="p-4">

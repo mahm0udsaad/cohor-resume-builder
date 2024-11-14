@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowLeft, Lock } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
-import SearchForm from "@/components/forms/search";
 import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { getUser } from "../../../../actions/userInfo/action";
@@ -11,7 +10,10 @@ import { RocketIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import AutoSubscriptionModal from "@/components/cards/auto-subscription-modal";
 import { templates } from "@/data/data";
-
+import {
+  getUserPlanTemplates,
+  getTemplateStatus,
+} from "@/actions/resumes/plans";
 async function TemplateGallery({ params: { lng }, searchParams }) {
   const session = await auth();
   if (!session) redirect("/auth");
@@ -19,24 +21,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
   const { t } = await useTranslation(lng, "common");
   const showUpgradeAlert = !user?.plan || user.plan === "free";
   const showPricing = searchParams?.hasOwnProperty("showPricing");
-
-  const getTemplateStatus = (templateIndex, userPlan) => {
-    switch (userPlan) {
-      case "proPlus":
-        return { isLocked: false, requiredPlan: null };
-      case "pro":
-        return {
-          isLocked: templateIndex >= 10,
-          requiredPlan: templateIndex >= 10 ? "proPlus" : null,
-        };
-      case "free":
-      default:
-        return {
-          isLocked: templateIndex >= 2,
-          requiredPlan: templateIndex >= 10 ? "proPlus" : "pro",
-        };
-    }
-  };
+  const userPlanTemplates = await getUserPlanTemplates(user?.plan);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -102,10 +87,10 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
         )}
         <div className="px-4 py-6 sm:px-0">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {templates.map((template, index) => {
-              const { isLocked, requiredPlan } = getTemplateStatus(
-                index,
-                user?.plan,
+            {templates.map(async (template) => {
+              const { isLocked, requiredPlan } = await getTemplateStatus(
+                template.name,
+                userPlanTemplates,
               );
 
               return (

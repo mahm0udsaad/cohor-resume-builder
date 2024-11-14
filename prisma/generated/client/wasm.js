@@ -168,11 +168,21 @@ exports.Prisma.UserScalarFieldEnum = {
   verificationExpires: 'verificationExpires'
 };
 
+exports.Prisma.PlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  templates: 'templates',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.VerificationTokenScalarFieldEnum = {
   id: 'id',
   identifier: 'identifier',
   token: 'token',
-  expires: 'expires'
+  expires: 'expires',
+  type: 'type'
 };
 
 exports.Prisma.ThemeScalarFieldEnum = {
@@ -207,6 +217,7 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   Subscription: 'Subscription',
   User: 'User',
+  Plan: 'Plan',
   VerificationToken: 'VerificationToken',
   Theme: 'Theme',
   Resume: 'Resume'

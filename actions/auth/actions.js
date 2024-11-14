@@ -11,13 +11,37 @@ export async function handleCredentialsAuth(formData) {
   const password = formData.get("password");
 
   try {
-    return await signIn("credentials", {
+    const result = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
+
+    // Check if there's an error in the result
+    if (result?.error) {
+      // Parse the error message from the callback error
+      if (result.error.includes("Invalid password")) {
+        return { error: "InvalidPassword" };
+      } else if (result.error.includes("User not found")) {
+        return { error: "UserNotFound" };
+      } else {
+        return { error: "CredentialsSignin" };
+      }
+    }
+
+    return result;
   } catch (error) {
-    return { error: "authError" };
+    console.error("Auth error:", error);
+    // Extract the actual error message from the CallbackRouteError
+    const errorMessage = error.message || error.toString();
+
+    if (errorMessage.includes("Invalid password")) {
+      return { error: "InvalidPassword" };
+    } else if (errorMessage.includes("User not found")) {
+      return { error: "UserNotFound" };
+    }
+
+    return { error: "CredentialsSignin" };
   } finally {
     revalidatePath("/auth");
   }
@@ -45,12 +69,12 @@ const verifyEmailSchema = z.object({
 });
 
 // Helper function to generate verification code
-const generateVerificationCode = () => {
+export const generateVerificationCode = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
 // Helper function to send verification email
-const sendVerificationEmail = async (email, code) => {
+export const sendVerificationEmail = async (email, code) => {
   console.log(email);
 
   const transporter = createTransport({

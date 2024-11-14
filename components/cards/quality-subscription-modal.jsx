@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
+import { getPlansWithPrices } from "@/actions/resumes/plans";
 
 export function QualityUpgradeModal({
   lng,
@@ -34,6 +35,11 @@ export function QualityUpgradeModal({
   const [error, setError] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState(null);
   const { t } = useTranslation(lng, "common");
+  const [plansPrices, setPlansPrices] = useState([]);
+
+  useEffect(() => {
+    getPlansWithPrices().then((plans) => setPlansPrices(plans));
+  }, []);
 
   const handlePayment = async () => {
     const currentUrl = window.location.href;
@@ -46,7 +52,7 @@ export function QualityUpgradeModal({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: 9.99, // Pro plan price
+          amount: plansPrices[1].price, // Pro plan price
           currency: "EGP",
           userEmail: user.email,
           userFirstName: user.name?.split(" ")[0] || "User",

@@ -1,12 +1,16 @@
 {
   "adminDashboard": {
     "title": "Admin Dashboard",
+    "btns": {
+      "save": "Save"
+    },
     "tabs": {
       "free": "Free",
       "pro": "Pro",
       "proPlus": "Pro Plus"
     },
     "cards": {
+      "planPrice": "Plan Price",
       "totalUsers": "Total Users",
       "templates": "Templates",
       "resumesCreated": "Resumes Created",

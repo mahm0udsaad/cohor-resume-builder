@@ -1,12 +1,16 @@
 {
   "adminDashboard": {
     "title": "لوحة تحكم الإدارة",
+    "btns": {
+      "save": "حفظ"
+    },
     "tabs": {
       "free": "مجاني",
       "pro": "محترف",
       "proPlus": "محترف بلس"
     },
     "cards": {
+      "planPrice": "سعر الخطة",
       "totalUsers": "إجمالي المستخدمين",
       "templates": "القوالب",
       "resumesCreated": "السير الذاتية المنشأة",

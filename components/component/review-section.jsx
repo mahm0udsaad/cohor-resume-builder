@@ -77,7 +77,7 @@ export function ResumePreview({
             setSelectedTheme={setSelectedTheme}
             lng={lng}
           />
-
+          {/* 
           <Button
             type="button"
             onClick={handleTemplateToggle}
@@ -90,7 +90,7 @@ export function ResumePreview({
             ) : (
               <LayoutTemplate className="size-5" />
             )}
-          </Button>
+          </Button> */}
 
           <Button
             type="button"

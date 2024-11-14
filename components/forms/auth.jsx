@@ -7,6 +7,7 @@ import { handleCredentialsAuth, register } from "@/actions/auth/actions";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { AuthButton } from "../btns/auth-btns";
+import Link from "next/link";
 
 export default function AuthForm({ lng, searchParams }) {
   const { t } = useTranslation(lng, "auth");
@@ -14,13 +15,63 @@ export default function AuthForm({ lng, searchParams }) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+
+  const handleAuthError = (error) => {
+    switch (error) {
+      case "InvalidPassword":
+        toast({
+          title: t("invalidPassword"),
+          variant: "destructive",
+        });
+        break;
+      case "UserNotFound":
+        toast({
+          title: t("userNotFound"),
+          variant: "destructive",
+        });
+        break;
+      case "CredentialsSignin":
+        toast({
+          title: t("invalidCredentials"),
+          variant: "destructive",
+        });
+        break;
+      default:
+        toast({
+          title: t("unknownError"),
+          variant: "destructive",
+        });
+    }
+  };
+
   async function onSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
 
     const formData = new FormData(event.target);
 
-    if (formData.get("register")) {
+    if (!isRegistering) {
+      try {
+        const result = await handleCredentialsAuth(formData);
+
+        if (result?.error) {
+          handleAuthError(result.error);
+        } else {
+          toast({
+            title: t("loginSuccess"),
+            variant: "success",
+            description: t("loginSuccessDesc"),
+          });
+          router.push("/dashboard");
+        }
+      } catch (err) {
+        console.error("Auth error:", err);
+        toast({
+          title: t("unknownError"),
+          variant: "destructive",
+        });
+      }
+    } else {
       const password = formData.get("password");
       const confirmPassword = formData.get("confirmPassword");
 
@@ -50,31 +101,7 @@ export default function AuthForm({ lng, searchParams }) {
           });
         }
       } catch (err) {
-        console.log(err);
-
-        toast({
-          title: t("unknownError"),
-          variant: "destructive",
-        });
-      }
-    } else {
-      try {
-        const result = await handleCredentialsAuth(formData);
-
-        if (result?.error) {
-          toast({
-            title: t(result.error),
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: t("loginSuccess"),
-            variant: "success",
-            description: t("loginSuccessDesc"),
-          });
-        }
-      } catch (err) {
-        console.log(err);
+        console.error("Registration error:", err);
         toast({
           title: t("unknownError"),
           variant: "destructive",
@@ -135,7 +162,12 @@ export default function AuthForm({ lng, searchParams }) {
           </div>
         </div>
       )}
-
+      <Link
+        href={"/auth/forgot-password"}
+        className="text-gray-500 text-sm hover:underline"
+      >
+        {t("forgotPassword")}
+      </Link>
       <AuthButton lng={lng} searchParams={searchParams} isLoading={isLoading} />
     </form>
   );

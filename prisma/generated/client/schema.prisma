@@ -83,11 +83,21 @@ model User {
   @@map("users")
 }
 
+model Plan {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  price     Float
+  templates String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model VerificationToken {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   token      String
   expires    DateTime
+  type       String   @default("EMAIL_VERIFICATION") // Add this field
 
   @@unique([identifier, token])
   @@map("verification_tokens")

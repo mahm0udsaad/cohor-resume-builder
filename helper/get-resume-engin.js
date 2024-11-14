@@ -32,7 +32,10 @@ const ElegantModernResumeTemplate = dynamic(
   () => import("@/components/templates/elegant-modern"),
   { ssr: false },
 );
-
+const MinimalistModernResumeTemplate = dynamic(
+  () => import("@/components/templates/minimalist"),
+  { ssr: false },
+);
 const ClassicTemplate = dynamic(
   () => import("@/components/templates/classic"),
   { ssr: false },
@@ -86,6 +89,7 @@ export const templateComponents = {
   bluehorizon: BlueHorizon,
   modernFormal: ModernFormalResumeTemplate,
   modernformal: ModernFormalResumeTemplate, // unified casing
+  minimalist: MinimalistModernResumeTemplate,
 };
 export const templates = [
   { name: "professional", Component: ProfessionalResume },
@@ -107,6 +111,7 @@ export const templates = [
   { name: "classic", Component: ClassicTemplate },
   { name: "ProfessionalSidebar", Component: ProfessionalSidebar },
   { name: "BlueHorizon", Component: BlueHorizon },
+  { name: "minimalist", Component: MinimalistModernResumeTemplate },
 ];
 
 export const getResumeTemplate = (templateName) => {

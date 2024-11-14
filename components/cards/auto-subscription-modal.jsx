@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "@/app/i18n/client";
+import { getPlansWithPrices } from "@/actions/resumes/plans";
 
 export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
   const { t } = useTranslation(lng, "common");
@@ -22,11 +23,12 @@ export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
   const [loading, setLoading] = useState(false);
   const [paymentKey, setPaymentKey] = useState(null);
   const [error, setError] = useState(null);
+  const [plansPrices, setPlansPrices] = useState([]);
   const [redirectUrl, setRedirectUrl] = useState(null);
   const plans = [
     {
       key: "pro",
-      price: 9.99,
+      price: plansPrices[1]?.price,
       periodKey: "period",
       features: [
         { textKey: t("plans.pro.features.advancedThemes"), icon: Palette },
@@ -38,7 +40,7 @@ export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
     },
     {
       key: "proPlus",
-      price: 19.99,
+      price: plansPrices[2]?.price,
       periodKey: "period",
       features: [
         { textKey: t("plans.proPlus.features.premiumThemes"), icon: Crown },
@@ -55,6 +57,11 @@ export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
 
   useEffect(() => {
     if (user?.plan === "proPlus") return;
+    (async () => {
+      const plans = await getPlansWithPrices();
+      setPlansPrices(plans);
+    })();
+
     if (defaultOpen) {
       setIsOpen(true);
     } else {

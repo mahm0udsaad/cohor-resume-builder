@@ -18,6 +18,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useTranslation } from "@/app/i18n/client";
+import { getPlansWithPrices } from "@/actions/resumes/plans";
 
 export function SubscriptionModal({
   currentPlan = "free",
@@ -32,6 +33,8 @@ export function SubscriptionModal({
   const [isOpen, setIsOpen] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState(null);
+  const [plansPrices, setPlansPrices] = useState([]);
+
   const { t } = useTranslation(lng, "common");
   const plans = {
     free: {
@@ -49,7 +52,7 @@ export function SubscriptionModal({
     },
     pro: {
       name: t("plans.pro.name"),
-      price: 9.99,
+      price: plansPrices[1]?.price,
       period: t("plans.pro.period"),
       features: [
         { text: t("plans.pro.features.advancedThemes"), icon: Palette },
@@ -62,7 +65,7 @@ export function SubscriptionModal({
     },
     proPlus: {
       name: t("plans.proPlus.name"),
-      price: 19.99,
+      price: plansPrices[2]?.price,
       period: t("plans.proPlus.period"),
       features: [
         { text: t("plans.proPlus.features.premiumThemes"), icon: Crown },
@@ -76,6 +79,15 @@ export function SubscriptionModal({
   };
   // Handle both iframe messages and redirect callbacks
   useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const plans = await getPlansWithPrices();
+        setPlansPrices(plans);
+      } catch (error) {
+        console.error("Error fetching plans:", error);
+      }
+    };
+
     const handleMessage = (event) => {
       if (event.origin === "https://accept.paymobsolutions.com") {
         try {
@@ -98,7 +110,6 @@ export function SubscriptionModal({
       }
     };
 
-    // Handle redirect callback
     const handleRedirectCallback = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const success = urlParams.get("success");
@@ -117,7 +128,6 @@ export function SubscriptionModal({
           setIsOpen(false);
           setPaymentKey(null);
           setPaymentStatus(null);
-          // Clean up URL parameters
           window.history.replaceState(
             {},
             document.title,
@@ -132,8 +142,9 @@ export function SubscriptionModal({
       }
     };
 
+    fetchPlans();
     window.addEventListener("message", handleMessage);
-    // Check for redirect callback on mount
+
     if (window.location.search.includes("success=")) {
       handleRedirectCallback();
     }
@@ -142,7 +153,6 @@ export function SubscriptionModal({
       window.removeEventListener("message", handleMessage);
     };
   }, [onSuccess]);
-
   const handlePaymentResponse = (data) => {
     try {
       const txnData = JSON.parse(data.split("txn_response=")[1]);

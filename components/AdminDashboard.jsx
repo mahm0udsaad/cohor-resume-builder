@@ -10,23 +10,111 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Users, FileText, Layout, TrendingUp } from "lucide-react";
+import {
+  Users,
+  FileText,
+  Layout,
+  TrendingUp,
+  Edit2,
+  Loader2,
+} from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
+import { Input } from "./ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Button } from "./ui/button";
+import {
+  updatePlanPrice,
+  updatePlanTemplates,
+} from "@/actions/dashboard/plans";
 
 export default function AdminDashboard({ initialData, lng }) {
   const { t } = useTranslation(lng, "admin");
   const [activeTab, setActiveTab] = useState("free");
-
+  const [editingPrice, setEditingPrice] = useState(false);
+  const [newPrice, setNewPrice] = useState("");
+  const [planData, setPlanData] = useState(initialData);
+  const [selectedTemplates, setSelectedTemplates] = useState(() => {
+    const initial = {};
+    Object.entries(initialData).forEach(([plan, data]) => {
+      initial[plan] = data.templates;
+    });
+    return initial;
+  });
+  const [loading, setLoading] = useState(false);
   const planColors = {
     free: "bg-blue-100 text-blue-800",
     pro: "bg-purple-100 text-purple-800",
     proPlus: "bg-green-100 text-green-800",
   };
 
+  const allTemplates = [
+    "modern",
+    "BlueHorizon",
+    "elegantModern",
+    "ProfessionalSidebar",
+    "modernFormal",
+    "creativeTimeLine",
+    "bold",
+    "professional",
+    "gridLayout",
+    "creative",
+    "formal",
+    "glow",
+    "elegant",
+  ];
+
+  const handlePriceUpdate = async (plan) => {
+    setLoading(true);
+    const result = await updatePlanPrice(plan, parseFloat(newPrice));
+    if (result.success) {
+      setEditingPrice(false);
+      setLoading(false);
+    }
+  };
+
+  const handleTemplateUpdate = async (plan) => {
+    setLoading(true);
+    const templates = selectedTemplates[plan] || [];
+    const result = await updatePlanTemplates(plan, templates);
+    if (result.success) {
+      setPlanData((prev) => ({
+        ...prev,
+        [plan]: {
+          ...prev[plan],
+          templates: templates,
+        },
+      }));
+      setLoading(false);
+    }
+  };
+  const handleTemplateToggle = (plan, template) => {
+    setSelectedTemplates((prev) => {
+      const currentTemplates = prev[plan] || [];
+      const updatedTemplates = currentTemplates.includes(template)
+        ? currentTemplates.filter((t) => t !== template)
+        : [...currentTemplates, template];
+
+      return {
+        ...prev,
+        [plan]: updatedTemplates,
+      };
+    });
+  };
+
   return (
-    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+    <div className="container mx-auto p-6  min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-[#3b51a3]">
         {t("adminDashboard.title")}
       </h1>
@@ -112,22 +200,53 @@ export default function AdminDashboard({ initialData, lng }) {
                   </p>
                 </CardContent>
               </Card>
+
               <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    {t("adminDashboard.cards.planPerformance")}
+                    {t("adminDashboard.cards.planPrice")}
                   </CardTitle>
-                  <TrendingUp className="h-4 w-4 text-[#3b51a3]" />
+                  {plan !== "free" && (
+                    <Dialog open={editingPrice} onOpenChange={setEditingPrice}>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <Edit2 className="h-4 w-4 text-[#3b51a3]" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>{t("editPrice")}</DialogTitle>
+                          <DialogDescription>
+                            {t("enterNewPrice")}
+                          </DialogDescription>
+                        </DialogHeader>
+                        <Input
+                          type="number"
+                          value={newPrice}
+                          onChange={(e) => setNewPrice(e.target.value)}
+                          step="0.01"
+                          min="0"
+                        />
+                        <DialogFooter>
+                          <Button
+                            disabled={loading}
+                            onClick={() => handlePriceUpdate(plan)}
+                          >
+                            {loading ? (
+                              <Loader2 className="size-4 animate-spin text-white" />
+                            ) : (
+                              t("adminDashboard.btns.save")
+                            )}
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  )}
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-[#3b51a3]">
-                    {data.users.length
-                      ? (data.resumes / data.users.length).toFixed(1)
-                      : "0.0"}
+                    ${data.price}
                   </div>
-                  <p className="text-xs text-gray-500">
-                    {t("adminDashboard.cards.resumesPerUser")}
-                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -170,31 +289,51 @@ export default function AdminDashboard({ initialData, lng }) {
                   </ScrollArea>
                 </CardContent>
               </Card>
+
               <Card className="col-span-1 bg-white shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <CardTitle className="text-[#3b51a3]">
                     {t("adminDashboard.details.templates")}
                   </CardTitle>
                   <CardDescription>
-                    {t("adminDashboard.details.availableTemplates", {
-                      plan: t(`adminDashboard.tabs.${plan}`),
-                    })}
+                    {t("adminDashboard.details.selectTemplates")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ScrollArea className="h-[300px] px-4">
-                    {data.templates.map((template, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-4 mb-4 p-2 rounded-lg hover:bg-gray-100"
-                      >
-                        <Layout className="h-5 w-5 text-[#3b51a3]" />
-                        <p className="text-sm font-medium leading-none">
-                          {template}
-                        </p>
-                      </div>
-                    ))}
+                    <div className="space-y-4">
+                      {allTemplates.map((template) => (
+                        <div key={template} className="flex items-center gap-2">
+                          <Checkbox
+                            id={`${plan}-${template}`}
+                            checked={selectedTemplates[plan]?.includes(
+                              template,
+                            )}
+                            onCheckedChange={() =>
+                              handleTemplateToggle(plan, template)
+                            }
+                          />
+                          <Label
+                            htmlFor={`${plan}-${template}`}
+                            className="cursor-pointer"
+                          >
+                            {template}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
                   </ScrollArea>
+                  <Button
+                    className="mt-4"
+                    disabled={loading}
+                    onClick={() => handleTemplateUpdate(plan)}
+                  >
+                    {loading ? (
+                      <Loader2 className="animate-spin" />
+                    ) : (
+                      t("adminDashboard.btns.save")
+                    )}
+                  </Button>
                 </CardContent>
               </Card>
             </div>
