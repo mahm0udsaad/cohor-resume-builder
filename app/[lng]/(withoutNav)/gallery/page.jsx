@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowLeft, Lock } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
@@ -9,7 +8,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RocketIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import { templates } from "@/data/data";
-import { getUserPlanTemplates } from "@/actions/resumes/plans";
 import dynamic from "next/dynamic";
 
 const AutoSubscriptionModal = dynamic(
@@ -22,7 +20,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
   if (!session) redirect("/auth");
   const { user } = await getUser(session?.user.email);
   const { t } = await useTranslation(lng, "common");
-  const userPlanTemplates = await getUserPlanTemplates(user?.plan || "free");
+  const userPlanTemplates = ["modern", "bold"];
   const showUpgradeAlert =
     user?.plan !== "proPlus" || searchParams?.hasOwnProperty("showPricing");
   const availableTemplates = templates.filter((template) =>
@@ -111,12 +109,6 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
                       height={300}
                       className="transition-all group-hover:scale-[0.9] duration-300"
                     />
-                  </div>
-                  <div className="bg-main px-4 pb-2 flex justify-between items-center">
-                    <h3 className="font-semibold text-white text-lg mb-2">
-                      {template.name}
-                    </h3>
-                    <Badge variant="secondary">{template.category}</Badge>
                   </div>
                 </div>
               </Link>
