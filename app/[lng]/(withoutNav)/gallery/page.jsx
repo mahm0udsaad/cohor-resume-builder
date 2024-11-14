@@ -28,6 +28,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
   const showUpgradeAlert = false;
   const showPricing = searchParams?.hasOwnProperty("showPricing");
   const userPlanTemplates = await getUserPlanTemplates(user?.plan || "free");
+  console.log(userPlanTemplates);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -99,7 +100,6 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
                   template.name,
                   userPlanTemplates,
                 );
-                console.log(template, isLocked, requiredPlan);
 
                 return (
                   <div key={template.name} className="relative group">
