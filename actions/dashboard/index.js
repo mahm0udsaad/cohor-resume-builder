@@ -4,12 +4,13 @@ import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-// if (
-//   session?.user?.email !== "Jawad@cohr.sa" ||
-//   session?.user?.email !== "saad123mn123@gmail.com"
-// )
-//   redirect("/Admin");
 export async function getDashboardData() {
+  const session = await auth();
+  if (
+    session?.user?.email !== "Jawad@cohr.sa" ||
+    session?.user?.email !== "saad123mn123@gmail.com"
+  )
+    redirect("/Admin");
   const plans = await prisma.plan.findMany();
   const users = await prisma.user.findMany({
     include: { resumes: true },
