@@ -5,6 +5,22 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { getUserWithDetails } from "../userInfo/action";
 
+export async function getUserPlanTemplates(planName) {
+  try {
+    const userPlan = await prisma.plan.findUnique({
+      where: {
+        name: planName || "free",
+      },
+      select: {
+        templates: true,
+      },
+    });
+    return userPlan?.templates || [];
+  } catch (error) {
+    console.error("Error fetching user plan templates:", error);
+    return [];
+  }
+}
 export async function addResumeToUser(email, resumeName) {
   try {
     console.log("Adding resume:", email, resumeName);
