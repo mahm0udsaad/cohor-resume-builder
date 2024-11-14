@@ -67,6 +67,12 @@ const FormalTemplate = dynamic(
     ssr: false,
   },
 );
+const DynamicModernResume = dynamic(
+  () => import("@/components/templates/dynamic-modern"),
+  {
+    ssr: false,
+  },
+);
 export const templateComponents = {
   classic: ClassicTemplate,
   modern: ModernTemplate,
@@ -90,6 +96,7 @@ export const templateComponents = {
   modernFormal: ModernFormalResumeTemplate,
   modernformal: ModernFormalResumeTemplate, // unified casing
   minimalist: MinimalistModernResumeTemplate,
+  dynamicModern: DynamicModernResume,
 };
 export const templates = [
   { name: "professional", Component: ProfessionalResume },
@@ -112,6 +119,7 @@ export const templates = [
   { name: "ProfessionalSidebar", Component: ProfessionalSidebar },
   { name: "BlueHorizon", Component: BlueHorizon },
   { name: "minimalist", Component: MinimalistModernResumeTemplate },
+  { name: "dynamicModern", Component: DynamicModernResume },
 ];
 
 export const getResumeTemplate = (templateName) => {

@@ -13,6 +13,8 @@ import GridLayout from "./pdf-view/gridLayout";
 import ProfessionalSidebarPDF from "./pdf-view/professional-sidebar";
 import BlueHorizonPDF from "./pdf-view/blueHorizon";
 import ModernFormalResumeTemplatePDF from "./pdf-view/moder-formal";
+import MinimalistModernResume from "./pdf-view/minimalist";
+
 export const templateViewComponents = {
   modern: modern,
   classic: Classic,
@@ -30,4 +32,5 @@ export const templateViewComponents = {
   ProfessionalSidebar: ProfessionalSidebarPDF,
   BlueHorizon: BlueHorizonPDF,
   modernFormal: ModernFormalResumeTemplatePDF,
+  minimalist: MinimalistModernResume,
 };

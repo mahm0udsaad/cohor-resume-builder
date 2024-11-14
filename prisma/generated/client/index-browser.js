@@ -155,6 +155,7 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  role: 'role',
   email: 'email',
   emailVerified: 'emailVerified',
   password: 'password',

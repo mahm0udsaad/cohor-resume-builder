@@ -4946,6 +4946,7 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: string | null
     name: string | null
+    role: string | null
     email: string | null
     emailVerified: boolean | null
     password: string | null
@@ -4962,6 +4963,7 @@ export namespace Prisma {
   export type UserMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    role: string | null
     email: string | null
     emailVerified: boolean | null
     password: string | null
@@ -4978,6 +4980,7 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     name: number
+    role: number
     email: number
     emailVerified: number
     password: number
@@ -4996,6 +4999,7 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
+    role?: true
     email?: true
     emailVerified?: true
     password?: true
@@ -5012,6 +5016,7 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
+    role?: true
     email?: true
     emailVerified?: true
     password?: true
@@ -5028,6 +5033,7 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
+    role?: true
     email?: true
     emailVerified?: true
     password?: true
@@ -5117,6 +5123,7 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     name: string
+    role: string
     email: string
     emailVerified: boolean | null
     password: string | null
@@ -5150,6 +5157,7 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    role?: boolean
     email?: boolean
     emailVerified?: boolean
     password?: boolean
@@ -5178,6 +5186,7 @@ export namespace Prisma {
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
+    role?: boolean
     email?: boolean
     emailVerified?: boolean
     password?: boolean
@@ -5210,6 +5219,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      role: string
       email: string
       emailVerified: boolean | null
       password: string | null
@@ -5626,6 +5636,7 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly role: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'Boolean'>
     readonly password: FieldRef<"User", 'String'>
@@ -9827,6 +9838,7 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    role: 'role',
     email: 'email',
     emailVerified: 'emailVerified',
     password: 'password',
@@ -10216,6 +10228,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
+    role?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     emailVerified?: BoolNullableFilter<"User"> | boolean | null
     password?: StringNullableFilter<"User"> | string | null
@@ -10242,6 +10255,7 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
@@ -10272,6 +10286,7 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
+    role?: StringFilter<"User"> | string
     emailVerified?: BoolNullableFilter<"User"> | boolean | null
     password?: StringNullableFilter<"User"> | string | null
     image?: StringFilter<"User"> | string
@@ -10297,6 +10312,7 @@ export namespace Prisma {
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
@@ -10319,6 +10335,7 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
+    role?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -10822,6 +10839,7 @@ export namespace Prisma {
   export type UserCreateInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -10848,6 +10866,7 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -10873,6 +10892,7 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10898,6 +10918,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10924,6 +10945,7 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -10945,6 +10967,7 @@ export namespace Prisma {
 
   export type UserUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10966,6 +10989,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateManyInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11725,6 +11749,7 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
@@ -11741,6 +11766,7 @@ export namespace Prisma {
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
@@ -11757,6 +11783,7 @@ export namespace Prisma {
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    role?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
@@ -12654,6 +12681,7 @@ export namespace Prisma {
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -12679,6 +12707,7 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutAccountsInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -12719,6 +12748,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutAccountsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12743,6 +12773,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12768,6 +12799,7 @@ export namespace Prisma {
   export type UserCreateWithoutSessionsInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -12793,6 +12825,7 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutSessionsInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -12833,6 +12866,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutSessionsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12857,6 +12891,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12882,6 +12917,7 @@ export namespace Prisma {
   export type UserCreateWithoutSubscriptionsInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -12907,6 +12943,7 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -12947,6 +12984,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutSubscriptionsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12971,6 +13009,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13357,6 +13396,7 @@ export namespace Prisma {
   export type UserCreateWithoutResumesInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -13382,6 +13422,7 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutResumesInput = {
     id?: string
     name?: string
+    role?: string
     email: string
     emailVerified?: boolean | null
     password?: string | null
@@ -13441,6 +13482,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutResumesInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13465,6 +13507,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutResumesInput = {
     name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
     password?: NullableStringFieldUpdateOperationsInput | string | null

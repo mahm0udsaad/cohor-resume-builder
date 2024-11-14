@@ -7,8 +7,7 @@ import { redirect } from "next/navigation";
 export async function getDashboardData() {
   const session = await auth();
   if (
-    session?.user?.email !== "Jawad@cohr.sa" ||
-    session?.user?.email !== "saad123mn123@gmail.com"
+    !["Jawad@cohr.sa", "saad123mn123@gmail.com"].includes(session?.user?.email)
   )
     redirect("/Admin");
   const plans = await prisma.plan.findMany();
@@ -36,55 +35,19 @@ export async function getDashboardData() {
   return dashboardData;
 }
 
-async function seed() {
-  // Delete existing plans
-  await prisma.plan.deleteMany({});
+export async function seedAdminUsers() {
+  const existingUsers = await prisma.user.findMany({
+    where: {
+      OR: [{ email: "Jawad@cohr.sa" }, { email: "saad123mn123@gmail.com" }],
+    },
+  });
 
-  // Create plans with templates
-  const plans = [
-    {
-      name: "free",
-      price: 0,
-      templates: ["modern", "BlueHorizon", "elegantModern"],
-    },
-    {
-      name: "pro",
-      price: 9.99,
-      templates: [
-        "modern",
-        "BlueHorizon",
-        "elegantModern",
-        "ProfessionalSidebar",
-        "modernFormal",
-        "creativeTimeLine",
-        "bold",
-        "professional",
-      ],
-    },
-    {
-      name: "proPlus",
-      price: 19.99,
-      templates: [
-        "modern",
-        "BlueHorizon",
-        "elegantModern",
-        "ProfessionalSidebar",
-        "modernFormal",
-        "creativeTimeLine",
-        "bold",
-        "professional",
-        "gridLayout",
-        "creative",
-        "formal",
-        "glow",
-        "elegant",
-      ],
-    },
-  ];
+  if (existingUsers.length === 2) return;
 
-  for (const plan of plans) {
-    await prisma.plan.create({
-      data: plan,
-    });
-  }
+  await prisma.user.upsert({
+    where: { email: "saad123mn123@gmail.com" },
+    update: {
+      role: "ADMIN",
+    },
+  });
 }
