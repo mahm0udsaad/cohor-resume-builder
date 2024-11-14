@@ -331,25 +331,27 @@ function PersonalInfo({ t, control, contacts, setValue }) {
           <div className="space-y-2 mt-2">
             <div className="flex flex-wrap items-center gap-2">
               {isEditing
-                ? contactFields.map((field, index) => (
-                    <div
-                      key={field.id || `default-${index}`}
-                      className="flex items-center space-x-2"
-                    >
+                ? fields.map((field, index) => (
+                    <div key={field.id} className="flex items-center space-x-2">
                       <Controller
                         name={`personalInfo.contact.${index}`}
                         control={control}
-                        defaultValue={field.value}
-                        rules={{ required: t(`${field.label} is required`) }}
+                        rules={{ required: t("Contact is required") }}
                         render={({ field: contactField }) => (
                           <Input
                             {...contactField}
-                            placeholder={t(field.label)}
+                            placeholder={
+                              index === 0
+                                ? t("personalInfo.phonePlaceholder")
+                                : index === 1
+                                ? t("personalInfo.emailPlaceholder")
+                                : t("personalInfo.contactPlaceholder")
+                            }
                             className="flex-grow"
                           />
                         )}
                       />
-                      {contactFields.length > 2 && (
+                      {index > 1 && (
                         <Button
                           type="button"
                           variant="ghost"
@@ -370,8 +372,7 @@ function PersonalInfo({ t, control, contacts, setValue }) {
                       <>
                         {contact.includes("@") ? (
                           <Mail className="h-3 w-3 mx-2" />
-                        ) : contact.startsWith("+") ||
-                          contact.match(/^\d{10}$/) ? (
+                        ) : contact.startsWith("+") || /\d/.test(contact) ? (
                           <Phone className="h-3 w-3 mx-2" />
                         ) : (
                           <Globe className="h-3 w-3 mx-2" />
