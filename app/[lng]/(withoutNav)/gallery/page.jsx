@@ -8,19 +8,24 @@ import { getUser } from "../../../../actions/userInfo/action";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RocketIcon } from "lucide-react";
 import { redirect } from "next/navigation";
-import AutoSubscriptionModal from "@/components/cards/auto-subscription-modal";
 import { templates } from "@/data/data";
 import {
   getUserPlanTemplates,
   getTemplateStatus,
 } from "@/actions/resumes/plans";
+import dynamic from "next/dynamic";
+
+const AutoSubscriptionModal = dynamic(
+  () => import("@/components/cards/auto-subscription-modal"),
+  { ssr: false },
+);
 
 async function TemplateGallery({ params: { lng }, searchParams }) {
   const session = await auth();
   if (!session) redirect("/auth");
   const { user } = await getUser(session?.user.email);
   const { t } = await useTranslation(lng, "common");
-  const showUpgradeAlert = !user?.plan || user.plan === "free";
+  const showUpgradeAlert = user.plan === "free" || user.plan === "pro";
   const showPricing = searchParams?.hasOwnProperty("showPricing");
   const userPlanTemplates = await getUserPlanTemplates(user?.plan || "free");
 
