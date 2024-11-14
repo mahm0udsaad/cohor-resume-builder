@@ -68,7 +68,7 @@ const UserBtn = ({ lng }) => {
         <DropdownMenuTrigger asChild>
           <Button size="icon">
             <Image
-              src={session?.user?.image}
+              src={session?.user?.image || "/user.png"}
               alt={session?.user?.name}
               width={40}
               height={40}
