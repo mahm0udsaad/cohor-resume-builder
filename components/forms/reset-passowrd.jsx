@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, ArrowRight, CheckCircle, RefreshCw, Lock } from "lucide-react";
+import { Mail, ArrowRight, RefreshCw, Lock } from "lucide-react";
 import {
   initiatePasswordReset,
   verifyEmail,
@@ -24,7 +24,6 @@ export default function PasswordResetFlow({ lng }) {
   const [code, setCode] = useState(Array(6).fill(""));
   const [isVerifying, setIsVerifying] = useState(false);
   const [countdown, setCountdown] = useState(0);
-  const firstInputRef = useRef(null);
   const inputRefs = useRef([]);
   const router = useRouter();
   // Forgot Password Form Handler
@@ -42,7 +41,7 @@ export default function PasswordResetFlow({ lng }) {
         setCurrentStep("verify");
         startCountdown();
       } else {
-        setError(t("ResetInitiationFailed"));
+        setError(t("resetInitiationFailed"));
       }
     } catch (err) {
       setError(t("unknownError"));

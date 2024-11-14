@@ -5,7 +5,12 @@ import { z } from "zod"; // For input validation
 import { revalidatePath } from "next/cache";
 import { signIn } from "@/lib/auth";
 import bcrypt from "bcryptjs";
-
+function generateVerificationCode(length = 6) {
+  return Math.random()
+    .toString(36)
+    .substring(2, 2 + length)
+    .toUpperCase();
+}
 export async function handleCredentialsAuth(formData) {
   const email = formData.get("email");
   const password = formData.get("password");
@@ -67,11 +72,6 @@ const verifyEmailSchema = z.object({
   email: z.string().email(),
   code: z.string().length(6),
 });
-
-// Helper function to generate verification code
-export const generateVerificationCode = () => {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-};
 
 // Helper function to send verification email
 export const sendVerificationEmail = async (email, code) => {
@@ -337,6 +337,7 @@ export async function register(formData) {
       const hashedPassword = await bcrypt.hash(validatedData.password, 12);
       const verificationCode = generateVerificationCode();
       const verificationExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+      console.log(verificationCode);
 
       console.log("Debug: before user creation", {
         hashedPassword,

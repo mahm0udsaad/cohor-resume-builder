@@ -18,7 +18,7 @@ export default function CheckEmailPage({ params: { lng } }) {
   const router = useRouter();
   const { t } = useTranslation(lng, "auth");
   const email = searchParams.get("email");
-
+  const inputRefs = useRef([]);
   const [countdown, setCountdown] = useState(60);
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -59,30 +59,47 @@ export default function CheckEmailPage({ params: { lng } }) {
     }
   };
 
-  const handleCodeChange = (index, value) => {
-    const newCode = [...code];
-    newCode[index] = value;
+  // Enhanced paste handler for the container
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").trim().toUpperCase();
+    const chars = pastedData.split("").slice(0, 6);
+    const newCode = Array(6).fill("");
+    chars.forEach((char, index) => {
+      if (index < 6) newCode[index] = char;
+    });
     setCode(newCode);
 
-    if (value === "") {
-      if (index > 0) {
-        document.getElementById(`code-${index - 1}`)?.focus();
-      }
-    } else if (index < 5 && value.length === 1) {
-      document.getElementById(`code-${index + 1}`)?.focus();
+    // Focus the next empty input or the last input if all are filled
+    const nextEmptyIndex = newCode.findIndex((char) => !char);
+    if (nextEmptyIndex !== -1) {
+      inputRefs.current[nextEmptyIndex]?.focus();
+    } else {
+      inputRefs.current[5]?.focus();
     }
   };
 
-  const handlePaste = (e) => {
-    e.preventDefault();
-    const pastedText = e.clipboardData.getData("text").trim();
+  // Handle backspace
+  const handleKeyDown = (index, e) => {
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      const newCode = [...code];
 
-    // Check if pasted text is exactly 6 digits
-    if (pastedText.length === 6 && /^\d+$/.test(pastedText)) {
-      setCode(pastedText.split("")); // Set each digit to the corresponding index in the code state
-
-      // Focus the last input after auto-filling
-      document.getElementById("code-5")?.focus();
+      if (newCode[index]) {
+        // If current input has a value, clear it
+        newCode[index] = "";
+        setCode(newCode);
+      } else if (index > 0) {
+        // If current input is empty and we're not at the first input,
+        // clear previous input and move focus there
+        newCode[index - 1] = "";
+        setCode(newCode);
+        inputRefs.current[index - 1]?.focus();
+      }
+    } else if (e.key === "ArrowLeft" && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    } else if (e.key === "ArrowRight" && index < 5) {
+      inputRefs.current[index + 1]?.focus();
     }
   };
 
@@ -187,6 +204,7 @@ export default function CheckEmailPage({ params: { lng } }) {
                           inputMode="numeric"
                           maxLength={1}
                           value={digit}
+                          onKeyDown={(e) => handleKeyDown(index, e)}
                           onChange={(e) =>
                             handleCodeChange(index, e.target.value)
                           }
@@ -241,11 +259,6 @@ export default function CheckEmailPage({ params: { lng } }) {
                   <p className="text-gray-600 mb-6">
                     {t("verificationSuccessMessage")}
                   </p>
-                  <Link href={"/dashboard"}>
-                    <Button className="bg-green-500 hover:bg-green-600 text-white">
-                      {t("continueToDashboard")}
-                    </Button>
-                  </Link>
                 </motion.div>
               )}
             </AnimatePresence>
