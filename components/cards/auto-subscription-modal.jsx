@@ -17,9 +17,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "@/app/i18n/client";
 import { getPlansWithPrices } from "@/actions/resumes/plans";
 
-export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
+export default function AutoSubscriptionModal({ user, lng }) {
   const { t } = useTranslation(lng, "common");
-  const [isOpen, setIsOpen] = useState(defaultOpen ? defaultOpen : false);
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paymentKey, setPaymentKey] = useState(null);
   const [error, setError] = useState(null);
@@ -62,13 +62,9 @@ export default function AutoSubscriptionModal({ defaultOpen, user, lng }) {
       setPlansPrices(plans);
     })();
 
-    if (defaultOpen) {
-      setIsOpen(true);
-    } else {
-      const timer = setTimeout(() => setIsOpen(true), 10000);
-      return () => clearTimeout(timer);
-    }
-  }, [defaultOpen, user?.plan]);
+    const timer = setTimeout(() => setIsOpen(true), 10000);
+    return () => clearTimeout(timer);
+  }, [user?.plan]);
 
   const handlePayment = async (planName) => {
     const currentUrl = window.location.href;
