@@ -25,7 +25,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
   if (!session) redirect("/auth");
   const { user } = await getUser(session?.user.email);
   const { t } = await useTranslation(lng, "common");
-  const showUpgradeAlert = user.plan === "free" || user.plan === "pro";
+  const showUpgradeAlert = false;
   const showPricing = searchParams?.hasOwnProperty("showPricing");
   const userPlanTemplates = await getUserPlanTemplates(user?.plan || "free");
 
