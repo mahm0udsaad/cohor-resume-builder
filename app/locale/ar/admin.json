@@ -1,4 +1,7 @@
 {
+  "enterNewPrice": "ادخل السعر الجديد",
+  "editPrice": "تعديل السعر",
+  "SAR": "ريال",
   "adminDashboard": {
     "title": "لوحة تحكم الإدارة",
     "btns": {
@@ -21,6 +24,7 @@
       "resumesPerUser": "السير الذاتية لكل مستخدم"
     },
     "details": {
+      "selectTemplates": "حدد القوالب المراده للخطه",
       "users": "المستخدمون",
       "templates": "القوالب",
       "subscribedUsers": "المستخدمون المشتركين في {{plan}}",

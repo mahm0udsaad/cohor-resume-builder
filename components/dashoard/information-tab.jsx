@@ -198,6 +198,14 @@ function PersonalInfo({ t, control, contacts, setValue }) {
   const triggerImageUpload = () => {
     imageInputRef.current?.click();
   };
+  const defaultContacts = [
+    { id: "phoneNumber", value: "", label: t("Phone Number") },
+    { id: "email", value: "", label: t("Email") },
+  ];
+  const contactFields =
+    fields.length < 2
+      ? [...fields, ...defaultContacts.slice(fields.length)]
+      : fields;
 
   return (
     <Card className="overflow-hidden transition-all duration-300 ease-in-out">
@@ -323,28 +331,34 @@ function PersonalInfo({ t, control, contacts, setValue }) {
           <div className="space-y-2 mt-2">
             <div className="flex flex-wrap items-center gap-2">
               {isEditing
-                ? fields.map((field, index) => (
-                    <div key={field.id} className="flex items-center space-x-2">
+                ? contactFields.map((field, index) => (
+                    <div
+                      key={field.id || `default-${index}`}
+                      className="flex items-center space-x-2"
+                    >
                       <Controller
                         name={`personalInfo.contact.${index}`}
                         control={control}
-                        rules={{ required: t("Contact is required") }}
+                        defaultValue={field.value}
+                        rules={{ required: t(`${field.label} is required`) }}
                         render={({ field: contactField }) => (
                           <Input
                             {...contactField}
-                            placeholder={t("Contact information")}
+                            placeholder={t(field.label)}
                             className="flex-grow"
                           />
                         )}
                       />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => remove(index)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      {contactFields.length > 2 && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => remove(index)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
                     </div>
                   ))
                 : contacts.map((contact) => (

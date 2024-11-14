@@ -245,7 +245,8 @@ export default function AdminDashboard({ initialData, lng }) {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-[#3b51a3]">
-                    ${data.price}
+                    {data.price}
+                    <span className="text-sm text-gray-500">{t("SAR")}</span>
                   </div>
                 </CardContent>
               </Card>

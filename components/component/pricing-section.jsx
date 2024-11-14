@@ -63,7 +63,10 @@ const PricingSection = async ({ t, lng }) => {
               </CardHeader>
               <CardContent className="flex-grow">
                 <p className="text-4xl font-bold text-[#3b51a3] mb-4">
-                  {index > 0 ? `${plan.price}$` : plan.price}
+                  {index > 0 ? `${plan.price}` : plan.price}
+                  <span className="text-xl font-bold text-[#3b51a3]">
+                    {index > 0 ? t("SAR") : ""}
+                  </span>
                 </p>
                 <ul className="space-y-2">
                   {plan.features.map((feature, featureIndex) => (

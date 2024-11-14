@@ -177,7 +177,10 @@ export default function AutoSubscriptionModal({ user, lng }) {
                     </div>
                     <div className="mb-6">
                       <span className="text-4xl font-bold text-[#3b51a3]">
-                        ${plan.price}
+                        {plan.price}
+                        <span className="text-xl font-bold text-[#3b51a3]">
+                          {t("SAR")}
+                        </span>
                       </span>
                       <span className="text-sm ml-1 text-gray-600">
                         /{t(`subscription.${plan.periodKey}`)}
