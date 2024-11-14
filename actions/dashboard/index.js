@@ -7,7 +7,11 @@ import { redirect } from "next/navigation";
 export async function getDashboardData() {
   const session = await auth();
   if (
-    !["Jawad@cohr.sa", "saad123mn123@gmail.com"].includes(session?.user?.email)
+    ![
+      "Jawad@cohr.sa",
+      "saad123mn123@gmail.com",
+      "jawad.1990@live.com",
+    ].includes(session?.user?.email)
   )
     redirect("/Admin");
   const plans = await prisma.plan.findMany();
