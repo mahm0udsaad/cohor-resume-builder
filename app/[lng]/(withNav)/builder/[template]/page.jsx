@@ -27,6 +27,7 @@ export async function generateStaticParams() {
 // Server Component
 export default async function TemplatePage({ params: { template, lng } }) {
   const session = await auth();
+  console.log(session);
 
   if (!session) {
     redirect("/auth");

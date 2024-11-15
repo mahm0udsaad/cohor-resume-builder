@@ -49,7 +49,7 @@ export async function handleCredentialsAuth(formData) {
 
     return { error: "CredentialsSignin" };
   } finally {
-    revalidatePath("/auth");
+    revalidatePath("/");
   }
 }
 
