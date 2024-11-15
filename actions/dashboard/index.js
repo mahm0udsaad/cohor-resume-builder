@@ -38,20 +38,35 @@ export async function getDashboardData() {
 
   return dashboardData;
 }
-
-export async function seedAdminUsers() {
-  const existingUsers = await prisma.user.findMany({
-    where: {
-      OR: [{ email: "Jawad@cohr.sa" }, { email: "saad123mn123@gmail.com" }],
-    },
+export async function createTemplate(template, plan) {
+  const existingPlan = await prisma.plan.findUnique({
+    where: { name: plan },
   });
 
-  if (existingUsers.length === 2) return;
+  if (!existingPlan.templates.includes(template)) {
+    try {
+      const createdTemplate = await prisma.plan.update({
+        where: { name: plan },
+        data: {
+          templates: { push: template },
+        },
+      });
+      console.log("Template created successfully:", template);
 
-  await prisma.user.upsert({
-    where: { email: "saad123mn123@gmail.com" },
-    update: {
-      role: "ADMIN",
-    },
+      return createdTemplate;
+    } catch (error) {
+      console.error("Error creating template:", error);
+      throw error;
+    }
+  }
+  console.log("Template already exists");
+
+  return existingPlan;
+}
+
+export async function getAllTemplates() {
+  const proPlusPlan = await prisma.plan.findUnique({
+    where: { name: "proPlus" },
   });
+  return proPlusPlan?.templates || [];
 }

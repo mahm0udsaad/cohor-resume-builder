@@ -14,6 +14,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model Theme
+ * 
+ */
+export type Theme = $Result.DefaultSelection<Prisma.$ThemePayload>
+/**
  * Model PersonalInfo
  * 
  */
@@ -73,11 +78,6 @@ export type Plan = $Result.DefaultSelection<Prisma.$PlanPayload>
  * 
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
-/**
- * Model Theme
- * 
- */
-export type Theme = $Result.DefaultSelection<Prisma.$ThemePayload>
 /**
  * Model Resume
  * 
@@ -233,16 +233,6 @@ export class PrismaClient<
     * ```
     */
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs>;
-
-  /**
-   * `prisma.theme`: Exposes CRUD operations for the **Theme** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Themes
-    * const themes = await prisma.theme.findMany()
-    * ```
-    */
-  get theme(): Prisma.ThemeDelegate<ExtArgs>;
 
   /**
    * `prisma.resume`: Exposes CRUD operations for the **Resume** model.
@@ -700,7 +690,6 @@ export namespace Prisma {
     User: 'User',
     Plan: 'Plan',
     VerificationToken: 'VerificationToken',
-    Theme: 'Theme',
     Resume: 'Resume'
   };
 
@@ -717,7 +706,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "account" | "session" | "subscription" | "user" | "plan" | "verificationToken" | "theme" | "resume"
+      modelProps: "account" | "session" | "subscription" | "user" | "plan" | "verificationToken" | "resume"
       txIsolationLevel: never
     }
     model: {
@@ -1165,80 +1154,6 @@ export namespace Prisma {
           }
         }
       }
-      Theme: {
-        payload: Prisma.$ThemePayload<ExtArgs>
-        fields: Prisma.ThemeFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ThemeFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ThemePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ThemeFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ThemePayload>
-          }
-          findFirst: {
-            args: Prisma.ThemeFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ThemePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ThemeFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ThemePayload>
-          }
-          findMany: {
-            args: Prisma.ThemeFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ThemePayload>[]
-          }
-          create: {
-            args: Prisma.ThemeCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ThemePayload>
-          }
-          createMany: {
-            args: Prisma.ThemeCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.ThemeDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ThemePayload>
-          }
-          update: {
-            args: Prisma.ThemeUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ThemePayload>
-          }
-          deleteMany: {
-            args: Prisma.ThemeDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ThemeUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.ThemeUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ThemePayload>
-          }
-          aggregate: {
-            args: Prisma.ThemeAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateTheme>
-          }
-          groupBy: {
-            args: Prisma.ThemeGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ThemeGroupByOutputType>[]
-          }
-          findRaw: {
-            args: Prisma.ThemeFindRawArgs<ExtArgs>
-            result: JsonObject
-          }
-          aggregateRaw: {
-            args: Prisma.ThemeAggregateRawArgs<ExtArgs>
-            result: JsonObject
-          }
-          count: {
-            args: Prisma.ThemeCountArgs<ExtArgs>
-            result: $Utils.Optional<ThemeCountAggregateOutputType> | number
-          }
-        }
-      }
       Resume: {
         payload: Prisma.$ResumePayload<ExtArgs>
         fields: Prisma.ResumeFieldRefs
@@ -1515,39 +1430,69 @@ export namespace Prisma {
 
 
   /**
-   * Count Type ThemeCountOutputType
+   * Models
    */
 
-  export type ThemeCountOutputType = {
-    resumes: number
+  /**
+   * Model Theme
+   */
+
+
+
+
+
+  export type ThemeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    name?: boolean
+    primaryColor?: boolean
+    backgroundColor?: boolean
+  }, ExtArgs["result"]["theme"]>
+
+
+  export type ThemeSelectScalar = {
+    name?: boolean
+    primaryColor?: boolean
+    backgroundColor?: boolean
   }
 
-  export type ThemeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resumes?: boolean | ThemeCountOutputTypeCountResumesArgs
+
+  export type $ThemePayload = {
+    name: "Theme"
+    objects: {}
+    scalars: {
+      name: string
+      primaryColor: string
+      backgroundColor: string
+    }
+    composites: {}
   }
+
+  type ThemeGetPayload<S extends boolean | null | undefined | ThemeDefaultArgs> = $Result.GetResult<Prisma.$ThemePayload, S>
+
+
+
+
+
+  /**
+   * Fields of the Theme model
+   */ 
+  interface ThemeFieldRefs {
+    readonly name: FieldRef<"Theme", 'String'>
+    readonly primaryColor: FieldRef<"Theme", 'String'>
+    readonly backgroundColor: FieldRef<"Theme", 'String'>
+  }
+    
 
   // Custom InputTypes
   /**
-   * ThemeCountOutputType without action
+   * Theme without action
    */
-  export type ThemeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ThemeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ThemeCountOutputType
+     * Select specific fields to fetch from the Theme
      */
-    select?: ThemeCountOutputTypeSelect<ExtArgs> | null
+    select?: ThemeSelect<ExtArgs> | null
   }
 
-  /**
-   * ThemeCountOutputType without action
-   */
-  export type ThemeCountOutputTypeCountResumesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ResumeWhereInput
-  }
-
-
-  /**
-   * Models
-   */
 
   /**
    * Model PersonalInfo
@@ -7874,946 +7819,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Theme
-   */
-
-  export type AggregateTheme = {
-    _count: ThemeCountAggregateOutputType | null
-    _min: ThemeMinAggregateOutputType | null
-    _max: ThemeMaxAggregateOutputType | null
-  }
-
-  export type ThemeMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    primaryColor: string | null
-    backgroundColor: string | null
-  }
-
-  export type ThemeMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    primaryColor: string | null
-    backgroundColor: string | null
-  }
-
-  export type ThemeCountAggregateOutputType = {
-    id: number
-    name: number
-    primaryColor: number
-    backgroundColor: number
-    _all: number
-  }
-
-
-  export type ThemeMinAggregateInputType = {
-    id?: true
-    name?: true
-    primaryColor?: true
-    backgroundColor?: true
-  }
-
-  export type ThemeMaxAggregateInputType = {
-    id?: true
-    name?: true
-    primaryColor?: true
-    backgroundColor?: true
-  }
-
-  export type ThemeCountAggregateInputType = {
-    id?: true
-    name?: true
-    primaryColor?: true
-    backgroundColor?: true
-    _all?: true
-  }
-
-  export type ThemeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Theme to aggregate.
-     */
-    where?: ThemeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Themes to fetch.
-     */
-    orderBy?: ThemeOrderByWithRelationInput | ThemeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ThemeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Themes from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Themes.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Themes
-    **/
-    _count?: true | ThemeCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ThemeMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ThemeMaxAggregateInputType
-  }
-
-  export type GetThemeAggregateType<T extends ThemeAggregateArgs> = {
-        [P in keyof T & keyof AggregateTheme]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateTheme[P]>
-      : GetScalarType<T[P], AggregateTheme[P]>
-  }
-
-
-
-
-  export type ThemeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ThemeWhereInput
-    orderBy?: ThemeOrderByWithAggregationInput | ThemeOrderByWithAggregationInput[]
-    by: ThemeScalarFieldEnum[] | ThemeScalarFieldEnum
-    having?: ThemeScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ThemeCountAggregateInputType | true
-    _min?: ThemeMinAggregateInputType
-    _max?: ThemeMaxAggregateInputType
-  }
-
-  export type ThemeGroupByOutputType = {
-    id: string
-    name: string
-    primaryColor: string
-    backgroundColor: string
-    _count: ThemeCountAggregateOutputType | null
-    _min: ThemeMinAggregateOutputType | null
-    _max: ThemeMaxAggregateOutputType | null
-  }
-
-  type GetThemeGroupByPayload<T extends ThemeGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ThemeGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ThemeGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ThemeGroupByOutputType[P]>
-            : GetScalarType<T[P], ThemeGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ThemeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    primaryColor?: boolean
-    backgroundColor?: boolean
-    resumes?: boolean | Theme$resumesArgs<ExtArgs>
-    _count?: boolean | ThemeCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["theme"]>
-
-
-  export type ThemeSelectScalar = {
-    id?: boolean
-    name?: boolean
-    primaryColor?: boolean
-    backgroundColor?: boolean
-  }
-
-  export type ThemeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    resumes?: boolean | Theme$resumesArgs<ExtArgs>
-    _count?: boolean | ThemeCountOutputTypeDefaultArgs<ExtArgs>
-  }
-
-  export type $ThemePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Theme"
-    objects: {
-      resumes: Prisma.$ResumePayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-      primaryColor: string
-      backgroundColor: string
-    }, ExtArgs["result"]["theme"]>
-    composites: {}
-  }
-
-  type ThemeGetPayload<S extends boolean | null | undefined | ThemeDefaultArgs> = $Result.GetResult<Prisma.$ThemePayload, S>
-
-  type ThemeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<ThemeFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: ThemeCountAggregateInputType | true
-    }
-
-  export interface ThemeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Theme'], meta: { name: 'Theme' } }
-    /**
-     * Find zero or one Theme that matches the filter.
-     * @param {ThemeFindUniqueArgs} args - Arguments to find a Theme
-     * @example
-     * // Get one Theme
-     * const theme = await prisma.theme.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ThemeFindUniqueArgs>(args: SelectSubset<T, ThemeFindUniqueArgs<ExtArgs>>): Prisma__ThemeClient<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one Theme that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {ThemeFindUniqueOrThrowArgs} args - Arguments to find a Theme
-     * @example
-     * // Get one Theme
-     * const theme = await prisma.theme.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ThemeFindUniqueOrThrowArgs>(args: SelectSubset<T, ThemeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ThemeClient<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first Theme that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ThemeFindFirstArgs} args - Arguments to find a Theme
-     * @example
-     * // Get one Theme
-     * const theme = await prisma.theme.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ThemeFindFirstArgs>(args?: SelectSubset<T, ThemeFindFirstArgs<ExtArgs>>): Prisma__ThemeClient<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first Theme that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ThemeFindFirstOrThrowArgs} args - Arguments to find a Theme
-     * @example
-     * // Get one Theme
-     * const theme = await prisma.theme.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ThemeFindFirstOrThrowArgs>(args?: SelectSubset<T, ThemeFindFirstOrThrowArgs<ExtArgs>>): Prisma__ThemeClient<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more Themes that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ThemeFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Themes
-     * const themes = await prisma.theme.findMany()
-     * 
-     * // Get first 10 Themes
-     * const themes = await prisma.theme.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const themeWithIdOnly = await prisma.theme.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ThemeFindManyArgs>(args?: SelectSubset<T, ThemeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a Theme.
-     * @param {ThemeCreateArgs} args - Arguments to create a Theme.
-     * @example
-     * // Create one Theme
-     * const Theme = await prisma.theme.create({
-     *   data: {
-     *     // ... data to create a Theme
-     *   }
-     * })
-     * 
-     */
-    create<T extends ThemeCreateArgs>(args: SelectSubset<T, ThemeCreateArgs<ExtArgs>>): Prisma__ThemeClient<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many Themes.
-     * @param {ThemeCreateManyArgs} args - Arguments to create many Themes.
-     * @example
-     * // Create many Themes
-     * const theme = await prisma.theme.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ThemeCreateManyArgs>(args?: SelectSubset<T, ThemeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Theme.
-     * @param {ThemeDeleteArgs} args - Arguments to delete one Theme.
-     * @example
-     * // Delete one Theme
-     * const Theme = await prisma.theme.delete({
-     *   where: {
-     *     // ... filter to delete one Theme
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ThemeDeleteArgs>(args: SelectSubset<T, ThemeDeleteArgs<ExtArgs>>): Prisma__ThemeClient<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one Theme.
-     * @param {ThemeUpdateArgs} args - Arguments to update one Theme.
-     * @example
-     * // Update one Theme
-     * const theme = await prisma.theme.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ThemeUpdateArgs>(args: SelectSubset<T, ThemeUpdateArgs<ExtArgs>>): Prisma__ThemeClient<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more Themes.
-     * @param {ThemeDeleteManyArgs} args - Arguments to filter Themes to delete.
-     * @example
-     * // Delete a few Themes
-     * const { count } = await prisma.theme.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ThemeDeleteManyArgs>(args?: SelectSubset<T, ThemeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Themes.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ThemeUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Themes
-     * const theme = await prisma.theme.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ThemeUpdateManyArgs>(args: SelectSubset<T, ThemeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Theme.
-     * @param {ThemeUpsertArgs} args - Arguments to update or create a Theme.
-     * @example
-     * // Update or create a Theme
-     * const theme = await prisma.theme.upsert({
-     *   create: {
-     *     // ... data to create a Theme
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Theme we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ThemeUpsertArgs>(args: SelectSubset<T, ThemeUpsertArgs<ExtArgs>>): Prisma__ThemeClient<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-    /**
-     * Find zero or more Themes that matches the filter.
-     * @param {ThemeFindRawArgs} args - Select which filters you would like to apply.
-     * @example
-     * const theme = await prisma.theme.findRaw({
-     *   filter: { age: { $gt: 25 } } 
-     * })
-     */
-    findRaw(args?: ThemeFindRawArgs): Prisma.PrismaPromise<JsonObject>
-
-    /**
-     * Perform aggregation operations on a Theme.
-     * @param {ThemeAggregateRawArgs} args - Select which aggregations you would like to apply.
-     * @example
-     * const theme = await prisma.theme.aggregateRaw({
-     *   pipeline: [
-     *     { $match: { status: "registered" } },
-     *     { $group: { _id: "$country", total: { $sum: 1 } } }
-     *   ]
-     * })
-     */
-    aggregateRaw(args?: ThemeAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
-
-
-    /**
-     * Count the number of Themes.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ThemeCountArgs} args - Arguments to filter Themes to count.
-     * @example
-     * // Count the number of Themes
-     * const count = await prisma.theme.count({
-     *   where: {
-     *     // ... the filter for the Themes we want to count
-     *   }
-     * })
-    **/
-    count<T extends ThemeCountArgs>(
-      args?: Subset<T, ThemeCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ThemeCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Theme.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ThemeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ThemeAggregateArgs>(args: Subset<T, ThemeAggregateArgs>): Prisma.PrismaPromise<GetThemeAggregateType<T>>
-
-    /**
-     * Group by Theme.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ThemeGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ThemeGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ThemeGroupByArgs['orderBy'] }
-        : { orderBy?: ThemeGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ThemeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetThemeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Theme model
-   */
-  readonly fields: ThemeFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Theme.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ThemeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    resumes<T extends Theme$resumesArgs<ExtArgs> = {}>(args?: Subset<T, Theme$resumesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResumePayload<ExtArgs>, T, "findMany"> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Theme model
-   */ 
-  interface ThemeFieldRefs {
-    readonly id: FieldRef<"Theme", 'String'>
-    readonly name: FieldRef<"Theme", 'String'>
-    readonly primaryColor: FieldRef<"Theme", 'String'>
-    readonly backgroundColor: FieldRef<"Theme", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Theme findUnique
-   */
-  export type ThemeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    /**
-     * Filter, which Theme to fetch.
-     */
-    where: ThemeWhereUniqueInput
-  }
-
-  /**
-   * Theme findUniqueOrThrow
-   */
-  export type ThemeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    /**
-     * Filter, which Theme to fetch.
-     */
-    where: ThemeWhereUniqueInput
-  }
-
-  /**
-   * Theme findFirst
-   */
-  export type ThemeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    /**
-     * Filter, which Theme to fetch.
-     */
-    where?: ThemeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Themes to fetch.
-     */
-    orderBy?: ThemeOrderByWithRelationInput | ThemeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Themes.
-     */
-    cursor?: ThemeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Themes from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Themes.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Themes.
-     */
-    distinct?: ThemeScalarFieldEnum | ThemeScalarFieldEnum[]
-  }
-
-  /**
-   * Theme findFirstOrThrow
-   */
-  export type ThemeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    /**
-     * Filter, which Theme to fetch.
-     */
-    where?: ThemeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Themes to fetch.
-     */
-    orderBy?: ThemeOrderByWithRelationInput | ThemeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Themes.
-     */
-    cursor?: ThemeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Themes from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Themes.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Themes.
-     */
-    distinct?: ThemeScalarFieldEnum | ThemeScalarFieldEnum[]
-  }
-
-  /**
-   * Theme findMany
-   */
-  export type ThemeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    /**
-     * Filter, which Themes to fetch.
-     */
-    where?: ThemeWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Themes to fetch.
-     */
-    orderBy?: ThemeOrderByWithRelationInput | ThemeOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Themes.
-     */
-    cursor?: ThemeWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Themes from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Themes.
-     */
-    skip?: number
-    distinct?: ThemeScalarFieldEnum | ThemeScalarFieldEnum[]
-  }
-
-  /**
-   * Theme create
-   */
-  export type ThemeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Theme.
-     */
-    data: XOR<ThemeCreateInput, ThemeUncheckedCreateInput>
-  }
-
-  /**
-   * Theme createMany
-   */
-  export type ThemeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Themes.
-     */
-    data: ThemeCreateManyInput | ThemeCreateManyInput[]
-  }
-
-  /**
-   * Theme update
-   */
-  export type ThemeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Theme.
-     */
-    data: XOR<ThemeUpdateInput, ThemeUncheckedUpdateInput>
-    /**
-     * Choose, which Theme to update.
-     */
-    where: ThemeWhereUniqueInput
-  }
-
-  /**
-   * Theme updateMany
-   */
-  export type ThemeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Themes.
-     */
-    data: XOR<ThemeUpdateManyMutationInput, ThemeUncheckedUpdateManyInput>
-    /**
-     * Filter which Themes to update
-     */
-    where?: ThemeWhereInput
-  }
-
-  /**
-   * Theme upsert
-   */
-  export type ThemeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Theme to update in case it exists.
-     */
-    where: ThemeWhereUniqueInput
-    /**
-     * In case the Theme found by the `where` argument doesn't exist, create a new Theme with this data.
-     */
-    create: XOR<ThemeCreateInput, ThemeUncheckedCreateInput>
-    /**
-     * In case the Theme was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ThemeUpdateInput, ThemeUncheckedUpdateInput>
-  }
-
-  /**
-   * Theme delete
-   */
-  export type ThemeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    /**
-     * Filter which Theme to delete.
-     */
-    where: ThemeWhereUniqueInput
-  }
-
-  /**
-   * Theme deleteMany
-   */
-  export type ThemeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Themes to delete
-     */
-    where?: ThemeWhereInput
-  }
-
-  /**
-   * Theme findRaw
-   */
-  export type ThemeFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
-     */
-    filter?: InputJsonValue
-    /**
-     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
-     */
-    options?: InputJsonValue
-  }
-
-  /**
-   * Theme aggregateRaw
-   */
-  export type ThemeAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
-     */
-    pipeline?: InputJsonValue[]
-    /**
-     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
-     */
-    options?: InputJsonValue
-  }
-
-  /**
-   * Theme.resumes
-   */
-  export type Theme$resumesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Resume
-     */
-    select?: ResumeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResumeInclude<ExtArgs> | null
-    where?: ResumeWhereInput
-    orderBy?: ResumeOrderByWithRelationInput | ResumeOrderByWithRelationInput[]
-    cursor?: ResumeWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ResumeScalarFieldEnum | ResumeScalarFieldEnum[]
-  }
-
-  /**
-   * Theme without action
-   */
-  export type ThemeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Resume
    */
 
@@ -8991,8 +7996,8 @@ export namespace Prisma {
     languages?: boolean | LanguageDefaultArgs<ExtArgs>
     courses?: boolean | CourseDefaultArgs<ExtArgs>
     themeId?: boolean
+    theme?: boolean | ThemeDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    theme?: boolean | Resume$themeArgs<ExtArgs>
   }, ExtArgs["result"]["resume"]>
 
 
@@ -9007,14 +8012,12 @@ export namespace Prisma {
 
   export type ResumeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    theme?: boolean | Resume$themeArgs<ExtArgs>
   }
 
   export type $ResumePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Resume"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      theme: Prisma.$ThemePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9031,6 +8034,7 @@ export namespace Prisma {
       skills: Prisma.$SkillPayload[]
       languages: Prisma.$LanguagePayload[]
       courses: Prisma.$CoursePayload[]
+      theme: Prisma.$ThemePayload | null
     }
   }
 
@@ -9394,7 +8398,6 @@ export namespace Prisma {
   export interface Prisma__ResumeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    theme<T extends Resume$themeArgs<ExtArgs> = {}>(args?: Subset<T, Resume$themeArgs<ExtArgs>>): Prisma__ThemeClient<$Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9756,21 +8759,6 @@ export namespace Prisma {
   }
 
   /**
-   * Resume.theme
-   */
-  export type Resume$themeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Theme
-     */
-    select?: ThemeSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ThemeInclude<ExtArgs> | null
-    where?: ThemeWhereInput
-  }
-
-  /**
    * Resume without action
    */
   export type ResumeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9876,16 +8864,6 @@ export namespace Prisma {
   };
 
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
-
-
-  export const ThemeScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    primaryColor: 'primaryColor',
-    backgroundColor: 'backgroundColor'
-  };
-
-  export type ThemeScalarFieldEnum = (typeof ThemeScalarFieldEnum)[keyof typeof ThemeScalarFieldEnum]
 
 
   export const ResumeScalarFieldEnum: {
@@ -10461,56 +9439,6 @@ export namespace Prisma {
     type?: StringWithAggregatesFilter<"VerificationToken"> | string
   }
 
-  export type ThemeWhereInput = {
-    AND?: ThemeWhereInput | ThemeWhereInput[]
-    OR?: ThemeWhereInput[]
-    NOT?: ThemeWhereInput | ThemeWhereInput[]
-    id?: StringFilter<"Theme"> | string
-    name?: StringFilter<"Theme"> | string
-    primaryColor?: StringFilter<"Theme"> | string
-    backgroundColor?: StringFilter<"Theme"> | string
-    resumes?: ResumeListRelationFilter
-  }
-
-  export type ThemeOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    primaryColor?: SortOrder
-    backgroundColor?: SortOrder
-    resumes?: ResumeOrderByRelationAggregateInput
-  }
-
-  export type ThemeWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: ThemeWhereInput | ThemeWhereInput[]
-    OR?: ThemeWhereInput[]
-    NOT?: ThemeWhereInput | ThemeWhereInput[]
-    name?: StringFilter<"Theme"> | string
-    primaryColor?: StringFilter<"Theme"> | string
-    backgroundColor?: StringFilter<"Theme"> | string
-    resumes?: ResumeListRelationFilter
-  }, "id">
-
-  export type ThemeOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    primaryColor?: SortOrder
-    backgroundColor?: SortOrder
-    _count?: ThemeCountOrderByAggregateInput
-    _max?: ThemeMaxOrderByAggregateInput
-    _min?: ThemeMinOrderByAggregateInput
-  }
-
-  export type ThemeScalarWhereWithAggregatesInput = {
-    AND?: ThemeScalarWhereWithAggregatesInput | ThemeScalarWhereWithAggregatesInput[]
-    OR?: ThemeScalarWhereWithAggregatesInput[]
-    NOT?: ThemeScalarWhereWithAggregatesInput | ThemeScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Theme"> | string
-    name?: StringWithAggregatesFilter<"Theme"> | string
-    primaryColor?: StringWithAggregatesFilter<"Theme"> | string
-    backgroundColor?: StringWithAggregatesFilter<"Theme"> | string
-  }
-
   export type ResumeWhereInput = {
     AND?: ResumeWhereInput | ResumeWhereInput[]
     OR?: ResumeWhereInput[]
@@ -10527,8 +9455,8 @@ export namespace Prisma {
     languages?: LanguageCompositeListFilter | LanguageObjectEqualityInput[]
     courses?: CourseCompositeListFilter | CourseObjectEqualityInput[]
     themeId?: StringNullableFilter<"Resume"> | string | null
+    theme?: XOR<ThemeNullableCompositeFilter, ThemeObjectEqualityInput> | null
     user?: XOR<UserRelationFilter, UserWhereInput>
-    theme?: XOR<ThemeNullableRelationFilter, ThemeWhereInput> | null
   }
 
   export type ResumeOrderByWithRelationInput = {
@@ -10544,8 +9472,8 @@ export namespace Prisma {
     languages?: LanguageOrderByCompositeAggregateInput
     courses?: CourseOrderByCompositeAggregateInput
     themeId?: SortOrder
+    theme?: ThemeOrderByInput
     user?: UserOrderByWithRelationInput
-    theme?: ThemeOrderByWithRelationInput
   }
 
   export type ResumeWhereUniqueInput = Prisma.AtLeast<{
@@ -10564,8 +9492,8 @@ export namespace Prisma {
     languages?: LanguageCompositeListFilter | LanguageObjectEqualityInput[]
     courses?: CourseCompositeListFilter | CourseObjectEqualityInput[]
     themeId?: StringNullableFilter<"Resume"> | string | null
+    theme?: XOR<ThemeNullableCompositeFilter, ThemeObjectEqualityInput> | null
     user?: XOR<UserRelationFilter, UserWhereInput>
-    theme?: XOR<ThemeNullableRelationFilter, ThemeWhereInput> | null
   }, "id">
 
   export type ResumeOrderByWithAggregationInput = {
@@ -11120,55 +10048,6 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ThemeCreateInput = {
-    id?: string
-    name: string
-    primaryColor: string
-    backgroundColor: string
-    resumes?: ResumeCreateNestedManyWithoutThemeInput
-  }
-
-  export type ThemeUncheckedCreateInput = {
-    id?: string
-    name: string
-    primaryColor: string
-    backgroundColor: string
-    resumes?: ResumeUncheckedCreateNestedManyWithoutThemeInput
-  }
-
-  export type ThemeUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    primaryColor?: StringFieldUpdateOperationsInput | string
-    backgroundColor?: StringFieldUpdateOperationsInput | string
-    resumes?: ResumeUpdateManyWithoutThemeNestedInput
-  }
-
-  export type ThemeUncheckedUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    primaryColor?: StringFieldUpdateOperationsInput | string
-    backgroundColor?: StringFieldUpdateOperationsInput | string
-    resumes?: ResumeUncheckedUpdateManyWithoutThemeNestedInput
-  }
-
-  export type ThemeCreateManyInput = {
-    id?: string
-    name: string
-    primaryColor: string
-    backgroundColor: string
-  }
-
-  export type ThemeUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    primaryColor?: StringFieldUpdateOperationsInput | string
-    backgroundColor?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ThemeUncheckedUpdateManyInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    primaryColor?: StringFieldUpdateOperationsInput | string
-    backgroundColor?: StringFieldUpdateOperationsInput | string
-  }
-
   export type ResumeCreateInput = {
     id?: string
     name: string
@@ -11180,8 +10059,9 @@ export namespace Prisma {
     skills?: XOR<SkillListCreateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
     languages?: XOR<LanguageListCreateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListCreateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
+    themeId?: string | null
+    theme?: XOR<ThemeNullableCreateEnvelopeInput, ThemeCreateInput> | null
     user: UserCreateNestedOneWithoutResumesInput
-    theme?: ThemeCreateNestedOneWithoutResumesInput
   }
 
   export type ResumeUncheckedCreateInput = {
@@ -11197,6 +10077,7 @@ export namespace Prisma {
     languages?: XOR<LanguageListCreateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListCreateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
     themeId?: string | null
+    theme?: XOR<ThemeNullableCreateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type ResumeUpdateInput = {
@@ -11209,8 +10090,9 @@ export namespace Prisma {
     skills?: XOR<SkillListUpdateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
     languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
+    themeId?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: XOR<ThemeNullableUpdateEnvelopeInput, ThemeCreateInput> | null
     user?: UserUpdateOneRequiredWithoutResumesNestedInput
-    theme?: ThemeUpdateOneWithoutResumesNestedInput
   }
 
   export type ResumeUncheckedUpdateInput = {
@@ -11225,6 +10107,7 @@ export namespace Prisma {
     languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
     themeId?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: XOR<ThemeNullableUpdateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type ResumeCreateManyInput = {
@@ -11240,6 +10123,7 @@ export namespace Prisma {
     languages?: XOR<LanguageListCreateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListCreateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
     themeId?: string | null
+    theme?: XOR<ThemeNullableCreateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type ResumeUpdateManyMutationInput = {
@@ -11252,6 +10136,8 @@ export namespace Prisma {
     skills?: XOR<SkillListUpdateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
     languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
+    themeId?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: XOR<ThemeNullableUpdateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type ResumeUncheckedUpdateManyInput = {
@@ -11266,6 +10152,7 @@ export namespace Prisma {
     languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
     themeId?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: XOR<ThemeNullableUpdateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -11891,30 +10778,23 @@ export namespace Prisma {
     type?: SortOrder
   }
 
-  export type ThemeCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    primaryColor?: SortOrder
-    backgroundColor?: SortOrder
-  }
-
-  export type ThemeMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    primaryColor?: SortOrder
-    backgroundColor?: SortOrder
-  }
-
-  export type ThemeMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    primaryColor?: SortOrder
-    backgroundColor?: SortOrder
-  }
-
-  export type ThemeNullableRelationFilter = {
+  export type ThemeNullableCompositeFilter = {
+    equals?: ThemeObjectEqualityInput | null
     is?: ThemeWhereInput | null
     isNot?: ThemeWhereInput | null
+    isSet?: boolean
+  }
+
+  export type ThemeObjectEqualityInput = {
+    name: string
+    primaryColor: string
+    backgroundColor: string
+  }
+
+  export type ThemeOrderByInput = {
+    name?: SortOrder
+    primaryColor?: SortOrder
+    backgroundColor?: SortOrder
   }
 
   export type ResumeCountOrderByAggregateInput = {
@@ -12323,46 +11203,14 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type ResumeCreateNestedManyWithoutThemeInput = {
-    create?: XOR<ResumeCreateWithoutThemeInput, ResumeUncheckedCreateWithoutThemeInput> | ResumeCreateWithoutThemeInput[] | ResumeUncheckedCreateWithoutThemeInput[]
-    connectOrCreate?: ResumeCreateOrConnectWithoutThemeInput | ResumeCreateOrConnectWithoutThemeInput[]
-    createMany?: ResumeCreateManyThemeInputEnvelope
-    connect?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
+  export type ThemeNullableCreateEnvelopeInput = {
+    set?: ThemeCreateInput | null
   }
 
-  export type ResumeUncheckedCreateNestedManyWithoutThemeInput = {
-    create?: XOR<ResumeCreateWithoutThemeInput, ResumeUncheckedCreateWithoutThemeInput> | ResumeCreateWithoutThemeInput[] | ResumeUncheckedCreateWithoutThemeInput[]
-    connectOrCreate?: ResumeCreateOrConnectWithoutThemeInput | ResumeCreateOrConnectWithoutThemeInput[]
-    createMany?: ResumeCreateManyThemeInputEnvelope
-    connect?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
-  }
-
-  export type ResumeUpdateManyWithoutThemeNestedInput = {
-    create?: XOR<ResumeCreateWithoutThemeInput, ResumeUncheckedCreateWithoutThemeInput> | ResumeCreateWithoutThemeInput[] | ResumeUncheckedCreateWithoutThemeInput[]
-    connectOrCreate?: ResumeCreateOrConnectWithoutThemeInput | ResumeCreateOrConnectWithoutThemeInput[]
-    upsert?: ResumeUpsertWithWhereUniqueWithoutThemeInput | ResumeUpsertWithWhereUniqueWithoutThemeInput[]
-    createMany?: ResumeCreateManyThemeInputEnvelope
-    set?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
-    disconnect?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
-    delete?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
-    connect?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
-    update?: ResumeUpdateWithWhereUniqueWithoutThemeInput | ResumeUpdateWithWhereUniqueWithoutThemeInput[]
-    updateMany?: ResumeUpdateManyWithWhereWithoutThemeInput | ResumeUpdateManyWithWhereWithoutThemeInput[]
-    deleteMany?: ResumeScalarWhereInput | ResumeScalarWhereInput[]
-  }
-
-  export type ResumeUncheckedUpdateManyWithoutThemeNestedInput = {
-    create?: XOR<ResumeCreateWithoutThemeInput, ResumeUncheckedCreateWithoutThemeInput> | ResumeCreateWithoutThemeInput[] | ResumeUncheckedCreateWithoutThemeInput[]
-    connectOrCreate?: ResumeCreateOrConnectWithoutThemeInput | ResumeCreateOrConnectWithoutThemeInput[]
-    upsert?: ResumeUpsertWithWhereUniqueWithoutThemeInput | ResumeUpsertWithWhereUniqueWithoutThemeInput[]
-    createMany?: ResumeCreateManyThemeInputEnvelope
-    set?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
-    disconnect?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
-    delete?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
-    connect?: ResumeWhereUniqueInput | ResumeWhereUniqueInput[]
-    update?: ResumeUpdateWithWhereUniqueWithoutThemeInput | ResumeUpdateWithWhereUniqueWithoutThemeInput[]
-    updateMany?: ResumeUpdateManyWithWhereWithoutThemeInput | ResumeUpdateManyWithWhereWithoutThemeInput[]
-    deleteMany?: ResumeScalarWhereInput | ResumeScalarWhereInput[]
+  export type ThemeCreateInput = {
+    name: string
+    primaryColor: string
+    backgroundColor: string
   }
 
   export type UserCreateNestedOneWithoutResumesInput = {
@@ -12371,10 +11219,10 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type ThemeCreateNestedOneWithoutResumesInput = {
-    create?: XOR<ThemeCreateWithoutResumesInput, ThemeUncheckedCreateWithoutResumesInput>
-    connectOrCreate?: ThemeCreateOrConnectWithoutResumesInput
-    connect?: ThemeWhereUniqueInput
+  export type ThemeNullableUpdateEnvelopeInput = {
+    set?: ThemeCreateInput | null
+    upsert?: ThemeUpsertInput
+    unset?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutResumesNestedInput = {
@@ -12383,16 +11231,6 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutResumesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResumesInput, UserUpdateWithoutResumesInput>, UserUncheckedUpdateWithoutResumesInput>
-  }
-
-  export type ThemeUpdateOneWithoutResumesNestedInput = {
-    create?: XOR<ThemeCreateWithoutResumesInput, ThemeUncheckedCreateWithoutResumesInput>
-    connectOrCreate?: ThemeCreateOrConnectWithoutResumesInput
-    upsert?: ThemeUpsertWithoutResumesInput
-    disconnect?: boolean
-    delete?: ThemeWhereInput | boolean
-    connect?: ThemeWhereUniqueInput
-    update?: XOR<XOR<ThemeUpdateToOneWithWhereWithoutResumesInput, ThemeUpdateWithoutResumesInput>, ThemeUncheckedUpdateWithoutResumesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -12676,6 +11514,15 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type ThemeWhereInput = {
+    AND?: ThemeWhereInput | ThemeWhereInput[]
+    OR?: ThemeWhereInput[]
+    NOT?: ThemeWhereInput | ThemeWhereInput[]
+    name?: StringFilter<"Theme"> | string
+    primaryColor?: StringFilter<"Theme"> | string
+    backgroundColor?: StringFilter<"Theme"> | string
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -13105,7 +11952,8 @@ export namespace Prisma {
     skills?: XOR<SkillListCreateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
     languages?: XOR<LanguageListCreateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListCreateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
-    theme?: ThemeCreateNestedOneWithoutResumesInput
+    themeId?: string | null
+    theme?: XOR<ThemeNullableCreateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type ResumeUncheckedCreateWithoutUserInput = {
@@ -13120,6 +11968,7 @@ export namespace Prisma {
     languages?: XOR<LanguageListCreateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListCreateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
     themeId?: string | null
+    theme?: XOR<ThemeNullableCreateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type ResumeCreateOrConnectWithoutUserInput = {
@@ -13340,59 +12189,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
   }
 
-  export type ResumeCreateWithoutThemeInput = {
-    id?: string
-    name: string
-    modifiedAt?: Date | string
-    lng?: string
-    personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
-    experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
-    educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
-    skills?: XOR<SkillListCreateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
-    languages?: XOR<LanguageListCreateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
-    courses?: XOR<CourseListCreateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
-    user: UserCreateNestedOneWithoutResumesInput
-  }
-
-  export type ResumeUncheckedCreateWithoutThemeInput = {
-    id?: string
-    name: string
-    modifiedAt?: Date | string
-    userId: string
-    lng?: string
-    personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
-    experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
-    educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
-    skills?: XOR<SkillListCreateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
-    languages?: XOR<LanguageListCreateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
-    courses?: XOR<CourseListCreateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
-  }
-
-  export type ResumeCreateOrConnectWithoutThemeInput = {
-    where: ResumeWhereUniqueInput
-    create: XOR<ResumeCreateWithoutThemeInput, ResumeUncheckedCreateWithoutThemeInput>
-  }
-
-  export type ResumeCreateManyThemeInputEnvelope = {
-    data: ResumeCreateManyThemeInput | ResumeCreateManyThemeInput[]
-  }
-
-  export type ResumeUpsertWithWhereUniqueWithoutThemeInput = {
-    where: ResumeWhereUniqueInput
-    update: XOR<ResumeUpdateWithoutThemeInput, ResumeUncheckedUpdateWithoutThemeInput>
-    create: XOR<ResumeCreateWithoutThemeInput, ResumeUncheckedCreateWithoutThemeInput>
-  }
-
-  export type ResumeUpdateWithWhereUniqueWithoutThemeInput = {
-    where: ResumeWhereUniqueInput
-    data: XOR<ResumeUpdateWithoutThemeInput, ResumeUncheckedUpdateWithoutThemeInput>
-  }
-
-  export type ResumeUpdateManyWithWhereWithoutThemeInput = {
-    where: ResumeScalarWhereInput
-    data: XOR<ResumeUpdateManyMutationInput, ResumeUncheckedUpdateManyWithoutThemeInput>
-  }
-
   export type UserCreateWithoutResumesInput = {
     id?: string
     name?: string
@@ -13450,23 +12246,9 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutResumesInput, UserUncheckedCreateWithoutResumesInput>
   }
 
-  export type ThemeCreateWithoutResumesInput = {
-    id?: string
-    name: string
-    primaryColor: string
-    backgroundColor: string
-  }
-
-  export type ThemeUncheckedCreateWithoutResumesInput = {
-    id?: string
-    name: string
-    primaryColor: string
-    backgroundColor: string
-  }
-
-  export type ThemeCreateOrConnectWithoutResumesInput = {
-    where: ThemeWhereUniqueInput
-    create: XOR<ThemeCreateWithoutResumesInput, ThemeUncheckedCreateWithoutResumesInput>
+  export type ThemeUpsertInput = {
+    set: ThemeCreateInput | null
+    update: ThemeUpdateInput
   }
 
   export type UserUpsertWithoutResumesInput = {
@@ -13530,29 +12312,6 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type ThemeUpsertWithoutResumesInput = {
-    update: XOR<ThemeUpdateWithoutResumesInput, ThemeUncheckedUpdateWithoutResumesInput>
-    create: XOR<ThemeCreateWithoutResumesInput, ThemeUncheckedCreateWithoutResumesInput>
-    where?: ThemeWhereInput
-  }
-
-  export type ThemeUpdateToOneWithWhereWithoutResumesInput = {
-    where?: ThemeWhereInput
-    data: XOR<ThemeUpdateWithoutResumesInput, ThemeUncheckedUpdateWithoutResumesInput>
-  }
-
-  export type ThemeUpdateWithoutResumesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    primaryColor?: StringFieldUpdateOperationsInput | string
-    backgroundColor?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ThemeUncheckedUpdateWithoutResumesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    primaryColor?: StringFieldUpdateOperationsInput | string
-    backgroundColor?: StringFieldUpdateOperationsInput | string
-  }
-
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -13597,6 +12356,7 @@ export namespace Prisma {
     languages?: XOR<LanguageListCreateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListCreateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
     themeId?: string | null
+    theme?: XOR<ThemeNullableCreateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type SubscriptionCreateManyUserInput = {
@@ -13719,7 +12479,8 @@ export namespace Prisma {
     skills?: XOR<SkillListUpdateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
     languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
-    theme?: ThemeUpdateOneWithoutResumesNestedInput
+    themeId?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: XOR<ThemeNullableUpdateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type ResumeUncheckedUpdateWithoutUserInput = {
@@ -13733,6 +12494,7 @@ export namespace Prisma {
     languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
     themeId?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: XOR<ThemeNullableUpdateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type ResumeUncheckedUpdateManyWithoutUserInput = {
@@ -13746,6 +12508,7 @@ export namespace Prisma {
     languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
     courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
     themeId?: NullableStringFieldUpdateOperationsInput | string | null
+    theme?: XOR<ThemeNullableUpdateEnvelopeInput, ThemeCreateInput> | null
   }
 
   export type SubscriptionUpdateWithoutUserInput = {
@@ -13787,57 +12550,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ResumeCreateManyThemeInput = {
-    id?: string
-    name: string
-    modifiedAt?: Date | string
-    userId: string
-    lng?: string
-    personalInfo?: XOR<PersonalInfoNullableCreateEnvelopeInput, PersonalInfoCreateInput> | null
-    experiences?: XOR<ExperienceListCreateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
-    educations?: XOR<EducationListCreateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
-    skills?: XOR<SkillListCreateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
-    languages?: XOR<LanguageListCreateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
-    courses?: XOR<CourseListCreateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
-  }
-
-  export type ResumeUpdateWithoutThemeInput = {
+  export type ThemeUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lng?: StringFieldUpdateOperationsInput | string
-    personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
-    experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
-    educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
-    skills?: XOR<SkillListUpdateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
-    languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
-    courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
-    user?: UserUpdateOneRequiredWithoutResumesNestedInput
-  }
-
-  export type ResumeUncheckedUpdateWithoutThemeInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-    lng?: StringFieldUpdateOperationsInput | string
-    personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
-    experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
-    educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
-    skills?: XOR<SkillListUpdateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
-    languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
-    courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
-  }
-
-  export type ResumeUncheckedUpdateManyWithoutThemeInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    modifiedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-    lng?: StringFieldUpdateOperationsInput | string
-    personalInfo?: XOR<PersonalInfoNullableUpdateEnvelopeInput, PersonalInfoCreateInput> | null
-    experiences?: XOR<ExperienceListUpdateEnvelopeInput, ExperienceCreateInput> | ExperienceCreateInput[]
-    educations?: XOR<EducationListUpdateEnvelopeInput, EducationCreateInput> | EducationCreateInput[]
-    skills?: XOR<SkillListUpdateEnvelopeInput, SkillCreateInput> | SkillCreateInput[]
-    languages?: XOR<LanguageListUpdateEnvelopeInput, LanguageCreateInput> | LanguageCreateInput[]
-    courses?: XOR<CourseListUpdateEnvelopeInput, CourseCreateInput> | CourseCreateInput[]
+    primaryColor?: StringFieldUpdateOperationsInput | string
+    backgroundColor?: StringFieldUpdateOperationsInput | string
   }
 
   export type PersonalInfoUpdatecontactInput = {
@@ -13864,9 +12580,9 @@ export namespace Prisma {
      */
     export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
     /**
-     * @deprecated Use ThemeCountOutputTypeDefaultArgs instead
+     * @deprecated Use ThemeDefaultArgs instead
      */
-    export type ThemeCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ThemeCountOutputTypeDefaultArgs<ExtArgs>
+    export type ThemeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ThemeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use PersonalInfoDefaultArgs instead
      */
@@ -13915,10 +12631,6 @@ export namespace Prisma {
      * @deprecated Use VerificationTokenDefaultArgs instead
      */
     export type VerificationTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = VerificationTokenDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use ThemeDefaultArgs instead
-     */
-    export type ThemeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ThemeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ResumeDefaultArgs instead
      */

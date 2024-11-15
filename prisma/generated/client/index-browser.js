@@ -186,13 +186,6 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   type: 'type'
 };
 
-exports.Prisma.ThemeScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  primaryColor: 'primaryColor',
-  backgroundColor: 'backgroundColor'
-};
-
 exports.Prisma.ResumeScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -220,7 +213,6 @@ exports.Prisma.ModelName = {
   User: 'User',
   Plan: 'Plan',
   VerificationToken: 'VerificationToken',
-  Theme: 'Theme',
   Resume: 'Resume'
 };
 

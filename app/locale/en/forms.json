@@ -276,6 +276,8 @@
     }
   },
   "notifications": {
+    "errorAddingResume": "An error occurred. Please try again.",
+    "tryAgainButton": "Try Again",
     "resumeAddedSuccess": "Resume added successfully",
     "resumeAddedSuccessDesc": "Your resume has been added successfully now you will be redirected to the review page.",
     "resumeUpdatedSuccess": "Resume updated successfully",

@@ -103,11 +103,11 @@ export function ResumeBuilder({ initalData, resumeName, lng }) {
         );
         if (!res.success) {
           toast({
-            title: "Error updating resume",
+            title: t("notifications.errorAddingResume"),
             variant: "destructive",
             action: (
               <ToastAction onClick={handleReview} altText="Try again">
-                Try again
+                {t("notifications.tryAgainButton")}
               </ToastAction>
             ),
           });

@@ -58,7 +58,7 @@ model Subscription {
 model User {
   id                     String         @id @default(auto()) @map("_id") @db.ObjectId
   name                   String         @default("user")
-  role                   String         @default("User")
+  role                   String         @default("USER")
   email                  String         @unique
   emailVerified          Boolean?
   password               String?
@@ -104,15 +104,10 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-model Theme {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
+type Theme {
   name            String
   primaryColor    String
   backgroundColor String
-
-  resumes Resume[]
-
-  @@map("themes")
 }
 
 model Resume {
@@ -130,7 +125,7 @@ model Resume {
   courses      Course[]
 
   themeId String? @db.ObjectId
-  theme   Theme?  @relation(fields: [themeId], references: [id])
+  theme   Theme?
 
   @@map("resumes")
 }

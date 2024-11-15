@@ -8,29 +8,31 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
+import { translations } from "@/data/data";
 
-// Create styles
 const createStyles = (isArabic) =>
   StyleSheet.create({
     page: {
       backgroundColor: "white",
-      padding: 40,
+      padding: 20,
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
     },
     header: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom: 32,
+      marginBottom: 22,
     },
     headerLeft: {
       flexDirection: "column",
+      alignItems: isArabic ? "flex-end" : "flex-start",
     },
     name: {
       fontSize: 36,
       fontWeight: 600,
       marginBottom: 4,
       textTransform: "uppercase",
+      textAlign: isArabic ? "right" : "left",
     },
     jobTitle: {
       fontSize: 12,
@@ -38,6 +40,7 @@ const createStyles = (isArabic) =>
       letterSpacing: 2,
       color: "#4B5563",
       fontWeight: 300,
+      textAlign: isArabic ? "right" : "left",
     },
     profileImage: {
       width: 72,
@@ -57,14 +60,16 @@ const createStyles = (isArabic) =>
       marginVertical: 16,
     },
     content: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       gap: 32,
     },
     leftColumn: {
       width: "35%",
+      order: 1,
     },
     rightColumn: {
       width: "65%",
+      order: 2,
     },
     section: {
       marginBottom: 24,
@@ -74,16 +79,18 @@ const createStyles = (isArabic) =>
       fontWeight: "bold",
       marginBottom: 12,
       textTransform: "uppercase",
+      textAlign: isArabic ? "right" : "left",
     },
     contactItem: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       alignItems: "center",
       fontSize: 10,
       marginBottom: 8,
       color: "#6B7280",
     },
     icon: {
-      marginRight: 8,
+      marginRight: isArabic ? 0 : 8,
+      marginLeft: isArabic ? 8 : 0,
     },
     subheading: {
       fontSize: 10,
@@ -91,9 +98,10 @@ const createStyles = (isArabic) =>
       textTransform: "uppercase",
       marginBottom: 8,
       color: "#374151",
+      textAlign: isArabic ? "right" : "left",
     },
     skillItem: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       fontSize: 10,
       marginBottom: 4,
     },
@@ -103,24 +111,28 @@ const createStyles = (isArabic) =>
     institutionName: {
       fontSize: 10,
       fontWeight: "bold",
+      textAlign: isArabic ? "right" : "left",
     },
     degree: {
       fontSize: 10,
+      textAlign: isArabic ? "right" : "left",
     },
     date: {
       fontSize: 8,
       color: "#4B5563",
+      textAlign: isArabic ? "right" : "left",
     },
     summary: {
       fontSize: 10,
       color: "#374151",
       lineHeight: 1.4,
+      textAlign: isArabic ? "right" : "left",
     },
     experienceItem: {
       marginBottom: 24,
     },
     experienceHeader: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       justifyContent: "space-between",
       alignItems: "flex-start",
       marginBottom: 8,
@@ -129,26 +141,29 @@ const createStyles = (isArabic) =>
       fontSize: 10,
       fontWeight: "bold",
       textTransform: "uppercase",
+      textAlign: isArabic ? "right" : "left",
     },
     company: {
       fontSize: 10,
       fontWeight: "medium",
       marginBottom: 4,
+      textAlign: isArabic ? "right" : "left",
     },
     responsibilityItem: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       fontSize: 10,
       marginBottom: 4,
       color: "#6B7280",
     },
     bullet: {
-      paddingLeft: 3,
-      paddingRight: 3,
+      paddingLeft: isArabic ? 0 : 3,
+      paddingRight: isArabic ? 3 : 0,
     },
   });
 
 const MinimalTemplate = ({ resumeData }) => {
-  const isArabic = resumeData?.lng === "ar";
+  const lng = resumeData.lng;
+  const isArabic = lng === "ar";
   const styles = createStyles(isArabic);
   if (isArabic) {
     Font.register({
@@ -156,6 +171,8 @@ const MinimalTemplate = ({ resumeData }) => {
       src: "/fonts/Cairo-Medium.ttf",
     });
   }
+  const t = translations[lng] || translations["en"]; // Default to English if the language is not found
+
   return (
     <Document>
       <Page wrap={false} size="A4" style={styles.page}>
@@ -177,7 +194,7 @@ const MinimalTemplate = ({ resumeData }) => {
           <View style={styles.leftColumn}>
             {/* Contact Section */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Contact</Text>
+              <Text style={styles.sectionTitle}>{t.contact}</Text>
               {resumeData.personalInfo.contact?.map((item, index) => {
                 return (
                   <View key={index} style={styles.contactItem}>
@@ -189,7 +206,7 @@ const MinimalTemplate = ({ resumeData }) => {
 
             {/* Skills Section */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Skills</Text>
+              <Text style={styles.sectionTitle}>{t.skills}</Text>
               {resumeData.skills?.map((skill, index) => (
                 <View key={index} style={styles.skillItem}>
                   <Text style={styles.bullet}>•</Text>
@@ -202,18 +219,19 @@ const MinimalTemplate = ({ resumeData }) => {
 
             {/* Languages Section */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Languages</Text>
+              <Text style={styles.sectionTitle}>{t.languages}</Text>
               {resumeData.languages?.map((lang, index) => (
                 <View key={index} style={styles.skillItem}>
                   <Text>{lang.name}</Text>
-                  <Text> - {t[lang.proficiency.toLowerCase()]}</Text>
+                  <Text>-</Text>
+                  <Text>{t[lang.proficiency.toLowerCase()]}</Text>
                 </View>
               ))}
             </View>
 
             {/* Education Section */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Education</Text>
+              <Text style={styles.sectionTitle}>{t.education}</Text>
               {resumeData.educations?.map((edu, index) => (
                 <View key={index} style={styles.educationItem}>
                   <Text style={styles.institutionName}>{edu.institution}</Text>
@@ -222,12 +240,12 @@ const MinimalTemplate = ({ resumeData }) => {
                     {formatDate(edu.graduationDate)}
                   </Text>
                   {edu.gpaType === "numeric" && (
-                    <Text style={styles.institution}>
+                    <Text style={styles.institutionName}>
                       GPA: {edu.numericGpa}
                     </Text>
                   )}
                   {edu.gpaType === "descriptive" && (
-                    <Text style={styles.institution}>
+                    <Text style={styles.institutionName}>
                       GPA: {edu.descriptiveGpa}
                     </Text>
                   )}
@@ -240,7 +258,7 @@ const MinimalTemplate = ({ resumeData }) => {
           <View style={styles.rightColumn}>
             {/* Summary Section */}
             <View style={styles.section} wrap={false}>
-              <Text style={styles.sectionTitle}>Summary</Text>
+              <Text style={styles.sectionTitle}>{t.profile}</Text>
               <Text style={styles.summary}>
                 {resumeData.personalInfo.summary}
               </Text>
@@ -248,15 +266,25 @@ const MinimalTemplate = ({ resumeData }) => {
 
             {/* Experience Section */}
             <View style={styles.section} wrap={false}>
-              <Text style={styles.sectionTitle}>Work Experience</Text>
+              <Text style={styles.sectionTitle}>{t.workExperience}</Text>
               {resumeData.experiences?.map((exp, index) => (
                 <View key={index} style={styles.experienceItem}>
                   <View style={styles.experienceHeader}>
                     <Text style={styles.jobTitleExp}>{exp.jobTitle}</Text>
-                    <Text style={styles.date}>
-                      {formatDate(exp.startDate)} -{" "}
-                      {formatDate(exp.endDate, resumeData.lng)}
-                    </Text>
+                    <View
+                      style={{
+                        flexDirection: isArabic ? "row-reverse" : "row",
+                        gap: 2,
+                      }}
+                    >
+                      <Text style={styles.date}>
+                        {formatDate(exp.startDate)}
+                      </Text>
+                      <Text style={styles.date}>-</Text>
+                      <Text style={styles.date}>
+                        {formatDate(exp.endDate, resumeData.lng)}
+                      </Text>
+                    </View>
                   </View>
                   <Text style={styles.company}>{exp.company}</Text>
                   <Text style={styles.summary}>{exp.responsibilities}</Text>
@@ -265,20 +293,22 @@ const MinimalTemplate = ({ resumeData }) => {
             </View>
 
             {/* Courses Section */}
-            <View style={styles.section} wrap={false}>
-              <Text style={styles.sectionTitle}>Courses</Text>
-              {resumeData.courses?.map((course, index) => (
-                <View key={index} style={styles.experienceItem}>
-                  <Text style={styles.jobTitleExp}>{course.name}</Text>
-                  <Text style={styles.institutionName}>
-                    {course.institution}
-                  </Text>
-                  <Text style={styles.date}>
-                    {formatDate(course.completionDate)}
-                  </Text>
-                </View>
-              ))}
-            </View>
+            {resumeData.courses?.length > 0 && (
+              <View style={styles.section} wrap={false}>
+                <Text style={styles.sectionTitle}>{t.courses}</Text>
+                {resumeData.courses?.map((course, index) => (
+                  <View key={index} style={styles.experienceItem}>
+                    <Text style={styles.jobTitleExp}>{course.name}</Text>
+                    <Text style={styles.institutionName}>
+                      {course.institution}
+                    </Text>
+                    <Text style={styles.date}>
+                      {formatDate(course.completionDate)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
         </View>
       </Page>

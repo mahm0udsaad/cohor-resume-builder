@@ -434,77 +434,6 @@ export const translations = {
   },
 };
 
-export const templates = [
-  {
-    category: "modern",
-    name: "modern",
-    image: "/templates/modern.png",
-  },
-  {
-    category: "BlueHorizon",
-    name: "BlueHorizon",
-    image: "/templates/BlueHorizon.png",
-  },
-  {
-    name: "elegantModern",
-    image: "/templates/elegantModern.png",
-  },
-  {
-    category: "ProfessionalSidebar",
-    name: "ProfessionalSidebar",
-    image: "/templates/ProfessionalSidebar.png",
-  },
-  {
-    name: "modernFormal",
-    image: "/templates/modernFormal.png",
-  },
-  {
-    category: "creativeTimeLine",
-    name: "creativeTimeLine",
-    image: "/templates/creativeTimeLine.png",
-  },
-  {
-    name: "bold",
-    image: "/templates/bold.png",
-  },
-  {
-    name: "professional",
-    image: "/templates/professional.png",
-  },
-  {
-    category: "gridLayout",
-    name: "gridLayout",
-    image: "/templates/gridLayout.png",
-  },
-
-  {
-    name: "creative",
-    image: "/templates/creative.png",
-  },
-  {
-    name: "formal",
-    image: "/templates/formal.png",
-  },
-  {
-    category: "glow",
-    name: "glow",
-    image: "/templates/glow.png",
-  },
-  {
-    name: "elegant",
-    image: "/templates/elegant.png",
-  },
-  // {
-  //   name: "minimal",
-  //   image: "/templates/minimal.png",
-  // },
-  // {
-  //   category: "classic",
-  //   name: "classic",
-  //   image: "/templates/classic.png",
-  // },
-];
-
 export const allSkills = [
   "Project Management",
   "Team Leadership",
@@ -589,4 +518,78 @@ export const allSkills = [
   "Statistical Modeling",
   "Machine Learning",
   "Artificial Intelligence",
+];
+
+export const templates = [
+  { name: "minimalist", image: "/templates/minimalist.png" },
+  { name: "dynamicModern", image: "/templates/dynamicModern.png" },
+
+  {
+    category: "BlueHorizon",
+    name: "BlueHorizon",
+    image: "/templates/BlueHorizon.png",
+  },
+  {
+    name: "elegantModern",
+    image: "/templates/elegantModern.png",
+  },
+  {
+    category: "ProfessionalSidebar",
+    name: "ProfessionalSidebar",
+    image: "/templates/ProfessionalSidebar.png",
+  },
+  {
+    name: "modernFormal",
+    image: "/templates/modernFormal.png",
+  },
+  {
+    category: "modern",
+    name: "modern",
+    image: "/templates/modern.png",
+  },
+  {
+    category: "creativeTimeLine",
+    name: "creativeTimeLine",
+    image: "/templates/creativeTimeLine.png",
+  },
+  {
+    name: "bold",
+    image: "/templates/bold.png",
+  },
+  {
+    name: "professional",
+    image: "/templates/professional.png",
+  },
+  {
+    category: "gridLayout",
+    name: "gridLayout",
+    image: "/templates/gridLayout.png",
+  },
+
+  {
+    name: "creative",
+    image: "/templates/creative.png",
+  },
+  {
+    name: "formal",
+    image: "/templates/formal.png",
+  },
+  {
+    category: "glow",
+    name: "glow",
+    image: "/templates/glow.png",
+  },
+  {
+    name: "elegant",
+    image: "/templates/elegant.png",
+  },
+  {
+    name: "minimal",
+    image: "/templates/minimal.png",
+  },
+  {
+    category: "classic",
+    name: "classic",
+    image: "/templates/classic.png",
+  },
 ];

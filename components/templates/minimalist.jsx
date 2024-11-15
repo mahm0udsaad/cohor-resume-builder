@@ -39,6 +39,7 @@ export default function MinimalistModernResume({
     },
     contact: {
       display: "flex",
+      flexWrap: "wrap",
       justifyContent: "center",
       gap: "20px",
       fontSize: "14px",
@@ -121,7 +122,7 @@ export default function MinimalistModernResume({
             <div style={styles.skillsList}>
               {resumeData.skills.map((skill, index) => (
                 <span key={index} style={styles.skillItem}>
-                  {skill.name}
+                  {t.availableSkills[`${skill.name}`] || skill.name}
                 </span>
               ))}
             </div>
@@ -142,7 +143,7 @@ export default function MinimalistModernResume({
             <h2 style={styles.sectionTitle}>{t.languages}</h2>
             {resumeData.languages.map((lang, index) => (
               <div key={index} style={styles.languageItem}>
-                {lang.name} - {lang.proficiency}
+                {lang.name} - {t[lang.proficiency.toLowerCase()]}
               </div>
             ))}
           </section>
@@ -154,7 +155,7 @@ export default function MinimalistModernResume({
                 <div key={index} style={styles.courseItem}>
                   <div style={{ fontWeight: "bold" }}>{course.name}</div>
                   <div>{course.institution}</div>
-                  <div>Completed: {formatDate(course.completionDate)}</div>
+                  <div>{formatDate(course.completionDate)}</div>
                 </div>
               ))}
             </section>

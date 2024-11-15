@@ -1,5 +1,6 @@
 import React from "react";
 import { formatDate } from "@/helper/date";
+import { translations } from "@/data/data";
 
 const DynamicModernResume = ({ resumeData, selectedTheme, className }) => {
   const theme = selectedTheme || {
@@ -8,16 +9,16 @@ const DynamicModernResume = ({ resumeData, selectedTheme, className }) => {
     primaryColor: "#3B51A3",
     backgroundColor: "#EBF8FF",
   };
+
+  const t = translations[resumeData.lng] || translations.en;
+
   const styles = {
     container: {
       direction: resumeData.lng === "ar" ? "rtl" : "ltr",
-      maxWidth: "1200px",
-      margin: "0 auto",
       fontFamily: '"Poppins", sans-serif',
       backgroundColor: "#ffffff",
       color: "#333",
-      padding: "40px",
-      boxShadow: "0 0 30px rgba(0, 0, 0, 0.1)",
+      padding: "20px",
     },
     header: {
       display: "flex",
@@ -25,15 +26,17 @@ const DynamicModernResume = ({ resumeData, selectedTheme, className }) => {
       gap: "40px",
       marginBottom: "40px",
       alignItems: "center",
+      justifyContent: "center",
     },
     profileImage: {
-      width: "200px",
-      height: "200px",
+      width: "180px",
+      height: "180px",
       borderRadius: "50%",
       objectFit: "cover",
-      border: `5px solid ${theme.primaryColor}`,
+      border: `1px solid gray`,
     },
     nameTitle: {
+      flex: 1,
       borderLeft: `5px solid ${theme.primaryColor}`,
       paddingLeft: "20px",
     },
@@ -50,8 +53,9 @@ const DynamicModernResume = ({ resumeData, selectedTheme, className }) => {
     },
     contact: {
       display: "flex",
+      flexWrap: "wrap",
       gap: "20px",
-      fontSize: "14px",
+      fontSize: "12px",
       color: "#666",
     },
     main: {
@@ -66,6 +70,7 @@ const DynamicModernResume = ({ resumeData, selectedTheme, className }) => {
       fontSize: "24px",
       fontWeight: "bold",
       color: theme.primaryColor,
+      borderBottom: `1px solid ${theme.primaryColor}`,
       marginBottom: "20px",
       position: "relative",
       paddingLeft: resumeData.lng === "ar" ? undefined : "20px",
@@ -172,44 +177,20 @@ const DynamicModernResume = ({ resumeData, selectedTheme, className }) => {
       <main style={styles.main}>
         <div>
           <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>
-              <span style={styles.sectionTitleBefore}></span>
-              Experience
-            </h2>
+            <h2 style={styles.sectionTitle}>{t.workExperience}</h2>
             {resumeData.experiences.map((exp, index) => (
               <div key={index} style={styles.experienceItem}>
                 <h3 style={styles.experienceTitle}>{exp.jobTitle}</h3>
                 <p style={styles.experienceCompany}>{exp.company}</p>
                 <p style={styles.experienceDate}>
-                  {formatDate(exp.startDate)} -{" "}
-                  {formatDate(exp.endDate, resumeData.lng)}
+                  {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
                 </p>
                 <p>{exp.responsibilities}</p>
               </div>
             ))}
           </section>
-        </div>
-
-        <div>
           <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>
-              <span style={styles.sectionTitleBefore}></span>
-              Skills
-            </h2>
-            <div style={styles.skillsList}>
-              {resumeData.skills.map((skill, index) => (
-                <span key={index} style={styles.skillItem}>
-                  {skill.name}
-                </span>
-              ))}
-            </div>
-          </section>
-
-          <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>
-              <span style={styles.sectionTitleBefore}></span>
-              Education
-            </h2>
+            <h2 style={styles.sectionTitle}>{t.education}</h2>
             {resumeData.educations.map((edu, index) => (
               <div key={index} style={styles.educationItem}>
                 <div style={{ fontWeight: "bold" }}>{edu.degree}</div>
@@ -218,30 +199,38 @@ const DynamicModernResume = ({ resumeData, selectedTheme, className }) => {
               </div>
             ))}
           </section>
+        </div>
 
+        <div>
           <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>
-              <span style={styles.sectionTitleBefore}></span>
-              Languages
-            </h2>
+            <h2 style={styles.sectionTitle}>{t.skills}</h2>
+            <div style={styles.skillsList}>
+              {resumeData.skills.map((skill, index) => (
+                <span key={index} style={styles.skillItem}>
+                  {t.availableSkills[`${skill.name}`] || skill.name}
+                </span>
+              ))}
+            </div>
+          </section>
+          <section style={styles.section}>
+            <h2 style={styles.sectionTitle}>{t.languages}</h2>
             {resumeData.languages.map((lang, index) => (
               <div key={index} style={styles.languageItem}>
                 <span>{lang.name}</span>
-                <span>{lang.proficiency}</span>
+                <span>{t[lang.proficiency.toLowerCase()]}</span>
               </div>
             ))}
           </section>
 
           <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>
-              <span style={styles.sectionTitleBefore}></span>
-              Courses
-            </h2>
+            <h2 style={styles.sectionTitle}>{t.courses}</h2>
             {resumeData.courses.map((course, index) => (
               <div key={index} style={styles.courseItem}>
                 <div style={{ fontWeight: "bold" }}>{course.name}</div>
                 <div>{course.institution}</div>
-                <div>Completed: {formatDate(course.completionDate)}</div>
+                <div>
+                  {t.completed}: {formatDate(course.completionDate)}
+                </div>
               </div>
             ))}
           </section>

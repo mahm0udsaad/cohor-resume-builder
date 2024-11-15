@@ -11,7 +11,7 @@ import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 
 // Define styles using react-pdf's StyleSheet
-const createStyles = (isArabic) =>
+const createStyles = (isArabic, theme) =>
   StyleSheet.create({
     page: {
       padding: 20,
@@ -24,53 +24,65 @@ const createStyles = (isArabic) =>
     },
     header: {
       fontSize: 24,
-      color: "#3B51A3",
+      color: theme.primaryColor,
       marginBottom: 4,
       fontWeight: "bold",
+      textAlign: isArabic ? "right" : "left",
     },
     subheader: {
       fontSize: 16,
-      color: "#3B51A3",
+      color: theme.primaryColor,
       marginBottom: 14,
       fontWeight: "semibold",
+      textAlign: isArabic ? "right" : "left",
     },
     text: {
-      marginBottom: 4,
+      marginVertical: 4,
+      textAlign: isArabic ? "right" : "left",
     },
     summary: {
+      marginTop: 8,
       fontSize: 10,
       color: "#666",
       lineHeight: 1.4,
+      textAlign: isArabic ? "right" : "left",
     },
     contact: {
-      marginBottom: 8,
+      marginVertical: 4,
       fontSize: 10,
+      textAlign: isArabic ? "right" : "left",
     },
     rightColumn: {
-      backgroundColor: "#EBF8FF",
+      backgroundColor: theme.backgroundColor,
       width: "30%",
       padding: 10,
       borderRadius: 8,
       fontSize: 10,
+      textAlign: isArabic ? "right" : "left",
     },
     bold: {
       fontWeight: "bold",
+      marginBottom: 4,
+      textAlign: isArabic ? "right" : "left",
     },
     title: {
       fontSize: 20,
       marginBottom: 4,
       fontWeight: "bold",
+      textAlign: isArabic ? "right" : "left",
     },
     primaryColor: {
-      color: "#3B51A3",
+      color: theme.primaryColor,
     },
     sectionTitle: {
       fontSize: 16,
-      color: "#3B51A3",
+      color: theme.primaryColor,
       fontWeight: "bold",
-      marginBottom: 4,
+      marginBottom: 8,
+      textAlign: isArabic ? "right" : "left",
     },
   });
+
 // Default theme configuration
 const defaultTheme = {
   id: "original",
@@ -78,11 +90,10 @@ const defaultTheme = {
   primaryColor: "#3B51A3",
   backgroundColor: "#EBF8FF",
 };
-
 const Classic = ({ resumeData }) => {
   const theme = resumeData.theme || defaultTheme;
   const isArabic = resumeData.lng === "ar";
-  const styles = createStyles(isArabic); // Pass RTL flag to styles
+  const styles = createStyles(isArabic, theme);
 
   if (isArabic) {
     Font.register({
@@ -117,10 +128,17 @@ const Classic = ({ resumeData }) => {
           }}
         >
           <Text>{exp.company}</Text>
-          <Text>
-            {formatDate(exp.startDate)} -{" "}
-            {formatDate(exp.endDate, resumeData.lng)}
-          </Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: isArabic ? "row-reverse" : "row",
+              gap: 2,
+            }}
+          >
+            <Text>{formatDate(exp.startDate)}</Text>
+            <Text>-</Text>
+            <Text>{formatDate(exp.endDate, resumeData.lng)}</Text>
+          </View>
         </View>
         <Text style={styles.summary}>{exp.responsibilities}</Text>
       </View>
@@ -137,8 +155,10 @@ const Classic = ({ resumeData }) => {
             gap: 4,
           }}
         >
-          <Text>{edu.institution}</Text> -
+          <Text>{edu.institution}</Text>
+          <Text>-</Text>
           <Text>{formatDate(edu.graduationDate)}</Text>
+          <Text>-</Text>
           {edu.gpaType === "numeric" && (
             <Text style={styles.institution}>GPA: {edu.numericGpa}</Text>
           )}
@@ -153,8 +173,9 @@ const Classic = ({ resumeData }) => {
     <View style={styles.section}>
       {resumeData.skills[0]?.name &&
         resumeData.skills.map((skill, index) => (
-          <Text key={index}>
-            {t.availableSkills[`${skill.name}`] || skill.name} - {skill.level}
+          <Text style={styles.text} key={index}>
+            {t.availableSkills[`${skill.name}`] || skill.name} - (
+            {t.levels[skill.level.toLowerCase()]})
           </Text>
         ))}
     </View>
@@ -163,7 +184,7 @@ const Classic = ({ resumeData }) => {
   const renderLanguages = () => (
     <View wrap={false} style={styles.section}>
       {resumeData.languages?.map((lang, index) => (
-        <Text key={index}>
+        <Text style={styles.text} key={index}>
           {lang.name} - {t[lang.proficiency.toLowerCase()]}
         </Text>
       ))}
@@ -171,6 +192,7 @@ const Classic = ({ resumeData }) => {
   );
 
   const renderCourses = () =>
+    resumeData.courses.length > 0 &&
     resumeData.courses?.map((course, index) => (
       <View wrap={false} key={index} style={styles.section}>
         <Text style={styles.bold}>{course.name}</Text>
@@ -181,7 +203,8 @@ const Classic = ({ resumeData }) => {
             gap: 4,
           }}
         >
-          <Text>{course.institution}</Text> -
+          <Text>{course.institution}</Text>
+          <Text>-</Text>
           <Text>{formatDate(course.completionDate)}</Text>
         </View>
       </View>
@@ -197,7 +220,7 @@ const Classic = ({ resumeData }) => {
             justifyContent: "space-between",
           }}
         >
-          <View style={{ flex: 2, marginRight: 20 }}>
+          <View style={{ flex: 2, marginHorizontal: 20 }}>
             <Text style={[styles.header, { color: theme.primaryColor }]}>
               {resumeData.personalInfo?.name}
             </Text>
@@ -220,9 +243,9 @@ const Classic = ({ resumeData }) => {
           </View>
 
           {/* Right Column */}
-          <View wrap={false} style={styles.rightColumn}>
+          <View fixed wrap={false} style={styles.rightColumn}>
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t.profile}</Text>
+              <Text style={styles.sectionTitle}>{t.contactInformation}</Text>
               {resumeData.personalInfo?.contact?.map((contact, index) => (
                 <Text key={index} style={styles.contact}>
                   {contact}

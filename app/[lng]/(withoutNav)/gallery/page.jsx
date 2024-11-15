@@ -101,7 +101,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
                 href={`/builder/${template.name}`}
                 prefetch={false}
               >
-                <div className="overflow-hidden rounded-lg bg-background shadow transition-all hover:shadow-lg">
+                <div className="group overflow-hidden rounded-lg bg-background shadow transition-all hover:shadow-lg">
                   <div className="aspect-[3/4] overflow-hidden">
                     <Image
                       src={template.image}
@@ -109,7 +109,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
                       loading="lazy"
                       width={400}
                       height={300}
-                      className="transition-all group-hover:scale-[0.9] duration-300"
+                      className="transition-all group-hover:scale-[0.8] duration-300"
                     />
                   </div>
                 </div>

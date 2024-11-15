@@ -1,6 +1,8 @@
 {
   "review": "مراجعه",
   "notifications": {
+    "errorAddingResume": "حدث خطأ ما",
+    "tryAgainButton": "محاوله مرة اخرى",
     "resumeAddedSuccess": "تم إضافة السيرة الذاتية بنجاح",
     "resumeAddedSuccessDesc": "تم إضافة سيرتك الذاتية بنجاح، سوف يتم تحويلك إلى صفحة المراجعة.",
     "resumeUpdatedSuccess": "تم تحديث السيرة الذاتية بنجاح",

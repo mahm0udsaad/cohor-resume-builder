@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
-
+import { createTemplate } from "@/actions/dashboard";
 export async function POST(request) {
   try {
-    const { imageData, templateName, format = "webp", dimensions } = await request.json();
+    const {
+      imageData,
+      templateName,
+      format = "webp",
+      dimensions,
+    } = await request.json();
 
     // Convert base64 to buffer
     const base64Data = imageData.replace(/^data:image\/[^;]+;base64,/, "");
@@ -18,7 +23,7 @@ export async function POST(request) {
     const filename = `${templateName}.${format}`;
     const filepath = path.join(templatesDir, filename);
     await fs.writeFile(filepath, buffer);
-
+    await createTemplate(templateName, "proPlus");
     // Get file size
     const stats = await fs.stat(filepath);
     const fileSizeInKB = stats.size / 1024;
@@ -28,7 +33,7 @@ export async function POST(request) {
       path: `/templates/${filename}`,
       format,
       size: fileSizeInKB,
-      dimensions
+      dimensions,
     });
   } catch (error) {
     console.error("Error saving template image:", error);

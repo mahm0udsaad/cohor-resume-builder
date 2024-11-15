@@ -39,7 +39,7 @@ import {
   updatePlanTemplates,
 } from "@/actions/dashboard/plans";
 
-export default function AdminDashboard({ initialData, lng }) {
+export default function AdminDashboard({ initialData, allTemplates, lng }) {
   const { t } = useTranslation(lng, "admin");
   const [activeTab, setActiveTab] = useState("free");
   const [editingPrice, setEditingPrice] = useState(false);
@@ -58,22 +58,6 @@ export default function AdminDashboard({ initialData, lng }) {
     pro: "bg-purple-100 text-purple-800",
     proPlus: "bg-green-100 text-green-800",
   };
-
-  const allTemplates = [
-    "modern",
-    "BlueHorizon",
-    "elegantModern",
-    "ProfessionalSidebar",
-    "modernFormal",
-    "creativeTimeLine",
-    "bold",
-    "professional",
-    "gridLayout",
-    "creative",
-    "formal",
-    "glow",
-    "elegant",
-  ];
 
   const handlePriceUpdate = async (plan) => {
     setLoading(true);
@@ -173,7 +157,10 @@ export default function AdminDashboard({ initialData, lng }) {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-[#3b51a3]">
-                    {data.templates.length}
+                    {data.templates.length} \{" "}
+                    <span className="text-gray-500 text-xl">
+                      {allTemplates.length}
+                    </span>
                   </div>
                   <p className="text-xs text-gray-500">
                     {t("adminDashboard.cards.availableFor", {

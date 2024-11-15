@@ -109,9 +109,6 @@ export async function getUserResumes(email) {
       where: {
         userId: userExists.id,
       },
-      include: {
-        theme: true,
-      },
     });
 
     return resumes || [];
@@ -135,10 +132,6 @@ export async function getResume(email, resumeName) {
 
     const resume = await prisma.resume.findFirst({
       where: { userId: user.id, name: resumeName },
-      include: {
-        theme: true,
-        experiences: true, // Assuming you want to fetch experiences too
-      },
     });
 
     if (!resume) {
@@ -276,7 +269,6 @@ export const updateUserResumeData = async (
       include: {
         resumes: {
           where: { name: resumeName },
-          include: { theme: true },
         },
       },
     });
@@ -288,75 +280,47 @@ export const updateUserResumeData = async (
     const existingResume = user.resumes[0];
     const formattedResumeData = formatResumeData(updatedResumeData);
 
-    // Handle theme data
-    const themeData =
-      updatedResumeData.theme && Object.keys(updatedResumeData.theme).length > 0
-        ? {
-            theme: {
-              upsert: {
-                create: {
-                  name: updatedResumeData.theme.name,
-                  primaryColor: updatedResumeData.theme.primaryColor,
-                  backgroundColor: updatedResumeData.theme.backgroundColor,
-                },
-                update: {
-                  name: updatedResumeData.theme.name,
-                  primaryColor: updatedResumeData.theme.primaryColor,
-                  backgroundColor: updatedResumeData.theme.backgroundColor,
-                },
-              },
-            },
-          }
-        : {};
+    // Format theme data if it exists
+    const themeData = updatedResumeData.theme
+      ? {
+          theme: {
+            name: updatedResumeData.theme.name,
+            primaryColor: updatedResumeData.theme.primaryColor,
+            backgroundColor: updatedResumeData.theme.backgroundColor,
+          },
+        }
+      : {};
 
-    if (existingResume) {
-      // Delete the old resume and create new one
-      await prisma.resume.delete({ where: { id: existingResume.id } });
-      await prisma.resume.create({
-        data: {
-          name: resumeName,
-          userId: user.id,
-          ...formattedResumeData,
-          modifiedAt: new Date(),
-          ...(updatedResumeData.theme
-            ? {
-                theme: {
-                  create: updatedResumeData.theme,
-                },
-              }
-            : {}),
-        },
-      });
-    } else {
-      // Create new resume
-      await prisma.resume.create({
-        data: {
-          name: resumeName,
-          userId: user.id,
-          ...formattedResumeData,
-          modifiedAt: new Date(),
-          ...(updatedResumeData.theme
-            ? {
-                theme: {
-                  create: updatedResumeData.theme,
-                },
-              }
-            : {}),
-        },
-      });
-    }
+    // Use upsert to handle both creation and update cases
+    const newResume = await prisma.resume.upsert({
+      where: {
+        id: existingResume?.id ?? "new-resume",
+      },
+      create: {
+        name: resumeName,
+        userId: user.id,
+        ...formattedResumeData,
+        ...themeData,
+        modifiedAt: new Date(),
+      },
+      update: {
+        ...formattedResumeData,
+        ...themeData,
+        modifiedAt: new Date(),
+      },
+    });
 
     // Revalidate the path to update the UI
-    revalidatePath("/resumes");
+    revalidatePath("/dashboard");
+
     return {
       success: true,
       existingResume: existingResume,
-      resume: formattedResumeData,
+      resume: newResume,
     };
   } catch (error) {
     console.error("Resume update error:", error);
 
-    // Return structured error response
     return {
       success: false,
       error: error.message || "Failed to update resume data",

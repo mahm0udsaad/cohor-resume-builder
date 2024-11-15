@@ -94,7 +94,7 @@ export const templateComponents = {
   BlueHorizon: BlueHorizon,
   bluehorizon: BlueHorizon,
   modernFormal: ModernFormalResumeTemplate,
-  modernformal: ModernFormalResumeTemplate, // unified casing
+  modernformal: ModernFormalResumeTemplate,
   minimalist: MinimalistModernResumeTemplate,
   dynamicModern: DynamicModernResume,
 };

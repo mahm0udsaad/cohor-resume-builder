@@ -91,7 +91,7 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
                 </h3>
                 -
                 <p className="text-sm sm:text-xs">
-                  t[lang.proficiency.toLowerCase()]
+                  {t[lang.proficiency.toLowerCase()]}
                 </p>
               </div>
             ))}
@@ -140,7 +140,7 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
             ))}
           </section>
 
-          {resumeData.courses[0]?.name.trim() !== "" && (
+          {resumeData.courses.length > 0 && (
             <section className="mb-6">
               <h2
                 style={{ color: theme.primaryColor }}

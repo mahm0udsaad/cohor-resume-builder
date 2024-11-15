@@ -14,6 +14,7 @@ import ProfessionalSidebarPDF from "./pdf-view/professional-sidebar";
 import BlueHorizonPDF from "./pdf-view/blueHorizon";
 import ModernFormalResumeTemplatePDF from "./pdf-view/moder-formal";
 import MinimalistModernResume from "./pdf-view/minimalist";
+import DynamicModernResume from "./pdf-view/dynamic-modern";
 
 export const templateViewComponents = {
   modern: modern,
@@ -33,4 +34,5 @@ export const templateViewComponents = {
   BlueHorizon: BlueHorizonPDF,
   modernFormal: ModernFormalResumeTemplatePDF,
   minimalist: MinimalistModernResume,
+  dynamicModern: DynamicModernResume,
 };

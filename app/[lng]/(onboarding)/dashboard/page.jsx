@@ -4,7 +4,6 @@ import { auth } from "@/lib/auth";
 import { DashboardWithSidebarComponent } from "@/components/dashboard-with-sidebar";
 import { getUserResumes } from "@/actions/resumes";
 import { EditingProvider } from "@/context/edit-context";
-
 const DashboardPage = async ({ params: { lng } }) => {
   const session = await auth();
   if (!session) redirect("/auth");

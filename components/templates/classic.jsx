@@ -75,7 +75,8 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
     <ul className="text-gray-700 mt-2 sm:text-[12px] text-[8px]">
       {resumeData.skills?.map((skill, index) => (
         <li key={index}>
-          {t.availableSkills[`${skill.name}`] || skill.name} - {skill.level}
+          {t.availableSkills[`${skill.name}`] || skill.name} - (
+          {t.levels[skill.level.toLowerCase()]})
         </li>
       ))}
     </ul>
@@ -143,8 +144,11 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
           className="w-1/3 p-2 min-h-screen rounded-md text-[12px] "
         >
           <section className="mb-8 sm:mb-6">
-            <h3 className="font-bold text-gray-800 sm:text-sm">
-              {t.personalInfo}
+            <h3
+              style={{ color: theme.primaryColor }}
+              className="font-bold sm:text-sm"
+            >
+              {t.contactInformation}
             </h3>
             {resumeData.personalInfo?.contact?.map((contact, index) => (
               <p key={index} className="text-gray-700 mt-1 sm:text-[10px]">
