@@ -528,24 +528,24 @@ export const allSkills = [
 
 export const templates = [
   { name: "minimalist", image: "/templates/minimalist.png" },
-  { name: "dynamicModern", image: "/templates/dynamicModern.png" },
-  { name: "infographic", image: "/templates/infographic.png" },
   { name: "elegantformal", image: "/templates/elegantformal.png" },
-  { name: "simpleformal", image: "/templates/simpleformal.png" },
-  {
-    category: "BlueHorizon",
-    name: "BlueHorizon",
-    image: "/templates/BlueHorizon.png",
-  },
-  {
-    name: "elegantModern",
-    image: "/templates/elegantModern.png",
-  },
   {
     category: "ProfessionalSidebar",
     name: "ProfessionalSidebar",
     image: "/templates/ProfessionalSidebar.png",
   },
+  { name: "dynamicModern", image: "/templates/dynamicModern.png" },
+  {
+    category: "BlueHorizon",
+    name: "BlueHorizon",
+    image: "/templates/BlueHorizon.png",
+  },
+  { name: "infographic", image: "/templates/infographic.png" },
+  {
+    name: "elegantModern",
+    image: "/templates/elegantModern.png",
+  },
+
   {
     name: "modernFormal",
     image: "/templates/modernFormal.png",
@@ -555,6 +555,7 @@ export const templates = [
     name: "modern",
     image: "/templates/modern.png",
   },
+  { name: "simpleformal", image: "/templates/simpleformal.png" },
   {
     category: "creativeTimeLine",
     name: "creativeTimeLine",
