@@ -202,10 +202,6 @@ export async function POST(req) {
       );
     }
 
-    // Calculate subscription end date
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + plan.durationDays);
-
     // Process subscription in transaction
     const result = await prisma.$transaction(async (tx) => {
       // Create subscription record
@@ -217,7 +213,6 @@ export async function POST(req) {
           amount: amount_cents / 100,
           status: "active",
           plan: plan.name,
-          endDate: endDate,
         },
       });
       console.log(plan.name, "subscription created");
