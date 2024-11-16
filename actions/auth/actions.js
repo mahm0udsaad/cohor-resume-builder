@@ -37,12 +37,6 @@ export async function handleCredentialsAuth(formData) {
       }
     }
 
-    const hasCompletedOnboarding = await getUserOnboardingStatus(email);
-    if (hasCompletedOnboarding) {
-      redirect("/dashboard");
-    } else {
-      redirect("/onboarding");
-    }
     return result;
   } catch (error) {
     console.error("Auth error:", error);
