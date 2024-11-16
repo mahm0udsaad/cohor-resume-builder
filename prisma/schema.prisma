@@ -46,7 +46,7 @@ model Subscription {
   orderId       String
   amount        Float
   status        String
-  paymentDate   DateTime
+  paymentDate   DateTime @default(now())
   plan          String
   endDate       DateTime
   features      String[]
