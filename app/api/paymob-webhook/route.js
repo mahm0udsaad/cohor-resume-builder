@@ -216,7 +216,7 @@ export async function POST(req) {
           orderId: order.id.toString(),
           amount: amount_cents / 100,
           status: "active",
-          paymentDate: new Date(Date.now()),
+          paymentDate: new Date(),
           plan: plan.name,
           endDate: endDate,
         },
