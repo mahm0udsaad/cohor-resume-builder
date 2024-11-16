@@ -15,9 +15,21 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Skeleton } from "../ui/skeleton";
+import { cn } from "@/lib/utils";
 
+const getBorderGradient = (plan) => {
+  switch (plan) {
+    case "proPlus":
+      return " from-pink-400 to-pink-600";
+    case "pro":
+      return " from-purple-400 to-purple-600";
+    case "free":
+      return " from-blue-400 to-blue-600";
+  }
+};
 const UserBtn = ({ lng }) => {
   const { data: session, status } = useSession();
+  const user = session?.user;
   const { t } = useTranslation(lng, "common");
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -66,14 +78,20 @@ const UserBtn = ({ lng }) => {
     <div className="flex flex-1 items-center justify-end overflow-hidden">
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
-          <Button size="icon">
-            <Image
-              src={session?.user?.image || "/user.png"}
-              alt={session?.user?.name}
-              width={40}
-              height={40}
-              className="rounded-full border main-border"
-            />
+          <Button
+            className={`bg-gradient-to-br size-fit p-0 shadow-lg ${getBorderGradient(
+              user.plan,
+            )}`}
+          >
+            <div className={"p-1"}>
+              <Image
+                src={session?.user?.image || "/user.png"}
+                alt={session?.user?.name || "User"}
+                width={45}
+                height={40}
+                className={"rounded-sm"}
+              />
+            </div>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
@@ -152,14 +170,20 @@ export const DashUserBtn = ({ lng }) => {
     <div className="flex flex-1 items-center justify-end overflow-hidden">
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
-          <Button size="icon">
-            <Image
-              src={session?.user?.image || "/user.png"}
-              alt={session?.user?.name}
-              width={40}
-              height={40}
-              className="rounded-full border main-border"
-            />
+          <Button
+            className={`bg-gradient-to-br size-fit p-0 shadow ${getBorderGradient(
+              session?.user.plan,
+            )}`}
+          >
+            <div className={"p-1"}>
+              <Image
+                src={session?.user?.image || "/user.png"}
+                alt={session?.user?.name || "User"}
+                width={45}
+                height={40}
+                className={"rounded-sm"}
+              />
+            </div>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>

@@ -6,24 +6,55 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Trash2 } from "lucide-react";
 import DatePicker from "../component/datePicker";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function EducationForm({ educations, updateData, lng }) {
   const { t } = useTranslation(lng, "forms");
 
   const handleEducationChange = (index, field, value) => {
-    updateData({
-      type: "UPDATE",
-      path: ["educations", index, field],
-      value: value,
-    });
+    // When changing GPA type
+    if (field === "gpaType") {
+      if (value === "outOf4" || value === "outOf5") {
+        // Set the gpaType to descriptive
+        updateData({
+          type: "UPDATE",
+          path: ["educations", index, "gpaType"],
+          value: "descriptive",
+        });
+        // Store outOf4 or outOf5 in descriptiveGpa
+        updateData({
+          type: "UPDATE",
+          path: ["educations", index, "descriptiveGpa"],
+          value: value,
+        });
+        // Clear numeric GPA if any
+        updateData({
+          type: "UPDATE",
+          path: ["educations", index, "numericGpa"],
+          value: "",
+        });
+      } else {
+        // For percentage or none, update gpaType normally
+        updateData({
+          type: "UPDATE",
+          path: ["educations", index, field],
+          value: value,
+        });
+        // Clear descriptive GPA if any
+        updateData({
+          type: "UPDATE",
+          path: ["educations", index, "descriptiveGpa"],
+          value: "",
+        });
+      }
+    } else {
+      // For all other fields, update normally
+      updateData({
+        type: "UPDATE",
+        path: ["educations", index, field],
+        value: value,
+      });
+    }
   };
 
   const addEducation = () => {
@@ -47,6 +78,37 @@ export default function EducationForm({ educations, updateData, lng }) {
       path: ["educations"],
       index: index,
     });
+  };
+
+  const renderGpaInput = (edu, index) => {
+    if (edu.gpaType === "percentage") {
+      return (
+        <div className="space-y-2 mt-2">
+          <Label htmlFor={`numericGpa-${index}`}>
+            {t("education.gpaPercentage")}
+          </Label>
+          <div className="relative">
+            <Input
+              id={`numericGpa-${index}`}
+              type="number"
+              step="0.1"
+              min="0"
+              max="100"
+              placeholder="Enter percentage (0-100)"
+              value={edu.numericGpa}
+              onChange={(e) =>
+                handleEducationChange(index, "numericGpa", e.target.value)
+              }
+              className="border-[#3B51A3] focus:ring-[#3B51A3] pr-8"
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              %
+            </span>
+          </div>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -112,11 +174,11 @@ export default function EducationForm({ educations, updateData, lng }) {
             </div>
             <div className="space-y-2">
               <Label>
-                {t("education.gpa")} ({t("education.optional")})
+                {t("education.GPA")} ({t("education.optional")})
               </Label>
               <RadioGroup
                 style={{ direction: lng === "ar" ? "rtl" : "ltr" }}
-                className={`flex gap-4`}
+                className="flex gap-4 flex-wrap"
                 value={edu.gpaType}
                 onValueChange={(value) =>
                   handleEducationChange(index, "gpaType", value)
@@ -129,77 +191,29 @@ export default function EducationForm({ educations, updateData, lng }) {
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <RadioGroupItem value="numeric" id={`gpa-numeric-${index}`} />
-                  <Label htmlFor={`gpa-numeric-${index}`}>
-                    {t("education.numericGpa")}
+                  <RadioGroupItem
+                    value="percentage"
+                    id={`gpa-percentage-${index}`}
+                  />
+                  <Label htmlFor={`gpa-percentage-${index}`}>
+                    {t("education.gpaPercentage")}
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <RadioGroupItem
-                    value="descriptive"
-                    id={`gpa-descriptive-${index}`}
-                  />
-                  <Label htmlFor={`gpa-descriptive-${index}`}>
-                    {t("education.descriptiveGpa")}
+                  <RadioGroupItem value="outOf4" id={`gpa-outOf4-${index}`} />
+                  <Label htmlFor={`gpa-outOf4-${index}`}>
+                    {t("education.gpaOutOf4")}
+                  </Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <RadioGroupItem value="outOf5" id={`gpa-outOf5-${index}`} />
+                  <Label htmlFor={`gpa-outOf5-${index}`}>
+                    {t("education.gpaOutOf5")}
                   </Label>
                 </div>
               </RadioGroup>
             </div>
-            {edu.gpaType === "numeric" && (
-              <div className="space-y-2 mt-2">
-                <Label htmlFor={`numericGpa-${index}`}>
-                  {t("education.numericGpa")}
-                </Label>
-                <Input
-                  id={`numericGpa-${index}`}
-                  type="number"
-                  step="0.1"
-                  min="0"
-                  max="4.0"
-                  placeholder={t("education.numericGpaPlaceholder")}
-                  value={edu.numericGpa}
-                  onChange={(e) =>
-                    handleEducationChange(index, "numericGpa", e.target.value)
-                  }
-                  className="border-[#3B51A3] focus:ring-[#3B51A3]"
-                />
-              </div>
-            )}
-            {edu.gpaType === "descriptive" && (
-              <div className="space-y-2 mt-2">
-                <Label htmlFor={`descriptiveGpa-${index}`}>
-                  {t("education.descriptiveGpa")}
-                </Label>
-                <Select
-                  value={edu.descriptiveGpa}
-                  onValueChange={(value) =>
-                    handleEducationChange(index, "descriptiveGpa", value)
-                  }
-                >
-                  <SelectTrigger
-                    id={`descriptiveGpa-${index}`}
-                    className="border-[#3B51A3] focus:ring-[#3B51A3]"
-                  >
-                    <SelectValue placeholder={t("education.selectGpa")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="excellent">
-                      {t("education.excellent")}
-                    </SelectItem>
-                    <SelectItem value="very-good">
-                      {t("education.veryGood")}
-                    </SelectItem>
-                    <SelectItem value="good">{t("education.good")}</SelectItem>
-                    <SelectItem value="average">
-                      {t("education.average")}
-                    </SelectItem>
-                    <SelectItem value="below-average">
-                      {t("education.belowAverage")}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+            {renderGpaInput(edu, index)}
           </div>
         ))}
         <Button

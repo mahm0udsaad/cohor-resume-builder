@@ -35,6 +35,7 @@ export async function handleCredentialsAuth(formData) {
       }
     }
 
+    revalidatePath("/");
     return result;
   } catch (error) {
     console.error("Auth error:", error);
@@ -48,8 +49,6 @@ export async function handleCredentialsAuth(formData) {
     }
 
     return { error: "CredentialsSignin" };
-  } finally {
-    revalidatePath("/");
   }
 }
 

@@ -1,13 +1,13 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/helper/date";
-import { translations } from "@/data/data"; // Import your translations
+import { translations } from "@/data/data";
 
 const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
   const isArabic = resumeData.lng === "ar";
   const { lng } = resumeData;
   const direction = isArabic ? "rtl" : "ltr";
-  const t = translations[lng] || translations["en"]; // Default to English if the language is not found
+  const t = translations[lng] || translations["en"];
 
   return (
     <div
@@ -86,12 +86,14 @@ const BoldTemplate = ({ resumeData, selectedTheme, className }) => {
               <p className="text-sm">
                 {edu.institution} // {formatDate(edu.graduationDate)}
               </p>
-              {edu.gpaType === "numeric" && (
-                <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
+              {edu.gpaType === "percentage" && (
+                <p className="text-sm text-gray-600">
+                  {t.gpa}: {edu.numericGpa}%
+                </p>
               )}
               {edu.gpaType === "descriptive" && (
                 <p className="text-sm text-gray-600">
-                  GPA: {edu.descriptiveGpa}
+                  {t.gpas[edu.descriptiveGpa]}
                 </p>
               )}
             </div>

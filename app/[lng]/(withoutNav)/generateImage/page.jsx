@@ -26,7 +26,7 @@ export default function GenerateTemplatesPage({ params: { lng } }) {
           {templates.map((template) => (
             <div
               key={template.name}
-              className="bg-white max-w-2xl rounded-lg shadow-lg overflow-hidden"
+              className="bg-white max-w-3xl rounded-lg shadow-lg overflow-hidden"
             >
               <div className="p-6 border-b">
                 <div className="flex justify-between items-center mb-4">

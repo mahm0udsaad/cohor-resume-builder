@@ -221,12 +221,14 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
                 <p style={{ fontSize: "0.9em" }}>
                   {formatDate(edu.graduationDate, resumeData.lng)}
                 </p>
-                {edu.gpaType === "numeric" && (
-                  <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
+                {edu.gpaType === "percentage" && (
+                  <p className="text-sm text-gray-600">
+                    {t.gpa}: {edu.numericGpa}%
+                  </p>
                 )}
                 {edu.gpaType === "descriptive" && (
                   <p className="text-sm text-gray-600">
-                    GPA: {edu.descriptiveGpa}
+                    {t.gpas[edu.descriptiveGpa]}
                   </p>
                 )}
               </div>

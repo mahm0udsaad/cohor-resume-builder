@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft, Loader2 } from "lucide-react";
@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { updateUserResumeData } from "@/actions/resumes";
 import { ToastAction } from "./ui/toast";
 import { QualityUpgradeModal } from "./cards/quality-subscription-modal";
+import { useSession } from "next-auth/react";
 const DynamicLanguagesForm = dynamic(() => import("./forms/lang-form"), {
   loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
 });
@@ -54,20 +55,39 @@ const DynamicReviewForm = dynamic(
   },
 );
 
-export function ResumeBuilder({ initalData, resumeName, lng }) {
-  const user = initalData.user;
-  const plan = user.plan;
+export function ResumeBuilder({ initialData, resumeName, lng }) {
+  const { data: session, status } = useSession();
+
+  const router = useRouter();
+  useEffect(() => {
+    if (status !== "loading" && !session) {
+      toast({
+        title: t("notifications.connectionLost"),
+        description: t("notifications.connectionLostDescription"),
+        variant: "destructive",
+        action: (
+          <ToastAction
+            onClick={() => window.location.reload()}
+            altText="Refresh the page"
+          >
+            {t("notifications.refresh")}
+          </ToastAction>
+        ),
+      });
+    }
+  }, [status, session]);
+
+  const user = session?.user;
+  const plan = user?.plan || "free";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { toast } = useToast();
   const { resumeData, updateResumeData, toggleLanguage, updateImageUrl } =
-    useResumeData(initalData);
+    useResumeData(initialData);
 
   const { selectedTheme, setSelectedTheme } = useTheme();
   const [showTemplates, setShowTemplates] = useState(false);
   const { t } = useTranslation(lng, "builder");
-
-  const router = useRouter();
 
   const { activeTab, handleTabChange, handleNextTab, handlePreviousTab, tabs } =
     useFormTabs({ user, router });

@@ -37,21 +37,21 @@ export const DownloadWithWatermarkBtn = ({ resumeData, templateName }) => {
       clonedElement.style.backgroundColor = "#ffffff";
       document.body.appendChild(clonedElement);
 
-      // Add watermark
-      const watermark = document.createElement("div");
-      watermark.style.cssText = `
+      // Add watermark image
+      const watermarkImg = document.createElement("img");
+      watermarkImg.src = "/ar-logo.png";
+      watermarkImg.style.cssText = `
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) rotate(-45deg);
-        font-size: 50px;
-        font-weight: bold;
-        color: rgba(0, 0, 0, 0.1);
-        pointer-events: none;
+        opacity: 0.3;
+        width: 200px;
+        height: auto;
         z-index: 1000;
+        pointer-events: none;
       `;
-      watermark.innerHTML = ``;
-      clonedElement.appendChild(watermark);
+      clonedElement.appendChild(watermarkImg);
 
       // Wait for any potential dynamic content to render
       await new Promise((resolve) => setTimeout(resolve, 500));

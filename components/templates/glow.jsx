@@ -160,12 +160,14 @@ export default function MinimalistTwoColorResumeTemplate({
               <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
                 {formatDate(edu.graduationDate)}
               </p>
-              {edu.gpaType === "numeric" && (
-                <p className="text-sm text-gray-600">GPA: {edu.numericGpa}</p>
+              {edu.gpaType === "percentage" && (
+                <p className="text-sm text-gray-600">
+                  {t.gpa}: {edu.numericGpa}%
+                </p>
               )}
               {edu.gpaType === "descriptive" && (
                 <p className="text-sm text-gray-600">
-                  GPA: {edu.descriptiveGpa}
+                  {t.gpas[edu.descriptiveGpa]}
                 </p>
               )}
             </div>

@@ -64,6 +64,16 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme, className }) => {
             <div className="font-bold">{edu.degree}</div>
             <div>{edu.institution}</div>
             <div>{formatDate(edu.graduationDate)}</div>
+            {edu.gpaType === "percentage" && (
+              <p className="text-sm text-gray-600">
+                {t.gpa}: {edu.numericGpa}%
+              </p>
+            )}
+            {edu.gpaType === "descriptive" && (
+              <p className="text-sm text-gray-600">
+                {t.gpas[edu.descriptiveGpa]}
+              </p>
+            )}
           </div>
         ))}
 

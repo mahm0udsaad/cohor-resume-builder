@@ -93,12 +93,6 @@ export const dummyData = {
       completionDate: "2019-01",
     },
   ],
-  theme: {
-    id: "original",
-    name: "Original",
-    primaryColor: "#3B51A3",
-    backgroundColor: "#EBF8FF",
-  },
 };
 
 export const dummyDataAr = {
@@ -321,6 +315,11 @@ export const translations = {
       "Statistical Modeling": "Statistical Modeling",
       "Artificial Intelligence": "Artificial Intelligence",
     },
+    gpa: "GPA",
+    gpas: {
+      outOf5: "GPA Out of 5.0",
+      outOf4: "GPA Out of 4.0",
+    },
   },
   ar: {
     levels: {
@@ -431,6 +430,13 @@ export const translations = {
       "Statistical Modeling": "النمذجة الإحصائية",
       "Artificial Intelligence": "الذكاء الاصطناعي",
     },
+    gpas: {
+      outOf4: "المعدل التراكمي من 4.0",
+      outOf5: "المعدل التراكمي من 5.0",
+    },
+    gpa: "المعدل التراكمي",
+    gpaOutOf4: "المعدل التراكمي (من 4.0)",
+    gpaOutOf5: "المعدل التراكمي (من 5.0)",
   },
 };
 
@@ -523,7 +529,9 @@ export const allSkills = [
 export const templates = [
   { name: "minimalist", image: "/templates/minimalist.png" },
   { name: "dynamicModern", image: "/templates/dynamicModern.png" },
-
+  { name: "infographic", image: "/templates/infographic.png" },
+  { name: "elegantformal", image: "/templates/elegantformal.png" },
+  { name: "simpleformal", image: "/templates/simpleformal.png" },
   {
     category: "BlueHorizon",
     name: "BlueHorizon",

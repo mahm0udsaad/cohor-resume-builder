@@ -6,6 +6,9 @@
     "resumeAddedSuccess": "Resume added successfully",
     "resumeAddedSuccessDesc": "Your resume has been added successfully now you will be redirected to the review page.",
     "resumeUpdatedSuccess": "Resume updated successfully",
+    "connectionLost": "Connection Lost",
+    "connectionLostDescription": "It seems your session has been disconnected. Please try again.",
+    "refresh": "Refresh",
     "profileUpdate": {
       "success": {
         "title": "Profile Updated",

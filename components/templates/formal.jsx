@@ -184,6 +184,16 @@ const ProfessionalResume = ({ resumeData, selectedTheme, className }) => {
                 {edu.institution}, {t.graduated}{" "}
                 {formatDate(edu.graduationDate, resumeData.lng)}
               </p>
+              {edu.gpaType === "percentage" && (
+                <p className="text-sm text-gray-600">
+                  {t.gpa}: {edu.numericGpa}%
+                </p>
+              )}
+              {edu.gpaType === "descriptive" && (
+                <p className="text-sm text-gray-600">
+                  {t.gpas[edu.descriptiveGpa]}
+                </p>
+              )}
             </div>
           ))}
         </section>

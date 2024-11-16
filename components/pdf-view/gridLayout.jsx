@@ -221,13 +221,25 @@ export default function GridLayoutResumePDF({ resumeData }) {
                   <Text style={styles.subHeader}>{edu.degree}</Text>
                   <Text style={styles.sectionContent}>{edu.institution}</Text>
                   {edu.gpaType === "numeric" && (
-                    <Text style={{ marginTop: 2, fontSize: 10 }}>
-                      GPA: {edu.numericGpa}
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        color: "#4B5563",
+                        textAlign: isArabic ? "right" : "left",
+                      }}
+                    >
+                      {t.gpa}: {edu.numericGpa}
                     </Text>
                   )}
                   {edu.gpaType === "descriptive" && (
-                    <Text style={{ marginTop: 2, fontSize: 10 }}>
-                      GPA: {edu.descriptiveGpa}
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        color: "#4B5563",
+                        textAlign: isArabic ? "right" : "left",
+                      }}
+                    >
+                      {t.gpas[edu.descriptiveGpa]}
                     </Text>
                   )}
                 </View>

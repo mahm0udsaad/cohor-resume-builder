@@ -96,6 +96,30 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
               </div>
             ))}
           </section>
+          {resumeData.courses.length > 0 && (
+            <section className="mb-6">
+              <h2
+                style={{ color: theme.primaryColor }}
+                className="text-lg font-semibold mb-4 sm:text-base"
+              >
+                {t.courses}
+              </h2>
+              {resumeData.courses?.map((course, index) => (
+                <div key={index} className="mb-4">
+                  <h3
+                    style={{ color: theme.primaryColor }}
+                    className="text-sm font-semibold sm:text-xs"
+                  >
+                    {course.name}
+                  </h3>
+                  <p className="text-sm sm:text-xs">{course.institution}</p>
+                  <p className="text-sm text-gray-600 sm:text-xs">
+                    {formatDate(course.completionDate)}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
         </div>
 
         <div className="col-span-2">
@@ -139,27 +163,36 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
               </div>
             ))}
           </section>
-
-          {resumeData.courses.length > 0 && (
+          {resumeData.educations.length > 0 && (
             <section className="mb-6">
               <h2
                 style={{ color: theme.primaryColor }}
                 className="text-lg font-semibold mb-4 sm:text-base"
               >
-                {t.courses}
+                {t.education}
               </h2>
-              {resumeData.courses?.map((course, index) => (
+              {resumeData.educations?.map((edu, index) => (
                 <div key={index} className="mb-4">
                   <h3
                     style={{ color: theme.primaryColor }}
                     className="text-sm font-semibold sm:text-xs"
                   >
-                    {course.name}
+                    {edu.degree}
                   </h3>
-                  <p className="text-sm sm:text-xs">{course.institution}</p>
+                  <p className="text-sm sm:text-xs">{edu.institution}</p>
                   <p className="text-sm text-gray-600 sm:text-xs">
-                    {formatDate(course.completionDate)}
+                    {formatDate(edu.graduationDate)}
                   </p>
+                  {edu.gpaType === "percentage" && (
+                    <p className="text-sm text-gray-600">
+                      {t.gpa}: {edu.numericGpa}%
+                    </p>
+                  )}
+                  {edu.gpaType === "descriptive" && (
+                    <p className="text-sm text-gray-600">
+                      {t.gpas[edu.descriptiveGpa]}
+                    </p>
+                  )}
                 </div>
               ))}
             </section>

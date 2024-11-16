@@ -6,6 +6,9 @@
     "resumeAddedSuccess": "تم إضافة السيرة الذاتية بنجاح",
     "resumeAddedSuccessDesc": "تم إضافة سيرتك الذاتية بنجاح، سوف يتم تحويلك إلى صفحة المراجعة.",
     "resumeUpdatedSuccess": "تم تحديث السيرة الذاتية بنجاح",
+    "connectionLost": "تم فقد الاتصال",
+    "connectionLostDescription": "يبدو أن جلستك قد انقطعت. الرجاء المحاولة مرة أخرى.",
+    "refresh": "تحديث",
     "profileUpdate": {
       "success": {
         "title": "تم تحديث الملف الشخصي",

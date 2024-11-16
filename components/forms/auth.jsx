@@ -53,7 +53,6 @@ export default function AuthForm({ lng, searchParams }) {
     if (!isRegistering) {
       try {
         const result = await handleCredentialsAuth(formData);
-
         if (result?.error) {
           handleAuthError(result.error);
         } else {

@@ -201,13 +201,25 @@ const Modern = ({ resumeData }) => {
                       {edu.institution} | {formatDate(edu.graduationDate)}
                     </Text>
                     {edu.gpaType === "numeric" && (
-                      <Text style={styles.institution}>
-                        GPA: {edu.numericGpa}
+                      <Text
+                        style={{
+                          fontSize: 8,
+                          color: "#4B5563",
+                          textAlign: isArabic ? "right" : "left",
+                        }}
+                      >
+                        {t.gpa}: {edu.numericGpa}
                       </Text>
                     )}
                     {edu.gpaType === "descriptive" && (
-                      <Text style={styles.institution}>
-                        GPA: {edu.descriptiveGpa}
+                      <Text
+                        style={{
+                          fontSize: 8,
+                          color: "#4B5563",
+                          textAlign: isArabic ? "right" : "left",
+                        }}
+                      >
+                        {t.gpas[edu.descriptiveGpa]}
                       </Text>
                     )}
                   </View>

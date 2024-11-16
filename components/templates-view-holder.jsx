@@ -15,6 +15,10 @@ import BlueHorizonPDF from "./pdf-view/blueHorizon";
 import ModernFormalResumeTemplatePDF from "./pdf-view/moder-formal";
 import MinimalistModernResume from "./pdf-view/minimalist";
 import DynamicModernResume from "./pdf-view/dynamic-modern";
+import InfographicResume from "./pdf-view/infographic";
+import FormalOneColumnResume from "./pdf-view/one-col-formal";
+import ElegantFormalTemplate from "./pdf-view/elegant-formal";
+import SimpleFormalTemplatePDF from "./pdf-view/simple-formal";
 
 export const templateViewComponents = {
   modern: modern,
@@ -35,4 +39,9 @@ export const templateViewComponents = {
   modernFormal: ModernFormalResumeTemplatePDF,
   minimalist: MinimalistModernResume,
   dynamicModern: DynamicModernResume,
+  infographic: InfographicResume,
+  onColFormal: FormalOneColumnResume,
+  elegantformal: ElegantFormalTemplate,
+  simpleFormal: SimpleFormalTemplatePDF,
+  simpleformal: SimpleFormalTemplatePDF,
 };

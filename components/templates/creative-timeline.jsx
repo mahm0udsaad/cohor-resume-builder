@@ -231,6 +231,16 @@ function CreativeTimelineResumeTemplate({
               >
                 {formatDate(edu.graduationDate)}
               </p>
+              {edu.gpaType === "percentage" && (
+                <p className="text-sm text-gray-600">
+                  {t.gpa}: {edu.numericGpa}%
+                </p>
+              )}
+              {edu.gpaType === "descriptive" && (
+                <p className="text-sm text-gray-600">
+                  {t.gpas[edu.descriptiveGpa]}
+                </p>
+              )}
             </div>
           ))}
         </section>

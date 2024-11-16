@@ -187,22 +187,24 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
                 </Text>
                 {edu.gpaType === "numeric" && (
                   <Text
-                    style={[
-                      styles(theme, lng).text,
-                      { marginTop: 2, fontSize: 10 },
-                    ]}
+                    style={{
+                      fontSize: 8,
+                      color: "#4B5563",
+                      textAlign: isArabic ? "right" : "left",
+                    }}
                   >
-                    GPA: {edu.numericGpa}
+                    {t.gpa}: {edu.numericGpa}
                   </Text>
                 )}
                 {edu.gpaType === "descriptive" && (
                   <Text
-                    style={[
-                      styles(theme, lng).text,
-                      { marginTop: 2, fontSize: 10 },
-                    ]}
+                    style={{
+                      fontSize: 8,
+                      color: "#4B5563",
+                      textAlign: isArabic ? "right" : "left",
+                    }}
                   >
-                    GPA: {edu.descriptiveGpa}
+                    {t.gpas[edu.descriptiveGpa]}
                   </Text>
                 )}
               </View>

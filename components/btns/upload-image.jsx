@@ -17,6 +17,8 @@ const allowedTemplates = [
   "glow",
   "formal",
   "ProfessionalSidebar",
+  "infographic",
+  "dynamicModern"
 ];
 
 export default function UploadBtn({ lng, updateImageUrl }) {

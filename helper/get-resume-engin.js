@@ -1,5 +1,8 @@
 import dynamic from "next/dynamic";
-
+const InfographicResume = dynamic(
+  () => import("@/components/templates/infographic"),
+  { ssr: false },
+);
 const ModernFormalResumeTemplate = dynamic(
   () => import("@/components/templates/modern-formal"),
   { ssr: false },
@@ -61,6 +64,12 @@ const ElegantTemplate = dynamic(
     ssr: false,
   },
 );
+const ElegantFormalTemplate = dynamic(
+  () => import("@/components/templates/elegant-formal"),
+  {
+    ssr: false,
+  },
+);
 const FormalTemplate = dynamic(
   () => import("@/components/templates/professional"),
   {
@@ -69,6 +78,18 @@ const FormalTemplate = dynamic(
 );
 const DynamicModernResume = dynamic(
   () => import("@/components/templates/dynamic-modern"),
+  {
+    ssr: false,
+  },
+);
+const FormalOneColumnResume = dynamic(
+  () => import("@/components/templates/one-col-formal"),
+  {
+    ssr: false,
+  },
+);
+const SimpleFormalTemplate = dynamic(
+  () => import("@/components/templates/simple-formal"),
   {
     ssr: false,
   },
@@ -97,29 +118,35 @@ export const templateComponents = {
   modernformal: ModernFormalResumeTemplate,
   minimalist: MinimalistModernResumeTemplate,
   dynamicModern: DynamicModernResume,
+  infographic: InfographicResume,
+  elegantformal: ElegantFormalTemplate,
+  onColFormal: FormalOneColumnResume,
+  simpleformal: SimpleFormalTemplate,
 };
 export const templates = [
-  { name: "professional", Component: ProfessionalResume },
-  { name: "modernFormal", Component: ModernFormalResumeTemplate },
-  { name: "bold", Component: BoldTemplate },
-  { name: "elegant", Component: ElegantTemplate },
-  { category: "modern", name: "modern", Component: ModernTemplate },
-  { category: "classic", name: "classic", Component: ClassicTemplate },
-  { name: "elegantModern", Component: ElegantModernResumeTemplate },
-  { name: "bold", Component: BoldTemplate },
-  { category: "gridLayout", name: "gridLayout", Component: GridLayoutResume },
-  { name: "formal", Component: FormalTemplate },
-  { category: "modern", name: "modern", Component: ModernTemplate },
-  { name: "creative", Component: CreativeResumeTemplate },
-  { name: "minimal", Component: MinimalTemplate },
-  { name: "glow", Component: GlowResumeTemplate },
-  { name: "creativeTimeLine", Component: CreativeTimelineResumeTemplate },
-  { name: "elegant", Component: ElegantTemplate },
-  { name: "classic", Component: ClassicTemplate },
-  { name: "ProfessionalSidebar", Component: ProfessionalSidebar },
-  { name: "BlueHorizon", Component: BlueHorizon },
-  { name: "minimalist", Component: MinimalistModernResumeTemplate },
-  { name: "dynamicModern", Component: DynamicModernResume },
+  // { name: "professional", Component: ProfessionalResume },
+  // { name: "modernFormal", Component: ModernFormalResumeTemplate },
+  // { name: "bold", Component: BoldTemplate },
+  // { name: "elegant", Component: ElegantTemplate },
+  // { category: "modern", name: "modern", Component: ModernTemplate },
+  // { category: "classic", name: "classic", Component: ClassicTemplate },
+  // { name: "elegantModern", Component: ElegantModernResumeTemplate },
+  // { name: "bold", Component: BoldTemplate },
+  // { category: "gridLayout", name: "gridLayout", Component: GridLayoutResume },
+  // { name: "formal", Component: FormalTemplate },
+  // { category: "modern", name: "modern", Component: ModernTemplate },
+  // { name: "creative", Component: CreativeResumeTemplate },
+  // { name: "minimal", Component: MinimalTemplate },
+  // { name: "glow", Component: GlowResumeTemplate },
+  // { name: "creativeTimeLine", Component: CreativeTimelineResumeTemplate },
+  // { name: "elegant", Component: ElegantTemplate },
+  // { name: "classic", Component: ClassicTemplate },
+  // { name: "ProfessionalSidebar", Component: ProfessionalSidebar },
+  // { name: "BlueHorizon", Component: BlueHorizon },
+  // { name: "minimalist", Component: MinimalistModernResumeTemplate },
+  // { name: "dynamicModern", Component: DynamicModernResume },
+  // { name: "infographic", Component: InfographicResume },
+  { name: "simpleformal", Component: SimpleFormalTemplate },
 ];
 
 export const getResumeTemplate = (templateName) => {
