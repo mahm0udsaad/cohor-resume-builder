@@ -207,7 +207,7 @@ export function ResumeBuilder({ initialData, resumeName, lng }) {
               onValueChange={handleTabChange}
               className="w-full"
             >
-              <TabsList className="flex mb-8">
+              <TabsList className="flex sm:flex-nowrap flex-wrap mb-8">
                 {tabs.map(({ id, icon: Icon }) => (
                   <TabsTrigger
                     key={id}

@@ -238,7 +238,7 @@ export function SubscriptionModal({
               value={key}
               className={`data-[state=active]:bg-gradient-to-r ${plan.gradient} data-[state=active]:text-white transition-all duration-300`}
             >
-              {t(`subscription.plans.${key}.name`)}
+              {t(`subscription.plans.${key === "proPlus" ? "pro+" : key}.name`)}
             </TabsTrigger>
           ))}
         </TabsList>
@@ -297,7 +297,9 @@ export function SubscriptionModal({
           t("subscription.currentPlan")
         ) : (
           `${t("subscription.subscribe")} ${t(
-            `subscription.plans.${activeTab}.name`,
+            `subscription.plans.${
+              activeTab === "proPlus" ? "pro+" : activeTab
+            }.name`,
           )}`
         )}
       </Button>

@@ -83,7 +83,7 @@
 }
 
 html {
-  overflow: hidden;
+  overflow-y: hidden !important;
   scroll-behavior: smooth;
 }
 body::-webkit-scrollbar {

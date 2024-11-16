@@ -63,18 +63,18 @@ export default function ClientResumeTemplate({
 
   const content = (
     <Suspense fallback={<ResumePreviewSkeleton />}>
-      <div className="w-4/5 mx-auto relative">
+      <div className="sm:w-4/5 mx-auto relative">
         <ResumeComponent
           resumeData={resumeData}
           selectedTheme={resumeData.theme}
-          className="scale-[0.6] transform translate-y-[-20%]"
+          className="sm:scale-[0.6] transform sm:translate-y-[-20%]"
         />
       </div>
     </Suspense>
   );
 
   return (
-    <div className="flex w-full items-start overflow-auto notfs bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg min-h-[90dvh] max-h-screen shadow-lg">
+    <div className="sm:flex w-full items-start overflow-auto notfs bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg min-h-[80dvh] max-h-screen shadow-lg">
       <div className="flex justify-between items-start mb-4 sticky top-0">
         <div className="flex flex-col items-center gap-4 ">
           {plan === "free" ? (

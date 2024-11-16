@@ -113,6 +113,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
   const isRTL = resumeData.lng === "ar";
   const styles = createStyles(selectedTheme, isRTL);
   const t = translations[resumeData.lng] || translations.en;
+  const isArabic = resumeData.lng === "ar";
   if (isRTL) {
     Font.register({
       family: "IBM Plex Sans Arabic",

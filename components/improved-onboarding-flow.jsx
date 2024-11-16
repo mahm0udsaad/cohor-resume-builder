@@ -147,7 +147,7 @@ export default function OnboardingFlow({ lng, user }) {
 
   return (
     <div className="sm:h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center p-4 md:p-6 overflow-hidden">
-      <div className="w-full max-w-3xl md:max-w-6xl h-[calc(100vh-2rem)] bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl sm:overflow-hidden flex flex-col md:flex-row">
+      <div className="w-full max-w-3xl md:max-w-6xl overflow-y-auto h-[calc(100vh-2rem)] bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl sm:overflow-hidden flex flex-col md:flex-row">
         {/* Left Column - Timeline and Information */}
         <div className="w-full md:w-1/3 bg-gray-50 p-4 md:p-6 flex flex-col">
           <h1 className="x text-xl md:text-2xl font-bold text-[#3b51a3] sm:mb-2">

@@ -39,6 +39,7 @@ export const templateViewComponents = {
   modernFormal: ModernFormalResumeTemplatePDF,
   minimalist: MinimalistModernResume,
   dynamicModern: DynamicModernResume,
+  infografic: InfographicResume,
   infographic: InfographicResume,
   onColFormal: FormalOneColumnResume,
   elegantformal: ElegantFormalTemplate,

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "@/components/component/dashboard-sidebar";
 import { Menu, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,26 @@ export function DashboardWithSidebarComponent({
     // Implement sign out functionality here
     console.log("Signing out");
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      // If the screen width is less than or equal to 768px (mobile view), close the sidebar
+      if (typeof window !== "undefined" && window.innerWidth <= 768) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    // Set initial state on component mount
+    handleResize();
+
+    // Listen for window resize events
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="flex h-screen bg-gray-100">

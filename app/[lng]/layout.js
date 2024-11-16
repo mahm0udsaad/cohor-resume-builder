@@ -20,7 +20,7 @@ export default function RootLayout({ children, params: { lng } }) {
         <head>
           <link rel="icon" href="/favicon.ico" />
         </head>
-        <body className="">
+        <body>
           {children}
           <Toaster />
         </body>

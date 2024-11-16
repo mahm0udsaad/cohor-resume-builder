@@ -270,6 +270,18 @@
           "Custom Integration",
           "Dedicated Account Manager"
         ]
+      },
+      "pro+": {
+        "name": "pro+",
+        "features": [
+          "All Pro Features",
+          "Unlimited Templates",
+          "24/7 Support",
+          "API Access",
+          "Team Management",
+          "Custom Integration",
+          "Dedicated Account Manager"
+        ]
       }
     }
   },

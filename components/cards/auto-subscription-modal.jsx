@@ -113,14 +113,15 @@ export default function AutoSubscriptionModal({ user, lng }) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent
-        className={
+        className={`bg-[#F2F2F2] p-0 sm:overflow-hidden overflow-auto notfs border-none 
+        ${
           redirectUrl
-            ? "bg-[#F2F2F2] max-w-6xl p-0 overflow-hidden border-none "
-            : "sm:max-w-[800px] p-0 overflow-hidden bg-transparent border-none"
-        }
+            ? "max-w-6xl"
+            : "bg-trasparent sm:max-w-[800px] w-[90%] max-h-[90%] sm:max-h-screen"
+        }`}
       >
         {redirectUrl ? (
-          <div className="relative w-full h-[600px]">
+          <div className="relative w-full sm:h-[600px]">
             <Button
               variant="ghost"
               size="icon"
@@ -143,7 +144,7 @@ export default function AutoSubscriptionModal({ user, lng }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="markting bg-gradient-to-br from-[#3b51a3] to-[#6478c9] p-6 sm:p-10 rounded-3xl shadow-2xl relative overflow-hidden"
+            className="markting bg-gradient-to-br from-[#3b51a3] to-[#6478c9] p-6 sm:p-10 rounded-3xl shadow-2xl relative sm:overflow-hidden"
           >
             <motion.div
               initial={{ y: -20, opacity: 0 }}

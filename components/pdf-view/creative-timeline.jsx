@@ -234,7 +234,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
                     style={{
                       fontSize: 8,
                       color: "#4B5563",
-                      textAlign: isArabic ? "right" : "left",
+                      textAlign: resumeData.lng === "ar" ? "right" : "left",
                     }}
                   >
                     {t.gpa}: {edu.numericGpa}
@@ -245,7 +245,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
                     style={{
                       fontSize: 8,
                       color: "#4B5563",
-                      textAlign: isArabic ? "right" : "left",
+                      textAlign: resumeData.lng === "ar" ? "right" : "left",
                     }}
                   >
                     {t.gpas[edu.descriptiveGpa]}

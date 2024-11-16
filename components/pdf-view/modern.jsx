@@ -118,7 +118,7 @@ const Modern = ({ resumeData }) => {
   }
   const selectedTheme = resumeData.theme || null;
   const primaryColor = selectedTheme?.primaryColor || "#F97316"; // Fallback color
-
+  const isArabic = resumeData.lng === "ar";
   return (
     <Document>
       <Page wrap={false} size="A4" style={styles.page}>
