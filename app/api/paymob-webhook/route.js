@@ -221,7 +221,6 @@ export async function POST(req) {
         where: { id: user.id },
         data: {
           plan: plan.name,
-          planExpiryDate: endDate,
         },
       });
 
@@ -238,7 +237,6 @@ export async function POST(req) {
           subscriptionId: result.subscription.id,
           plan: plan.name,
           features: plan.features,
-          expiryDate: endDate,
           amount: amount_cents / 100,
         },
       },
