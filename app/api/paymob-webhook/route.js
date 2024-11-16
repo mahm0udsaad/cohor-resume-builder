@@ -3,15 +3,6 @@ import crypto from "crypto";
 import prisma from "@/lib/prisma";
 import { getPlanFromAmount } from "@/actions/resumes/plans";
 
-// Subscription plan configurations
-
-// Helper to get plan by amount
-const getPlanByAmount = (amountCents) => {
-  return Object.values(SUBSCRIPTION_PLANS).find(
-    (plan) => plan.amountCents === amountCents,
-  );
-};
-
 // Helper function to validate billing data
 const validateBillingData = (billingData) => {
   const requiredFields = ["email", "first_name", "last_name", "phone_number"];
@@ -212,15 +203,15 @@ export async function POST(req) {
           orderId: order.id.toString(),
           amount: amount_cents / 100,
           status: "active",
-          plan: plan.name,
+          plan: plan,
         },
       });
-      console.log(plan.name, "subscription created");
+      console.log(plan, "subscription created");
       // Update user's plan
       await tx.user.update({
         where: { id: user.id },
         data: {
-          plan: plan.name,
+          plan: plan,
         },
       });
 
@@ -235,8 +226,7 @@ export async function POST(req) {
         message: "Payment processed successfully",
         data: {
           subscriptionId: result.subscription.id,
-          plan: plan.name,
-          features: plan.features,
+          plan: plan,
           amount: amount_cents / 100,
         },
       },
