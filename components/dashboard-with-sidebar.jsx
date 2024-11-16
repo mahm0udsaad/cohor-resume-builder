@@ -98,6 +98,7 @@ function MainContent({
         {activeTab === "Information" && (
           <InformationTab
             lng={lng}
+            user={user}
             initialData={resumeData}
             isEditing={isEditing}
             setIsEditing={setIsEditing}

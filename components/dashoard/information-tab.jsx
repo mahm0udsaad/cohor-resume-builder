@@ -53,14 +53,12 @@ function SectionHeader({ icon: Icon, title }) {
   );
 }
 
-export default function InformationTab({ lng, initialData }) {
+export default function InformationTab({ lng, initialData, user }) {
   const { t } = useTranslation(lng, "forms");
   const [userInfo, setUserInfo] = useState(initialData);
   const { handleCancel, isEditing, handleEdit } = useEditingContext();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const { data: session } = useSession();
-  const user = session?.user || {};
   const {
     control,
     handleSubmit,
