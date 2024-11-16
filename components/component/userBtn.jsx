@@ -147,6 +147,7 @@ export const DashUserBtn = ({ lng }) => {
   const { t } = useTranslation(lng, "common");
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  console.log(session);
 
   const handleLogout = async () => {
     try {
