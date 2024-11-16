@@ -10,7 +10,6 @@ import confetti from "canvas-confetti";
 import { verifyEmail, resendVerification } from "@/actions/auth/actions";
 import { useTranslation } from "@/app/i18n/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import Link from "next/link";
 import { getUserOnboardingStatus } from "@/actions/userInfo/action";
 
 export default function CheckEmailPage({ params: { lng } }) {

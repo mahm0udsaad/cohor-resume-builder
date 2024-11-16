@@ -61,7 +61,6 @@ export default function AuthForm({ lng, searchParams }) {
             variant: "success",
             description: t("loginSuccessDesc"),
           });
-          router.push("/dashboard");
         }
       } catch (err) {
         console.error("Auth error:", err);

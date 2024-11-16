@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { signIn } from "@/lib/auth";
 import bcrypt from "bcryptjs";
 import { getUserOnboardingStatus } from "../userInfo/action";
+import { redirect } from "next/navigation";
 
 function generateVerificationCode(length = 6) {
   return Math.random()
