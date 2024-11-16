@@ -20,8 +20,6 @@ export const getCurrentUser = cache(
 );
 
 export async function getUserOnboardingStatus(email) {
-  console.log(email);
-
   // Input validation
   if (!email) {
     return;
@@ -41,6 +39,7 @@ export async function getUserOnboardingStatus(email) {
       console.warn("User not found with the provided email:", email);
       return; // or handle this case as appropriate
     }
+    console.log("User onboarding status:", user.hasCompletedOnboarding);
 
     return user.hasCompletedOnboarding;
   } catch (error) {

@@ -5,7 +5,7 @@ import { z } from "zod"; // For input validation
 import { revalidatePath } from "next/cache";
 import { signIn } from "@/lib/auth";
 import bcrypt from "bcryptjs";
-import { getUserOnboardingStatus } from "@/actions/userInfo/action";
+import { getUserOnboardingStatus } from "../userInfo/action";
 
 function generateVerificationCode(length = 6) {
   return Math.random()
@@ -35,9 +35,8 @@ export async function handleCredentialsAuth(formData) {
         return { error: "CredentialsSignin" };
       }
     }
-    const hasCompletedOnboarding = await getUserOnboardingStatus(
-      email,
-    );
+
+    const hasCompletedOnboarding = await getUserOnboardingStatus(email);
     if (hasCompletedOnboarding) {
       redirect("/dashboard");
     } else {
