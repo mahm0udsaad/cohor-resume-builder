@@ -41,6 +41,7 @@ import Spinner from "../skeleton/spinner";
 import { allSkills } from "@/data/data";
 import { useTranslation } from "@/app/i18n/client";
 import DatePicker from "@/components/component/datePicker";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 function SectionHeader({ icon: Icon, title }) {
   return (
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -546,6 +547,114 @@ function EducationSection({ t, control, errors, setValue }) {
     name: "educations",
   });
 
+  const handleGpaTypeChange = (index, value) => {
+    // Update the GPA type
+    setValue(`educations.${index}.gpaType`, value);
+
+    if (value === "outOf4" || value === "outOf5") {
+      // Set descriptive GPA to the selected scale
+      setValue(`educations.${index}.descriptiveGpa`, value);
+      // Clear numeric GPA
+      setValue(`educations.${index}.numericGpa`, "");
+    } else if (value === "percentage") {
+      // Clear descriptive GPA
+      setValue(`educations.${index}.descriptiveGpa`, "");
+    } else {
+      // For "none", clear both
+      setValue(`educations.${index}.numericGpa`, "");
+      setValue(`educations.${index}.descriptiveGpa`, "");
+    }
+  };
+
+  const renderGpaInput = (index, gpaType) => {
+    if (!isEditing && gpaType === "none") return null;
+
+    if (gpaType === "percentage") {
+      return (
+        <div>
+          <Label>{t("education.gpaPercentage")}</Label>
+          <Controller
+            name={`educations.${index}.numericGpa`}
+            control={control}
+            rules={{
+              required: t("numeric_gpa_required"),
+              min: 0,
+              max: 100,
+            }}
+            render={({ field }) =>
+              isEditing ? (
+                <div className="relative">
+                  <Input
+                    {...field}
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    max="100"
+                    className="mt-1 pr-8"
+                  />
+                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    %
+                  </span>
+                </div>
+              ) : (
+                <p className="mt-1">{field.value}%</p>
+              )
+            }
+          />
+        </div>
+      );
+    }
+
+    if (gpaType === "descriptive") {
+      return (
+        <div>
+          <Label>
+            {t(
+              educations[index]?.descriptiveGpa === "outOf4"
+                ? "education.gpaOutOf4"
+                : "education.gpaOutOf5",
+            )}
+          </Label>
+          <Controller
+            name={`educations.${index}.numericGpa`}
+            control={control}
+            rules={{
+              required: t("descriptive_gpa_required"),
+              min: 0,
+              max: educations[index]?.descriptiveGpa === "outOf4" ? 4 : 5,
+              validate: (value) =>
+                !value ||
+                (value >= 0 &&
+                  value <=
+                    (educations[index]?.descriptiveGpa === "outOf4" ? 4 : 5)),
+            }}
+            render={({ field }) =>
+              isEditing ? (
+                <Input
+                  {...field}
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max={educations[index]?.descriptiveGpa === "outOf4" ? 4 : 5}
+                  className="mt-1"
+                />
+              ) : (
+                <p className="mt-1">
+                  {field.value} /{" "}
+                  {educations[index]?.descriptiveGpa === "outOf4"
+                    ? "4.0"
+                    : "5.0"}
+                </p>
+              )
+            }
+          />
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <Card className="border-t-4 border-t-purple-500 transition-all duration-300 ease-in-out">
       <SectionHeader icon={GraduationCap} title={t("education.title")} />
@@ -619,97 +728,71 @@ function EducationSection({ t, control, errors, setValue }) {
                   )}
                 />
 
-                <div>
-                  <Label>{t("education.gpa")}</Label>
-                  <Controller
-                    name={`educations.${index}.gpaType`}
-                    control={control}
-                    render={({ field }) =>
-                      isEditing ? (
-                        <Select
+                <div className="space-y-2">
+                  <Label>
+                    {t("education.GPA")} ({t("education.optional")})
+                  </Label>
+                  {isEditing ? (
+                    <Controller
+                      name={`educations.${index}.gpaType`}
+                      control={control}
+                      render={({ field }) => (
+                        <RadioGroup
+                          className="flex gap-4 flex-wrap"
                           value={field.value}
-                          onValueChange={(value) => {
-                            field.onChange(value);
-                            if (value === "numeric") {
-                              setValue(
-                                `educations.${index}.descriptiveGpa`,
-                                "",
-                              );
-                            } else if (value === "descriptive") {
-                              setValue(`educations.${index}.numericGpa`, "");
-                            } else {
-                              setValue(`educations.${index}.numericGpa`, "");
-                              setValue(
-                                `educations.${index}.descriptiveGpa`,
-                                "",
-                              );
-                            }
-                          }}
+                          onValueChange={(value) =>
+                            handleGpaTypeChange(index, value)
+                          }
                         >
-                          <SelectTrigger className="mt-1">
-                            <SelectValue placeholder={t("select_gpa_type")} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="numeric">
-                              {t("education.numericGpa")}
-                            </SelectItem>
-                            <SelectItem value="descriptive">
-                              {t("education.descriptiveGpa")}
-                            </SelectItem>
-                            <SelectItem value="none">
+                          <div className="flex items-center gap-2">
+                            <RadioGroupItem
+                              value="none"
+                              id={`gpa-none-${index}`}
+                            />
+                            <Label htmlFor={`gpa-none-${index}`}>
                               {t("education.noGpa")}
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <p className="mt-1">
-                          {t(`education.${field.value}Gpa`)}
-                        </p>
-                      )
-                    }
-                  />
+                            </Label>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <RadioGroupItem
+                              value="percentage"
+                              id={`gpa-percentage-${index}`}
+                            />
+                            <Label htmlFor={`gpa-percentage-${index}`}>
+                              {t("education.gpaPercentage")}
+                            </Label>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <RadioGroupItem
+                              value="outOf4"
+                              id={`gpa-outOf4-${index}`}
+                            />
+                            <Label htmlFor={`gpa-outOf4-${index}`}>
+                              {t("education.gpaOutOf4")}
+                            </Label>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <RadioGroupItem
+                              value="outOf5"
+                              id={`gpa-outOf5-${index}`}
+                            />
+                            <Label htmlFor={`gpa-outOf5-${index}`}>
+                              {t("education.gpaOutOf5")}
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                      )}
+                    />
+                  ) : (
+                    currentGpaType !== "none" && (
+                      <p className="mt-1">
+                        {t(`education.${currentGpaType}Gpa`)}
+                      </p>
+                    )
+                  )}
                 </div>
 
-                {currentGpaType === "numeric" && (
-                  <div>
-                    <Label>{t("education.numericGpa")}</Label>
-                    <Controller
-                      name={`educations.${index}.numericGpa`}
-                      control={control}
-                      rules={{ required: t("numeric_gpa_required") }}
-                      render={({ field }) =>
-                        isEditing ? (
-                          <Input
-                            {...field}
-                            type="number"
-                            step="0.01"
-                            className="mt-1"
-                          />
-                        ) : (
-                          <p className="mt-1">{field.value}</p>
-                        )
-                      }
-                    />
-                  </div>
-                )}
-
-                {currentGpaType === "descriptive" && (
-                  <div>
-                    <Label>{t("education.descriptiveGpa")}</Label>
-                    <Controller
-                      name={`educations.${index}.descriptiveGpa`}
-                      control={control}
-                      rules={{ required: t("descriptive_gpa_required") }}
-                      render={({ field }) =>
-                        isEditing ? (
-                          <Input {...field} className="mt-1" />
-                        ) : (
-                          <p className="mt-1">{field.value}</p>
-                        )
-                      }
-                    />
-                  </div>
-                )}
+                {renderGpaInput(index, currentGpaType)}
               </CardContent>
             </Card>
           );

@@ -3,13 +3,6 @@ import { Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import DatePicker from "@/components/component/datePicker";
 
@@ -19,6 +12,7 @@ export default function EducationForm({ control, errors, t }) {
     name: "educations",
   });
   const watchedEducations = useWatch({ control, name: "educations" }) || [];
+
   if (fields.length === 0) {
     append({
       degree: "",
@@ -29,6 +23,58 @@ export default function EducationForm({ control, errors, t }) {
       descriptiveGpa: "",
     });
   }
+
+  // Custom handler for GPA type changes
+  const handleGpaTypeChange = (index, onChange, value) => {
+    if (value === "outOf4" || value === "outOf5") {
+      // Set main type to descriptive
+      onChange("descriptive");
+      // Update the descriptive GPA field
+      control._formValues.educations[index].descriptiveGpa = value;
+      // Clear numeric GPA
+      control._formValues.educations[index].numericGpa = "";
+    } else {
+      // For percentage or none, update normally
+      onChange(value);
+      // Clear descriptive GPA
+      control._formValues.educations[index].descriptiveGpa = "";
+    }
+  };
+
+  const renderGpaInput = (index, gpaType) => {
+    if (gpaType === "percentage") {
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={`numericGpa-${index}`}>
+            {t("education.gpaPercentage")}
+          </Label>
+          <div className="relative">
+            <Controller
+              name={`educations.${index}.numericGpa`}
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id={`numericGpa-${index}`}
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="100"
+                  placeholder={t("education.gpaPercentagePlaceholder")}
+                  className="pr-8"
+                />
+              )}
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              %
+            </span>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="space-y-6">
       {fields.map((field, index) => (
@@ -47,6 +93,7 @@ export default function EducationForm({ control, errors, t }) {
               <Trash2 className="h-5 w-5" />
             </Button>
           </div>
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor={`degree-${index}`}>{t("education.degree")}</Label>
@@ -93,6 +140,7 @@ export default function EducationForm({ control, errors, t }) {
               )}
             </div>
           </div>
+
           <Controller
             name={`educations.${index}.graduationDate`}
             control={control}
@@ -100,6 +148,7 @@ export default function EducationForm({ control, errors, t }) {
               <DatePicker label={t("education.graduationDate")} {...field} />
             )}
           />
+
           <div className="space-y-2">
             <Label>
               {t("education.gpa")} ({t("education.optional")})
@@ -109,9 +158,11 @@ export default function EducationForm({ control, errors, t }) {
               control={control}
               render={({ field }) => (
                 <RadioGroup
-                  onValueChange={field.onChange}
+                  onValueChange={(value) =>
+                    handleGpaTypeChange(index, field.onChange, value)
+                  }
                   defaultValue={field.value}
-                  className="flex gap-4"
+                  className="flex gap-4 flex-wrap"
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="none" id={`gpa-none-${index}`} />
@@ -121,87 +172,31 @@ export default function EducationForm({ control, errors, t }) {
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
-                      value="numeric"
-                      id={`gpa-numeric-${index}`}
+                      value="percentage"
+                      id={`gpa-percentage-${index}`}
                     />
-                    <Label htmlFor={`gpa-numeric-${index}`}>
-                      {t("education.numericGpa")}
+                    <Label htmlFor={`gpa-percentage-${index}`}>
+                      {t("education.gpaPercentage")}
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      value="descriptive"
-                      id={`gpa-descriptive-${index}`}
-                    />
-                    <Label htmlFor={`gpa-descriptive-${index}`}>
-                      {t("education.descriptiveGpa")}
+                    <RadioGroupItem value="outOf4" id={`gpa-outOf4-${index}`} />
+                    <Label htmlFor={`gpa-outOf4-${index}`}>
+                      {t("education.gpaOutOf4")}
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="outOf5" id={`gpa-outOf5-${index}`} />
+                    <Label htmlFor={`gpa-outOf5-${index}`}>
+                      {t("education.gpaOutOf5")}
                     </Label>
                   </div>
                 </RadioGroup>
               )}
             />
           </div>
-          {watchedEducations[index]?.gpaType === "numeric" && (
-            <div className="space-y-2">
-              <Label htmlFor={`numericGpa-${index}`}>
-                {t("education.numericGpa")}
-              </Label>
-              <Controller
-                name={`educations.${index}.numericGpa`}
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    {...field}
-                    id={`numericGpa-${index}`}
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    max="4.0"
-                    placeholder={t("education.numericGpaPlaceholder")}
-                    className="mt-1"
-                  />
-                )}
-              />
-            </div>
-          )}
-          {watchedEducations[index]?.gpaType === "descriptive" && (
-            <div className="space-y-2">
-              <Label htmlFor={`descriptiveGpa-${index}`}>
-                {t("education.descriptiveGpa")}
-              </Label>
-              <Controller
-                name={`educations.${index}.descriptiveGpa`}
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger id={`descriptiveGpa-${index}`}>
-                      <SelectValue placeholder={t("education.selectGpa")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="excellent">
-                        {t("education.excellent")}
-                      </SelectItem>
-                      <SelectItem value="veryGood">
-                        {t("education.veryGood")}
-                      </SelectItem>
-                      <SelectItem value="good">
-                        {t("education.good")}
-                      </SelectItem>
-                      <SelectItem value="average">
-                        {t("education.average")}
-                      </SelectItem>
-                      <SelectItem value="belowAverage">
-                        {t("education.belowAverage")}
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-            </div>
-          )}
+
+          {renderGpaInput(index, watchedEducations[index]?.gpaType)}
         </div>
       ))}
       <Button

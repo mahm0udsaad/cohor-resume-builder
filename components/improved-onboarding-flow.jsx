@@ -320,19 +320,42 @@ export default function OnboardingFlow({ lng, user }) {
               </motion.div>
             ) : (
               <motion.div
-                key="completed"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex-grow bg-white rounded-lg md:rounded-2xl border overflow-hidden flex flex-col items-center justify-center"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+                className="w-full bg-white rounded-3xl overflow-hidden"
               >
-                <h2 className="text-2xl md:text-3xl font-bold text-[#3b51a3] mb-4">
-                  {t("onboarding.completedTitle")}
-                </h2>
-                <p className="text-gray-600 mb-8">
-                  {t("onboarding.completedSubtitle")}
-                </p>
+                <div className="p-8 flex flex-col items-center justify-center text-center">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      delay: 0.2,
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 30,
+                    }}
+                    className="mb-6"
+                  >
+                    <CheckCircle className="w-20 h-20 text-green-500" />
+                  </motion.div>
+                  <h2 className="text-3xl font-bold text-[#3b51a3] mb-4">
+                    {t("notifications.profileUpdate.success.title")}
+                  </h2>
+                  <p className="text-xl text-gray-700 mb-8">
+                    {t("preparingDashboard")}
+                  </p>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  >
+                    <Loader2 className="w-8 h-8 text-[#3b51a3]" />
+                  </motion.div>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

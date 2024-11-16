@@ -216,6 +216,7 @@
     "institutionPlaceholder": "Enter institution name",
     "graduationDate": "Graduation Date",
     "save": "Save",
+    "gpaPercentagePlaceholder": "Enter GPA percentage (e.g., 50)",
     "noEducation": "No education entries yet",
     "gpa": "GPA",
     "noGpa": "No GPA",

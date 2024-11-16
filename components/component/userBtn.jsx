@@ -79,7 +79,7 @@ const UserBtn = ({ lng }) => {
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button
-            className={`bg-gradient-to-br size-fit p-0 shadow-lg ${getBorderGradient(
+            className={`size-[2.8rem] bg-gradient-to-br size-fit p-0 shadow-lg ${getBorderGradient(
               user.plan,
             )}`}
           >
@@ -147,7 +147,6 @@ export const DashUserBtn = ({ lng }) => {
   const { t } = useTranslation(lng, "common");
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  console.log(session);
 
   const handleLogout = async () => {
     try {

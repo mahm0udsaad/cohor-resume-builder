@@ -1,7 +1,7 @@
 {
   "complete": "اكتمل",
   "step": "خطوه",
-  "preparingDashboard": "تحضير لوحة التحكم",
+  "preparingDashboard": "جاري تحضير لوحة التحكم ",
   "aiSuggestion": {
     "contextTitle": "قدم سياقًا إضافيًا",
     "contextDescription": "أضف أي تفاصيل أو متطلبات محددة للمساعدة في إنشاء اقتراحات أفضل.",
@@ -221,6 +221,7 @@
     "save": "حفظ",
     "noEducation": "لا توجد مدخلات تعليمية بعد",
     "GPA": "المعدل التراكمي",
+    "gpaPercentagePlaceholder": "ادخل المعدل التراكمي (مثل 50)",
     "optional": "اختياري",
     "noGpa": "لا توجد معدلات",
     "Percentage": "نسبة المئوية",

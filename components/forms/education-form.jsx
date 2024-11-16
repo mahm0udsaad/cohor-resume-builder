@@ -94,7 +94,7 @@ export default function EducationForm({ educations, updateData, lng }) {
               step="0.1"
               min="0"
               max="100"
-              placeholder="Enter percentage (0-100)"
+              placeholder={t("education.gpaPercentagePlaceholder")}
               value={edu.numericGpa}
               onChange={(e) =>
                 handleEducationChange(index, "numericGpa", e.target.value)
