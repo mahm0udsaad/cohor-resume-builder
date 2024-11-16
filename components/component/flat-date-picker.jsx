@@ -31,6 +31,7 @@ const DatePicker = ({
 }) => {
   const [calendarDate, setCalendarDate] = React.useState(new Date());
   const [isYearSelectOpen, setIsYearSelectOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
@@ -40,7 +41,6 @@ const DatePicker = ({
     if (date === "Present") return date;
 
     try {
-      // Handle both Date objects and ISO strings
       const parsedDate = date instanceof Date ? date : parseISO(date);
       if (!isValid(parsedDate)) return "";
       return format(parsedDate, dateFormat);
@@ -53,24 +53,23 @@ const DatePicker = ({
   const handleSelect = (date) => {
     if (!date) {
       onChange("");
-      return;
+    } else {
+      try {
+        const formattedDate = format(date, inputFormat);
+        onChange(formattedDate);
+        setCalendarDate(date);
+      } catch (error) {
+        console.error("Error formatting date:", error);
+        onChange("");
+      }
     }
-
-    try {
-      const formattedDate = format(date, inputFormat);
-      onChange(formattedDate);
-      setCalendarDate(date);
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      onChange("");
-    }
+    setOpen(false);
   };
 
   const handleYearChange = (year) => {
     try {
       const newDate = setYear(calendarDate, parseInt(year));
       setCalendarDate(newDate);
-      handleSelect(newDate); // Add this line to update the form value
       setIsYearSelectOpen(false);
     } catch (error) {
       console.error("Error changing year:", error);
@@ -99,7 +98,7 @@ const DatePicker = ({
     <div className="relative">
       <Label className="text-main">{label}</Label>
       {isEditing ? (
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
               variant={"outline"}

@@ -1,12 +1,13 @@
-import { useFieldArray, Controller, useWatch, useForm } from "react-hook-form";
+import { useFieldArray, Controller, useWatch } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import DatePicker from "../component/flat-date-picker";
+import DatePicker from "@/components/component/datePicker";
 import { parseISO, format } from "date-fns";
+import { useEffect } from "react";
 
 export default function WorkExperienceForm({ control, errors, t }) {
   const { fields, append, remove } = useFieldArray({
@@ -14,42 +15,24 @@ export default function WorkExperienceForm({ control, errors, t }) {
     name: "experiences",
   });
 
-  const { setValue } = useForm({ control });
-
-  if (fields.length === 0) {
-    append({
-      jobTitle: "",
-      company: "",
-      startDate: "",
-      endDate: "",
-      currentlyWorking: false,
-      responsibilities: "",
-    });
-  }
+  useEffect(() => {
+    if (fields.length === 0) {
+      append({
+        jobTitle: "",
+        company: "",
+        startDate: "",
+        endDate: "",
+        currentlyWorking: false,
+        responsibilities: "",
+      });
+    }
+  }, [fields.length, append]);
 
   const watchedExperiences = useWatch({
     control,
     name: "experiences",
     defaultValue: [],
   });
-
-  const handleDateChange = (index, field, value) => {
-    // If value is empty or "Present", set it directly
-    if (!value || value === "Present") {
-      setValue(`experiences.${index}.${field}`, value);
-      return;
-    }
-
-    try {
-      // Ensure the value is a valid date string in ISO format
-      const date = typeof value === "string" ? parseISO(value) : value;
-      const formattedDate = format(date, "yyyy-MM-dd");
-      setValue(`experiences.${index}.${field}`, formattedDate);
-    } catch (error) {
-      console.error(`Error formatting date for ${field}:`, error);
-      setValue(`experiences.${index}.${field}`, "");
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -70,7 +53,6 @@ export default function WorkExperienceForm({ control, errors, t }) {
             </Button>
           </div>
 
-          {/* Job Title and Company fields remain the same */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor={`jobTitle-${index}`}>
@@ -120,7 +102,6 @@ export default function WorkExperienceForm({ control, errors, t }) {
             </div>
           </div>
 
-          {/* Updated Date fields */}
           <div className="grid grid-cols-2 gap-4">
             <Controller
               name={`experiences.${index}.startDate`}
@@ -129,9 +110,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
                 <DatePicker
                   label={t("workExperience.startDate")}
                   value={field.value}
-                  onChange={(date) =>
-                    handleDateChange(index, "startDate", date)
-                  }
+                  onChange={field.onChange}
                 />
               )}
             />
@@ -143,32 +122,27 @@ export default function WorkExperienceForm({ control, errors, t }) {
                   <DatePicker
                     label={t("workExperience.endDate")}
                     value={field.value}
-                    onChange={(date) =>
-                      handleDateChange(index, "endDate", date)
-                    }
+                    onChange={field.onChange}
                   />
                 )}
               />
             )}
           </div>
 
-          {/* Currently Working checkbox */}
           <div>
             <Controller
               name={`experiences.${index}.currentlyWorking`}
               control={control}
-              render={({ field }) => (
+              render={({ field: { onChange, value } }) => (
                 <div className="flex items-center gap-2 mt-6">
                   <Checkbox
                     id={`currentlyWorking-${index}`}
-                    checked={field.value}
+                    checked={value}
                     onCheckedChange={(checked) => {
-                      field.onChange(checked);
-                      if (checked) {
-                        handleDateChange(index, "endDate", "Present");
-                      } else {
-                        handleDateChange(index, "endDate", "");
-                      }
+                      onChange(checked);
+                      const fieldName = `experiences.${index}.endDate`;
+                      const fieldValue = checked ? "Present" : "";
+                      control._fields[fieldName]?.onChange(fieldValue);
                     }}
                   />
                   <Label htmlFor={`currentlyWorking-${index}`}>
@@ -179,7 +153,6 @@ export default function WorkExperienceForm({ control, errors, t }) {
             />
           </div>
 
-          {/* Responsibilities field */}
           <div>
             <Label htmlFor={`responsibilities-${index}`}>
               {t("workExperience.responsibilities")}
