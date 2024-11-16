@@ -1,12 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { format, parseISO, setYear } from "date-fns";
-import { ChevronDown } from "lucide-react";
+import { format, parseISO, setYear, isValid } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -15,10 +20,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const FlatDatePicker = ({
+const DatePicker = ({
   value,
   onChange,
+  disabled,
   label,
+  isEditing = true,
   displayFormat = "MMM yyyy",
   inputFormat = "yyyy-MM-dd",
 }) => {
@@ -30,8 +37,12 @@ const FlatDatePicker = ({
 
   const formatDate = (date, dateFormat) => {
     if (!date) return "";
+    if (date === "Present") return date;
+
     try {
-      const parsedDate = typeof date === "string" ? parseISO(date) : date;
+      // Handle both Date objects and ISO strings
+      const parsedDate = date instanceof Date ? date : parseISO(date);
+      if (!isValid(parsedDate)) return "";
       return format(parsedDate, dateFormat);
     } catch (error) {
       console.error("Invalid date:", date);
@@ -40,64 +51,110 @@ const FlatDatePicker = ({
   };
 
   const handleSelect = (date) => {
-    onChange(date ? format(date, inputFormat) : "");
-    if (date) {
+    if (!date) {
+      onChange("");
+      return;
+    }
+
+    try {
+      const formattedDate = format(date, inputFormat);
+      onChange(formattedDate);
       setCalendarDate(date);
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      onChange("");
     }
   };
 
   const handleYearChange = (year) => {
-    const newDate = setYear(calendarDate, parseInt(year));
-    setCalendarDate(newDate);
-    setIsYearSelectOpen(false);
+    try {
+      const newDate = setYear(calendarDate, parseInt(year));
+      setCalendarDate(newDate);
+      handleSelect(newDate); // Add this line to update the form value
+      setIsYearSelectOpen(false);
+    } catch (error) {
+      console.error("Error changing year:", error);
+    }
   };
 
   React.useEffect(() => {
-    if (value) {
-      setCalendarDate(parseISO(value));
+    if (!value || value === "Present") {
+      setCalendarDate(new Date());
+      return;
+    }
+
+    try {
+      const parsedDate = value instanceof Date ? value : parseISO(value);
+      if (isValid(parsedDate)) {
+        setCalendarDate(parsedDate);
+      }
+    } catch (error) {
+      console.error("Error parsing date:", error);
     }
   }, [value]);
 
+  const displayValue = formatDate(value, displayFormat);
+
   return (
-    <div className="space-y-2 w-full">
+    <div className="relative">
       <Label className="text-main">{label}</Label>
-      <Input
-        value={value ? formatDate(value, displayFormat) : ""}
-        readOnly
-        placeholder="Select a date"
-        className="border-[#3B51A3] focus:ring-[#3B51A3] mb-2"
-      />
-      <div className="border rounded-lg p-3 bg-white">
-        <div className="flex items-center justify-between px-4 pb-2">
-          <Select
-            open={isYearSelectOpen}
-            onOpenChange={setIsYearSelectOpen}
-            value={calendarDate.getFullYear().toString()}
-            onValueChange={handleYearChange}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue>{calendarDate.getFullYear()}</SelectValue>
-            </SelectTrigger>
-            <SelectContent position="popper">
-              {years.map((year) => (
-                <SelectItem key={year} value={year.toString()}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <Calendar
-          mode="single"
-          selected={value ? parseISO(value) : undefined}
-          onSelect={handleSelect}
-          month={calendarDate}
-          onMonthChange={setCalendarDate}
-          className="rounded-md"
-        />
-      </div>
+      {isEditing ? (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-full mt-2 justify-start text-left font-normal border-[#3B51A3] focus:ring-[#3B51A3]",
+                !displayValue && "text-muted-foreground",
+                disabled && "cursor-not-allowed opacity-50",
+              )}
+              disabled={disabled}
+            >
+              <CalendarIcon className="mx-2 h-4 w-4" />
+              {displayValue || <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0 z-[60]" align="start">
+            <div className="flex items-center justify-between px-4 pt-2">
+              <Select
+                open={isYearSelectOpen}
+                onOpenChange={setIsYearSelectOpen}
+                value={calendarDate.getFullYear().toString()}
+                onValueChange={handleYearChange}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue>{calendarDate.getFullYear()}</SelectValue>
+                </SelectTrigger>
+                <SelectContent position="popper" className="z-[60]">
+                  {years.map((year) => (
+                    <SelectItem key={year} value={year.toString()}>
+                      {year}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Calendar
+              mode="single"
+              selected={
+                value instanceof Date
+                  ? value
+                  : typeof value === "string" && value !== "Present"
+                  ? parseISO(value)
+                  : undefined
+              }
+              onSelect={handleSelect}
+              month={calendarDate}
+              onMonthChange={setCalendarDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      ) : (
+        <p>{displayValue}</p>
+      )}
     </div>
   );
 };
 
-export default FlatDatePicker;
+export default DatePicker;
