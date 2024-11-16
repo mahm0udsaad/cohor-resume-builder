@@ -39,6 +39,71 @@ export default function CheckEmailPage({ params: { lng } }) {
     }
   }, [isVerified]);
 
+  // Improved code change handler
+  const handleCodeChange = (index, value) => {
+    // Allow only numbers and uppercase letters
+    const sanitizedValue = value.replace(/[^0-9A-Z]/g, "").slice(0, 1);
+
+    const newCode = [...code];
+    newCode[index] = sanitizedValue;
+    setCode(newCode);
+
+    // If we have a value and we're not at the last input, focus next input
+    if (sanitizedValue && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  // Enhanced paste handler
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").trim().toUpperCase();
+    const chars = pastedData
+      .replace(/[^0-9A-Z]/g, "")
+      .split("")
+      .slice(0, 6);
+    const newCode = [...code];
+
+    chars.forEach((char, index) => {
+      if (index < 6) newCode[index] = char;
+    });
+    setCode(newCode);
+
+    // Focus the next empty input or the last input
+    const nextEmptyIndex = newCode.findIndex((char) => !char);
+    if (nextEmptyIndex !== -1) {
+      inputRefs.current[nextEmptyIndex]?.focus();
+    } else {
+      inputRefs.current[5]?.focus();
+    }
+  };
+
+  // Improved key handler for better tablet support
+  const handleKeyDown = (index, e) => {
+    if (e.key === "Backspace" || e.key === "Delete") {
+      e.preventDefault();
+      const newCode = [...code];
+
+      if (newCode[index]) {
+        // If current input has a value, clear it
+        newCode[index] = "";
+        setCode(newCode);
+      } else if (index > 0) {
+        // If current input is empty and we're not at the first input,
+        // clear previous input and move focus there
+        newCode[index - 1] = "";
+        setCode(newCode);
+        inputRefs.current[index - 1]?.focus();
+      }
+    } else if (e.key === "ArrowLeft" && index > 0) {
+      e.preventDefault();
+      inputRefs.current[index - 1]?.focus();
+    } else if (e.key === "ArrowRight" && index < 5) {
+      e.preventDefault();
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
   const handleResendEmail = async () => {
     try {
       const formData = new FormData();
@@ -55,50 +120,6 @@ export default function CheckEmailPage({ params: { lng } }) {
       }
     } catch (err) {
       setError(t("resendError"));
-    }
-  };
-
-  // Enhanced paste handler for the container
-  const handlePaste = (e) => {
-    e.preventDefault();
-    const pastedData = e.clipboardData.getData("text").trim().toUpperCase();
-    const chars = pastedData.split("").slice(0, 6);
-    const newCode = Array(6).fill("");
-    chars.forEach((char, index) => {
-      if (index < 6) newCode[index] = char;
-    });
-    setCode(newCode);
-
-    // Focus the next empty input or the last input if all are filled
-    const nextEmptyIndex = newCode.findIndex((char) => !char);
-    if (nextEmptyIndex !== -1) {
-      inputRefs.current[nextEmptyIndex]?.focus();
-    } else {
-      inputRefs.current[5]?.focus();
-    }
-  };
-
-  // Handle backspace
-  const handleKeyDown = (index, e) => {
-    if (e.key === "Backspace") {
-      e.preventDefault();
-      const newCode = [...code];
-
-      if (newCode[index]) {
-        // If current input has a value, clear it
-        newCode[index] = "";
-        setCode(newCode);
-      } else if (index > 0) {
-        // If current input is empty and we're not at the first input,
-        // clear previous input and move focus there
-        newCode[index - 1] = "";
-        setCode(newCode);
-        inputRefs.current[index - 1]?.focus();
-      }
-    } else if (e.key === "ArrowLeft" && index > 0) {
-      inputRefs.current[index - 1]?.focus();
-    } else if (e.key === "ArrowRight" && index < 5) {
-      inputRefs.current[index + 1]?.focus();
     }
   };
 
@@ -190,28 +211,26 @@ export default function CheckEmailPage({ params: { lng } }) {
                     dir="ltr"
                     onPaste={handlePaste}
                   >
-                    <div
-                      className="flex justify-center space-x-2 mb-6"
-                      dir="ltr"
-                      onPaste={handlePaste}
-                    >
-                      {code.map((digit, index) => (
-                        <Input
-                          key={index}
-                          id={`code-${index}`}
-                          type="text"
-                          inputMode="numeric"
-                          maxLength={1}
-                          value={digit}
-                          onKeyDown={(e) => handleKeyDown(index, e)}
-                          onChange={(e) =>
-                            handleCodeChange(index, e.target.value)
-                          }
-                          className="w-12 h-12 text-center text-2xl"
-                          ref={index === 0 ? firstInputRef : null}
-                        />
-                      ))}
-                    </div>
+                    {code.map((digit, index) => (
+                      <Input
+                        key={index}
+                        ref={(el) => {
+                          inputRefs.current[index] = el;
+                          if (index === 0) firstInputRef.current = el;
+                        }}
+                        type="text"
+                        inputMode="text"
+                        pattern="[0-9A-Za-z]*"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) =>
+                          handleCodeChange(index, e.target.value.toUpperCase())
+                        }
+                        onKeyDown={(e) => handleKeyDown(index, e)}
+                        className="w-12 h-12 text-center text-2xl"
+                        autoComplete="off"
+                      />
+                    ))}
                   </div>
                   <Button
                     className="w-full bg-[#3b51a3] hover:bg-[#4b61b3] text-white"

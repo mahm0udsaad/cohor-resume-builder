@@ -68,6 +68,7 @@ export default function InformationTab({ lng, initialData }) {
     reset,
     setValue,
   } = useForm({ defaultValues: userInfo });
+  console.log("initialData", initialData);
 
   const onSubmit = (data) => {
     startTransition(async () => {

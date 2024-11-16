@@ -90,3 +90,25 @@ export async function getPlansWithPrices() {
     return [];
   }
 }
+
+export async function getPlanFromAmount(amountInCents) {
+  // Convert cents to decimal format
+  const amountInDecimal = amountInCents / 100;
+
+  try {
+    // Query the plan that matches the price
+    const plan = await prisma.plan.findFirst({
+      where: {
+        price: amountInDecimal,
+      },
+      select: {
+        name: true,
+      },
+    });
+
+    return plan?.name || null;
+  } catch (error) {
+    console.error("Error finding plan:", error);
+    throw new Error("Failed to find matching plan");
+  }
+}

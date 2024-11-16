@@ -79,7 +79,7 @@ const UserBtn = ({ lng }) => {
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button
-            className={`size-[2.8rem] bg-gradient-to-br size-fit p-0 shadow-lg ${getBorderGradient(
+            className={`size-[2.8rem] bg-gradient-to-br p-0  shadow-lg ${getBorderGradient(
               user.plan,
             )}`}
           >

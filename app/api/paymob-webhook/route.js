@@ -1,27 +1,9 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import prisma from "@/lib/prisma";
+import { getPlanFromAmount } from "@/actions/resumes/plans";
 
 // Subscription plan configurations
-const SUBSCRIPTION_PLANS = {
-  PRO: {
-    amountCents: 999,
-    name: "pro",
-    durationDays: 30,
-    features: ["Advanced Themes", "50+ Templates", "No Watermark"],
-  },
-  PRO_PLUS: {
-    amountCents: 1999,
-    name: "proPlus",
-    durationDays: 30,
-    features: [
-      "Advanced Themes",
-      "100+ Templates",
-      "AI Suggestions",
-      "No Watermark",
-    ],
-  },
-};
 
 // Helper to get plan by amount
 const getPlanByAmount = (amountCents) => {
@@ -187,7 +169,8 @@ export async function POST(req) {
     }
 
     // Get subscription plan
-    const plan = getPlanByAmount(amount_cents);
+    const plan = await getPlanFromAmount(amount_cents);
+    console.log("Plan", plan);
     if (!plan) {
       return NextResponse.json(
         {
@@ -233,13 +216,12 @@ export async function POST(req) {
           orderId: order.id.toString(),
           amount: amount_cents / 100,
           status: "active",
-          paymentDate: new Date(created_at),
+          paymentDate: new Date(Date.now()),
           plan: plan.name,
           endDate: endDate,
-          features: plan.features,
         },
       });
-
+      console.log(plan.name, "subscription created");
       // Update user's plan
       await tx.user.update({
         where: { id: user.id },
