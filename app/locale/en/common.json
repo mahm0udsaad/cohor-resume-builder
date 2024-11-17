@@ -67,7 +67,7 @@
     },
     {
       "title": "Finalize, Save, and Send",
-      "description": "Save your resume as a PDF or Word Doc to your computer, ready to apply for your desired job."
+      "description": "Save your resume as a PDF to your computer, ready to apply for your desired job."
     }
   ],
   "stepsCta": "Start Building Now",
@@ -144,7 +144,7 @@
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service"
     },
-    "copyright": "© 2023 ResumeBuilder. All rights reserved."
+    "copyright": "© cohr.sa . All rights reserved."
   },
   "userDropdown": {
     "dashboard": "Dashboard",

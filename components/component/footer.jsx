@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 import Logo from "./logo";
 import { useTranslation } from "@/app/i18n/client";
 export function Footer({ lng }) {
@@ -54,45 +54,7 @@ export function Footer({ lng }) {
               </li>
             </ul>
           </div>
-          <div>
-            <h3 className="font-semibold text-[#3b51a3] mb-4">
-              {t("footer.resources.title")}
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[#3b51a3]"
-                >
-                  {t("footer.resources.blog")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[#3b51a3]"
-                >
-                  {t("footer.resources.helpCenter")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[#3b51a3]"
-                >
-                  {t("footer.resources.careerTips")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[#3b51a3]"
-                >
-                  {t("footer.resources.faqs")}
-                </Link>
-              </li>
-            </ul>
-          </div>
+
           <div>
             <h3 className="font-semibold text-[#3b51a3] mb-4">
               {t("footer.company.title")}
@@ -137,21 +99,26 @@ export function Footer({ lng }) {
           <div className="flex justify-between items-center">
             <p className="text-sm text-gray-600">{t("footer.copyright")}</p>
             <div className="flex gap-4">
-              <Link href="#" className="text-gray-600 hover:text-[#3b51a3]">
+              <Link
+                href="https://www.facebook.com/cohrcom/"
+                className="text-gray-600 hover:text-[#3b51a3]"
+              >
                 <Facebook className="w-5 h-5" />
                 <span className="sr-only">Facebook</span>
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-[#3b51a3]">
+              <Link
+                href="https://twitter.com/c0hrcom"
+                className="text-gray-600 hover:text-[#3b51a3]"
+              >
                 <Twitter className="w-5 h-5" />
                 <span className="sr-only">Twitter</span>
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-[#3b51a3]">
-                <Instagram className="w-5 h-5" />
+              <Link
+                href="https://www.youtube.com/channel/UCURYK5CU3-u2nG_1fnyoNDA"
+                className="text-gray-600 hover:text-[#3b51a3]"
+              >
+                <Youtube className="w-5 h-5" />
                 <span className="sr-only">Instagram</span>
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-[#3b51a3]">
-                <Linkedin className="w-5 h-5" />
-                <span className="sr-only">LinkedIn</span>
               </Link>
             </div>
           </div>

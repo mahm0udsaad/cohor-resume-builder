@@ -53,7 +53,7 @@
     },
     {
       "title": "تنزيل سريع",
-      "description": "قم بتنزيل سيرتك الذاتية فور الانتهاء، بتنسيقات مختلفة مثل PDF و DOCX."
+      "description": "قم بتنزيل سيرتك الذاتية فور الانتهاء، بتنسيقات مختلفة مثل PDF"
     }
   ],
   "stepsTitle": "كيفية العمل",
@@ -131,7 +131,7 @@
       "privacyPolicy": "سياسة الخصوصية",
       "termsOfService": "شروط الخدمة"
     },
-    "copyright": "© 2023 ResumeBuilder. جميع الحقوق محفوظة."
+    "copyright": "© cohr.sa. جميع الحقوق محفوظة."
   },
   "userDropdown": {
     "dashboard": "لوحة التحكم",

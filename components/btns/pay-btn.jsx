@@ -18,6 +18,7 @@ export default function PaymentBtn({ plan, user, lng }) {
           userEmail: user.email,
           userFirstName: user.name.split(" ")[0],
           userLastName: user.name.split(" ")[1],
+          return_url: window.location.href,
         }),
       });
       const data = await res.json();

@@ -12,41 +12,59 @@ import PaymentBtn from "../btns/pay-btn";
 import { auth } from "@/lib/auth";
 
 const PricingSection = async ({ t, lng }) => {
-  const plans = await getPlansWithPrices();
+  const plansPrices = await getPlansWithPrices();
   const session = await auth();
   const user = session?.user;
-  const pricingPlans = [
-    {
-      name: t("pricingPlans.0.name"),
-      price: t("pricingPlans.0.price"),
-      description: t("pricingPlans.0.description"),
-      features: t("pricingPlans.0.features", { returnObjects: true }),
+  const plans = {
+    free: {
+      name: t("plans.free.name"),
+      price: 0,
+      period: t("plans.free.period"),
+      features: [
+        { text: t("plans.free.features.basicTheming") },
+        { text: t("plans.free.features.templatesAvailable") },
+        { text: t("plans.free.features.watermark") },
+      ],
+      buttonText: t("plans.free.buttonText"),
+      gradient: "from-blue-400 to-blue-600",
     },
-    {
-      name: t("pricingPlans.1.name"),
-      price: plans[1].price,
-      description: t("pricingPlans.1.description"),
-      features: t("pricingPlans.1.features", { returnObjects: true }),
+    pro: {
+      name: t("plans.pro.name"),
       highlighted: true,
+      price: plansPrices[1]?.price,
+      period: t("plans.pro.period"),
+      features: [
+        { text: t("plans.pro.features.advancedThemes") },
+        { text: t("plans.pro.features.templatesAvailable") },
+        { text: t("plans.pro.features.noWatermark") },
+      ],
+      buttonText: t("plans.pro.buttonText"),
+      gradient: "from-purple-400 to-purple-600",
     },
-    {
-      name: t("pricingPlans.2.name"),
-      price: plans[2].price,
-      description: t("pricingPlans.2.description"),
-      features: t("pricingPlans.2.features", { returnObjects: true }),
+    proPlus: {
+      name: t("plans.proPlus.name"),
+      price: plansPrices[2]?.price,
+      period: t("plans.proPlus.period"),
+      features: [
+        { text: t("plans.proPlus.features.premiumThemes") },
+        { text: t("plans.proPlus.features.templatesAvailable") },
+        { text: t("plans.proPlus.features.aiSuggestions") },
+      ],
+      buttonText: t("plans.proPlus.buttonText"),
+      gradient: "from-pink-400 to-pink-600",
     },
-  ];
+  };
   return (
     <section id="pricing" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12 text-[#3b51a3]">
           {t("pricingTitle")}
         </h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {pricingPlans.map((plan, index) => (
+        <div className="grid md:grid-cols-3 gap-4">
+          {Object.values(plans).map((plan, index) => (
             <Card
               key={index}
-              className={`flex flex-col ${
+              className={`min-w-2xl flex flex-col ${
                 plan.highlighted ? "border-[#3b51a3] border-2 shadow-lg" : ""
               }`}
             >
@@ -72,7 +90,7 @@ const PricingSection = async ({ t, lng }) => {
                   {plan.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center">
                       <Check className="w-5 h-5 text-[#3b51a3] mx-2" />
-                      <span>{feature}</span>
+                      <span>{feature.text}</span>
                     </li>
                   ))}
                 </ul>
