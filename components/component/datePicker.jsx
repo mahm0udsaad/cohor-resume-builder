@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { usePathname } from "next/navigation";
 
 const DatePicker = ({
   value,
@@ -31,7 +32,9 @@ const DatePicker = ({
 }) => {
   const [calendarDate, setCalendarDate] = React.useState(new Date());
   const [isYearSelectOpen, setIsYearSelectOpen] = React.useState(false);
-
+  const pathname = usePathname();
+  const pathList = pathname.split("/");
+  const lng = pathList[1];
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
@@ -159,7 +162,13 @@ const DatePicker = ({
           </PopoverContent>
         </Popover>
       ) : (
-        <p>{displayValue}</p>
+        <p>
+          {displayValue === "Present"
+            ? lng === "ar"
+              ? "اعمل هناك حاليا"
+              : "Present"
+            : displayValue}
+        </p>
       )}
     </div>
   );

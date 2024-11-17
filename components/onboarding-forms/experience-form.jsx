@@ -26,7 +26,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
         responsibilities: "",
       });
     }
-  }, [fields.length, append]);
+  }, []);
 
   const watchedExperiences = useWatch({
     control,
@@ -140,9 +140,11 @@ export default function WorkExperienceForm({ control, errors, t }) {
                     checked={value}
                     onCheckedChange={(checked) => {
                       onChange(checked);
-                      const fieldName = `experiences.${index}.endDate`;
-                      const fieldValue = checked ? "Present" : "";
-                      control._fields[fieldName]?.onChange(fieldValue);
+                      if (checked) {
+                        const fieldName = `experiences.${index}.endDate`;
+                        const fieldValue = "Present";
+                        control._fields[fieldName]?.onChange(fieldValue);
+                      }
                     }}
                   />
                   <Label htmlFor={`currentlyWorking-${index}`}>

@@ -11,7 +11,7 @@ import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 import React from "react";
 
-export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
+export default function ProfessionalSidebarPDF({ resumeData }) {
   const isArabic = resumeData.lng === "ar"; // Detect Arabic for RTL layout
   const { lng } = resumeData;
   const t = translations[lng] || translations["en"]; // Fallback to English if translation isn't available
@@ -29,7 +29,7 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
     accentColor: "#495057",
   };
 
-  const theme = selectedTheme || defaultTheme;
+  const theme = resumeData.theme || defaultTheme;
 
   const styles = StyleSheet.create({
     page: {
@@ -127,7 +127,6 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
                 <Text
                   style={{
                     fontSize: 8,
-                    color: "#4B5563",
                     textAlign: isArabic ? "right" : "left",
                   }}
                 >
@@ -138,7 +137,6 @@ export default function ProfessionalSidebarPDF({ resumeData, selectedTheme }) {
                 <Text
                   style={{
                     fontSize: 8,
-                    color: "#4B5563",
                     textAlign: isArabic ? "right" : "left",
                   }}
                 >

@@ -127,21 +127,23 @@ const SimpleFormalTemplate = ({ resumeData, selectedTheme, className }) => {
             ))}
           </section>
         </div>
-        <div style={styles.column}>
-          <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>{t.courses}</h2>
-            {resumeData.courses.map((course, index) => (
-              <div key={index}>
-                <p>
-                  <strong>{course.name}</strong>
-                </p>
-                <p>
-                  {course.institution} - {formatDate(course.completionDate)}
-                </p>
-              </div>
-            ))}
-          </section>
-        </div>
+        {resumeData.courses.length > 0 && (
+          <div style={styles.column}>
+            <section style={styles.section}>
+              <h2 style={styles.sectionTitle}>{t.courses}</h2>
+              {resumeData.courses.map((course, index) => (
+                <div key={index}>
+                  <p>
+                    <strong>{course.name}</strong>
+                  </p>
+                  <p>
+                    {course.institution} - {formatDate(course.completionDate)}
+                  </p>
+                </div>
+              ))}
+            </section>
+          </div>
+        )}
       </div>
       <div style={styles.row}>
         <div style={styles.column}>

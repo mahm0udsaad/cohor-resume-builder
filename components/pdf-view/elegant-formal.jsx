@@ -74,9 +74,9 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
     bullet: {
       position: "absolute",
       marginTop: 3,
-      left: resumeData.lng === "ar" ? "" : 0,
-      right: resumeData.lng === "ar" ? 0 : "",
-      top: "5px",
+      left: resumeData.lng === "ar" ? "" : -2,
+      right: resumeData.lng === "ar" ? -2 : "",
+      top: 0,
       width: "10px",
       height: "10px",
       backgroundColor: theme.primaryColor,

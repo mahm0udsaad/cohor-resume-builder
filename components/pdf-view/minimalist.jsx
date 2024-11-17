@@ -31,6 +31,7 @@ export default function MinimalistModernResume({ resumeData }) {
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
       backgroundColor: "#ffffff",
       borderRadius: 8,
+      minHeight: 641.89,
     },
     header: {
       backgroundColor: theme.primaryColor,

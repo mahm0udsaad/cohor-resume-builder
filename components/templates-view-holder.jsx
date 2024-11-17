@@ -43,6 +43,7 @@ export const templateViewComponents = {
   infographic: InfographicResume,
   onColFormal: FormalOneColumnResume,
   elegantformal: ElegantFormalTemplate,
+  elegantFormal: ElegantFormalTemplate,
   simpleFormal: SimpleFormalTemplatePDF,
   simpleformal: SimpleFormalTemplatePDF,
 };

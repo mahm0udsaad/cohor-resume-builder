@@ -120,6 +120,7 @@ export const templateComponents = {
   dynamicModern: DynamicModernResume,
   infographic: InfographicResume,
   elegantformal: ElegantFormalTemplate,
+  elegantFormal: ElegantFormalTemplate,
   onColFormal: FormalOneColumnResume,
   simpleformal: SimpleFormalTemplate,
 };

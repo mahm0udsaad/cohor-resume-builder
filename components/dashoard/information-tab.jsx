@@ -42,6 +42,7 @@ import { allSkills } from "@/data/data";
 import { useTranslation } from "@/app/i18n/client";
 import DatePicker from "@/components/component/datePicker";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Checkbox } from "../ui/checkbox";
 function SectionHeader({ icon: Icon, title }) {
   return (
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -477,18 +478,51 @@ function ExperienceSection({ t, control, errors }) {
                     />
                   )}
                 />
-                <Controller
-                  name={`experiences.${index}.endDate`}
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      label={t("workExperience.endDate")}
-                      value={field.value}
-                      onChange={field.onChange}
-                      isEditing={isEditing}
-                    />
-                  )}
-                />
+                <div className="space-y-2">
+                  <Controller
+                    name={`experiences.${index}.endDate`}
+                    control={control}
+                    render={({ field }) => (
+                      <>
+                        <DatePicker
+                          label={t("workExperience.endDate")}
+                          value={field.value}
+                          onChange={field.onChange}
+                          isEditing={isEditing}
+                          disabled={field.value === "Present"}
+                        />
+                        {isEditing && (
+                          <div className="flex items-center space-x-2">
+                            <Controller
+                              name={`experiences.${index}.endDate`}
+                              control={control}
+                              render={({ field: endDateField }) => (
+                                <Checkbox
+                                  id={`currently-working-${index}`}
+                                  checked={
+                                    !endDateField.value ||
+                                    endDateField.value === "Present"
+                                  }
+                                  onCheckedChange={(checked) => {
+                                    endDateField.onChange(
+                                      checked ? "Present" : "",
+                                    );
+                                  }}
+                                />
+                              )}
+                            />
+                            <Label
+                              htmlFor={`currently-working-${index}`}
+                              className="text-sm font-normal"
+                            >
+                              {t("workExperience.endDatePresent")}
+                            </Label>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  />
+                </div>
               </div>
 
               <div>
@@ -1097,7 +1131,9 @@ function CoursesSection({ t, control, errors }) {
                   <Controller
                     name={`courses.${index}.institution`}
                     control={control}
-                    rules={{ required: t("reviewResume.institutionRequired") }}
+                    rules={{
+                      required: t("reviewResume.institutionRequired"),
+                    }}
                     render={({ field }) =>
                       isEditing ? (
                         <Input {...field} className="mt-1" />
