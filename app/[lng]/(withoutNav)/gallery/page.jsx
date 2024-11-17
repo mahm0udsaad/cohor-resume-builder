@@ -1,10 +1,8 @@
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowLeft, Lock } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
 import Image from "next/image";
 import { auth } from "@/lib/auth";
-import { getUser } from "../../../../actions/userInfo/action";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RocketIcon } from "lucide-react";
 import { redirect } from "next/navigation";
@@ -20,7 +18,7 @@ const AutoSubscriptionModal = dynamic(
 async function TemplateGallery({ params: { lng }, searchParams }) {
   const session = await auth();
   if (!session) redirect("/auth");
-  const { user } = await getUser(session?.user.email);
+  const { user } = session;
   const { t } = await useTranslation(lng, "common");
   const userPlanTemplates = await getUserPlanTemplates(user?.plan || "free");
   const showUpgradeAlert =
@@ -70,7 +68,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
                         {t("upgradeAlert.description")}
                       </span>
                       <Link
-                        href="?showPricing"
+                        href="/#pricing"
                         className="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 transition-colors"
                       >
                         <span>{t("upgradeAlert.actionText")}</span>

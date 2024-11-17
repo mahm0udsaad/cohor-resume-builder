@@ -38,18 +38,10 @@ export function Footer({ lng }) {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/gallery"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
                   {t("footer.product.templates")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[#3b51a3]"
-                >
-                  {t("footer.product.integrations")}
                 </Link>
               </li>
             </ul>

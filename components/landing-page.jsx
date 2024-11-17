@@ -77,7 +77,9 @@ export async function LandingPageComponent({ lng }) {
                   className="border-[#3b51a3] text-[#3b51a3] hover:bg-[#3b51a3] hover:text-white"
                   asChild
                 >
-                  <Link href="#">{t("header.ctaLearnMore")}</Link>
+                  <Link target="_blank" href="https://cohr.sa/">
+                    {t("header.ctaLearnMore")}
+                  </Link>
                 </Button>
               </div>
             </div>
