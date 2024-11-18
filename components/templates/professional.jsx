@@ -119,17 +119,17 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme, className }) => {
                 {formatDate(edu.graduationDate, resumeData.lng)}
               </p>
               {edu.gpaType === "percentage" && (
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-gray-500">
                   {t.gpa}: {edu.numericGpa}%
                 </p>
               )}
               {edu.gpaType === "outOf4" && (
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-gray-500">
                   {t.gpa}: `4/{edu.numericGpa}`
                 </p>
               )}
               {edu.gpaType === "outOf5" && (
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-gray-500">
                   {t.gpa}: `5/{edu.numericGpa}`
                 </p>
               )}
@@ -153,7 +153,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme, className }) => {
             <div className="flex flex-wrap gap-2">
               {resumeData.skills?.map((skill, index) => (
                 <Badge key={index} variant="outline" className="text-sm">
-                  {t.availableSkills[skill.name]} - (
+                  {t.availableSkills[`${skill.name}`] || skill.name}- (
                   {t.levels[skill.level.toLowerCase()]})
                 </Badge>
               ))}

@@ -31,7 +31,6 @@ const createStyles = (isArabic, theme) =>
     },
     subheader: {
       fontSize: 16,
-      color: theme.primaryColor,
       marginBottom: 14,
       fontWeight: "semibold",
       textAlign: isArabic ? "right" : "left",
@@ -163,29 +162,43 @@ const Classic = ({ resumeData }) => {
           <Text>-</Text>
           <Text>{formatDate(edu.graduationDate)}</Text>
           <Text>-</Text>
-          {edu.gpaType === "percentage" && (
-            <Text
-              style={{
-                fontSize: 8,
-                color: "#4B5563",
-                textAlign: isArabic ? "right" : "left",
-              }}
-            >
-              {t.gpa}: {edu.numericGpa}
-            </Text>
-          )}
-          {edu.gpaType === "descriptive" && (
-            <Text
-              style={{
-                fontSize: 8,
-                color: "#4B5563",
-                textAlign: isArabic ? "right" : "left",
-              }}
-            >
-              {t.gpas[edu.descriptiveGpa]}
-            </Text>
-          )}
         </View>
+        {edu.gpaType === "percentage" && (
+          <Text
+            style={{
+              fontSize: 8,
+              color: "#4B5563",
+              textAlign: resumeData.lng === "ar" ? "right" : "left",
+            }}
+          >
+            {t.gpa}:{" "}
+            {resumeData.lng === "ar"
+              ? `%${edu.numericGpa}`
+              : `${edu.numericGpa}%`}
+          </Text>
+        )}
+        {edu.gpaType === "outOf4" && (
+          <Text
+            style={{
+              fontSize: 8,
+              color: "#4B5563",
+              textAlign: resumeData.lng === "ar" ? "right" : "left",
+            }}
+          >
+            {t.gpa}: {edu.numericGpa}/4
+          </Text>
+        )}
+        {edu.gpaType === "outOf5" && (
+          <Text
+            style={{
+              fontSize: 8,
+              color: "#4B5563",
+              textAlign: resumeData.lng === "ar" ? "right" : "left",
+            }}
+          >
+            {t.gpa}: {edu.numericGpa}/5
+          </Text>
+        )}
       </View>
     ));
 

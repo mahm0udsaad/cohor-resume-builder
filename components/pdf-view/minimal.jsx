@@ -10,24 +10,25 @@ import {
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 
-const createStyles = (isArabic) =>
+const createStyles = (isArabic, theme) =>
   StyleSheet.create({
     page: {
       backgroundColor: "white",
-      padding: 20,
+      padding: 10,
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
     },
     header: {
       flexDirection: isArabic ? "row-reverse" : "row",
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom: 22,
+      marginBottom: 15,
     },
     headerLeft: {
       flexDirection: "column",
       alignItems: isArabic ? "flex-end" : "flex-start",
     },
     name: {
+      color: theme?.primaryColor || "",
       fontSize: 36,
       fontWeight: 600,
       marginBottom: 4,
@@ -75,6 +76,7 @@ const createStyles = (isArabic) =>
       marginBottom: 24,
     },
     sectionTitle: {
+      color: theme?.primaryColor || "",
       fontSize: 12,
       fontWeight: "bold",
       marginBottom: 12,
@@ -114,6 +116,7 @@ const createStyles = (isArabic) =>
       textAlign: isArabic ? "right" : "left",
     },
     degree: {
+      color: theme?.primaryColor || "",
       fontSize: 10,
       textAlign: isArabic ? "right" : "left",
     },
@@ -138,6 +141,7 @@ const createStyles = (isArabic) =>
       marginBottom: 8,
     },
     jobTitleExp: {
+      color: theme?.primaryColor || "",
       fontSize: 10,
       fontWeight: "bold",
       textTransform: "uppercase",
@@ -164,7 +168,7 @@ const createStyles = (isArabic) =>
 const MinimalTemplate = ({ resumeData }) => {
   const lng = resumeData.lng;
   const isArabic = lng === "ar";
-  const styles = createStyles(isArabic);
+  const styles = createStyles(isArabic, resumeData.theme);
   if (isArabic) {
     Font.register({
       family: "IBM Plex Sans Arabic",
@@ -247,10 +251,13 @@ const MinimalTemplate = ({ resumeData }) => {
                         textAlign: resumeData.lng === "ar" ? "right" : "left",
                       }}
                     >
-                      {t.gpa}: {edu.numericGpa}
+                      {t.gpa}:{" "}
+                      {resumeData.lng === "ar"
+                        ? `%${edu.numericGpa}`
+                        : `${edu.numericGpa}%`}
                     </Text>
                   )}
-                  {edu.gpaType === "descriptive" && (
+                  {edu.gpaType === "outOf4" && (
                     <Text
                       style={{
                         fontSize: 8,
@@ -258,7 +265,18 @@ const MinimalTemplate = ({ resumeData }) => {
                         textAlign: resumeData.lng === "ar" ? "right" : "left",
                       }}
                     >
-                      {t.gpas[edu.descriptiveGpa]}
+                      {t.gpa}: {edu.numericGpa}/4
+                    </Text>
+                  )}
+                  {edu.gpaType === "outOf5" && (
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        color: "#4B5563",
+                        textAlign: resumeData.lng === "ar" ? "right" : "left",
+                      }}
+                    >
+                      {t.gpa}: {edu.numericGpa}/5
                     </Text>
                   )}
                 </View>

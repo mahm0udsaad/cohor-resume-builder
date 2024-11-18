@@ -29,7 +29,6 @@ export const DownloadBtn = ({ templateName, data, userName }) => {
               className={`border shadow-lg hover:shadow-none flex h-fit items-center rounded-md px-2 hover:bg-[#3B51A3] hover:text-white`}
             >
               <Spinner />
-              <span className="ml-2">Proccesing...</span>
             </Button>
           ) : (
             <Button
@@ -37,7 +36,6 @@ export const DownloadBtn = ({ templateName, data, userName }) => {
               className={`border shadow-lg hover:shadow-none flex h-fit items-center rounded-md px-2 hover:bg-[#3B51A3] hover:text-white`}
             >
               <Download className="h-4 w-4" />
-              <span className="ml-2">Download PDF</span>
             </Button>
           )
         }

@@ -96,7 +96,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
             {availableTemplates.map((template) => (
               <Link
                 key={template.name}
-                href={`/review/${template.name}`}
+                href={`/builder/${template.name}`}
                 prefetch={false}
               >
                 <div className="group overflow-hidden rounded-lg bg-background shadow transition-all hover:shadow-lg">

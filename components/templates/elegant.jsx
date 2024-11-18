@@ -118,17 +118,17 @@ const ElegantResume = ({ resumeData, selectedTheme, className }) => {
               {edu.institution} | {formatDate(edu.graduationDate)}
             </p>
             {edu.gpaType === "percentage" && (
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-gray-500">
                 {t.gpa}: {edu.numericGpa}%
               </p>
             )}
             {edu.gpaType === "outOf4" && (
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-gray-500">
                 {t.gpa}: {edu.numericGpa}/4
               </p>
             )}
             {edu.gpaType === "outOf5" && (
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-gray-500">
                 {t.gpa}: {edu.numericGpa}/5
               </p>
             )}

@@ -1,10 +1,9 @@
 ## TO FIX
 
 - check the myResume Tab when you have all the resumes
-- translate Download and return the default link in gallery and the resume data in /review
-- gpa descriptive outOf4 : {gpa}/4.0 for all of the templates
 - experince order by dates in PDF
 
+<!-- - gpa descriptive outOf4 : {gpa}/4.0 for all of the templates -->
 <!-- - endDate handle on the onboarding -->
 <!-- - the scroll behavior in information tab -->
 <!-- - the review section dosn't look good it shrinks and so on -->

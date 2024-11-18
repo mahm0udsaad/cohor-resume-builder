@@ -40,7 +40,7 @@ const createStyles = (theme, isArabic) =>
       flexDirection: isArabic ? "row-reverse" : "row",
       flexWrap: "wrap",
       fontSize: 10,
-      color: "#999",
+      color: "#21262f",
     },
     contactItem: {
       marginRight: isArabic ? 0 : 10,
@@ -199,23 +199,35 @@ const ElegantResume = ({ resumeData }) => {
               {edu.gpaType === "percentage" && (
                 <Text
                   style={{
-                    fontSize: 8,
+                    fontSize: 10,
                     color: "#4B5563",
                     textAlign: isArabic ? "right" : "left",
                   }}
                 >
-                  {t.gpa}: {edu.numericGpa}
+                  {t.gpa}:{" "}
+                  {isArabic ? `%${edu.numericGpa}` : `${edu.numericGpa}%`}
                 </Text>
               )}
-              {edu.gpaType === "descriptive" && (
+              {edu.gpaType === "outOf4" && (
                 <Text
                   style={{
-                    fontSize: 8,
+                    fontSize: 10,
                     color: "#4B5563",
                     textAlign: isArabic ? "right" : "left",
                   }}
                 >
-                  {t.gpas[edu.descriptiveGpa]}
+                  {t.gpa}: {edu.numericGpa}/4
+                </Text>
+              )}
+              {edu.gpaType === "outOf5" && (
+                <Text
+                  style={{
+                    fontSize: 10,
+                    color: "#4B5563",
+                    textAlign: isArabic ? "right" : "left",
+                  }}
+                >
+                  {t.gpa}: {edu.numericGpa}/5
                 </Text>
               )}
             </View>

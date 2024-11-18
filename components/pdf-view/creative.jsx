@@ -104,7 +104,7 @@ const createStyles = (theme, rtl) =>
     },
     dateText: {
       fontSize: 12,
-      marginBottom: 10,
+      marginBottom: 5,
       color: "gray",
       textAlign: rtl ? "right" : "left",
     },
@@ -118,9 +118,10 @@ const createStyles = (theme, rtl) =>
       textAlign: rtl ? "right" : "left",
     },
     courseContainer: {
-      display: "grid",
-      gridTemplateColumns: rtl ? "1fr 1fr" : "1fr 1fr",
-      gap: 8,
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: rtl ? "row-reverse" : "row",
+      gap: 5,
     },
   });
 
@@ -258,21 +259,33 @@ const CreativeResumeTemplate = ({ resumeData }) => {
                       style={{
                         fontSize: 8,
                         color: "#4B5563",
-                        textAlign: resumeData.lng === "ar" ? "right" : "left",
+                        textAlign: rtl ? "right" : "left",
                       }}
                     >
-                      {t.gpa}: {edu.numericGpa}
+                      {t.gpa}:{" "}
+                      {rtl ? `%${edu.numericGpa}` : `${edu.numericGpa}%`}
                     </Text>
                   )}
-                  {edu.gpaType === "descriptive" && (
+                  {edu.gpaType === "outOf4" && (
                     <Text
                       style={{
                         fontSize: 8,
                         color: "#4B5563",
-                        textAlign: resumeData.lng === "ar" ? "right" : "left",
+                        textAlign: rtl ? "right" : "left",
                       }}
                     >
-                      {t.gpas[edu.descriptiveGpa]}
+                      {t.gpa}: {edu.numericGpa}/4
+                    </Text>
+                  )}
+                  {edu.gpaType === "outOf5" && (
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        color: "#4B5563",
+                        textAlign: rtl ? "right" : "left",
+                      }}
+                    >
+                      {t.gpa}: {edu.numericGpa}/5
                     </Text>
                   )}
                 </View>

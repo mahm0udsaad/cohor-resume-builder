@@ -69,7 +69,7 @@ export default function GridLayoutResume({
     mainContent: {
       gridColumn: "1 / 3",
       display: "grid",
-      gridGap: "20px",
+      gap: "20px",
     },
     sidebar: {
       gridColumn: "3 / 4",
@@ -159,13 +159,11 @@ export default function GridLayoutResume({
           </div>
         </div>
       </header>
-
       <div style={styles.mainContent}>
         <section style={styles.section}>
           <h2 style={styles.sectionTitle}>{t.profile}</h2>
           <p style={styles.sectionContent}>{resumeData.personalInfo.summary}</p>
         </section>
-
         <section style={styles.section}>
           <h2 style={styles.sectionTitle}>{t.workExperience}</h2>
           {resumeData.experiences.map((exp, index) => (
@@ -183,6 +181,20 @@ export default function GridLayoutResume({
             </div>
           ))}
         </section>
+        {resumeData.courses[0]?.name.trim() !== "" && (
+          <section style={styles.section}>
+            <h2 style={styles.sectionTitle}>{t.courses}</h2>
+            {resumeData.courses.map((course, index) => (
+              <div key={index} style={styles.experienceItem}>
+                <h3 style={styles.experienceTitle}>{course.name}</h3>
+                <p style={styles.sectionContent}>
+                  {course.institution}, Completed{" "}
+                  {formatDate(course.completionDate)}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
 
       <div style={styles.sidebar}>
@@ -235,21 +247,6 @@ export default function GridLayoutResume({
             ))}
           </div>
         </section>
-
-        {resumeData.courses[0]?.name.trim() !== "" && (
-          <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>{t.courses}</h2>
-            {resumeData.courses.map((course, index) => (
-              <div key={index} style={styles.experienceItem}>
-                <h3 style={styles.experienceTitle}>{course.name}</h3>
-                <p style={styles.sectionContent}>
-                  {course.institution}, Completed{" "}
-                  {formatDate(course.completionDate)}
-                </p>
-              </div>
-            ))}
-          </section>
-        )}
       </div>
     </div>
   );

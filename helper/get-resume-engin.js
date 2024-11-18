@@ -118,6 +118,7 @@ export const templateComponents = {
   modernformal: ModernFormalResumeTemplate,
   minimalist: MinimalistModernResumeTemplate,
   dynamicModern: DynamicModernResume,
+  dynamicmodern: DynamicModernResume,
   infographic: InfographicResume,
   elegantformal: ElegantFormalTemplate,
   elegantFormal: ElegantFormalTemplate,

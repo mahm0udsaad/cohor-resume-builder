@@ -11,7 +11,7 @@ import {
 import { translations } from "@/data/data"; // Import your translations
 import { formatDate } from "@/helper/date"; // Assume a date formatter utility
 
-const ProfessionalResume = ({ resumeData, selectedTheme }) => {
+const ProfessionalResume = ({ resumeData }) => {
   const isArabic = resumeData.lng === "ar";
   const { lng } = resumeData;
   const t = translations[lng] || translations["en"];
@@ -28,7 +28,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
       src: "/fonts/Cairo-Medium.ttf",
     });
   }
-  const theme = selectedTheme || defaultTheme;
+  const theme = resumeData.theme || defaultTheme;
 
   // React PDF styles
   const styles = StyleSheet.create({
@@ -44,7 +44,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
       textAlign: isArabic ? "right" : "left",
     },
     headerContent: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       alignItems: "center",
       gap: 20,
     },
@@ -59,11 +59,13 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
       fontSize: 24,
       fontWeight: "bold",
       color: "#ffffff",
+      textAlign: isArabic ? "right" : "left",
     },
     jobTitle: {
       fontSize: 18,
       color: "#d1d5db",
       marginVertical: 5,
+      textAlign: isArabic ? "right" : "left",
     },
     contactInfo: {
       flexDirection: "row",
@@ -220,10 +222,11 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
-                    {t.gpa}: {edu.numericGpa}
+                    {t.gpa}:{" "}
+                    {isArabic ? `%${edu.numericGpa}` : `${edu.numericGpa}%`}
                   </Text>
                 )}
-                {edu.gpaType === "descriptive" && (
+                {edu.gpaType === "outOf4" && (
                   <Text
                     style={{
                       fontSize: 8,
@@ -231,9 +234,21 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
-                    {t.gpas[edu.descriptiveGpa]}
+                    {t.gpa}: {edu.numericGpa}/4
                   </Text>
                 )}
+                {edu.gpaType === "outOf5" && (
+                  <Text
+                    style={{
+                      fontSize: 8,
+                      color: "#4B5563",
+                      textAlign: isArabic ? "right" : "left",
+                    }}
+                  >
+                    {t.gpa}: {edu.numericGpa}/5
+                  </Text>
+                )}
+                f
               </View>
             ))}
           </View>
@@ -269,9 +284,11 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
               <Text style={styles.sectionTitle}>{t.courses}</Text>
               {resumeData.courses.map((course, index) => (
                 <View key={index} style={styles.experienceItem}>
-                  <Text>{course.name}</Text>
-                  <Text>{course.institution}</Text>
-                  <Text>
+                  <Text style={styles.experienceTitle}>{course.name}</Text>
+                  <Text style={styles.sectionContent}>
+                    {course.institution}
+                  </Text>
+                  <Text style={styles.experienceDate}>
                     {formatDate(course.completionDate, resumeData.lng)}
                   </Text>
                 </View>

@@ -12,124 +12,104 @@ import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 import { memo } from "react";
 
-// Create styles for PDF rendering
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Cairo-Medium.ttf",
+});
+
 const createStyles = (selectedTheme, isRTL) =>
   StyleSheet.create({
     page: {
-      fontFamily: isRTL ? "IBM Plex Sans Arabic" : "",
-      textAlign: isRTL ? "right" : "left", // RTL Alignment
+      fontFamily: isRTL ? "IBM Plex Sans Arabic" : "Times-Roman",
+      textAlign: isRTL ? "right" : "left",
       backgroundColor: selectedTheme?.backgroundColor || "#ffffff",
-      paddingRight: 12,
-      paddingLeft: 12,
-      paddingTop: 5,
-    },
-    section: {
-      borderTop: `0.5 solid ${selectedTheme?.primaryColor}`,
-      marginBottom: 10,
+      padding: 20,
     },
     header: {
-      flexDirection: isRTL ? "row-reverse" : "row", // RTL Support
+      flexDirection: isRTL ? "row-reverse" : "row",
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom: 15,
+      marginBottom: 20,
     },
     name: {
-      fontSize: 32,
-      fontFamily: isRTL ? "IBM Plex Sans Arabic" : "Times-Bold",
+      fontSize: 36,
       color: selectedTheme?.primaryColor,
+      fontWeight: "bold",
     },
     jobTitle: {
-      fontSize: 14,
+      fontSize: 16,
       color: "gray",
-      marginTop: 6,
-      paddingLeft: 5,
-      paddingRight: 5,
+      marginTop: 8,
     },
     contactList: {
-      width: "100%",
-      flexDirection: isRTL ? "row-reverse" : "row", // RTL Support
+      flexDirection: isRTL ? "row-reverse" : "row",
       flexWrap: "wrap",
-      gap: 4,
-      marginBottom: 8,
+      gap: 8,
+      marginBottom: 16,
     },
     contactItem: {
       fontSize: 12,
-      color: "gray",
-      marginRight: 12,
+      color: "#666",
+    },
+    section: {
+      marginBottom: 20,
     },
     sectionTitle: {
-      fontSize: 18,
-      fontFamily: isRTL ? "IBM Plex Sans Arabic" : "Times-Bold",
+      fontSize: 20,
       color: selectedTheme?.primaryColor,
-      marginBottom: 8,
-      paddingTop: 4,
+      fontWeight: "bold",
+      marginBottom: 12,
     },
     text: {
-      fontSize: 8,
-      color: "gray",
-      marginBottom: 8,
+      fontSize: 12,
+      color: "#666",
+      lineHeight: 1.5,
     },
     experienceSection: {
-      marginBottom: 8,
+      marginBottom: 12,
     },
     experienceTitle: {
-      fontSize: 10,
-      marginBottom: 3,
+      fontSize: 14,
       fontWeight: "bold",
     },
     company: {
-      fontSize: 10,
-      fontWeight: "medium",
+      fontSize: 12,
+      color: "#444",
     },
     date: {
-      fontSize: 12,
+      fontSize: 10,
       color: "gray",
-      marginBottom: 6,
+      marginTop: 4,
     },
     skillBadge: {
-      fontSize: 10,
-      border: "1 solid gray",
-      padding: 4,
-      borderRadius: 5,
+      fontSize: 12,
+      padding: 6,
+      border: `1 solid ${selectedTheme?.primaryColor || "gray"}`,
+      borderRadius: 4,
       marginRight: 8,
+      marginBottom: 8,
     },
     gridSection: {
-      paddingTop: 2,
-      borderTop: `0.5 solid ${selectedTheme?.primaryColor}`,
       flexDirection: isRTL ? "row-reverse" : "row",
       flexWrap: "wrap",
-      marginBottom: 4,
+      gap: 20,
     },
     gridItem: {
-      fontSize: 10,
-      gap: 2,
-      padding: 2,
-      width: "50%",
-      color: "#666",
+      width: "60%",
     },
   });
 
-const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
+const FormalResumeTemplate = ({ resumeData }) => {
   const isRTL = resumeData.lng === "ar";
-  const styles = createStyles(selectedTheme, isRTL);
+  const styles = createStyles(resumeData.theme, isRTL);
   const t = translations[resumeData.lng] || translations.en;
-  const isArabic = resumeData.lng === "ar";
-  if (isRTL) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Cairo-Medium.ttf",
-    });
-  }
+
   return (
     <Document>
       <Page wrap={false} style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
-          <View
-            style={{
-              width: "100%",
-            }}
-          >
+          <View>
             <Text style={styles.name}>{resumeData.personalInfo?.name}</Text>
             <Text style={styles.jobTitle}>
               {resumeData.personalInfo?.jobTitle}
@@ -139,10 +119,10 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
             <Image
               src={resumeData.personalInfo.imageUrl}
               style={{
-                width: 100,
-                height: 100,
+                width: 80,
+                height: 80,
                 borderRadius: "50%",
-                border: `1 solid ${selectedTheme?.primaryColor}`,
+                border: `1 solid ${resumeData.theme?.primaryColor}`,
               }}
             />
           )}
@@ -170,14 +150,9 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
             <View key={index} style={styles.experienceSection}>
               <Text style={styles.experienceTitle}>{exp.jobTitle}</Text>
               <Text style={styles.company}>{exp.company}</Text>
-              <View
-                style={{
-                  flexDirection: isRTL ? "row-reverse" : "row",
-                  alignItems: "center",
-                }}
-              >
+              <View style={{ flexDirection: isRTL ? "row-reverse" : "row" }}>
                 <Text style={styles.date}>{formatDate(exp.startDate)}</Text>
-                <Text style={styles.date}>-</Text>
+                <Text style={styles.date}> - </Text>
                 <Text style={styles.date}>
                   {exp.isCurrentJob
                     ? t.present
@@ -190,7 +165,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
         </View>
 
         {/* Education Section */}
-        <View wrap={false} style={styles.section}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>{t.education}</Text>
           {resumeData.educations?.map((edu, index) => (
             <View key={index} style={styles.experienceSection}>
@@ -202,38 +177,48 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
               {edu.gpaType === "percentage" && (
                 <Text
                   style={{
-                    fontSize: 8,
+                    fontSize: 10,
                     color: "#4B5563",
-                    textAlign: isArabic ? "right" : "left",
+                    textAlign: isRTL ? "right" : "left",
                   }}
                 >
-                  {t.gpa}: {edu.numericGpa}
+                  {t.gpa}: {isRTL ? `%${edu.numericGpa}` : `${edu.numericGpa}%`}
                 </Text>
               )}
-              {edu.gpaType === "descriptive" && (
+              {edu.gpaType === "outOf4" && (
                 <Text
                   style={{
-                    fontSize: 8,
+                    fontSize: 10,
                     color: "#4B5563",
-                    textAlign: isArabic ? "right" : "left",
+                    textAlign: isRTL ? "right" : "left",
                   }}
                 >
-                  {t.gpas[edu.descriptiveGpa]}
+                  {t.gpa}: {edu.numericGpa}/4
+                </Text>
+              )}
+              {edu.gpaType === "outOf5" && (
+                <Text
+                  style={{
+                    fontSize: 10,
+                    color: "#4B5563",
+                    textAlign: isRTL ? "right" : "left",
+                  }}
+                >
+                  {t.gpa}: {edu.numericGpa}/5
                 </Text>
               )}
             </View>
           ))}
         </View>
 
-        {/* Skills Section */}
-        <View wrap={false} style={styles.gridSection}>
+        {/* Skills & Languages Section */}
+        <View style={styles.gridSection}>
           <View style={styles.gridItem}>
             <Text style={styles.sectionTitle}>{t.skills}</Text>
             <View
               style={{
                 flexDirection: isRTL ? "row-reverse" : "row",
                 flexWrap: "wrap",
-                gap: 2,
               }}
             >
               {resumeData.skills?.map((skill, index) => (
@@ -244,25 +229,22 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
               ))}
             </View>
           </View>
-          {/* Languages Section */}
-          {resumeData.languages[0]?.name.trim() !== "" && (
-            <View style={styles.gridItem}>
-              <Text style={styles.sectionTitle}>{t.languages}</Text>
-              <View
-                style={{
-                  flexDirection: isRTL ? "row-reverse" : "row",
-                  flexWrap: "wrap",
-                  gap: 2,
-                }}
-              >
-                {resumeData.languages?.map((lang, index) => (
-                  <Text key={index} style={styles.skillBadge}>
-                    {lang.name} - ({t[lang.proficiency.toLowerCase()]})
-                  </Text>
-                ))}
-              </View>
+          <View>
+            <Text style={styles.sectionTitle}>{t.languages}</Text>
+            <View>
+              {resumeData.languages?.map((lang, index) => (
+                <Text
+                  key={index}
+                  style={{
+                    fontSize: 12,
+                    marginBottom: 8,
+                  }}
+                >
+                  {lang.name} - ({t[lang.proficiency.toLowerCase()]})
+                </Text>
+              ))}
             </View>
-          )}
+          </View>
         </View>
       </Page>
     </Document>

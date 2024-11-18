@@ -14,7 +14,7 @@ import { getResumeTemplate } from "@/helper/get-resume-engin";
 import { useTranslation } from "@/app/i18n/client";
 import { Font } from "@react-pdf/renderer";
 import { Button } from "../ui/button";
-import { Edit, Edit2 } from "lucide-react";
+import { Edit } from "lucide-react";
 
 const ResumeCard = ({ resume, user, isNewCard = false, list, lng }) => {
   const { t } = useTranslation(lng, "common");

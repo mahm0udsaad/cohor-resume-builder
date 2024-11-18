@@ -195,10 +195,11 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
                       textAlign: lng === "ar" ? "right" : "left",
                     }}
                   >
-                    {t.gpa}: {edu.numericGpa}
+                    {t.gpa}:{" "}
+                    {lng === "ar" ? `%${edu.numericGpa}` : `${edu.numericGpa}%`}
                   </Text>
                 )}
-                {edu.gpaType === "descriptive" && (
+                {edu.gpaType === "outOf4" && (
                   <Text
                     style={{
                       fontSize: 8,
@@ -206,7 +207,18 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
                       textAlign: lng === "ar" ? "right" : "left",
                     }}
                   >
-                    {t.gpas[edu.descriptiveGpa]}
+                    {t.gpa}: {edu.numericGpa}/4
+                  </Text>
+                )}
+                {edu.gpaType === "outOf5" && (
+                  <Text
+                    style={{
+                      fontSize: 8,
+                      color: "#4B5563",
+                      textAlign: lng === "ar" ? "right" : "left",
+                    }}
+                  >
+                    {t.gpa}: {edu.numericGpa}/5
                   </Text>
                 )}
               </View>
