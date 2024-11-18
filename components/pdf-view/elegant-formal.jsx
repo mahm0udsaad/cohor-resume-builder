@@ -76,7 +76,7 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
       marginTop: 3,
       left: resumeData.lng === "ar" ? "" : -4,
       right: resumeData.lng === "ar" ? -4 : "",
-      top: 5,
+      top: resumeData.lng === "ar" ? 3 : 1,
       width: "10px",
       height: "10px",
       backgroundColor: theme.primaryColor,
@@ -215,7 +215,7 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             {resumeData.skills.map((skill, index) => (
               <Text key={index} style={styles.skillItem}>
-                {skill.name} (
+                {t.availableSkills[`${skill.name}`] || skill.name}(
                 {t.levels[skill.level.toLowerCase()] || skill.level})
               </Text>
             ))}
