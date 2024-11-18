@@ -1,7 +1,7 @@
 ## TO FIX
 
 - check the myResume Tab when you have all the resumes
-
+- translate Download and return the default link in gallery and the resume data in /review
 - gpa descriptive outOf4 : {gpa}/4.0 for all of the templates
 - experince order by dates in PDF
 

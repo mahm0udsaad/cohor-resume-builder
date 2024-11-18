@@ -228,7 +228,7 @@ const BoldTemplate = ({ resumeData }) => {
                 <Text style={styles.institution}>
                   {edu.institution} // {formatDate(edu.graduationDate)}
                 </Text>
-                {edu.gpaType === "numeric" && (
+                {edu.gpaType === "percentage" && (
                   <Text
                     style={{
                       fontSize: 8,
@@ -236,7 +236,7 @@ const BoldTemplate = ({ resumeData }) => {
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
-                    {t.gpa}: {edu.numericGpa}
+                    {t.gpa}: {edu.numericGpa}%
                   </Text>
                 )}
                 {edu.gpaType === "outOf4" && (

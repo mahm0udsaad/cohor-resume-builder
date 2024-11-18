@@ -107,10 +107,13 @@ export default function MinimalistModernResume({ resumeData }) {
       textAlign: isArabic ? "right" : "left",
     },
     institution: {
+      lineHeight: 1.6,
+      marginTop: 5,
       fontSize: 12,
       textAlign: isArabic ? "right" : "left",
     },
     date: {
+      marginTop: 5,
       fontSize: 10,
       color: "#777",
       textAlign: isArabic ? "right" : "left",
@@ -163,26 +166,40 @@ export default function MinimalistModernResume({ resumeData }) {
                   <Text style={styles.date}>
                     {formatDate(edu.graduationDate)}
                   </Text>
-                  {edu.gpaType === "numeric" && (
+                  {edu.gpaType === "percentage" && (
                     <Text
                       style={{
+                        marginTop: 2,
                         fontSize: 8,
-                        color: "#4B5563",
+                        color: "#4b5563",
                         textAlign: resumeData.lng === "ar" ? "right" : "left",
                       }}
                     >
-                      {t.gpa}: {edu.numericGpa}
+                      {t.gpa}: {edu.numericGpa}%
                     </Text>
                   )}
-                  {edu.gpaType === "descriptive" && (
+                  {edu.gpaType === "outOf4" && (
                     <Text
                       style={{
+                        marginTop: 2,
                         fontSize: 8,
                         color: "#4B5563",
-                        textAlign: resumeData.lng === "ar" ? "right" : "left",
+                        textAlign: isArabic ? "right" : "left",
                       }}
                     >
-                      {t.gpas[edu.descriptiveGpa]}
+                      {t.gpa}: {edu.numericGpa}/4
+                    </Text>
+                  )}
+                  {edu.gpaType === "outOf5" && (
+                    <Text
+                      style={{
+                        marginTop: 2,
+                        fontSize: 8,
+                        color: "#4B5563",
+                        textAlign: isArabic ? "right" : "left",
+                      }}
+                    >
+                      {t.gpa}: {edu.numericGpa}/5
                     </Text>
                   )}
                 </View>
@@ -192,9 +209,20 @@ export default function MinimalistModernResume({ resumeData }) {
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>{t.languages}</Text>
               {resumeData.languages.map((lang, index) => (
-                <Text key={index} style={styles.jobTitleBold}>
+                <Text
+                  key={index}
+                  style={{
+                    fontSize: 14,
+                    textAlign: isArabic ? "right" : "left",
+                  }}
+                >
                   {lang.name} -{" "}
-                  <Text style={styles.smallText}>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      textAlign: isArabic ? "right" : "left",
+                    }}
+                  >
                     {t[lang.proficiency.toLowerCase()] || lang.proficiency}
                   </Text>
                 </Text>

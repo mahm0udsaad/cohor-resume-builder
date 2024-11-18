@@ -19,7 +19,7 @@ const createStyles = (theme, isArabic) =>
       minHeight: 641.89,
     },
     header: {
-      backgroundColor: "#3498db", // Primary color from your theme
+      backgroundColor: theme.primaryColor, // Primary color from your theme
       color: "white",
       padding: 20,
       flexDirection: isArabic ? "row-reverse" : "row",
@@ -28,7 +28,7 @@ const createStyles = (theme, isArabic) =>
     },
     profileImage: {
       borderRadius: "50%",
-      border: "3px solid #000000", // Accent color
+      border: `3px solid ${theme.accentColor}`, // Accent color
       width: 60,
       height: 60,
     },
@@ -41,8 +41,8 @@ const createStyles = (theme, isArabic) =>
       flex: 1,
       paddingRight: isArabic ? 0 : 10,
       paddingLeft: isArabic ? 10 : 0,
-      borderRight: isArabic ? "none" : "1px solid #2c3e50",
-      borderLeft: isArabic ? "1px solid #2c3e50" : "none",
+      borderRight: isArabic ? "none" : `1px solid ${theme.backgroundColor}`,
+      borderLeft: isArabic ? `1px solid ${theme.backgroundColor}` : "none",
     },
     rightColumn: {
       flex: 2,
@@ -55,7 +55,7 @@ const createStyles = (theme, isArabic) =>
     heading: {
       fontSize: 12,
       fontWeight: "bold",
-      color: "#3498db", // Primary color from your theme
+      color: theme.primaryColor, // Primary color from your theme
       position: "relative",
       paddingRight: isArabic ? 10 : 0,
       paddingLeft: isArabic ? 0 : 10,
@@ -68,7 +68,7 @@ const createStyles = (theme, isArabic) =>
       right: isArabic ? 0 : "auto",
       width: 4,
       height: "100%",
-      backgroundColor: "#3498db",
+      backgroundColor: theme.primaryColor,
     },
     text: {
       fontSize: 10,
@@ -80,7 +80,7 @@ const createStyles = (theme, isArabic) =>
       gap: 4,
     },
     skillTag: {
-      backgroundColor: "#3498db",
+      backgroundColor: theme.primaryColor,
       color: "white",
       padding: 5,
       borderRadius: 4,
@@ -154,6 +154,7 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
                   style={{
                     fontSize: 10,
                     textAlign: isArabic ? "right" : "left",
+                    marginBottom: 2,
                   }}
                 >
                   {item}
@@ -205,10 +206,22 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
                     <View style={styles.headingBorder}></View>
                   </View>
                   {resumeData.courses.map((course, index) => (
-                    <View key={index}>
+                    <View
+                      style={{
+                        marginBottom: 10,
+                        textAlign: isArabic ? "right" : "left",
+                      }}
+                      key={index}
+                    >
                       <Text style={styles.sectionSubHeader}>{course.name}</Text>
-                      <Text>{course.institution}</Text>
-                      <Text style={{ color: theme.primaryColor }}>
+                      <Text
+                        style={{
+                          marginTop: 2,
+                        }}
+                      >
+                        {course.institution}
+                      </Text>
+                      <Text style={{ color: theme.primaryColor, marginTop: 2 }}>
                         {formatDate(course.completionDate)}
                       </Text>
                     </View>
@@ -270,30 +283,54 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
               {resumeData.educations.map((edu, index) => (
                 <View key={index}>
                   <Text style={styles.sectionSubHeader}>{edu.degree}</Text>
-                  <Text style={styles.text}>{edu.institution}</Text>
-                  <Text style={{ textAlign: isArabic ? "right" : "left" }}>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      textAlign: isArabic ? "right" : "left",
+                    }}
+                  >
+                    {edu.institution}
+                  </Text>
+                  <Text
+                    style={{
+                      textAlign: isArabic ? "right" : "left",
+                      color: theme.primaryColor,
+                      marginTop: 2,
+                    }}
+                  >
                     {formatDate(edu.graduationDate)}
                   </Text>
-                  {edu.gpaType === "numeric" && (
+                  {edu.gpaType === "percentage" && (
                     <Text
                       style={{
                         fontSize: 8,
                         color: "#4B5563",
-                        textAlign: resumeData.lng === "ar" ? "right" : "left",
+                        textAlign: isArabic ? "right" : "left",
                       }}
                     >
-                      {t.gpa}: {edu.numericGpa}
+                      {t.gpa}: {edu.numericGpa}%
                     </Text>
                   )}
-                  {edu.gpaType === "descriptive" && (
+                  {edu.gpaType === "outOf4" && (
                     <Text
                       style={{
                         fontSize: 8,
                         color: "#4B5563",
-                        textAlign: resumeData.lng === "ar" ? "right" : "left",
+                        textAlign: isArabic ? "right" : "left",
                       }}
                     >
-                      {t.gpas[edu.descriptiveGpa]}
+                      {t.gpa}: {edu.numericGpa}/4
+                    </Text>
+                  )}
+                  {edu.gpaType === "outOf5" && (
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        color: "#4B5563",
+                        textAlign: isArabic ? "right" : "left",
+                      }}
+                    >
+                      {t.gpa}: {edu.numericGpa}/5
                     </Text>
                   )}
                 </View>

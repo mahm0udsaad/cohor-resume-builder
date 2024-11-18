@@ -199,7 +199,7 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
               <Text style={styles.date}>
                 {formatDate(edu.graduationDate, resumeData.lng)}
               </Text>
-              {edu.gpaType === "numeric" && (
+              {edu.gpaType === "percentage" && (
                 <Text
                   style={{
                     fontSize: 8,

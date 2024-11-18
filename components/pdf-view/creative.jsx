@@ -253,7 +253,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
                   <Text style={styles.educationDateText}>
                     {formatDate(edu.graduationDate)}
                   </Text>
-                  {edu.gpaType === "numeric" && (
+                  {edu.gpaType === "percentage" && (
                     <Text
                       style={{
                         fontSize: 8,

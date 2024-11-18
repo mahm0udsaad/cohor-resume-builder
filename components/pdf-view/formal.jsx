@@ -212,7 +212,7 @@ const ProfessionalResume = ({ resumeData, selectedTheme }) => {
                   {edu.institution}, {t.graduated}{" "}
                   {formatDate(edu.graduationDate, resumeData.lng)}
                 </Text>
-                {edu.gpaType === "numeric" && (
+                {edu.gpaType === "percentage" && (
                   <Text
                     style={{
                       fontSize: 8,

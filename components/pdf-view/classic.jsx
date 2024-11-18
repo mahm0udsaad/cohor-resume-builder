@@ -163,7 +163,7 @@ const Classic = ({ resumeData }) => {
           <Text>-</Text>
           <Text>{formatDate(edu.graduationDate)}</Text>
           <Text>-</Text>
-          {edu.gpaType === "numeric" && (
+          {edu.gpaType === "percentage" && (
             <Text
               style={{
                 fontSize: 8,

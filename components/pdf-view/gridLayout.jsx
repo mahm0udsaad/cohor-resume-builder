@@ -222,7 +222,7 @@ export default function GridLayoutResumePDF({ resumeData }) {
                 <View key={index} style={styles.experienceItem}>
                   <Text style={styles.subHeader}>{edu.degree}</Text>
                   <Text style={styles.sectionContent}>{edu.institution}</Text>
-                  {edu.gpaType === "numeric" && (
+                  {edu.gpaType === "percentage" && (
                     <Text
                       style={{
                         fontSize: 8,

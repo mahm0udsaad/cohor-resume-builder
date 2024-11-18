@@ -172,7 +172,7 @@ const SimpleFormalTemplatePDF = ({ resumeData }) => {
                     <Text style={styles.dates}>
                       {formatDate(edu.graduationDate)}
                     </Text>
-                    {edu.gpaType === "numeric" && (
+                    {edu.gpaType === "percentage" && (
                       <Text
                         style={{
                           fontSize: 8,

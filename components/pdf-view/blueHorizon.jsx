@@ -216,7 +216,7 @@ export default function BlueHorizonPDF({ resumeData }) {
                 >
                   {formatDate(edu.graduationDate)}
                 </Text>
-                {edu.gpaType === "numeric" && (
+                {edu.gpaType === "percentage" && (
                   <Text
                     style={{
                       fontSize: 8,
@@ -224,7 +224,7 @@ export default function BlueHorizonPDF({ resumeData }) {
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
-                    {t.gpa}: {edu.numericGpa}
+                    {t.gpa}: {edu.numericGpa}%
                   </Text>
                 )}
                 {edu.gpaType === "outOf4" && (
@@ -235,7 +235,18 @@ export default function BlueHorizonPDF({ resumeData }) {
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
-                    {t.gpas[edu.descriptiveGpa]}
+                    {t.gpa}: {edu.numericGpa}/4
+                  </Text>
+                )}
+                {edu.gpaType === "outOf5" && (
+                  <Text
+                    style={{
+                      fontSize: 8,
+                      color: "#4B5563",
+                      textAlign: isArabic ? "right" : "left",
+                    }}
+                  >
+                    {t.gpa}: {edu.numericGpa}/5
                   </Text>
                 )}
               </View>
@@ -260,7 +271,7 @@ export default function BlueHorizonPDF({ resumeData }) {
                         color: "#666",
                       }}
                     >
-                      {t.completed}: {formatDate(course.completionDate)}
+                      {formatDate(course.completionDate)}
                     </Text>
                   </View>
                 ))}

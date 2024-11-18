@@ -76,7 +76,7 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
       marginTop: 3,
       left: resumeData.lng === "ar" ? "" : -4,
       right: resumeData.lng === "ar" ? -4 : "",
-      top: 0,
+      top: 5,
       width: "10px",
       height: "10px",
       backgroundColor: theme.primaryColor,
@@ -102,8 +102,8 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
       marginBottom: 5,
     },
     dates: {
-      marginBottom: 3,
-      marginTop: 3,
+      marginBottom: 2,
+      marginTop: 2,
       fontSize: 12,
       color: "#7f8c8d",
     },
@@ -174,22 +174,20 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
                 <Text style={styles.dates}>
                   {formatDate(edu.graduationDate)}
                 </Text>
-                {edu.gpaType === "numeric" && (
+                {edu.gpaType === "percentage" && (
                   <Text
                     style={{
-                      fontSize: 12,
-                      color: "#4B5563",
+                      fontSize: 10,
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
-                    {t.gpa}: {edu.numericGpa}
+                    {t.gpa}: {edu.numericGpa}%
                   </Text>
                 )}
                 {edu.gpaType === "outOf4" && (
                   <Text
                     style={{
-                      fontSize: 12,
-                      color: "#4B5563",
+                      fontSize: 10,
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
@@ -199,8 +197,7 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
                 {edu.gpaType === "outOf5" && (
                   <Text
                     style={{
-                      fontSize: 12,
-                      color: "#4B5563",
+                      fontSize: 10,
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
@@ -234,8 +231,16 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
                 <View
                   style={{ flexDirection: isArabic ? "row-reverse" : "row" }}
                 >
-                  <Text style={styles.subtitle}>{lang.name}:</Text>
-                  <Text style={styles.dates}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      marginBottom: 5,
+                    }}
+                  >
+                    {lang.name}:
+                  </Text>
+                  <Text style={{ fontSize: 10 }}>
                     {t[lang.proficiency.toLowerCase()] || lang.proficiency}
                   </Text>
                 </View>
@@ -250,7 +255,7 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>{t.courses}</Text>
               {resumeData.courses.map((course, index) => (
-                <View style={{ marginBottom: 10 }} key={index}>
+                <View style={{ marginBottom: 5 }} key={index}>
                   <Text style={styles.subtitle}>{course.name}</Text>
                   <Text style={styles.dates}>
                     {course.institution} - {formatDate(course.completionDate)}

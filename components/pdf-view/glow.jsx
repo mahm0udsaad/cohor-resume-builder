@@ -187,7 +187,7 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
                 <Text style={styles(theme, lng).text}>
                   {formatDate(edu.graduationDate)}
                 </Text>
-                {edu.gpaType === "numeric" && (
+                {edu.gpaType === "percentage" && (
                   <Text
                     style={{
                       fontSize: 8,

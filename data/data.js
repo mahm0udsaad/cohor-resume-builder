@@ -47,16 +47,22 @@ export const dummyData = {
       degree: "Bachelor of Science in Computer Science",
       institution: "University of Technology",
       graduationDate: "2019-05",
+      gpaType: "outOf4",
+      numericGpa: 3.5,
     },
     {
       degree: "Master of Computer Science",
       institution: "University of Technology",
       graduationDate: "2020-05",
+      gpaType: "outOf5",
+      numericGpa: 4.6,
     },
     {
       degree: "Ph.D. in Computer Science",
       institution: "University of Technology",
       graduationDate: "2025-05",
+      gpaType: "percentage",
+      numericGpa: 90,
     },
   ],
   skills: [
@@ -127,7 +133,7 @@ export const dummyDataAr = {
       startDate: "2018-01",
       endDate: "2019-01",
       responsibilities:
-        "تطوير تطبيقات ويب باستخدام React, Node.js, و MongoDB. المشاركة في مراجعات الشيفرة البرمجية وضمان توافق الحلول مع معايير الصناعة.",
+        "تطوير تطبيقات ويب باستخدام React, Node.js, و MongoDB. المشاركة في مراجعات الشيفرة البرمجية وضمان توافق الحلول مع معايير الصناعة . ",
     },
     {
       jobTitle: "مهندس برمجيات",
@@ -142,16 +148,22 @@ export const dummyDataAr = {
       degree: "بكالوريوس في علوم الكمبيوتر",
       institution: "جامعة التكنولوجيا",
       graduationDate: "2019-05",
+      gpaType: "outOf4",
+      numericGpa: 3.5,
     },
     {
       degree: "ماجستير في علوم الكمبيوتر",
       institution: "جامعة التكنولوجيا",
       graduationDate: "2020-05",
+      gpaType: "outOf5",
+      numericGpa: 4.6,
     },
     {
       degree: "دكتوراه في علوم الكمبيوتر",
       institution: "جامعة التكنولوجيا",
       graduationDate: "2025-05",
+      gpaType: "percentage",
+      numericGpa: 90,
     },
   ],
   skills: [

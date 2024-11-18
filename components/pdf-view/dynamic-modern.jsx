@@ -79,7 +79,7 @@ export default function DynamicModernResume({ resumeData }) {
     },
     summary: {
       fontSize: 12,
-      lineHeight: 1.4,
+      lineHeight: 1.6,
       marginBottom: 30,
       padding: 10,
       backgroundColor: theme.backgroundColor,
@@ -115,8 +115,6 @@ export default function DynamicModernResume({ resumeData }) {
     },
     experienceItem: {
       marginBottom: 10,
-      paddingLeft: isArabic ? 0 : 20,
-      paddingRight: isArabic ? 20 : 0,
     },
     experienceTitle: {
       fontSize: 12,
@@ -133,7 +131,7 @@ export default function DynamicModernResume({ resumeData }) {
       marginBottom: 5,
     },
     skillsList: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       flexWrap: "wrap",
       gap: 5,
     },
@@ -147,7 +145,7 @@ export default function DynamicModernResume({ resumeData }) {
       textAlign: "center",
     },
     languageItem: {
-      flexDirection: "row",
+      flexDirection: isArabic ? "row-reverse" : "row",
       justifyContent: "space-between",
       fontSize: 10,
       marginBottom: 5,
@@ -164,6 +162,9 @@ export default function DynamicModernResume({ resumeData }) {
       width: "65%",
       order: isArabic ? 1 : 2,
       textAlign: isArabic ? "right" : "left",
+    },
+    educationItem: {
+      marginBottom: 5,
     },
   });
 
@@ -231,31 +232,44 @@ export default function DynamicModernResume({ resumeData }) {
               <Text style={styles.sectionTitle}>{t.education}</Text>
               {resumeData.educations.map((edu, index) => (
                 <View key={index} style={styles.educationItem}>
-                  <Text style={styles.courseItem}>{edu.degree}</Text>
-                  <Text style={styles.experienceTitle}>{edu.institution}</Text>
+                  <Text style={styles.experienceTitle}>{edu.degree}</Text>
                   <Text style={styles.experienceCompany}>
+                    {edu.institution}
+                  </Text>
+                  <Text style={styles.experienceDate}>
                     {formatDate(edu.graduationDate)}
                   </Text>
-                  {edu.gpaType === "numeric" && (
+                  {edu.gpaType === "percentage" && (
                     <Text
                       style={{
                         fontSize: 8,
                         color: "#4B5563",
-                        textAlign: resumeData.lng === "ar" ? "right" : "left",
+                        textAlign: isArabic ? "right" : "left",
                       }}
                     >
-                      {t.gpa}: {edu.numericGpa}
+                      {t.gpa}: {edu.numericGpa}%
                     </Text>
                   )}
-                  {edu.gpaType === "descriptive" && (
+                  {edu.gpaType === "outOf4" && (
                     <Text
                       style={{
                         fontSize: 8,
                         color: "#4B5563",
-                        textAlign: resumeData.lng === "ar" ? "right" : "left",
+                        textAlign: isArabic ? "right" : "left",
                       }}
                     >
-                      {t.gpas[edu.descriptiveGpa]}
+                      {t.gpa}: {edu.numericGpa}/4
+                    </Text>
+                  )}
+                  {edu.gpaType === "outOf5" && (
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        color: "#4B5563",
+                        textAlign: isArabic ? "right" : "left",
+                      }}
+                    >
+                      {t.gpa}: {edu.numericGpa}/5
                     </Text>
                   )}
                 </View>

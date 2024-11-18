@@ -215,17 +215,17 @@ export default function BlueHorizon({ resumeData, selectedTheme, className }) {
                     {formatDate(edu.graduationDate)}
                   </p>
                   {edu.gpaType === "percentage" && (
-                    <p className="text-sm text-gray-200">
+                    <p className="text-sm text-gray-600">
                       {t.gpa}: {edu.numericGpa}%
                     </p>
                   )}
                   {edu.gpaType === "outOf4" && (
-                    <p className="text-sm text-gray-200">
+                    <p className="text-sm text-gray-600">
                       {t.gpa}: `4/{edu.numericGpa}`
                     </p>
                   )}
                   {edu.gpaType === "outOf5" && (
-                    <p className="text-sm text-gray-200">
+                    <p className="text-sm text-gray-600">
                       {t.gpa}: `5/{edu.numericGpa}`
                     </p>
                   )}

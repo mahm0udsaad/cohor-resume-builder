@@ -76,6 +76,7 @@ export default function InfographicResume({ resumeData }) {
       opacity: 0.8,
     },
     contact: {
+      marginTop: 2,
       fontSize: 12,
       textAlign: isArabic ? "left" : "right",
     },
@@ -138,6 +139,7 @@ export default function InfographicResume({ resumeData }) {
       fontSize: 12,
       color: "#666",
       marginBottom: 5,
+      marginTop: 5,
     },
     educationItem: {
       marginBottom: 10,
@@ -192,6 +194,9 @@ export default function InfographicResume({ resumeData }) {
       backgroundColor: theme.primaryColor,
     }),
     courseItem: {
+      padding: 10,
+      backgroundColor: theme.backgroundColor,
+      borderRadius: "5px",
       marginBottom: 10,
       paddingLeft: isArabic ? 0 : 5,
       paddingRight: isArabic ? 5 : 0,
@@ -321,7 +326,7 @@ export default function InfographicResume({ resumeData }) {
                   <Text>{t.courses}</Text>
                 </View>
                 {resumeData.courses.map((course, index) => (
-                  <View key={index}>
+                  <View style={styles.courseItem} key={index}>
                     <Text style={styles.experienceTitle}>{course.name}</Text>
                     <Text style={styles.experienceCompany}>
                       {course.institution}
@@ -347,26 +352,37 @@ export default function InfographicResume({ resumeData }) {
                     <Text style={styles.experienceDate}>
                       {formatDate(edu.graduationDate)}
                     </Text>
-                    {edu.gpaType === "numeric" && (
+                    {edu.gpaType === "percentage" && (
                       <Text
                         style={{
-                          fontSize: 8,
+                          fontSize: 9,
                           color: "#4B5563",
                           textAlign: isArabic ? "right" : "left",
                         }}
                       >
-                        {t.gpa}: {edu.numericGpa}
+                        {t.gpa}: {edu.numericGpa}%
                       </Text>
                     )}
-                    {edu.gpaType === "descriptive" && (
+                    {edu.gpaType === "outOf4" && (
                       <Text
                         style={{
-                          fontSize: 8,
+                          fontSize: 9,
                           color: "#4B5563",
                           textAlign: isArabic ? "right" : "left",
                         }}
                       >
-                        {t.gpas[edu.descriptiveGpa]}
+                        {t.gpa}: {edu.numericGpa}/4
+                      </Text>
+                    )}
+                    {edu.gpaType === "outOf5" && (
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          color: "#4B5563",
+                          textAlign: isArabic ? "right" : "left",
+                        }}
+                      >
+                        {t.gpa}: {edu.numericGpa}/5
                       </Text>
                     )}
                   </View>
@@ -389,7 +405,7 @@ export default function InfographicResume({ resumeData }) {
                   <Text style={styles.experienceDate}>
                     {formatDate(edu.graduationDate)}
                   </Text>
-                  {edu.gpaType === "numeric" && (
+                  {edu.gpaType === "percentage" && (
                     <Text
                       style={{
                         fontSize: 8,

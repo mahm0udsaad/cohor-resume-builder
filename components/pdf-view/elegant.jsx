@@ -196,7 +196,7 @@ const ElegantResume = ({ resumeData }) => {
                   {formatDate(edu.graduationDate)}
                 </Text>
               </View>
-              {edu.gpaType === "numeric" && (
+              {edu.gpaType === "percentage" && (
                 <Text
                   style={{
                     fontSize: 8,

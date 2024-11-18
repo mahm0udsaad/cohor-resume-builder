@@ -231,7 +231,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
                 <Text style={styles.text}>
                   {formatDate(edu.graduationDate)}
                 </Text>
-                {edu.gpaType === "numeric" && (
+                {edu.gpaType === "percentage" && (
                   <Text
                     style={{
                       fontSize: 8,

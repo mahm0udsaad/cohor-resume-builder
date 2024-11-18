@@ -74,6 +74,7 @@ const createStyles = (isRTL) =>
       marginBottom: 5,
     },
     responsibilities: {
+      lineHeight: 1.5,
       fontSize: 10,
       marginTop: 5,
       color: "grey",
@@ -124,8 +125,8 @@ const Modern = ({ resumeData }) => {
       <Page wrap={false} size="A4" style={styles.page}>
         {/* Sidebar */}
         <View
-          wrap={false}
           fixed
+          wrap={false}
           style={[styles.sidebar, { backgroundColor: primaryColor }]}
         />
 
@@ -202,7 +203,7 @@ const Modern = ({ resumeData }) => {
                     <Text style={styles.institution}>
                       {edu.institution} | {formatDate(edu.graduationDate)}
                     </Text>
-                    {edu.gpaType === "numeric" && (
+                    {edu.gpaType === "percentage" && (
                       <Text
                         style={{
                           fontSize: 8,
@@ -210,10 +211,10 @@ const Modern = ({ resumeData }) => {
                           textAlign: isArabic ? "right" : "left",
                         }}
                       >
-                        {t.gpa}: {edu.numericGpa}
+                        {t.gpa}: {edu.numericGpa}%
                       </Text>
                     )}
-                    {edu.gpaType === "descriptive" && (
+                    {edu.gpaType === "outOf4" && (
                       <Text
                         style={{
                           fontSize: 8,
@@ -221,7 +222,18 @@ const Modern = ({ resumeData }) => {
                           textAlign: isArabic ? "right" : "left",
                         }}
                       >
-                        {t.gpas[edu.descriptiveGpa]}
+                        {t.gpa}: {edu.numericGpa}/4
+                      </Text>
+                    )}
+                    {edu.gpaType === "outOf5" && (
+                      <Text
+                        style={{
+                          fontSize: 8,
+                          color: "#4B5563",
+                          textAlign: isArabic ? "right" : "left",
+                        }}
+                      >
+                        {t.gpa}: {edu.numericGpa}/5
                       </Text>
                     )}
                   </View>

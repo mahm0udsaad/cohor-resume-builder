@@ -10,10 +10,7 @@ import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 
 // Assuming data, t, formatDate, and isArabic are passed in as props
-export default function ModernFormalResumeTemplatePDF({
-  resumeData,
-  selectedTheme,
-}) {
+export default function ModernFormalResumeTemplatePDF({ resumeData }) {
   const isArabic = resumeData.lng === "ar";
   const t = isArabic ? translations.ar : translations.en;
 
@@ -35,7 +32,7 @@ export default function ModernFormalResumeTemplatePDF({
       src: "/fonts/Cairo-Medium.ttf",
     });
   }
-  const theme = selectedTheme || {
+  const theme = resumeData.theme || {
     backgroundColor: "#ffffff",
     primaryColor: "#3498db",
   };
@@ -43,7 +40,7 @@ export default function ModernFormalResumeTemplatePDF({
   const styles = StyleSheet.create({
     page: {
       fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
-      padding: 20,
+      padding: 15,
       backgroundColor: theme.backgroundColor,
       color: "#333",
     },
@@ -65,7 +62,7 @@ export default function ModernFormalResumeTemplatePDF({
       color: theme.primaryColor,
       borderBottom: `1px solid ${theme.primaryColor}`,
       paddingBottom: 10,
-      marginBottom: 20,
+      marginBottom: 14,
       fontSize: 16,
     },
     personalInfo: {
@@ -75,7 +72,6 @@ export default function ModernFormalResumeTemplatePDF({
     },
     jobTitle: {
       textAlign: isArabic ? "right" : "left",
-
       fontSize: 18,
       color: "#7f8c8d",
     },
@@ -85,6 +81,7 @@ export default function ModernFormalResumeTemplatePDF({
       marginBottom: 10,
     },
     content: {
+      lineHeight: 1.5,
       textAlign: isArabic ? "right" : "left",
       fontSize: 12,
       marginBottom: 10,
@@ -187,26 +184,37 @@ export default function ModernFormalResumeTemplatePDF({
                     <Text style={{ marginTop: 4 }}>{`${
                       edu.institution
                     }, ${formatDate(edu.graduationDate)}`}</Text>
-                    {edu.gpaType === "numeric" && (
+                    {edu.gpaType === "percentage" && (
                       <Text
                         style={{
-                          fontSize: 8,
+                          fontSize: 9,
                           color: "#4B5563",
                           textAlign: isArabic ? "right" : "left",
                         }}
                       >
-                        {t.gpa}: {edu.numericGpa}
+                        {t.gpa}: {edu.numericGpa}%
                       </Text>
                     )}
-                    {edu.gpaType === "descriptive" && (
+                    {edu.gpaType === "outOf4" && (
                       <Text
                         style={{
-                          fontSize: 8,
+                          fontSize: 9,
                           color: "#4B5563",
                           textAlign: isArabic ? "right" : "left",
                         }}
                       >
-                        {t.gpas[edu.descriptiveGpa]}
+                        {t.gpa}: {edu.numericGpa}/4
+                      </Text>
+                    )}
+                    {edu.gpaType === "outOf5" && (
+                      <Text
+                        style={{
+                          fontSize: 9,
+                          color: "#4B5563",
+                          textAlign: isArabic ? "right" : "left",
+                        }}
+                      >
+                        {t.gpa}: {edu.numericGpa}/5
                       </Text>
                     )}
                   </View>

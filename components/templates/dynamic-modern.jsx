@@ -200,22 +200,17 @@ const DynamicModernResume = ({ resumeData, selectedTheme, className }) => {
                 <div>{edu.institution}</div>
                 <div>{formatDate(edu.graduationDate)}</div>
                 {edu.gpaType === "percentage" && (
-                  <p className="text-sm text-gray-300">
-                    {t.gpa}: {edu.numericGpa}%
-                  </p>
-                )}
-                {edu.gpaType === "percentage" && (
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-gray-600">
                     {t.gpa}: {edu.numericGpa}%
                   </p>
                 )}
                 {edu.gpaType === "outOf4" && (
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-gray-600">
                     {t.gpa}: {edu.numericGpa}/4
                   </p>
                 )}
                 {edu.gpaType === "outOf5" && (
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-gray-600">
                     {t.gpa}: {edu.numericGpa}/5
                   </p>
                 )}

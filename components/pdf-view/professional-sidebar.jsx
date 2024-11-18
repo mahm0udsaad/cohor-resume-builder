@@ -40,13 +40,13 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
     sidebar: {
       textAlign: isArabic ? "right" : "left",
       width: "35%",
-      padding: 20,
+      padding: 15,
       backgroundColor: theme.primaryColor,
       color: "#fff",
     },
     main: {
       width: "65%",
-      padding: 20,
+      padding: 10,
       textAlign: isArabic ? "right" : "left",
     },
     avatar: {
@@ -54,7 +54,7 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
       height: 120,
       borderRadius: "50%",
       objectFit: "cover",
-      border: "4px solid white",
+      border: "2px solid white",
       marginBottom: 20,
     },
     sectionTitle: {
@@ -84,13 +84,13 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
       marginBottom: 5,
     },
     experienceItem: {
-      marginBottom: 12,
+      marginBottom: 8,
       textAlign: isArabic ? "right" : "left",
     },
     heading: {
       fontSize: 20,
       color: theme.primaryColor,
-      marginBottom: 10,
+      marginBottom: 5,
       textAlign: isArabic ? "right" : "left",
     },
   });
@@ -130,49 +130,56 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
             <View key={index}>
               <Text
                 style={{
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  marginBottom: 2,
+                  fontSize: 14,
+                  fontWeight: "extrabold",
+                  marginBottom: 4,
                   marginTop: 2,
                 }}
               >
                 {edu.degree}
               </Text>
-              <Text style={{ fontSize: 14 }}>{edu.institution}</Text>
+              <Text style={{ fontSize: 14, marginBottom: 4 }}>
+                {edu.institution}
+              </Text>
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: 10,
                   marginBottom: 2,
                   marginTop: 2,
                 }}
               >
                 {formatDate(edu.graduationDate)}
               </Text>
-              {edu.gpaType === "numeric" && (
+              {edu.gpaType === "percentage" && (
                 <Text
                   style={{
-                    fontSize: 12,
-                    color: "#4B5563",
+                    marginTop: 2,
+                    fontSize: 8,
+                    color: "#e5e7eb",
                     textAlign: isArabic ? "right" : "left",
                   }}
                 >
-                  {t.gpa}: {edu.numericGpa}
+                  {t.gpa}: {edu.numericGpa}%
                 </Text>
               )}
               {edu.gpaType === "outOf4" && (
                 <Text
                   style={{
-                    fontSize: 12,
+                    marginTop: 2,
+                    fontSize: 8,
+                    color: "#e5e7eb",
                     textAlign: isArabic ? "right" : "left",
                   }}
                 >
-                  {t.gpa}: {edu.numericGpa}/4``
+                  {t.gpa}: {edu.numericGpa}/4
                 </Text>
               )}
               {edu.gpaType === "outOf5" && (
                 <Text
                   style={{
-                    fontSize: 12,
+                    marginTop: 2,
+                    fontSize: 8,
+                    color: "#e5e7eb",
                     textAlign: isArabic ? "right" : "left",
                   }}
                 >
@@ -211,12 +218,12 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
             style={{
               fontSize: 32,
               color: theme.primaryColor,
-              marginBottom: 10,
+              marginBottom: 6,
             }}
           >
             {resumeData.personalInfo.name}
           </Text>
-          <Text style={{ fontSize: 24, color: "#6b7280", marginBottom: 20 }}>
+          <Text style={{ fontSize: 24, color: "#6b7280", marginBottom: 15 }}>
             {resumeData.personalInfo.jobTitle}
           </Text>
           <Text style={styles.text}>{resumeData.personalInfo.summary}</Text>
@@ -261,9 +268,22 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
                     <Text style={{ fontSize: 14, fontWeight: "bold" }}>
                       {course.name}
                     </Text>
-                    <Text style={styles.text}>{course.institution}</Text>
-                    <Text style={styles.text}>
-                      {t.completed}: {formatDate(course.completionDate)}
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        marginTop: 6,
+                      }}
+                    >
+                      {course.institution}
+                    </Text>
+                    <Text
+                      style={{
+                        marginTop: 8,
+                        color: "#6b7280",
+                        fontSize: 12,
+                      }}
+                    >
+                      {formatDate(course.completionDate)}
                     </Text>
                   </View>
                 ))}

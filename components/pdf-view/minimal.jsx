@@ -239,7 +239,7 @@ const MinimalTemplate = ({ resumeData }) => {
                   <Text style={styles.date}>
                     {formatDate(edu.graduationDate)}
                   </Text>
-                  {edu.gpaType === "numeric" && (
+                  {edu.gpaType === "percentage" && (
                     <Text
                       style={{
                         fontSize: 8,

@@ -143,7 +143,7 @@ export default function FormalOneColumnResume({ resumeData }) {
               <Text style={styles.dateText}>
                 {formatDate(edu.graduationDate)}
               </Text>
-              {edu.gpaType === "numeric" && (
+              {edu.gpaType === "percentage" && (
                 <Text
                   style={{
                     fontSize: 8,
