@@ -294,7 +294,9 @@ const MinimalTemplate = ({ resumeData }) => {
                       </Text>
                       <Text style={styles.date}>-</Text>
                       <Text style={styles.date}>
-                        {formatDate(exp.endDate, resumeData.lng)}
+                        {exp.isCurrentJob
+                          ? t.present
+                          : formatDate(exp.endDate, resumeData.lng)}
                       </Text>
                     </View>
                   </View>

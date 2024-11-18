@@ -102,7 +102,8 @@ const ElegantFormalTemplate = ({ resumeData, selectedTheme, className }) => {
             <h3>{exp.jobTitle}</h3>
             <p>{exp.company}</p>
             <p>
-              {formatDate(exp.startDate)} - {formatDate(exp.endDate, lng)}
+              {formatDate(exp.startDate)} -{" "}
+              {exp.isCurrentJob ? t.present : formatDate(exp.endDate, lng)}
             </p>
             <p>{exp.responsibilities}</p>
           </div>
@@ -117,13 +118,18 @@ const ElegantFormalTemplate = ({ resumeData, selectedTheme, className }) => {
             <p>{edu.institution}</p>
             <p>{formatDate(edu.graduationDate)}</p>
             {edu.gpaType === "percentage" && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-500">
                 {t.gpa}: {edu.numericGpa}%
               </p>
             )}
-            {edu.gpaType === "descriptive" && (
-              <p className="text-sm text-gray-600">
-                {t.gpas[edu.descriptiveGpa]}
+            {edu.gpaType === "outOf4" && (
+              <p className="text-sm text-gray-500">
+                {t.gpa}: {edu.numericGpa}/4
+              </p>
+            )}
+            {edu.gpaType === "outOf5" && (
+              <p className="text-sm text-gray-500">
+                {t.gpa}: {edu.numericGpa}/5
               </p>
             )}
           </div>

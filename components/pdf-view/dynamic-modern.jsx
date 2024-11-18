@@ -215,7 +215,9 @@ export default function DynamicModernResume({ resumeData }) {
                     </Text>
                     <Text style={styles.experienceDate}>-</Text>
                     <Text style={styles.experienceDate}>
-                      {formatDate(exp.endDate, resumeData.lng)}
+                      {exp.isCurrentJob
+                        ? t.present
+                        : formatDate(exp.endDate, resumeData.lng)}
                     </Text>
                   </View>
                   <Text style={{ fontSize: 12, lineHeight: 1.4 }}>

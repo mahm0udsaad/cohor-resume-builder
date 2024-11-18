@@ -41,7 +41,12 @@ export default async function TemplatePage({ params: { template, lng } }) {
   return (
     <div className="bg-gray-25">
       <Suspense fallback={<BuilderSkeleton />}>
-        <ResumeBuilder initialData={data} resumeName={template} lng={lng} />
+        <ResumeBuilder
+          initialData={data}
+          resumeName={template}
+          lng={lng}
+          user={session.user}
+        />
       </Suspense>
     </div>
   );

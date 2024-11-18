@@ -1580,6 +1580,7 @@ export namespace Prisma {
     company?: boolean
     startDate?: boolean
     endDate?: boolean
+    isCurrentJob?: boolean
     responsibilities?: boolean
   }, ExtArgs["result"]["experience"]>
 
@@ -1589,6 +1590,7 @@ export namespace Prisma {
     company?: boolean
     startDate?: boolean
     endDate?: boolean
+    isCurrentJob?: boolean
     responsibilities?: boolean
   }
 
@@ -1601,6 +1603,7 @@ export namespace Prisma {
       company: string
       startDate: Date | null
       endDate: Date | null
+      isCurrentJob: boolean | null
       responsibilities: string
     }
     composites: {}
@@ -1620,6 +1623,7 @@ export namespace Prisma {
     readonly company: FieldRef<"Experience", 'String'>
     readonly startDate: FieldRef<"Experience", 'DateTime'>
     readonly endDate: FieldRef<"Experience", 'DateTime'>
+    readonly isCurrentJob: FieldRef<"Experience", 'Boolean'>
     readonly responsibilities: FieldRef<"Experience", 'String'>
   }
     
@@ -4054,7 +4058,7 @@ export namespace Prisma {
     status: string
     paymentDate: Date
     plan: string
-    endDate: Date
+    endDate: Date | null
     features: string[]
     createdAt: Date
     updatedAt: Date
@@ -4129,7 +4133,7 @@ export namespace Prisma {
       status: string
       paymentDate: Date
       plan: string
-      endDate: Date
+      endDate: Date | null
       features: string[]
       createdAt: Date
       updatedAt: Date
@@ -9120,7 +9124,7 @@ export namespace Prisma {
     status?: StringFilter<"Subscription"> | string
     paymentDate?: DateTimeFilter<"Subscription"> | Date | string
     plan?: StringFilter<"Subscription"> | string
-    endDate?: DateTimeFilter<"Subscription"> | Date | string
+    endDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     features?: StringNullableListFilter<"Subscription">
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
@@ -9155,7 +9159,7 @@ export namespace Prisma {
     status?: StringFilter<"Subscription"> | string
     paymentDate?: DateTimeFilter<"Subscription"> | Date | string
     plan?: StringFilter<"Subscription"> | string
-    endDate?: DateTimeFilter<"Subscription"> | Date | string
+    endDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     features?: StringNullableListFilter<"Subscription">
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
@@ -9194,7 +9198,7 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"Subscription"> | string
     paymentDate?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     plan?: StringWithAggregatesFilter<"Subscription"> | string
-    endDate?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
+    endDate?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
     features?: StringNullableListFilter<"Subscription">
     createdAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
@@ -9670,9 +9674,9 @@ export namespace Prisma {
     orderId: string
     amount: number
     status: string
-    paymentDate: Date | string
+    paymentDate?: Date | string
     plan: string
-    endDate: Date | string
+    endDate?: Date | string | null
     features?: SubscriptionCreatefeaturesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9686,9 +9690,9 @@ export namespace Prisma {
     orderId: string
     amount: number
     status: string
-    paymentDate: Date | string
+    paymentDate?: Date | string
     plan: string
-    endDate: Date | string
+    endDate?: Date | string | null
     features?: SubscriptionCreatefeaturesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9701,7 +9705,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     plan?: StringFieldUpdateOperationsInput | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     features?: SubscriptionUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9716,7 +9720,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     plan?: StringFieldUpdateOperationsInput | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     features?: SubscriptionUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9729,9 +9733,9 @@ export namespace Prisma {
     orderId: string
     amount: number
     status: string
-    paymentDate: Date | string
+    paymentDate?: Date | string
     plan: string
-    endDate: Date | string
+    endDate?: Date | string | null
     features?: SubscriptionCreatefeaturesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9744,7 +9748,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     plan?: StringFieldUpdateOperationsInput | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     features?: SubscriptionUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9758,7 +9762,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     plan?: StringFieldUpdateOperationsInput | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     features?: SubscriptionUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10372,6 +10376,18 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -10447,6 +10463,21 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+
   export type BoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
@@ -10483,6 +10514,7 @@ export namespace Prisma {
     company: string
     startDate?: Date | string | null
     endDate?: Date | string | null
+    isCurrentJob?: boolean | null
     responsibilities: string
   }
 
@@ -10545,18 +10577,6 @@ export namespace Prisma {
     name: string
     institution: string
     completionDate?: Date | string | null
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-    isSet?: boolean
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -10690,21 +10710,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
-    isSet?: boolean
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
     isSet?: boolean
   }
 
@@ -10892,6 +10897,11 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+    unset?: boolean
+  }
+
   export type SubscriptionUpdatefeaturesInput = {
     set?: string[]
     push?: string | string[]
@@ -10927,6 +10937,7 @@ export namespace Prisma {
     company: string
     startDate?: Date | string | null
     endDate?: Date | string | null
+    isCurrentJob?: boolean | null
     responsibilities: string
   }
 
@@ -11071,11 +11082,6 @@ export namespace Prisma {
     push?: CourseCreateInput | CourseCreateInput[]
     updateMany?: CourseUpdateManyInput
     deleteMany?: CourseDeleteManyInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-    unset?: boolean
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -11385,6 +11391,18 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -11399,6 +11417,21 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
@@ -11427,6 +11460,7 @@ export namespace Prisma {
     company?: StringFilter<"Experience"> | string
     startDate?: DateTimeNullableFilter<"Experience"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Experience"> | Date | string | null
+    isCurrentJob?: BoolNullableFilter<"Experience"> | boolean | null
     responsibilities?: StringFilter<"Experience"> | string
   }
 
@@ -11467,18 +11501,6 @@ export namespace Prisma {
     completionDate?: DateTimeNullableFilter<"Course"> | Date | string | null
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-    isSet?: boolean
-  }
-
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -11490,21 +11512,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
-    isSet?: boolean
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
     isSet?: boolean
   }
 
@@ -11986,9 +11993,9 @@ export namespace Prisma {
     orderId: string
     amount: number
     status: string
-    paymentDate: Date | string
+    paymentDate?: Date | string
     plan: string
-    endDate: Date | string
+    endDate?: Date | string | null
     features?: SubscriptionCreatefeaturesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12000,9 +12007,9 @@ export namespace Prisma {
     orderId: string
     amount: number
     status: string
-    paymentDate: Date | string
+    paymentDate?: Date | string
     plan: string
-    endDate: Date | string
+    endDate?: Date | string | null
     features?: SubscriptionCreatefeaturesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12183,7 +12190,7 @@ export namespace Prisma {
     status?: StringFilter<"Subscription"> | string
     paymentDate?: DateTimeFilter<"Subscription"> | Date | string
     plan?: StringFilter<"Subscription"> | string
-    endDate?: DateTimeFilter<"Subscription"> | Date | string
+    endDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     features?: StringNullableListFilter<"Subscription">
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
@@ -12365,9 +12372,9 @@ export namespace Prisma {
     orderId: string
     amount: number
     status: string
-    paymentDate: Date | string
+    paymentDate?: Date | string
     plan: string
-    endDate: Date | string
+    endDate?: Date | string | null
     features?: SubscriptionCreatefeaturesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12387,6 +12394,7 @@ export namespace Prisma {
     company?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isCurrentJob?: NullableBoolFieldUpdateOperationsInput | boolean | null
     responsibilities?: StringFieldUpdateOperationsInput | string
   }
 
@@ -12518,7 +12526,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     plan?: StringFieldUpdateOperationsInput | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     features?: SubscriptionUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12531,7 +12539,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     plan?: StringFieldUpdateOperationsInput | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     features?: SubscriptionUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12544,7 +12552,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     plan?: StringFieldUpdateOperationsInput | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     features?: SubscriptionUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

@@ -207,7 +207,9 @@ export default function ExperienceCard({ user, lng }) {
               </h3>
               <p>
                 {t("workExperience.dates")}: {formatDate(exp.startDate)} -{" "}
-                {formatDate(exp.endDate)}
+                {exp.isCurrentJob
+                  ? t.present
+                  : formatDate(exp.endDate, resumeData.lng)}
               </p>
               <div className="flex gap-2">
                 <Button

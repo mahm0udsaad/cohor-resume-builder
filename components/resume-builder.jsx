@@ -55,30 +55,9 @@ const DynamicReviewForm = dynamic(
   },
 );
 
-export function ResumeBuilder({ initialData, resumeName, lng }) {
-  const { data: session, status } = useSession();
-
+export function ResumeBuilder({ initialData, resumeName, user, lng }) {
   const router = useRouter();
-  useEffect(() => {
-    if (status !== "loading" && !session) {
-      toast({
-        title: t("notifications.connectionLost"),
-        description: t("notifications.connectionLostDescription"),
-        variant: "destructive",
-        action: (
-          <ToastAction
-            onClick={() => window.location.reload()}
-            altText="Refresh the page"
-          >
-            {t("notifications.refresh")}
-          </ToastAction>
-        ),
-      });
-    }
-  }, [status, session]);
-
-  const user = session?.user;
-  const plan = user?.plan || "free";
+  const plan = user?.plan;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { toast } = useToast();

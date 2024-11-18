@@ -33,19 +33,19 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
     header: {
       borderBottom: `2px solid ${theme.primaryColor}`,
       paddingBottom: 20,
-      marginBottom: 10,
+      marginBottom: 20,
       textAlign: isArabic ? "right" : "left",
     },
     name: {
       fontSize: 32,
-      fontWeight: "bold",
+      fontWeight: "extrabold",
       color: theme.primaryColor,
-      marginBottom: 3,
+      marginBottom: 5,
     },
     jobTitle: {
       fontSize: 18,
       color: "#7f8c8d",
-      marginBottom: 10,
+      marginBottom: 14,
     },
     contact: {
       fontSize: 14,
@@ -74,8 +74,8 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
     bullet: {
       position: "absolute",
       marginTop: 3,
-      left: resumeData.lng === "ar" ? "" : -2,
-      right: resumeData.lng === "ar" ? -2 : "",
+      left: resumeData.lng === "ar" ? "" : -4,
+      right: resumeData.lng === "ar" ? -4 : "",
       top: 0,
       width: "10px",
       height: "10px",
@@ -99,9 +99,11 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
       fontSize: 16,
       fontWeight: "bold",
       color: "#34495e",
+      marginBottom: 5,
     },
     dates: {
-      paddingVertical: 2,
+      marginBottom: 3,
+      marginTop: 3,
       fontSize: 12,
       color: "#7f8c8d",
     },
@@ -150,7 +152,9 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
                   <Text style={styles.dates}>{formatDate(exp.startDate)}</Text>
                   <Text style={styles.dates}>-</Text>
                   <Text style={styles.dates}>
-                    {formatDate(exp.endDate, resumeData.lng)}
+                    {exp.isCurrentJob
+                      ? t.present
+                      : formatDate(exp.endDate, resumeData.lng)}
                   </Text>
                 </View>
                 <Text style={styles.bodyText}>{exp.responsibilities}</Text>
@@ -173,7 +177,7 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
                 {edu.gpaType === "numeric" && (
                   <Text
                     style={{
-                      fontSize: 8,
+                      fontSize: 12,
                       color: "#4B5563",
                       textAlign: isArabic ? "right" : "left",
                     }}
@@ -181,15 +185,26 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
                     {t.gpa}: {edu.numericGpa}
                   </Text>
                 )}
-                {edu.gpaType === "descriptive" && (
+                {edu.gpaType === "outOf4" && (
                   <Text
                     style={{
-                      fontSize: 8,
+                      fontSize: 12,
                       color: "#4B5563",
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
-                    {t.gpas[edu.descriptiveGpa]}
+                    {t.gpa}: {edu.numericGpa}/4
+                  </Text>
+                )}
+                {edu.gpaType === "outOf5" && (
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: "#4B5563",
+                      textAlign: isArabic ? "right" : "left",
+                    }}
+                  >
+                    {t.gpa}: {edu.numericGpa}/5
                   </Text>
                 )}
               </View>
@@ -230,19 +245,20 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
         )}
 
         {/* Courses Section */}
-        {resumeData.courses.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t.courses}</Text>
-            {resumeData.courses.map((course, index) => (
-              <View style={{ marginBottom: 10 }} key={index}>
-                <Text style={styles.subtitle}>{course.name}</Text>
-                <Text style={styles.dates}>
-                  {course.institution} - {formatDate(course.completionDate)}
-                </Text>
-              </View>
-            ))}
-          </View>
-        )}
+        {resumeData.courses.length > 0 &&
+          resumeData.courses[0].name.trim() !== "" && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>{t.courses}</Text>
+              {resumeData.courses.map((course, index) => (
+                <View style={{ marginBottom: 10 }} key={index}>
+                  <Text style={styles.subtitle}>{course.name}</Text>
+                  <Text style={styles.dates}>
+                    {course.institution} - {formatDate(course.completionDate)}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
       </Page>
     </Document>
   );

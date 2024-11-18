@@ -14,39 +14,23 @@ export default function EducationForm({ educations, updateData, lng }) {
   const handleEducationChange = (index, field, value) => {
     // When changing GPA type
     if (field === "gpaType") {
-      if (value === "outOf4" || value === "outOf5") {
-        // Set the gpaType to descriptive
-        updateData({
-          type: "UPDATE",
-          path: ["educations", index, "gpaType"],
-          value: "descriptive",
-        });
-        // Store outOf4 or outOf5 in descriptiveGpa
-        updateData({
-          type: "UPDATE",
-          path: ["educations", index, "descriptiveGpa"],
-          value: value,
-        });
-        // Clear numeric GPA if any
-        updateData({
-          type: "UPDATE",
-          path: ["educations", index, "numericGpa"],
-          value: "",
-        });
-      } else {
-        // For percentage or none, update gpaType normally
-        updateData({
-          type: "UPDATE",
-          path: ["educations", index, field],
-          value: value,
-        });
-        // Clear descriptive GPA if any
-        updateData({
-          type: "UPDATE",
-          path: ["educations", index, "descriptiveGpa"],
-          value: "",
-        });
-      }
+      // Clear both GPA fields when changing type
+      updateData({
+        type: "UPDATE",
+        path: ["educations", index, "numericGpa"],
+        value: "",
+      });
+      updateData({
+        type: "UPDATE",
+        path: ["educations", index, "descriptiveGpa"],
+        value: "",
+      });
+      // Update the GPA type
+      updateData({
+        type: "UPDATE",
+        path: ["educations", index, field],
+        value: value,
+      });
     } else {
       // For all other fields, update normally
       updateData({
@@ -56,7 +40,6 @@ export default function EducationForm({ educations, updateData, lng }) {
       });
     }
   };
-
   const addEducation = () => {
     updateData({
       type: "ADD",
@@ -103,6 +86,33 @@ export default function EducationForm({ educations, updateData, lng }) {
             />
             <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
               %
+            </span>
+          </div>
+        </div>
+      );
+    } else if (edu.gpaType === "outOf4" || edu.gpaType === "outOf5") {
+      const maxValue = edu.gpaType === "outOf4" ? 4 : 5;
+      return (
+        <div className="space-y-2 mt-2">
+          <Label htmlFor={`numericGpa-${index}`}>
+            {t(`education.${edu.gpaType}`)}
+          </Label>
+          <div className="relative">
+            <Input
+              id={`numericGpa-${index}`}
+              type="number"
+              step="0.1"
+              min="0"
+              max={maxValue}
+              placeholder={t("education.numericGpaPlaceholder", { maxValue })}
+              value={edu.numericGpa}
+              onChange={(e) =>
+                handleEducationChange(index, "numericGpa", e.target.value)
+              }
+              className="border-[#3B51A3] focus:ring-[#3B51A3] pr-12"
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              {maxValue}/
             </span>
           </div>
         </div>
@@ -174,7 +184,7 @@ export default function EducationForm({ educations, updateData, lng }) {
             </div>
             <div className="space-y-2">
               <Label>
-                {t("education.GPA")} ({t("education.optional")})
+                {t("education.selectGpa")} ({t("education.optional")})
               </Label>
               <RadioGroup
                 style={{ direction: lng === "ar" ? "rtl" : "ltr" }}

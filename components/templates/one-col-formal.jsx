@@ -110,7 +110,8 @@ export default function FormalOneColumnResume({ resumeData }) {
             <h3 style={styles.experienceTitle}>{exp.jobTitle}</h3>
             <p style={styles.experienceCompany}>{exp.company}</p>
             <p style={styles.experienceDate}>
-              {formatDate(exp.startDate)} - {formatDate(exp.endDate, lng)}
+              {formatDate(exp.startDate)} -{" "}
+              {exp.isCurrentJob ? t.present : formatDate(exp.endDate, lng)}
             </p>
             <p>{exp.responsibilities}</p>
           </div>
@@ -127,13 +128,18 @@ export default function FormalOneColumnResume({ resumeData }) {
               {formatDate(edu.graduationDate)}
             </p>
             {edu.gpaType === "percentage" && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-300">
                 {t.gpa}: {edu.numericGpa}%
               </p>
             )}
-            {edu.gpaType === "descriptive" && (
-              <p className="text-sm text-gray-600">
-                {t.gpas[edu.descriptiveGpa]}
+            {edu.gpaType === "outOf4" && (
+              <p className="text-sm text-gray-300">
+                {t.gpa}: {edu.numericGpa}/4
+              </p>
+            )}
+            {edu.gpaType === "outOf5" && (
+              <p className="text-sm text-gray-300">
+                {t.gpa}: {edu.numericGpa}/5
               </p>
             )}
           </div>

@@ -165,7 +165,9 @@ const ElegantResume = ({ resumeData }) => {
                 </Text>
                 <Text style={styles.companyInfo}>-</Text>
                 <Text style={styles.companyInfo}>
-                  {formatDate(job.endDate, resumeData.lng)}
+                  {job.isCurrentJob
+                    ? t.present
+                    : formatDate(job.endDate, resumeData.lng)}
                 </Text>
               </View>
               <Text style={styles.responsibilities}>

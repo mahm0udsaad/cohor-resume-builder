@@ -10,6 +10,7 @@ export default function CoursesForm({ control, errors, t }) {
     control,
     name: "courses",
   });
+  console.log(fields);
 
   return (
     <div className="space-y-6">
@@ -34,8 +35,9 @@ export default function CoursesForm({ control, errors, t }) {
               {t("reviewResume.courseName")}
             </Label>
             <Controller
-              name={`reviewResume.${index}.name`}
+              name={`courses.${index}.name`}
               control={control}
+              defaultValue={field.name}
               rules={{ required: t("required") }}
               render={({ field }) => (
                 <Input
@@ -57,8 +59,9 @@ export default function CoursesForm({ control, errors, t }) {
               {t("reviewResume.institution")}
             </Label>
             <Controller
-              name={`reviewResume.${index}.institution`}
+              name={`courses.${index}.institution`}
               control={control}
+              defaultValue={field.institution}
               render={({ field }) => (
                 <Input
                   {...field}
@@ -70,8 +73,9 @@ export default function CoursesForm({ control, errors, t }) {
             />
           </div>
           <Controller
-            name={`reviewResume.${index}.completionDate`}
+            name={`courses.${index}.completionDate`}
             control={control}
+            defaultValue={field.completionDate}
             render={({ field }) => (
               <DatePicker label={t("reviewResume.completionDate")} {...field} />
             )}

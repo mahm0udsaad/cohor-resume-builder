@@ -137,7 +137,11 @@ const Classic = ({ resumeData }) => {
           >
             <Text>{formatDate(exp.startDate)}</Text>
             <Text>-</Text>
-            <Text>{formatDate(exp.endDate, resumeData.lng)}</Text>
+            <Text>
+              {exp.isCurrentJob
+                ? t.present
+                : formatDate(exp.endDate, resumeData.lng)}
+            </Text>
           </View>
         </View>
         <Text style={styles.summary}>{exp.responsibilities}</Text>

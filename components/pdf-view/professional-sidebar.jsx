@@ -61,6 +61,7 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
       fontSize: 24,
       fontWeight: "bold",
       marginBottom: 10,
+      marginTop: 14,
       borderBottom: "1px solid white",
       paddingBottom: 5,
       textAlign: isArabic ? "right" : "left",
@@ -69,6 +70,7 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
       fontSize: 12,
       lineHeight: 1.5,
       marginBottom: 8,
+      marginTop: 8,
       textAlign: isArabic ? "right" : "left",
     },
     skillItem: {
@@ -110,9 +112,15 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
               style={styles.avatar}
             />
           </View>
-          <Text style={styles.sectionTitle}>{t.contact}</Text>
+          <Text style={styles.sectionTitle}>{t.contactInformation}</Text>
           {resumeData.personalInfo.contact?.map((item, index) => (
-            <Text key={index} style={styles.text}>
+            <Text
+              key={index}
+              style={{
+                fontSize: 12,
+                marginBottom: 4,
+              }}
+            >
               {item}
             </Text>
           ))}
@@ -120,27 +128,55 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
           <Text style={styles.sectionTitle}>{t.education}</Text>
           {resumeData.educations.map((edu, index) => (
             <View key={index}>
-              <Text style={styles.text}>{edu.degree}</Text>
-              <Text style={styles.text}>{edu.institution}</Text>
-              <Text style={styles.text}>{formatDate(edu.graduationDate)}</Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  marginBottom: 2,
+                  marginTop: 2,
+                }}
+              >
+                {edu.degree}
+              </Text>
+              <Text style={{ fontSize: 14 }}>{edu.institution}</Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  marginBottom: 2,
+                  marginTop: 2,
+                }}
+              >
+                {formatDate(edu.graduationDate)}
+              </Text>
               {edu.gpaType === "numeric" && (
                 <Text
                   style={{
-                    fontSize: 8,
+                    fontSize: 12,
+                    color: "#4B5563",
                     textAlign: isArabic ? "right" : "left",
                   }}
                 >
                   {t.gpa}: {edu.numericGpa}
                 </Text>
               )}
-              {edu.gpaType === "descriptive" && (
+              {edu.gpaType === "outOf4" && (
                 <Text
                   style={{
-                    fontSize: 8,
+                    fontSize: 12,
                     textAlign: isArabic ? "right" : "left",
                   }}
                 >
-                  {t.gpas[edu.descriptiveGpa]}
+                  {t.gpa}: {edu.numericGpa}/4``
+                </Text>
+              )}
+              {edu.gpaType === "outOf5" && (
+                <Text
+                  style={{
+                    fontSize: 12,
+                    textAlign: isArabic ? "right" : "left",
+                  }}
+                >
+                  {t.gpa}: {edu.numericGpa}/5
                 </Text>
               )}
             </View>
@@ -157,7 +193,13 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
 
           <Text style={styles.sectionTitle}>{t.languages}</Text>
           {resumeData.languages.map((lang, index) => (
-            <Text key={index} style={styles.text}>
+            <Text
+              key={index}
+              style={{
+                fontSize: 12,
+                marginBottom: 4,
+              }}
+            >
               {lang.name} - {t[lang.proficiency.toLowerCase()]}
             </Text>
           ))}
@@ -186,16 +228,16 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
                 style={{
                   fontSize: 16,
                   fontWeight: "bold",
-                  marginBottom: 2,
-                  marginTop: 2,
+                  marginTop: 4,
                 }}
               >
                 {exp.jobTitle}
               </Text>
-              <Text style={{ fontSize: 14 }}>{exp.company}</Text>
+              <Text style={{ fontSize: 14, marginTop: 6 }}>{exp.company}</Text>
               <View
                 style={{
                   flexDirection: lng === "ar" ? "row-reverse" : "row",
+                  marginTop: 8,
                   alignItems: "center",
                   color: "#6b7280",
                   fontSize: 12,
@@ -203,7 +245,9 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
               >
                 <Text>{formatDate(exp.startDate)}</Text>
                 <Text>-</Text>
-                <Text>{formatDate(exp.endDate, lng)}</Text>
+                <Text>
+                  {exp.isCurrentJob ? t.present : formatDate(exp.endDate, lng)}
+                </Text>
               </View>
               <Text style={styles.text}>{exp.responsibilities}</Text>
             </View>

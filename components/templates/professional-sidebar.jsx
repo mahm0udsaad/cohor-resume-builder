@@ -7,6 +7,7 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme, className }) => {
   // Detect Arabic for RTL layout
   const isArabic = resumeData.lng === "ar";
   const { lng } = resumeData;
+  console.log(resumeData);
 
   // Use fallback to English if translation isn't available
   const t = translations[lng] || translations["en"];
@@ -26,10 +27,7 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme, className }) => {
   return (
     <div
       id="resume-template"
-      className={cn(
-        "flex flex-col lg:flex-row mx-auto font-sans text-gray-800",
-        className,
-      )}
+      className={cn("flex flex-row mx-auto font-sans text-gray-800", className)}
       style={{ backgroundColor: theme.backgroundColor, direction: direction }}
     >
       {/* Sidebar */}
@@ -41,16 +39,16 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme, className }) => {
         }}
       >
         <img
-          src={resumeData.personalInfo.imageUrl}
+          src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
           alt={resumeData.personalInfo.name}
           className="size-[150px] rounded-full object-cover mb-8 border-4 border-white"
         />
         {/* Contact */}
         <h3 className="text-2xl font-bold mb-4 border-b pb-2 border-white">
-          {t.contact}
+          {t.contactInformation}
         </h3>
         {resumeData.personalInfo.contact?.map((item, index) => (
-          <div key={index} className="mb-4 text-sm">
+          <div key={index} className="mb-4 text-xs">
             {item}
           </div>
         ))}
@@ -65,13 +63,18 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme, className }) => {
             <div>{edu.institution}</div>
             <div>{formatDate(edu.graduationDate)}</div>
             {edu.gpaType === "percentage" && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-200">
                 {t.gpa}: {edu.numericGpa}%
               </p>
             )}
-            {edu.gpaType === "descriptive" && (
-              <p className="text-sm text-gray-600">
-                {t.gpas[edu.descriptiveGpa]}
+            {edu.gpaType === "outOf4" && (
+              <p className="text-sm text-gray-200">
+                {t.gpa}: {edu.numericGpa}/4
+              </p>
+            )}
+            {edu.gpaType === "outOf5" && (
+              <p className="text-sm text-gray-200">
+                {t.gpa}: {edu.numericGpa}/5
               </p>
             )}
           </div>
@@ -128,7 +131,7 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme, className }) => {
           className="text-2xl font-bold mb-4"
           style={{ color: theme.primaryColor }}
         >
-          {t.experience}
+          {t.workExperience}
         </h3>
         {resumeData.experiences.map((exp, index) => (
           <div key={index} className="mb-6 relative">
@@ -142,7 +145,9 @@ const ProfessionalSidebar = ({ resumeData, selectedTheme, className }) => {
               <h5 className="text-md mb-2">{exp.company}</h5>
               <p className="text-sm text-gray-600 mb-4">
                 {formatDate(exp.startDate)} -{" "}
-                {formatDate(exp.endDate, resumeData.lng)}
+                {exp.isCurrentJob
+                  ? t.present
+                  : formatDate(exp.endDate, resumeData.lng)}
               </p>
               <p>{exp.responsibilities}</p>
             </div>

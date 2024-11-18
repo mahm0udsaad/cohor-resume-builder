@@ -28,7 +28,6 @@ const ResumePreviewSkeleton = () => (
 export default function ClientResumeTemplate({
   template,
   resumeData,
-  selectedTheme,
   plan,
   lng,
 }) {
@@ -63,7 +62,7 @@ export default function ClientResumeTemplate({
 
   const content = (
     <Suspense fallback={<ResumePreviewSkeleton />}>
-      <div className="sm:w-4/5 mx-auto relative">
+      <div className="sm:w-[40rem] mx-auto relative">
         <ResumeComponent
           resumeData={resumeData}
           selectedTheme={resumeData.theme}

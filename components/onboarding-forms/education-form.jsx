@@ -26,19 +26,10 @@ export default function EducationForm({ control, errors, t }) {
 
   // Custom handler for GPA type changes
   const handleGpaTypeChange = (index, onChange, value) => {
-    if (value === "outOf4" || value === "outOf5") {
-      // Set main type to descriptive
-      onChange("descriptive");
-      // Update the descriptive GPA field
-      control._formValues.educations[index].descriptiveGpa = value;
-      // Clear numeric GPA
-      control._formValues.educations[index].numericGpa = "";
-    } else {
-      // For percentage or none, update normally
-      onChange(value);
-      // Clear descriptive GPA
-      control._formValues.educations[index].descriptiveGpa = "";
-    }
+    onChange(value);
+    // Clear both GPA fields when changing type
+    control._formValues.educations[index].numericGpa = "";
+    control._formValues.educations[index].descriptiveGpa = "";
   };
 
   const renderGpaInput = (index, gpaType) => {
@@ -67,6 +58,36 @@ export default function EducationForm({ control, errors, t }) {
             />
             <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
               %
+            </span>
+          </div>
+        </div>
+      );
+    } else if (gpaType === "outOf4" || gpaType === "outOf5") {
+      const maxValue = gpaType === "outOf4" ? 4 : 5;
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={`numericGpa-${index}`}>
+            {t(`education.${gpaType}`)}
+          </Label>
+          <div className="relative">
+            <Controller
+              name={`educations.${index}.numericGpa`}
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  id={`numericGpa-${index}`}
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max={maxValue}
+                  placeholder={`Enter GPA (0-${maxValue})`}
+                  className="pr-12"
+                />
+              )}
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              /{maxValue}
             </span>
           </div>
         </div>
@@ -164,13 +185,13 @@ export default function EducationForm({ control, errors, t }) {
                   defaultValue={field.value}
                   className="flex gap-4 flex-wrap"
                 >
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center gap-2">
                     <RadioGroupItem value="none" id={`gpa-none-${index}`} />
                     <Label htmlFor={`gpa-none-${index}`}>
                       {t("education.noGpa")}
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center gap-2">
                     <RadioGroupItem
                       value="percentage"
                       id={`gpa-percentage-${index}`}
@@ -179,13 +200,13 @@ export default function EducationForm({ control, errors, t }) {
                       {t("education.gpaPercentage")}
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center gap-2">
                     <RadioGroupItem value="outOf4" id={`gpa-outOf4-${index}`} />
                     <Label htmlFor={`gpa-outOf4-${index}`}>
                       {t("education.gpaOutOf4")}
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center gap-2">
                     <RadioGroupItem value="outOf5" id={`gpa-outOf5-${index}`} />
                     <Label htmlFor={`gpa-outOf5-${index}`}>
                       {t("education.gpaOutOf5")}

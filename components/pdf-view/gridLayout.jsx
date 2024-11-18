@@ -185,7 +185,9 @@ export default function GridLayoutResumePDF({ resumeData }) {
                     </Text>
                     <Text style={styles.sectionContent}> - </Text>
                     <Text style={styles.sectionContent}>
-                      {formatDate(exp.endDate, resumeData.lng)}
+                      {exp.isCurrentJob
+                        ? t.present
+                        : formatDate(exp.endDate, resumeData.lng)}
                     </Text>
                   </View>
                   <Text style={styles.sectionContent}>

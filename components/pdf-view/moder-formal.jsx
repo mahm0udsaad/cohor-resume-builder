@@ -167,7 +167,11 @@ export default function ModernFormalResumeTemplatePDF({
                       >
                         <Text>{formatDate(job.startDate)}</Text>
                         <Text>-</Text>
-                        <Text>{formatDate(job.endDate, resumeData.lng)}</Text>
+                        <Text>
+                          {job.isCurrentJob
+                            ? t.present
+                            : formatDate(job.endDate, resumeData.lng)}
+                        </Text>
                       </View>
                     </View>
                     <Text>{job.responsibilities}</Text>

@@ -90,7 +90,9 @@ const ElegantResume = ({ resumeData, selectedTheme, className }) => {
             </h4>
             <p className="text-sm text-gray-600 sm:text-xs">
               {job.company} | {formatDate(job.startDate)} -{" "}
-              {formatDate(job.endDate, resumeData.lng)}
+              {job.isCurrentJob
+                ? t.present
+                : formatDate(job.endDate, resumeData.lng)}
             </p>
             <p className="text-sm text-gray-600 mt-2 sm:text-xs sm:mt-1">
               {job.responsibilities}
@@ -116,13 +118,18 @@ const ElegantResume = ({ resumeData, selectedTheme, className }) => {
               {edu.institution} | {formatDate(edu.graduationDate)}
             </p>
             {edu.gpaType === "percentage" && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-300">
                 {t.gpa}: {edu.numericGpa}%
               </p>
             )}
-            {edu.gpaType === "descriptive" && (
-              <p className="text-sm text-gray-600">
-                {t.gpas[edu.descriptiveGpa]}
+            {edu.gpaType === "outOf4" && (
+              <p className="text-sm text-gray-300">
+                {t.gpa}: {edu.numericGpa}/4
+              </p>
+            )}
+            {edu.gpaType === "outOf5" && (
+              <p className="text-sm text-gray-300">
+                {t.gpa}: {edu.numericGpa}/5
               </p>
             )}
           </div>

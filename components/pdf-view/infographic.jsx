@@ -271,7 +271,9 @@ export default function InfographicResume({ resumeData }) {
                   </Text>
                   <Text style={styles.experienceDate}>-</Text>
                   <Text style={styles.experienceDate}>
-                    {formatDate(exp.endDate, resumeData.lng)}
+                    {exp.isCurrentJob
+                      ? t.present
+                      : formatDate(exp.endDate, resumeData.lng)}
                   </Text>
                 </View>
                 <Text style={styles.summary}>{exp.responsibilities}</Text>

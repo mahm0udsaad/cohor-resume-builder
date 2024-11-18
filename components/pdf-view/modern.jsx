@@ -165,7 +165,9 @@ const Modern = ({ resumeData }) => {
                   <Text style={styles.jobTitle}>{job.jobTitle}</Text>
                   <Text style={styles.companyInfo}>
                     {job.company} | {formatDate(job.startDate)} -{" "}
-                    {formatDate(job.endDate, resumeData.lng)}
+                    {job.isCurrentJob
+                      ? t.present
+                      : formatDate(job.endDate, resumeData.lng)}
                   </Text>
                   <Text style={styles.responsibilities}>
                     {job.responsibilities}

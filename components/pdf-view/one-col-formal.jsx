@@ -123,7 +123,10 @@ export default function FormalOneColumnResume({ resumeData }) {
               <Text style={styles.titleText}>{exp.jobTitle}</Text>
               <Text style={styles.subTitleText}>{exp.company}</Text>
               <Text style={styles.dateText}>
-                {formatDate(exp.startDate)} - {formatDate(exp.endDate)}
+                {formatDate(exp.startDate)} -{" "}
+                {exp.isCurrentJob
+                  ? t.present
+                  : formatDate(exp.endDate, resumeData.lng)}
               </Text>
               <Text style={styles.summary}>{exp.responsibilities}</Text>
             </View>

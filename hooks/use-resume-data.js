@@ -15,6 +15,7 @@ const initialState = {
       company: "",
       startDate: "",
       endDate: "",
+      isCurrentJob: false,
       responsibilities: "",
     },
   ],
@@ -79,6 +80,15 @@ function getInitialData(dbData) {
 
 function sortExperiencesByDate(experiences) {
   return [...experiences].sort((a, b) => {
+    // Prioritize current jobs
+    if (a.isCurrentJob && !b.isCurrentJob) {
+      return -1;
+    }
+    if (!a.isCurrentJob && b.isCurrentJob) {
+      return 1;
+    }
+
+    // Handle "Present" end dates
     if (a.endDate === "Present" && b.endDate !== "Present") {
       return -1;
     }
@@ -86,8 +96,9 @@ function sortExperiencesByDate(experiences) {
       return 1;
     }
 
-    const dateA = new Date(a.endDate);
-    const dateB = new Date(b.endDate);
+    // Sort by endDate if no "Present"
+    const dateA = new Date(a.endDate || 0); // Default to earliest date if no endDate
+    const dateB = new Date(b.endDate || 0);
     return dateB - dateA;
   });
 }

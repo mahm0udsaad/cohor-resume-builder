@@ -229,7 +229,9 @@ const CreativeResumeTemplate = ({ resumeData }) => {
                     </Text>
                     <Text style={styles.dateText}> - </Text>
                     <Text style={styles.dateText}>
-                      {formatDate(exp.endDate, resumeData.lng)}
+                      {exp.isCurrentJob
+                        ? t.present
+                        : formatDate(exp.endDate, resumeData.lng)}
                     </Text>
                   </View>
                   <Text style={styles.responsibilityText}>

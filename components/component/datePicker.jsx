@@ -133,7 +133,7 @@ const DatePicker = ({
                 value={calendarDate.getFullYear().toString()}
                 onValueChange={handleYearChange}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full py-1 h-7">
                   <SelectValue>{calendarDate.getFullYear()}</SelectValue>
                 </SelectTrigger>
                 <SelectContent position="popper" className="z-[60]">

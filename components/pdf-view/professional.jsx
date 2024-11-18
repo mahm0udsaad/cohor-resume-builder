@@ -179,7 +179,9 @@ const FormalResumeTemplate = ({ resumeData, selectedTheme }) => {
                 <Text style={styles.date}>{formatDate(exp.startDate)}</Text>
                 <Text style={styles.date}>-</Text>
                 <Text style={styles.date}>
-                  {formatDate(exp.endDate, resumeData.lng)}
+                  {exp.isCurrentJob
+                    ? t.present
+                    : formatDate(exp.endDate, resumeData.lng)}
                 </Text>
               </View>
               <Text style={styles.text}>{exp.responsibilities}</Text>

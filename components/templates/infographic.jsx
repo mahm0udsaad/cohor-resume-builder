@@ -216,7 +216,9 @@ export default function InfographicResume({
               <p style={styles.experienceCompany}>{exp.company}</p>
               <p style={styles.experienceDate}>
                 {formatDate(exp.startDate)} -{" "}
-                {formatDate(exp.endDate, resumeData.lng)}
+                {exp.isCurrentJob
+                  ? t.present
+                  : formatDate(exp.endDate, resumeData.lng)}
               </p>
               <p>{exp.responsibilities}</p>
             </div>
@@ -293,9 +295,14 @@ export default function InfographicResume({
                         {t.gpa}: {edu.numericGpa}%
                       </p>
                     )}
-                    {edu.gpaType === "descriptive" && (
+                    {edu.gpaType === "outOf4" && (
                       <p className="text-sm text-gray-600">
-                        {t.gpas[edu.descriptiveGpa]}
+                        {t.gpa}: `4/{edu.numericGpa}`
+                      </p>
+                    )}
+                    {edu.gpaType === "outOf5" && (
+                      <p className="text-sm text-gray-600">
+                        {t.gpa}: `5/{edu.numericGpa}`
                       </p>
                     )}
                   </div>

@@ -136,13 +136,23 @@ export default function MinimalistModernResume({
                 <div>{edu.institution}</div>
                 <div>{formatDate(edu.graduationDate)}</div>
                 {edu.gpaType === "percentage" && (
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-300">
                     {t.gpa}: {edu.numericGpa}%
                   </p>
                 )}
-                {edu.gpaType === "descriptive" && (
-                  <p className="text-sm text-gray-600">
-                    {t.gpas[edu.descriptiveGpa]}
+                {edu.gpaType === "percentage" && (
+                  <p className="text-sm text-gray-300">
+                    {t.gpa}: {edu.numericGpa}%
+                  </p>
+                )}
+                {edu.gpaType === "outOf4" && (
+                  <p className="text-sm text-gray-300">
+                    {t.gpa}: {edu.numericGpa}/4
+                  </p>
+                )}
+                {edu.gpaType === "outOf5" && (
+                  <p className="text-sm text-gray-300">
+                    {t.gpa}: {edu.numericGpa}/5
                   </p>
                 )}
               </div>
@@ -186,7 +196,9 @@ export default function MinimalistModernResume({
                 <p style={styles.experienceCompany}>{exp.company}</p>
                 <p style={styles.experienceDate}>
                   {formatDate(exp.startDate)} -{" "}
-                  {formatDate(exp.endDate, resumeData.lng)}
+                  {exp.isCurrentJob
+                    ? t.present
+                    : formatDate(exp.endDate, resumeData.lng)}
                 </p>
                 <p>{exp.responsibilities}</p>
               </div>

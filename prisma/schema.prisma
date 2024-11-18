@@ -144,6 +144,7 @@ type Experience {
   company          String
   startDate        DateTime?
   endDate          DateTime?
+  isCurrentJob     Boolean?
   responsibilities String
 }
 

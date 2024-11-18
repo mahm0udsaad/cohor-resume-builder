@@ -43,6 +43,7 @@ import { useTranslation } from "@/app/i18n/client";
 import DatePicker from "@/components/component/datePicker";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Checkbox } from "../ui/checkbox";
+import { ToastAction } from "../ui/toast";
 function SectionHeader({ icon: Icon, title }) {
   return (
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -70,22 +71,33 @@ export default function InformationTab({ lng, initialData, user }) {
 
   const onSubmit = (data) => {
     startTransition(async () => {
-      setUserInfo(data);
+      try {
+        setUserInfo(data);
 
-      const result = await saveOnboardingData(user.email, data);
-      if (result.success) {
+        const result = await saveOnboardingData(user.email, data);
+        if (!result.success) {
+          throw new Error(result.error);
+        }
+
         handleCancel();
         toast({
           title: t("notifications.profileUpdate.success.title"),
           description: t("notifications.profileUpdate.success.description"),
           variant: "success",
         });
-      } else {
-        toast({
-          title: t("notifications.profileUpdate.error.title"),
-          description: t("notifications.profileUpdate.error.description"),
-          variant: "destructive",
-        });
+      } catch (error) {
+        if (!isPending) {
+          toast({
+            title: t("notifications.profileUpdate.error.title"),
+            description: t("notifications.profileUpdate.error.description"),
+            variant: "destructive",
+            action: (
+              <ToastAction onClick={() => onSubmit(data)} altText="Try again">
+                {t("notifications.tryAgainButton")}
+              </ToastAction>
+            ),
+          });
+        }
       }
     });
   };
@@ -97,7 +109,7 @@ export default function InformationTab({ lng, initialData, user }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-5xl mx-auto p-6 space-y-8"
+      className="relative max-w-5xl mx-auto p-6"
     >
       <div className="space-y-8">
         <PersonalInfo
@@ -107,7 +119,12 @@ export default function InformationTab({ lng, initialData, user }) {
           errors={errors}
           contacts={userInfo.personalInfo?.contact || []}
         />
-        <ExperienceSection t={t} control={control} errors={errors} />
+        <ExperienceSection
+          t={t}
+          control={control}
+          errors={errors}
+          setValue={setValue}
+        />
         <EducationSection
           t={t}
           control={control}
@@ -160,7 +177,6 @@ export default function InformationTab({ lng, initialData, user }) {
     </form>
   );
 }
-
 function PersonalInfo({ t, control, contacts, setValue }) {
   const { isEditing, handleEdit, handleCancel } = useEditingContext();
   const imageInputRef = useRef(null);
@@ -185,27 +201,17 @@ function PersonalInfo({ t, control, contacts, setValue }) {
 
     try {
       const result = await uploadToCloud(formData);
-      setTimeout(() => {
-        setValue("personalInfo.imageUrl", result.adImage);
-      }, 10000);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setValue("personalInfo.imageUrl", result.adImage);
+      setIsUploading(false);
     } catch (error) {
       console.error("Failed to upload image:", error);
-    } finally {
-      setIsUploading(false);
     }
   };
 
   const triggerImageUpload = () => {
     imageInputRef.current?.click();
   };
-  const defaultContacts = [
-    { id: "phoneNumber", value: "", label: t("Phone Number") },
-    { id: "email", value: "", label: t("Email") },
-  ];
-  const contactFields =
-    fields.length < 2
-      ? [...fields, ...defaultContacts.slice(fields.length)]
-      : fields;
 
   return (
     <Card className="overflow-hidden transition-all duration-300 ease-in-out">
@@ -400,8 +406,7 @@ function PersonalInfo({ t, control, contacts, setValue }) {
     </Card>
   );
 }
-
-function ExperienceSection({ t, control, errors }) {
+function ExperienceSection({ t, control, errors, setValue }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -483,45 +488,46 @@ function ExperienceSection({ t, control, errors }) {
                     name={`experiences.${index}.endDate`}
                     control={control}
                     render={({ field }) => (
-                      <>
-                        <DatePicker
-                          label={t("workExperience.endDate")}
-                          value={field.value}
-                          onChange={field.onChange}
-                          isEditing={isEditing}
-                          disabled={field.value === "Present"}
-                        />
-                        {isEditing && (
-                          <div className="flex items-center space-x-2">
-                            <Controller
-                              name={`experiences.${index}.endDate`}
-                              control={control}
-                              render={({ field: endDateField }) => (
-                                <Checkbox
-                                  id={`currently-working-${index}`}
-                                  checked={
-                                    !endDateField.value ||
-                                    endDateField.value === "Present"
-                                  }
-                                  onCheckedChange={(checked) => {
-                                    endDateField.onChange(
-                                      checked ? "Present" : "",
-                                    );
-                                  }}
-                                />
-                              )}
-                            />
-                            <Label
-                              htmlFor={`currently-working-${index}`}
-                              className="text-sm font-normal"
-                            >
-                              {t("workExperience.endDatePresent")}
-                            </Label>
-                          </div>
-                        )}
-                      </>
+                      <DatePicker
+                        label={t("workExperience.endDate")}
+                        value={field.value}
+                        onChange={field.onChange}
+                        isEditing={isEditing}
+                        disabled={field.value === "Present"}
+                      />
                     )}
                   />
+                  {isEditing && (
+                    <div className="flex items-center space-x-2">
+                      <Controller
+                        name={`experiences.${index}.isCurrentJob`}
+                        control={control}
+                        render={({ field: isCurrentJobField }) => (
+                          <Checkbox
+                            id={`currently-working-${index}`}
+                            checked={isCurrentJobField.value || false}
+                            onCheckedChange={(checked) => {
+                              isCurrentJobField.onChange(checked);
+                              if (checked) {
+                                setValue(
+                                  `experiences.${index}.endDate`,
+                                  "Present",
+                                );
+                              } else {
+                                setValue(`experiences.${index}.endDate`, "");
+                              }
+                            }}
+                          />
+                        )}
+                      />
+                      <Label
+                        htmlFor={`currently-working-${index}`}
+                        className="text-sm font-normal"
+                      >
+                        {t("workExperience.endDatePresent")}
+                      </Label>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -554,6 +560,7 @@ function ExperienceSection({ t, control, errors }) {
                 company: "",
                 startDate: "",
                 endDate: "",
+                isCurrentJob: false,
                 responsibilities: "",
               })
             }
@@ -566,7 +573,6 @@ function ExperienceSection({ t, control, errors }) {
     </Card>
   );
 }
-
 function EducationSection({ t, control, errors, setValue }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
@@ -580,22 +586,9 @@ function EducationSection({ t, control, errors, setValue }) {
   });
 
   const handleGpaTypeChange = (index, value) => {
-    // Update the GPA type
     setValue(`educations.${index}.gpaType`, value);
-
-    if (value === "outOf4" || value === "outOf5") {
-      // Set descriptive GPA to the selected scale
-      setValue(`educations.${index}.descriptiveGpa`, value);
-      // Clear numeric GPA
-      setValue(`educations.${index}.numericGpa`, "");
-    } else if (value === "percentage") {
-      // Clear descriptive GPA
-      setValue(`educations.${index}.descriptiveGpa`, "");
-    } else {
-      // For "none", clear both
-      setValue(`educations.${index}.numericGpa`, "");
-      setValue(`educations.${index}.descriptiveGpa`, "");
-    }
+    // Clear both GPA fields when changing type
+    setValue(`educations.${index}.numericGpa`, "");
   };
 
   const renderGpaInput = (index, gpaType) => {
@@ -603,31 +596,55 @@ function EducationSection({ t, control, errors, setValue }) {
 
     if (gpaType === "percentage") {
       return (
-        <div>
-          <Label>{t("education.gpaPercentage")}</Label>
+        <div className="relative">
           <Controller
             name={`educations.${index}.numericGpa`}
             control={control}
             rules={{
-              required: t("numeric_gpa_required"),
-              min: 0,
-              max: 100,
+              required: {
+                value: true,
+                message: t("education.gpaRequired"), // "GPA is required."
+              },
+              min: {
+                value: 0,
+                message: t("education.gpaPercentageRangeMin"), // "GPA cannot be less than 0."
+              },
+              max: {
+                value: 100,
+                message: t("education.gpaPercentageRangeMax"), // "GPA cannot exceed 100."
+              },
+              validate: (value) => {
+                // Ensure it's a valid number
+                if (isNaN(value)) return t("education.gpaInvalidNumber"); // "Invalid GPA format."
+                return true; // No validation error
+              },
             }}
-            render={({ field }) =>
+            render={({ field, fieldState }) =>
               isEditing ? (
-                <div className="relative">
+                <>
                   <Input
                     {...field}
+                    id={`numericGpa-${index}`}
                     type="number"
-                    step="0.1"
+                    step="1"
                     min="0"
                     max="100"
-                    className="mt-1 pr-8"
+                    placeholder={t("education.gpaPercentagePlaceholder")} // "Enter GPA (0-100)"
+                    className={`pr-8 ${
+                      fieldState?.error ? "border-red-500" : ""
+                    }`}
+                    value={field.value ?? ""}
+                    onChange={(e) => field.onChange(e.target.value)}
                   />
                   <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
                     %
                   </span>
-                </div>
+                  {fieldState?.error && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {fieldState.error.message}
+                    </p>
+                  )}
+                </>
               ) : (
                 <p className="mt-1">{field.value}%</p>
               )
@@ -637,45 +654,38 @@ function EducationSection({ t, control, errors, setValue }) {
       );
     }
 
-    if (gpaType === "descriptive") {
+    if (gpaType === "outOf4" || gpaType === "outOf5") {
+      const maxValue = gpaType === "outOf4" ? 4 : 5;
       return (
-        <div>
-          <Label>
-            {t(
-              educations[index]?.descriptiveGpa === "outOf4"
-                ? "education.gpaOutOf4"
-                : "education.gpaOutOf5",
-            )}
-          </Label>
+        <div className="space-y-2">
           <Controller
             name={`educations.${index}.numericGpa`}
             control={control}
             rules={{
-              required: t("descriptive_gpa_required"),
+              required: t("numeric_gpa_required"),
               min: 0,
-              max: educations[index]?.descriptiveGpa === "outOf4" ? 4 : 5,
-              validate: (value) =>
-                !value ||
-                (value >= 0 &&
-                  value <=
-                    (educations[index]?.descriptiveGpa === "outOf4" ? 4 : 5)),
+              max: maxValue,
+              validate: (value) => !value || (value >= 0 && value <= maxValue),
             }}
             render={({ field }) =>
               isEditing ? (
-                <Input
-                  {...field}
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  max={educations[index]?.descriptiveGpa === "outOf4" ? 4 : 5}
-                  className="mt-1"
-                />
+                <div className="relative">
+                  <Input
+                    {...field}
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    max={maxValue}
+                    placeholder={`0-${maxValue}`}
+                    className="mt-1 pr-12"
+                  />
+                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    /{maxValue}
+                  </span>
+                </div>
               ) : (
                 <p className="mt-1">
-                  {field.value} /{" "}
-                  {educations[index]?.descriptiveGpa === "outOf4"
-                    ? "4.0"
-                    : "5.0"}
+                  {field.value} /{maxValue}
                 </p>
               )
             }
@@ -730,7 +740,7 @@ function EducationSection({ t, control, errors, setValue }) {
                     />
                   </div>
                   <div>
-                    <Label>{t("institution")}</Label>
+                    <Label>{t("education.institution")}</Label>
                     <Controller
                       name={`educations.${index}.institution`}
                       control={control}
@@ -761,9 +771,7 @@ function EducationSection({ t, control, errors, setValue }) {
                 />
 
                 <div className="space-y-2">
-                  <Label>
-                    {t("education.GPA")} ({t("education.optional")})
-                  </Label>
+                  <Label>{t("education.gpa")}</Label>
                   {isEditing ? (
                     <Controller
                       name={`educations.${index}.gpaType`}
@@ -815,15 +823,8 @@ function EducationSection({ t, control, errors, setValue }) {
                         </RadioGroup>
                       )}
                     />
-                  ) : (
-                    currentGpaType !== "none" && (
-                      <p className="mt-1">
-                        {t(`education.${currentGpaType}Gpa`)}
-                      </p>
-                    )
-                  )}
+                  ) : null}
                 </div>
-
                 {renderGpaInput(index, currentGpaType)}
               </CardContent>
             </Card>
@@ -846,7 +847,7 @@ function EducationSection({ t, control, errors, setValue }) {
             className="w-full"
           >
             <Plus className="w-4 h-4 mx-2" />
-            {t("education.add_education")}
+            {t("education.addEducation")}
           </Button>
         )}
       </CardContent>
@@ -986,7 +987,6 @@ function SkillsSection({ t, control, errors }) {
     </Card>
   );
 }
-
 function LanguagesSection({ t, control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
@@ -1079,13 +1079,13 @@ function LanguagesSection({ t, control, errors }) {
     </Card>
   );
 }
-
 function CoursesSection({ t, control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "courses",
   });
+  console.log(fields);
 
   return (
     <Card className="border-t-4 border-t-orange-500 transition-all duration-300 ease-in-out">

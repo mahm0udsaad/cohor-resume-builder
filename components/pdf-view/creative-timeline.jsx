@@ -199,7 +199,9 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
                   <Text style={styles.text}>{formatDate(exp.startDate)}</Text>
                   <Text style={styles.text}>-</Text>
                   <Text style={styles.text}>
-                    {formatDate(exp.endDate, resumeData.lng)}
+                    {exp.isCurrentJob
+                      ? t.present
+                      : formatDate(exp.endDate, resumeData.lng)}
                   </Text>
                 </View>
                 <Text style={styles.text}>{exp.responsibilities}</Text>

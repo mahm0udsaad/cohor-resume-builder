@@ -167,7 +167,9 @@ const ProfessionalResume = ({ resumeData, selectedTheme, className }) => {
               </h3>
               <p style={styles.experienceDate}>
                 {formatDate(exp.startDate, resumeData.lng)} -{" "}
-                {formatDate(exp.endDate, resumeData.lng)}
+                {exp.isCurrentJob
+                  ? t.present
+                  : formatDate(exp.endDate, resumeData.lng)}
               </p>
               <p style={styles.sectionContent}>{exp.responsibilities}</p>
             </div>
@@ -185,13 +187,18 @@ const ProfessionalResume = ({ resumeData, selectedTheme, className }) => {
                 {formatDate(edu.graduationDate, resumeData.lng)}
               </p>
               {edu.gpaType === "percentage" && (
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-200">
                   {t.gpa}: {edu.numericGpa}%
                 </p>
               )}
-              {edu.gpaType === "descriptive" && (
-                <p className="text-sm text-gray-600">
-                  {t.gpas[edu.descriptiveGpa]}
+              {edu.gpaType === "outOf4" && (
+                <p className="text-sm text-gray-200">
+                  {t.gpa}: `4/{edu.numericGpa}`
+                </p>
+              )}
+              {edu.gpaType === "outOf5" && (
+                <p className="text-sm text-gray-200">
+                  {t.gpa}: `5/{edu.numericGpa}`
                 </p>
               )}
             </div>

@@ -16,6 +16,7 @@ const INITIAL_EXPERIENCE = {
   company: "",
   startDate: "",
   endDate: "",
+  isCurrentJob: false,
   responsibilities: "",
 };
 
@@ -30,9 +31,14 @@ const ExperienceFields = ({
   const handleFieldChange = (field, value) => {
     onChange(index, field, value);
   };
+
   const { t } = useTranslation(lng, "forms");
-  const handlePresentToggle = (checked) => {
-    handleFieldChange("endDate", checked ? "Present" : "");
+
+  const handleCurrentJobToggle = (checked) => {
+    handleFieldChange("isCurrentJob", checked);
+    if (checked) {
+      handleFieldChange("endDate", "");
+    }
   };
 
   return (
@@ -44,7 +50,6 @@ const ExperienceFields = ({
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        {/* Job Title Field */}
         <div>
           <Label htmlFor={`jobTitle-${index}`} className="text-black">
             {t("workExperience.jobTitle")}
@@ -58,7 +63,6 @@ const ExperienceFields = ({
           />
         </div>
 
-        {/* Company Field */}
         <div>
           <Label htmlFor={`company-${index}`} className="text-black">
             {t("workExperience.company")}
@@ -73,7 +77,6 @@ const ExperienceFields = ({
         </div>
       </div>
 
-      {/* Date Fields */}
       <div className="grid grid-cols-2 gap-4 mb-2">
         <DatePicker
           value={experience.startDate}
@@ -81,28 +84,26 @@ const ExperienceFields = ({
           label={t("workExperience.startDate")}
         />
         <DatePicker
-          disabled={experience.endDate === "Present"}
+          disabled={experience.isCurrentJob}
           value={experience.endDate}
           onChange={(value) => handleFieldChange("endDate", value)}
           label={t("workExperience.endDate")}
         />
       </div>
 
-      {/* Present Checkbox */}
       <div className="flex justify-end">
         <div className="flex items-center w-[47%] justify-start gap-3 mb-2">
           <Checkbox
-            id={`endDatePresent-${index}`}
-            checked={experience.endDate === "Present"}
-            onCheckedChange={handlePresentToggle}
+            id={`isCurrentJob-${index}`}
+            checked={experience.isCurrentJob}
+            onCheckedChange={handleCurrentJobToggle}
           />
-          <label className="text-[15px]" htmlFor={`endDatePresent-${index}`}>
+          <label className="text-[15px]" htmlFor={`isCurrentJob-${index}`}>
             {t("workExperience.endDatePresent")}
           </label>
         </div>
       </div>
 
-      {/* Responsibilities Field */}
       <AiSuggestionTextarea
         plan={plan}
         lng={lng}

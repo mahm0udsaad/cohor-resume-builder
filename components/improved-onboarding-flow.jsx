@@ -305,6 +305,7 @@ export default function OnboardingFlow({ lng, user }) {
                     </button>
                     <button
                       type="submit"
+                      disabled={isSubmitting}
                       className="bg-[#3b51a3] hover:bg-[#2c3b87] text-white font-semibold px-4 py-2 rounded-lg"
                     >
                       {isSubmitting ? (

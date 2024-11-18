@@ -208,7 +208,9 @@ const BoldTemplate = ({ resumeData }) => {
                   </Text>
                   <Text style={styles.jobInfo}>-</Text>
                   <Text style={styles.jobInfo}>
-                    {formatDate(job.endDate, resumeData.lng)}
+                    {job.isCurrentJob
+                      ? t.present
+                      : formatDate(job.endDate, resumeData.lng)}
                   </Text>
                 </View>
                 <Text style={styles.responsibilities}>
@@ -237,7 +239,7 @@ const BoldTemplate = ({ resumeData }) => {
                     {t.gpa}: {edu.numericGpa}
                   </Text>
                 )}
-                {edu.gpaType === "descriptive" && (
+                {edu.gpaType === "outOf4" && (
                   <Text
                     style={{
                       fontSize: 8,
@@ -245,7 +247,18 @@ const BoldTemplate = ({ resumeData }) => {
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
-                    {t.gpas[edu.descriptiveGpa]}
+                    {t.gpa}: {edu.numericGpa}/4
+                  </Text>
+                )}
+                {edu.gpaType === "outOf5" && (
+                  <Text
+                    style={{
+                      fontSize: 8,
+                      color: "#4B5563",
+                      textAlign: isArabic ? "right" : "left",
+                    }}
+                  >
+                    {t.gpa}: {edu.numericGpa}/5
                   </Text>
                 )}
               </View>

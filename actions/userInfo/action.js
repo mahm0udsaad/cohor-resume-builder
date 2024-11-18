@@ -383,7 +383,8 @@ export async function saveOnboardingData(email, data) {
         jobTitle: exp.jobTitle,
         company: exp.company,
         startDate: parseDate(exp.startDate),
-        endDate: exp.endDate === "Present" ? null : parseDate(exp.endDate),
+        endDate: exp.isCurrentJob ? null : parseDate(exp.endDate),
+        isCurrentJob: Boolean(exp.isCurrentJob),
         responsibilities: exp.responsibilities,
       })) || [];
 
@@ -399,37 +400,64 @@ export async function saveOnboardingData(email, data) {
         numericGpa: edu.numericGpa
           ? parseFloat(edu.numericGpa.toString())
           : null,
-        descriptiveGpa: edu.descriptiveGpa,
+        descriptiveGpa: edu.descriptiveGpa || "",
       })) || [];
 
-    // Transform dates in courses
+    // Transform dates in courses - filter out empty entries
     const transformedCourses =
-      data.courses?.map((course) => ({
-        name: course.name,
-        institution: course.institution,
-        completionDate: course.completionDate
-          ? parseDate(course.completionDate)
-          : null,
-      })) || [];
+      data.courses
+        ?.filter((course) => course.name && course.name.trim() !== "")
+        .map((course) => ({
+          name: course.name.trim(),
+          institution: course.institution,
+          completionDate: course.completionDate
+            ? parseDate(course.completionDate)
+            : null,
+        })) || [];
 
     // Update user with all the information
     const updatedUser = await prisma.user.update({
       where: { email },
       data: {
         name: data.personalInfo.name,
-        personalInfo: data.personalInfo,
-        experiences: transformedExperiences,
-        educations: transformedEducations,
-        skills: data.skills || [],
-        languages: data.languages || [],
-        courses: transformedCourses,
+        personalInfo: {
+          name: data.personalInfo.name,
+          imageUrl: data.personalInfo.imageUrl || null,
+          jobTitle: data.personalInfo.jobTitle || "",
+          contact: data.personalInfo.contact || [],
+          summary: data.personalInfo.summary || "",
+        },
+        experiences: {
+          set: transformedExperiences,
+        },
+        educations: {
+          set: transformedEducations,
+        },
+        skills: {
+          set: data.skills || [],
+        },
+        languages: {
+          set: data.languages || [],
+        },
+        courses: {
+          set: transformedCourses,
+        },
       },
     });
 
     return { success: true, data: updatedUser };
   } catch (error) {
     console.error("Error saving onboarding data:", error);
-    return { success: false, error: "Failed to save onboarding data" };
+    if (error.code === "P2002") {
+      return {
+        success: false,
+        error: "A user with this email already exists",
+      };
+    }
+    return {
+      success: false,
+      error: "Failed to save onboarding data",
+    };
   } finally {
     revalidatePath("/dashboard");
   }

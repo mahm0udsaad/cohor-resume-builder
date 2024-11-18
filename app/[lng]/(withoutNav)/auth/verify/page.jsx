@@ -160,7 +160,7 @@ export default function CheckEmailPage({ params: { lng } }) {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 to-purple-500 p-4"
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-300 to-purple-300 p-4"
       dir={lng === "ar" ? "rtl" : "ltr"}
     >
       <Card className="w-full max-w-md overflow-hidden bg-white/90 backdrop-blur-sm shadow-xl">

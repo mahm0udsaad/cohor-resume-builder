@@ -46,7 +46,9 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
         <p className="text-sm text-gray-600 sm:text-xs">{exp.company}</p>
         <p className="text-sm text-gray-600 sm:text-xs">
           {formatDate(exp.startDate)} -{" "}
-          {formatDate(exp.endDate, resumeData.lng)}
+          {exp.isCurrentJob
+            ? t.present
+            : formatDate(exp.endDate, resumeData.lng)}
         </p>
         <p className="text-gray-700 mt-2 sm:text-xs">{exp.responsibilities}</p>
       </div>
@@ -67,8 +69,15 @@ const Resume = ({ resumeData, selectedTheme, className }) => {
             {t.gpa}: {edu.numericGpa}%
           </p>
         )}
-        {edu.gpaType === "descriptive" && (
-          <p className="text-sm text-gray-600">{t.gpas[edu.descriptiveGpa]}</p>
+        {edu.gpaType === "outOf4" && (
+          <p className="text-sm text-gray-600">
+            {t.gpa}: `4/{edu.numericGpa}`
+          </p>
+        )}
+        {edu.gpaType === "outOf5" && (
+          <p className="text-sm text-gray-600">
+            {t.gpa}: `5/{edu.numericGpa}`
+          </p>
         )}
       </div>
     ));

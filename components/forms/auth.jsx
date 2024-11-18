@@ -5,8 +5,8 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { handleCredentialsAuth, register } from "@/actions/auth/actions";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 import { AuthButton } from "../btns/auth-btns";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function AuthForm({ lng, searchParams }) {
@@ -15,7 +15,6 @@ export default function AuthForm({ lng, searchParams }) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
-
   const handleAuthError = (error) => {
     switch (error) {
       case "InvalidPassword":
@@ -61,6 +60,7 @@ export default function AuthForm({ lng, searchParams }) {
             variant: "success",
             description: t("loginSuccessDesc"),
           });
+          window.location.reload();
         }
       } catch (err) {
         console.error("Auth error:", err);

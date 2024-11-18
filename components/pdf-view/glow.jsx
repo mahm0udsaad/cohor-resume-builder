@@ -165,7 +165,9 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
                   </Text>
                   <Text style={styles(theme, lng).text}>-</Text>
                   <Text style={styles(theme, lng).text}>
-                    {formatDate(exp.endDate, resumeData.lng)}
+                    {exp.isCurrentJob
+                      ? t.present
+                      : formatDate(exp.endDate, resumeData.lng)}
                   </Text>
                 </View>
                 <Text style={styles(theme, lng).text}>

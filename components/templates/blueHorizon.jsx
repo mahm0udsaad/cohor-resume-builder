@@ -182,7 +182,9 @@ export default function BlueHorizon({ resumeData, selectedTheme, className }) {
               <p style={{ margin: "0", fontWeight: 500 }}>{job.company}</p>
               <p style={{ margin: "0", color: "#666" }}>
                 {formatDate(job.startDate)} -{" "}
-                {formatDate(job.endDate, resumeData.lng)}
+                {job.isCurrentJob
+                  ? t.present
+                  : formatDate(job.endDate, resumeData.lng)}
               </p>
               <p>{job.responsibilities}</p>
             </div>
@@ -213,13 +215,18 @@ export default function BlueHorizon({ resumeData, selectedTheme, className }) {
                     {formatDate(edu.graduationDate)}
                   </p>
                   {edu.gpaType === "percentage" && (
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-200">
                       {t.gpa}: {edu.numericGpa}%
                     </p>
                   )}
-                  {edu.gpaType === "descriptive" && (
-                    <p className="text-sm text-gray-600">
-                      {t.gpas[edu.descriptiveGpa]}
+                  {edu.gpaType === "outOf4" && (
+                    <p className="text-sm text-gray-200">
+                      {t.gpa}: `4/{edu.numericGpa}`
+                    </p>
+                  )}
+                  {edu.gpaType === "outOf5" && (
+                    <p className="text-sm text-gray-200">
+                      {t.gpa}: `5/{edu.numericGpa}`
                     </p>
                   )}
                 </div>

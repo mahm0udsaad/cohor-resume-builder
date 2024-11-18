@@ -138,7 +138,9 @@ export function ResumeDashboard({ initialUserInfo }) {
                   </p>
                   <p>
                     {formatDate(exp.startDate)} -{" "}
-                    {formatDate(exp.endDate, resumeData.lng)}
+                    {exp.isCurrentJob
+                      ? t.present
+                      : formatDate(exp.endDate, resumeData.lng)}
                   </p>
                   <p className="w-11/12 text-justify">
                     {exp.responsibilities || "N/A"}

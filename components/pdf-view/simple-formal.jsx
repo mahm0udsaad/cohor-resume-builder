@@ -143,7 +143,9 @@ const SimpleFormalTemplatePDF = ({ resumeData }) => {
                   <Text style={styles.dates}>{formatDate(exp.startDate)}</Text>
                   <Text style={styles.dates}>-</Text>
                   <Text style={styles.dates}>
-                    {formatDate(exp.endDate, resumeData.lng)}
+                    {exp.isCurrentJob
+                      ? t.present
+                      : formatDate(exp.endDate, resumeData.lng)}
                   </Text>
                 </View>
                 <Text style={styles.bodyText}>{exp.responsibilities}</Text>

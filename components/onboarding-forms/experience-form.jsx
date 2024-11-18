@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import DatePicker from "@/components/component/datePicker";
-import { parseISO, format } from "date-fns";
 import { useEffect } from "react";
 
 export default function WorkExperienceForm({ control, errors, t }) {
@@ -22,7 +21,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
         company: "",
         startDate: "",
         endDate: "",
-        currentlyWorking: false,
+        isCurrentJob: false,
         responsibilities: "",
       });
     }
@@ -52,7 +51,6 @@ export default function WorkExperienceForm({ control, errors, t }) {
               <Trash2 className="h-5 w-5" />
             </Button>
           </div>
-
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor={`jobTitle-${index}`}>
@@ -101,7 +99,6 @@ export default function WorkExperienceForm({ control, errors, t }) {
               )}
             </div>
           </div>
-
           <div className="grid grid-cols-2 gap-4">
             <Controller
               name={`experiences.${index}.startDate`}
@@ -128,33 +125,58 @@ export default function WorkExperienceForm({ control, errors, t }) {
               />
             )}
           </div>
-
+          <div className="grid grid-cols-2 gap-4">
+            <Controller
+              name={`experiences.${index}.startDate`}
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  label={t("workExperience.startDate")}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            {!watchedExperiences[index]?.isCurrentJob && (
+              <Controller
+                name={`experiences.${index}.endDate`}
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    label={t("workExperience.endDate")}
+                    value={field.value}
+                    onChange={field.onChange}
+                    disabled={watchedExperiences[index]?.isCurrentJob}
+                  />
+                )}
+              />
+            )}
+          </div>
           <div>
             <Controller
-              name={`experiences.${index}.currentlyWorking`}
+              name={`experiences.${index}.isCurrentJob`}
               control={control}
               render={({ field: { onChange, value } }) => (
                 <div className="flex items-center gap-2 mt-6">
                   <Checkbox
-                    id={`currentlyWorking-${index}`}
+                    id={`isCurrentJob-${index}`}
                     checked={value}
                     onCheckedChange={(checked) => {
                       onChange(checked);
                       if (checked) {
                         const fieldName = `experiences.${index}.endDate`;
-                        const fieldValue = "Present";
+                        const fieldValue = "";
                         control._fields[fieldName]?.onChange(fieldValue);
                       }
                     }}
                   />
-                  <Label htmlFor={`currentlyWorking-${index}`}>
-                    {t("workExperience.endDatePresent")}
+                  <Label htmlFor={`isCurrentJob-${index}`}>
+                    {t("workExperience.isCurrentJob")}
                   </Label>
                 </div>
               )}
             />
           </div>
-
           <div>
             <Label htmlFor={`responsibilities-${index}`}>
               {t("workExperience.responsibilities")}
@@ -185,7 +207,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
             startDate: "",
             endDate: "",
             responsibilities: "",
-            currentlyWorking: false,
+            isCurrentJob: false,
           })
         }
         className="w-full mt-4"

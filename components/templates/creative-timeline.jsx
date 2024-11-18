@@ -180,7 +180,9 @@ function CreativeTimelineResumeTemplate({
                 </h5>
                 <p style={{ fontSize: "0.9rem", marginBottom: "0.5rem" }}>
                   {formatDate(exp.startDate)} -{" "}
-                  {formatDate(exp.endDate, resumeData.lng)}
+                  {exp.isCurrentJob
+                    ? t.present
+                    : formatDate(exp.endDate, resumeData.lng)}
                 </p>
                 <p>{exp.responsibilities}</p>
               </div>
@@ -232,13 +234,18 @@ function CreativeTimelineResumeTemplate({
                 {formatDate(edu.graduationDate)}
               </p>
               {edu.gpaType === "percentage" && (
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-200">
                   {t.gpa}: {edu.numericGpa}%
                 </p>
               )}
-              {edu.gpaType === "descriptive" && (
-                <p className="text-sm text-gray-600">
-                  {t.gpas[edu.descriptiveGpa]}
+              {edu.gpaType === "outOf4" && (
+                <p className="text-sm text-gray-200">
+                  {t.gpa}: `4/{edu.numericGpa}`
+                </p>
+              )}
+              {edu.gpaType === "outOf5" && (
+                <p className="text-sm text-gray-200">
+                  {t.gpa}: `5/{edu.numericGpa}`
                 </p>
               )}
             </div>

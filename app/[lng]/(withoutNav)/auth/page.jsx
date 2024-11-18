@@ -24,7 +24,7 @@ export default async function AuthPage({ params: { lng }, searchParams }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 to-purple-500 flex flex-col justify-center py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-300 to-purple-300 flex flex-col justify-center py-6 sm:px-6 lg:px-8">
       <div className="flex gap-4 w-full justify-between">
         <Link
           href="/"

@@ -192,7 +192,9 @@ export default function BlueHorizonPDF({ resumeData }) {
                   <Text
                     style={{ fontSize: 12, paddingVertical: 4, color: "#666" }}
                   >
-                    {formatDate(job.endDate, resumeData.lng)}
+                    {job.isCurrentJob
+                      ? t.present
+                      : formatDate(job.endDate, resumeData.lng)}
                   </Text>
                 </View>
                 <Text style={styles.text}>{job.responsibilities}</Text>
@@ -225,7 +227,7 @@ export default function BlueHorizonPDF({ resumeData }) {
                     {t.gpa}: {edu.numericGpa}
                   </Text>
                 )}
-                {edu.gpaType === "descriptive" && (
+                {edu.gpaType === "outOf4" && (
                   <Text
                     style={{
                       fontSize: 8,
