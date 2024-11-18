@@ -111,32 +111,6 @@ export default function WorkExperienceForm({ control, errors, t }) {
                 />
               )}
             />
-            {!watchedExperiences[index]?.currentlyWorking && (
-              <Controller
-                name={`experiences.${index}.endDate`}
-                control={control}
-                render={({ field }) => (
-                  <DatePicker
-                    label={t("workExperience.endDate")}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
-            )}
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Controller
-              name={`experiences.${index}.startDate`}
-              control={control}
-              render={({ field }) => (
-                <DatePicker
-                  label={t("workExperience.startDate")}
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              )}
-            />
             {!watchedExperiences[index]?.isCurrentJob && (
               <Controller
                 name={`experiences.${index}.endDate`}
@@ -171,7 +145,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
                     }}
                   />
                   <Label htmlFor={`isCurrentJob-${index}`}>
-                    {t("workExperience.isCurrentJob")}
+                    {t("workExperience.endDatePresent")}
                   </Label>
                 </div>
               )}

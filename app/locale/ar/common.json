@@ -126,13 +126,13 @@
     },
     "company": {
       "title": "الشركة",
-      "aboutUs": "معلومات عنا",
-      "careers": "الوظائف",
+      "aboutUs": "من نحن",
+      "careers": "اعلانات الوظائف",
       "privacyPolicy": "سياسة الخصوصية",
       "termsOfService": "شروط الخدمة"
     },
     "copyright": "© cohr.sa. جميع الحقوق محفوظة.",
-    "services": "خدمات",
+    "services": "خدمات المنشئات",
     "contact": {
       "title": "اتصل بنا",
       "whatsapp": "واتساب",
