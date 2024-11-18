@@ -2,7 +2,6 @@ import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { memo } from "react";
 
 function CreativeTimelineResumeTemplate({
   resumeData,
@@ -19,6 +18,7 @@ function CreativeTimelineResumeTemplate({
     backgroundColor: "#f7fafc",
     textColor: "#2d3748",
   };
+  const isRTL = resumeData.lng === "ar";
   // Define styles
   const sectionStyle = {
     marginBottom: "2rem",
@@ -39,10 +39,10 @@ function CreativeTimelineResumeTemplate({
     paddingLeft: resumeData.lng === "ar" ? "" : "1.5rem",
     paddingRight: !resumeData.lng === "ar" ? "" : "1.5rem",
     paddingBottom: "2rem",
-    borderLeft:
-      resumeData.lng === "ar" ? "none" : `2px solid ${theme.secondaryColor}`,
-    borderRight:
-      resumeData.lng === "ar" ? `2px solid ${theme.secondaryColor}` : "none",
+    borderLeft: isRTL ? "none" : `2px solid ${theme.secondaryColor}`,
+    borderRight: !isRTL
+      ? "none"
+      : `2px solid ${theme.secondaryColor || theme.primaryColor}`,
   };
 
   const timelineDotStyle = {
@@ -54,9 +54,7 @@ function CreativeTimelineResumeTemplate({
     borderRadius: "50%",
     backgroundColor: theme.primaryColor,
   };
-
   // Check if the language is Arabic for RTL layout
-  const isRTL = resumeData.lng === "ar";
 
   return (
     <div
@@ -234,17 +232,17 @@ function CreativeTimelineResumeTemplate({
                 {formatDate(edu.graduationDate)}
               </p>
               {edu.gpaType === "percentage" && (
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-gray-500">
                   {t.gpa}: {edu.numericGpa}%
                 </p>
               )}
               {edu.gpaType === "outOf4" && (
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-gray-500">
                   {t.gpa}: `4/{edu.numericGpa}`
                 </p>
               )}
               {edu.gpaType === "outOf5" && (
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-gray-500">
                   {t.gpa}: `5/{edu.numericGpa}`
                 </p>
               )}
@@ -306,4 +304,4 @@ function CreativeTimelineResumeTemplate({
   );
 }
 
-export default memo(CreativeTimelineResumeTemplate);
+export default CreativeTimelineResumeTemplate;

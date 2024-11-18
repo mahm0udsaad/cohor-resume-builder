@@ -47,6 +47,7 @@ const createStyles = (theme, isRTL) =>
       marginBottom: "4px",
     },
     completionDate: {
+      marginTop: "4px",
       textAlign: isRTL ? "right" : "left",
       fontSize: "10px", // Matches 0.9rem in web
       color: theme.secondaryColor,
@@ -60,6 +61,7 @@ const createStyles = (theme, isRTL) =>
       textTransform: "uppercase",
     },
     text: {
+      lineHeight: 1.6,
       textAlign: isRTL ? "right" : "left",
       fontSize: "12px",
       marginBottom: "10px",
@@ -91,7 +93,7 @@ const createStyles = (theme, isRTL) =>
       backgroundColor: theme.backgroundColor,
       padding: "5px 10px",
       borderRadius: "20px",
-      fontSize: "10px",
+      fontSize: "14px",
       marginRight: "5px",
       marginBottom: "5px",
     },
@@ -105,7 +107,7 @@ const createStyles = (theme, isRTL) =>
       backgroundColor: theme.backgroundColor,
       padding: "5px 10px",
       borderRadius: "8px",
-      fontSize: "10px",
+      fontSize: "14px",
       marginRight: "5px",
       marginBottom: "5px",
     },
@@ -113,6 +115,7 @@ const createStyles = (theme, isRTL) =>
       textAlign: isRTL ? "right" : "left",
       fontSize: "14px",
       fontWeight: "bold",
+      marginBottom: 10,
     },
   });
 
@@ -148,7 +151,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
           <Text style={{ fontSize: "25px" }}>
             {resumeData.personalInfo.name}
           </Text>
-          <Text style={{ fontSize: "16px" }}>
+          <Text style={{ fontSize: "16px", marginTop: "10px" }}>
             {resumeData.personalInfo.jobTitle}
           </Text>
           <View
@@ -225,7 +228,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
           <View wrap={false} style={{ marginBottom: "20px" }}>
             <Text style={styles.sectionTitle}>{t.education}</Text>
             {resumeData.educations.map((edu, index) => (
-              <View key={index}>
+              <View style={{ marginBottom: 8 }} key={index}>
                 <Text style={styles.subHeader}>{edu.degree}</Text>
                 <Text style={styles.subHeader}>{edu.institution}</Text>
                 <Text style={styles.text}>
@@ -234,23 +237,35 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
                 {edu.gpaType === "percentage" && (
                   <Text
                     style={{
-                      fontSize: 8,
+                      fontSize: 10,
                       color: "#4B5563",
-                      textAlign: resumeData.lng === "ar" ? "right" : "left",
+                      textAlign: isRTL ? "right" : "left",
                     }}
                   >
-                    {t.gpa}: {edu.numericGpa}
+                    {t.gpa}:{" "}
+                    {isRTL ? `%${edu.numericGpa}` : `${edu.numericGpa}%`}
                   </Text>
                 )}
-                {edu.gpaType === "descriptive" && (
+                {edu.gpaType === "outOf4" && (
                   <Text
                     style={{
-                      fontSize: 8,
+                      fontSize: 10,
                       color: "#4B5563",
-                      textAlign: resumeData.lng === "ar" ? "right" : "left",
+                      textAlign: isRTL ? "right" : "left",
                     }}
                   >
-                    {t.gpas[edu.descriptiveGpa]}
+                    {t.gpa}: {edu.numericGpa}/4
+                  </Text>
+                )}
+                {edu.gpaType === "outOf5" && (
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      color: "#4B5563",
+                      textAlign: isRTL ? "right" : "left",
+                    }}
+                  >
+                    {t.gpa}: {edu.numericGpa}/5
                   </Text>
                 )}
               </View>
@@ -277,7 +292,12 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
               <View wrap={false} style={{ marginBottom: "20px" }}>
                 <Text style={styles.sectionTitle}>{t.courses}</Text>
                 {resumeData.courses.map((course, index) => (
-                  <View key={index}>
+                  <View
+                    style={{
+                      marginBottom: 8,
+                    }}
+                    key={index}
+                  >
                     <Text style={styles.courseTitle}>{course.name}</Text>
                     <Text style={styles.institution}>{course.institution}</Text>
                     <Text style={styles.completionDate}>

@@ -233,10 +233,12 @@ const BoldTemplate = ({ resumeData }) => {
                     style={{
                       fontSize: 8,
                       color: "#4B5563",
+                      margin: 5,
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
-                    {t.gpa}: {edu.numericGpa}%
+                    {t.gpa}:{" "}
+                    {isArabic ? `%${edu.numericGpa}` : `${edu.numericGpa}%`}
                   </Text>
                 )}
                 {edu.gpaType === "outOf4" && (
@@ -244,6 +246,7 @@ const BoldTemplate = ({ resumeData }) => {
                     style={{
                       fontSize: 8,
                       color: "#4B5563",
+                      margin: 5,
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >
@@ -255,6 +258,7 @@ const BoldTemplate = ({ resumeData }) => {
                     style={{
                       fontSize: 8,
                       color: "#4B5563",
+                      margin: 5,
                       textAlign: isArabic ? "right" : "left",
                     }}
                   >

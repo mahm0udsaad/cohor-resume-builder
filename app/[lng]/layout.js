@@ -9,8 +9,8 @@ export async function generateStaticParams() {
 }
 
 export const metadata = {
-  title: "Cohor | Resume Builder",
-  description: "Generate Your Resume",
+  title: "انشاء السيرة الذاتية عاصمة الموارد البشرية | COHR CV Builder",
+  description: "انشاء السيرة الذاتية عاصمة الموارد البشرية | COHR CV Builder",
 };
 
 export default function RootLayout({ children, params: { lng } }) {

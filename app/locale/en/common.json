@@ -144,7 +144,14 @@
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service"
     },
-    "copyright": "© cohr.sa . All rights reserved."
+    "copyright": "© cohr.sa . All rights reserved.",
+    "contact": {
+      "title": "Contact",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "services": "Services"
   },
   "userDropdown": {
     "dashboard": "Dashboard",

@@ -131,7 +131,14 @@
       "privacyPolicy": "سياسة الخصوصية",
       "termsOfService": "شروط الخدمة"
     },
-    "copyright": "© cohr.sa. جميع الحقوق محفوظة."
+    "copyright": "© cohr.sa. جميع الحقوق محفوظة.",
+    "services": "خدمات",
+    "contact": {
+      "title": "اتصل بنا",
+      "whatsapp": "واتساب",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف"
+    }
   },
   "userDropdown": {
     "dashboard": "لوحة التحكم",

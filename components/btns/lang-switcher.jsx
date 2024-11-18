@@ -31,6 +31,7 @@ export default function LanguageSwitcher({ currentLang }) {
 
     router.push(newPathname);
     i18next.changeLanguage(newLang);
+    router.refresh();
   };
 
   return (

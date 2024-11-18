@@ -1,10 +1,20 @@
 "use client";
+"use client";
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
+import {
+  Facebook,
+  Twitter,
+  Youtube,
+  Mail,
+  Phone,
+  MessageSquare,
+} from "lucide-react"; // Import icons
 import Logo from "./logo";
 import { useTranslation } from "@/app/i18n/client";
+
 export function Footer({ lng }) {
   const { t } = useTranslation(lng, "common");
+
   return (
     <footer className="bg-gray-100 border-t border-gray-200">
       <div className="container mx-auto px-4 py-12">
@@ -54,7 +64,7 @@ export function Footer({ lng }) {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#"
+                  href="https://cohr.sa/about/"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
                   {t("footer.company.aboutUs")}
@@ -62,10 +72,18 @@ export function Footer({ lng }) {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="https://cohr.sa/blog/"
                   className="text-sm text-gray-600 hover:text-[#3b51a3]"
                 >
                   {t("footer.company.careers")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://cohr.sa/خدمات-المنشآت/"
+                  className="text-sm text-gray-600 hover:text-[#3b51a3]"
+                >
+                  {t("footer.services")}
                 </Link>
               </li>
               <li>
@@ -83,6 +101,41 @@ export function Footer({ lng }) {
                 >
                   {t("footer.company.termsOfService")}
                 </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-[#3b51a3] mb-4">
+              {t("footer.contact.title")}
+            </h3>
+            <ul className="space-y-2">
+              <li className="flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-[#3b51a3]" />
+                <a
+                  href="https://api.whatsapp.com/send/?phone=966571553790&text&type=phone_number&app_absent=0"
+                  className="text-sm text-gray-600 hover:text-[#3b51a3]"
+                >
+                  {t("footer.contact.whatsapp")}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail className="w-5 h-5 text-[#3b51a3]" />
+                <a
+                  href="mailto:Info@cohr.sa"
+                  className="text-sm text-gray-600 hover:text-[#3b51a3]"
+                >
+                  {t("footer.contact.email")}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone className="w-5 h-5 text-[#3b51a3]" />
+                <a
+                  href="tel:966571553790"
+                  className="text-sm text-gray-600 hover:text-[#3b51a3]"
+                >
+                  {t("footer.contact.phone")}
+                </a>
               </li>
             </ul>
           </div>
@@ -110,7 +163,7 @@ export function Footer({ lng }) {
                 className="text-gray-600 hover:text-[#3b51a3]"
               >
                 <Youtube className="w-5 h-5" />
-                <span className="sr-only">Instagram</span>
+                <span className="sr-only">Youtube</span>
               </Link>
             </div>
           </div>
