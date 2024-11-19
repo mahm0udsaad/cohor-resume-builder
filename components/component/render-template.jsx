@@ -27,7 +27,7 @@ const ResumeCard = ({ resume, user, isNewCard = false, list, lng }) => {
       if (resume.lng === "ar") {
         Font.register({
           family: "IBM Plex Sans Arabic",
-          src: "/fonts/Cairo-Medium.ttf",
+          src: "/fonts/Rubik-Regular.ttf",
           fonts: [{ src: "/fonts/ar-bold.ttf", fontWeight: "bold" }],
         });
       }

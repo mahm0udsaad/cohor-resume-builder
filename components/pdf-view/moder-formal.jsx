@@ -29,7 +29,7 @@ export default function ModernFormalResumeTemplatePDF({ resumeData }) {
   if (isArabic) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/Cairo-Medium.ttf",
+      src: "/fonts/Rubik-Regular.ttf",
     });
   }
   const theme = resumeData.theme || {

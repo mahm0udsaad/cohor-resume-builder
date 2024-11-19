@@ -12,7 +12,7 @@ import { formatDate } from "@/helper/date";
 
 Font.register({
   family: "IBM Plex Sans Arabic",
-  src: "/fonts/Cairo-Medium.ttf",
+  src: "/fonts/Rubik-Regular.ttf",
 });
 
 export default function MinimalistModernResume({ resumeData }) {

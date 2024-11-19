@@ -172,7 +172,7 @@ const MinimalTemplate = ({ resumeData }) => {
   if (isArabic) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/Cairo-Medium.ttf",
+      src: "/fonts/Rubik-Regular.ttf",
     });
   }
   const t = translations[lng] || translations["en"]; // Default to English if the language is not found
