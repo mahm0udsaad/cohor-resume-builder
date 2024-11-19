@@ -152,7 +152,7 @@ const BoldTemplate = ({ resumeData }) => {
   if (isArabic) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
+      src: "/fonts/Cairo-Medium.ttf",
     });
   }
 

@@ -138,7 +138,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
   if (rtl) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
+      src: "/fonts/Cairo-Medium.ttf",
     });
   }
 

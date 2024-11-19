@@ -11,7 +11,7 @@ import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 Font.register({
   family: "IBM Plex Sans Arabic",
-  src: "/fonts/Rubik-Regular.ttf",
+  src: "/fonts/Cairo-Medium.ttf",
 });
 export default function FormalOneColumnResume({ resumeData }) {
   const isArabic = resumeData.lng === "ar";

@@ -28,7 +28,7 @@ const getProficiencyWidth = (proficiency) => {
 };
 Font.register({
   family: "IBM Plex Sans Arabic",
-  src: "/fonts/Rubik-Regular.ttf",
+  src: "/fonts/Cairo-Medium.ttf",
 });
 export default function InfographicResume({ resumeData }) {
   const theme = resumeData.theme || {

@@ -12,7 +12,7 @@ import { translations } from "@/data/data";
 
 Font.register({
   family: "IBM Plex Sans Arabic",
-  src: "/fonts/Rubik-Regular.ttf",
+  src: "/fonts/Cairo-Medium.ttf",
 });
 
 const ElegantFormalTemplatePDF = ({ resumeData }) => {

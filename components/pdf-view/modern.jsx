@@ -114,7 +114,7 @@ const Modern = ({ resumeData }) => {
   if (isRTL) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
+      src: "/fonts/Cairo-Medium.ttf",
     });
   }
   const selectedTheme = resumeData.theme || null;
@@ -269,7 +269,7 @@ const Modern = ({ resumeData }) => {
                     <Text>•</Text>
                     <Text>
                       {t.availableSkills[`${skill.name}`] || skill.name} - (
-                      {t[skill.level] || skill.level})
+                      {t.levels[skill.level.toLowerCase()]})
                     </Text>
                   </View>
                 ))}
