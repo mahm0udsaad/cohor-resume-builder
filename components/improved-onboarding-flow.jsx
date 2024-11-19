@@ -145,13 +145,11 @@ export default function OnboardingFlow({ lng, user }) {
     } else {
       setIsSubmitting(true);
       try {
-        console.log(updatedFormData);
-
-        // const result = await saveOnboardingData(user.email, updatedFormData);
-        // if (result.success) {
-        //   await completeOnboarding(user.email);
-        //   setIsCompleted(true);
-        // }
+        const result = await saveOnboardingData(user.email, updatedFormData);
+        if (result.success) {
+          await completeOnboarding(user.email);
+          setIsCompleted(true);
+        }
       } catch (error) {
         console.error("Error saving onboarding data:", error);
       } finally {
