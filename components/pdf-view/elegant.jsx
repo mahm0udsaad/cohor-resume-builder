@@ -118,7 +118,7 @@ const ElegantResume = ({ resumeData }) => {
   if (isArabic) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/Cairo-Medium.ttf",
+      src: "/fonts/Rubik-Regular.ttf",
     });
   }
   return (

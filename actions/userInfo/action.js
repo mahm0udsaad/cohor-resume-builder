@@ -1,8 +1,10 @@
 "use server";
 
 import { parseDate } from "@/helper/date";
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { cache } from "react";
 
 export const getCurrentUser = cache(
@@ -50,27 +52,26 @@ export async function getUserOnboardingStatus(email) {
   }
 }
 
-export async function getUser(email) {
-  if (!email) {
-    return { success: false, error: "No authenticated user found" };
-  }
-
+export async function getUser() {
+  const session = await auth();
+  if (!session) redirect("/auth");
+  const { user } = session;
   try {
     // Fetch user data with related info from MongoDB
-    const user = await prisma.user.findUnique({
-      where: { email: email },
+    const currentUser = await prisma.user.findUnique({
+      where: { email: user.email },
     });
 
-    if (!user) {
+    if (!currentUser) {
       return { success: false, error: "User not found" };
     }
 
     return {
       user: {
-        name: user.name,
-        email: user.email,
-        plan: user.plan,
-        image: user.image || "/user.png",
+        name: currentUser.name,
+        email: currentUser.email,
+        plan: currentUser.plan,
+        image: currentUser.image || "/user.png",
       },
     };
   } catch (error) {

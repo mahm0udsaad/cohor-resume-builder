@@ -14,7 +14,7 @@ import { translations } from "@/data/data";
 // Register a custom font for Arabic text if needed
 Font.register({
   family: "IBM Plex Sans Arabic",
-  src: "/fonts/Cairo-Medium.ttf",
+  src: "/fonts/Rubik-Regular.ttf",
 });
 
 export default function DynamicModernResume({ resumeData }) {

@@ -2,23 +2,19 @@ import Link from "next/link";
 import { ArrowLeft, Lock } from "lucide-react";
 import { useTranslation } from "@/app/i18n";
 import Image from "next/image";
-import { auth } from "@/lib/auth";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RocketIcon } from "lucide-react";
-import { redirect } from "next/navigation";
 import { templates } from "@/data/data";
 import { getUserPlanTemplates } from "@/actions/resumes/";
 import dynamic from "next/dynamic";
-
+import { getUser } from "@/actions/userInfo/action";
 const AutoSubscriptionModal = dynamic(
   () => import("@/components/cards/auto-subscription-modal"),
   { ssr: false },
 );
 
 async function TemplateGallery({ params: { lng }, searchParams }) {
-  const session = await auth();
-  if (!session) redirect("/auth");
-  const { user } = session;
+  const { user } = await getUser();
   const { t } = await useTranslation(lng, "common");
   const userPlanTemplates = await getUserPlanTemplates(user?.plan || "free");
   const showUpgradeAlert =

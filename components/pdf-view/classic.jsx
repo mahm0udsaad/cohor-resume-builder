@@ -97,7 +97,7 @@ const Classic = ({ resumeData }) => {
   if (isArabic) {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/Cairo-Medium.ttf",
+      src: "/fonts/Rubik-Regular.ttf",
     });
   }
   // Get translations based on the current language

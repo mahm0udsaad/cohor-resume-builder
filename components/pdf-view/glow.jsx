@@ -84,7 +84,7 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
   if (resumeData.lng === "ar") {
     Font.register({
       family: "IBM Plex Sans Arabic",
-      src: "/fonts/Cairo-Medium.ttf",
+      src: "/fonts/Rubik-Regular.ttf",
     });
   }
   const t = translations[resumeData.lng] || translations.en; // Translation handling
