@@ -170,7 +170,7 @@ export default function DynamicModernResume({ resumeData }) {
 
   return (
     <Document>
-      <Page wrap={false} size="A3" style={styles.container}>
+      <Page wrap={false} size="B4" style={styles.container}>
         {/* Header Section */}
         <View style={styles.header}>
           <Image

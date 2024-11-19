@@ -122,7 +122,7 @@ export default function MinimalistModernResume({ resumeData }) {
 
   return (
     <Document>
-      <Page size="A3" wrap={false} style={styles.container}>
+      <Page size="B4" wrap={false} style={styles.container}>
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>{resumeData.personalInfo.name}</Text>

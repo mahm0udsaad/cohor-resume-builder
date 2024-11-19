@@ -138,7 +138,7 @@ const ProfessionalResume = ({ resumeData }) => {
     <Document>
       <Page
         wrap={false}
-        size="A3"
+        size="B4"
         style={styles.container}
         direction={direction}
       >

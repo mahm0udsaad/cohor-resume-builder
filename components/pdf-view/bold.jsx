@@ -158,7 +158,7 @@ const BoldTemplate = ({ resumeData }) => {
 
   return (
     <Document>
-      <Page wrap={false} size="A3" style={styles.page}>
+      <Page wrap={false} size="B4" style={styles.page}>
         <View
           style={[
             styles.header,
