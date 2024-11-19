@@ -99,18 +99,6 @@ export default function OnboardingFlow({ lng, user }) {
     },
   });
 
-  // Update form when formData changes
-  useEffect(() => {
-    reset({
-      personalInfo: formData.personalInfo,
-      experiences: formData.experiences,
-      educations: formData.educations,
-      skills: formData.skills,
-      languages: formData.languages,
-      courses: formData.courses,
-    });
-  }, [reset, formData]);
-
   // Save data to sessionStorage whenever formData changes
   useEffect(() => {
     if (typeof window !== "undefined") {
