@@ -116,7 +116,7 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
 
   return (
     <Document>
-      <Page wrap={false} size="A4" style={styles.page}>
+      <Page wrap={false} size="A3" style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>{resumeData.personalInfo.name}</Text>
@@ -212,7 +212,12 @@ const ElegantFormalTemplatePDF = ({ resumeData }) => {
         {/* Skills Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{t.skills}</Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+          <View
+            style={{
+              flexDirection: isArabic ? "row-reverse" : "row",
+              flexWrap: "wrap",
+            }}
+          >
             {resumeData.skills.map((skill, index) => (
               <Text key={index} style={styles.skillItem}>
                 {t.availableSkills[`${skill.name}`] || skill.name}(

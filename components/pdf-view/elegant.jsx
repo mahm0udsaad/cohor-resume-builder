@@ -123,7 +123,7 @@ const ElegantResume = ({ resumeData }) => {
   }
   return (
     <Document>
-      <Page wrap={false} size="A4" style={styles.page}>
+      <Page wrap={false} size="A3" style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>{resumeData.personalInfo?.name}</Text>

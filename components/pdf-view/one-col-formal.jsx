@@ -97,7 +97,7 @@ export default function FormalOneColumnResume({ resumeData }) {
 
   return (
     <Document>
-      <Page wrap={false} size="A4" style={styles.container}>
+      <Page wrap={false} size="A3" style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.name}>{resumeData.personalInfo.name}</Text>

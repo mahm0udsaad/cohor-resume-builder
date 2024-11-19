@@ -93,7 +93,7 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
 
   return (
     <Document>
-      <Page wrap={false} size="A4" style={styles(theme, lng).page}>
+      <Page wrap={false} size="A3" style={styles(theme, lng).page}>
         {/* Header */}
         <View style={styles(theme, lng).header}>
           <View>
