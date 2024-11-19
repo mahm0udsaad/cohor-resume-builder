@@ -226,7 +226,7 @@ export default function InfographicResume({ resumeData }) {
 
   return (
     <Document>
-      <Page size="B4" wrap={false} style={styles.container}>
+      <Page size="A4" wrap={false} style={styles.container}>
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <Image
