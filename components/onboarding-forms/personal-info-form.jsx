@@ -12,7 +12,7 @@ export default function PersonalInfoForm({ control, formData, errors, t }) {
         <div>
           <Label htmlFor="name">{t("personalInfo.fullName")}</Label>
           <Controller
-            name="name"
+            name="personalInfo.name"
             defaultValue={formData?.name || ""}
             control={control}
             rules={{ required: t("required") }}
@@ -32,7 +32,7 @@ export default function PersonalInfoForm({ control, formData, errors, t }) {
         <div>
           <Label htmlFor="jobTitle">{t("personalInfo.jobTitle")}</Label>
           <Controller
-            name="jobTitle"
+            name="personalInfo.jobTitle"
             defaultValue={formData?.jobTitle || ""}
             control={control}
             render={({ field }) => (
@@ -47,7 +47,7 @@ export default function PersonalInfoForm({ control, formData, errors, t }) {
         </div>
 
         <Controller
-          name="contact"
+          name="personalInfo.contact"
           control={control}
           defaultValue={formData?.contact}
           render={({ field: { onChange, value } }) => (
@@ -130,7 +130,7 @@ export default function PersonalInfoForm({ control, formData, errors, t }) {
       <div>
         <Label htmlFor="summary">{t("personalInfo.summary")}</Label>
         <Controller
-          name="summary"
+          name="personalInfo.summary"
           defaultValue={formData?.summary || ""}
           control={control}
           render={({ field }) => (
