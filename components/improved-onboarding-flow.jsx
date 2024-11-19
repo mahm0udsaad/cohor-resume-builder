@@ -157,6 +157,8 @@ export default function OnboardingFlow({ lng, user }) {
     } else {
       setIsSubmitting(true);
       try {
+        console.log(updatedFormData.courses);
+
         const result = await saveOnboardingData(user.email, updatedFormData);
         if (result.success) {
           await completeOnboarding(user.email);
