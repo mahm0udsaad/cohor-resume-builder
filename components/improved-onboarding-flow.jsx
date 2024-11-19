@@ -87,7 +87,29 @@ export default function OnboardingFlow({ lng, user }) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+    reset,
+  } = useForm({
+    defaultValues: {
+      personalInfo: formData.personalInfo,
+      experiences: formData.experiences,
+      educations: formData.educations,
+      skills: formData.skills,
+      languages: formData.languages,
+      courses: formData.courses,
+    },
+  });
+
+  // Update form when formData changes
+  useEffect(() => {
+    reset({
+      personalInfo: formData.personalInfo,
+      experiences: formData.experiences,
+      educations: formData.educations,
+      skills: formData.skills,
+      languages: formData.languages,
+      courses: formData.courses,
+    });
+  }, [reset, formData]);
 
   // Save data to sessionStorage whenever formData changes
   useEffect(() => {
@@ -100,39 +122,51 @@ export default function OnboardingFlow({ lng, user }) {
   }, [currentStep]);
 
   const onSubmit = async (data) => {
-    setFormData((prevFormData) => {
-      switch (currentStep) {
-        case 0:
-          return { ...prevFormData, personalInfo: data };
-        case 1:
-          return { ...prevFormData, experiences: data.experiences };
-        case 2:
-          return { ...prevFormData, educations: data.educations };
-        case 3:
-          return { ...prevFormData, skills: data.skills };
-        case 4:
-          return { ...prevFormData, languages: data.languages };
-        case 5:
-          return { ...prevFormData, courses: data.courses };
-        default:
-          return prevFormData; // fallback for safety
-      }
-    });
+    // Create a new object to store the updated form data
+    const updatedFormData = { ...formData };
+
+    // Update the relevant section based on the current step
+    switch (currentStep) {
+      case 0:
+        updatedFormData.personalInfo = data.personalInfo;
+        break;
+      case 1:
+        updatedFormData.experiences = data.experiences;
+        break;
+      case 2:
+        updatedFormData.educations = data.educations;
+        break;
+      case 3:
+        updatedFormData.skills = data.skills;
+        break;
+      case 4:
+        updatedFormData.languages = data.languages;
+        break;
+      case 5:
+        updatedFormData.courses = data.courses;
+        break;
+      default:
+        break;
+    }
+
+    // Update the form data state
+    setFormData(updatedFormData);
 
     if (currentStep < steps.length - 1) {
       goToNextStep();
     } else {
       setIsSubmitting(true);
-
-      console.log(formData.courses);
-      const result = await saveOnboardingData(user.email, formData);
-      if (result.success) {
-        completeOnboarding(user.email);
+      try {
+        const result = await saveOnboardingData(user.email, updatedFormData);
+        if (result.success) {
+          await completeOnboarding(user.email);
+          setIsCompleted(true);
+        }
+      } catch (error) {
+        console.error("Error saving onboarding data:", error);
+      } finally {
         setIsSubmitting(false);
-        setIsCompleted(true);
       }
-      setIsSubmitting(false);
-      setIsCompleted(true);
     }
   };
 
