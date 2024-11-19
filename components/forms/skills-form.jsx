@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,12 +11,18 @@ import {
 } from "@/components/ui/select";
 import { Trash2 } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
-import { allSkills } from "@/data/data";
+import { useSkillsSearch } from "@/hooks/use-skill-search";
 
 export default function SkillForm({ skills, updateData, lng }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { t } = useTranslation(lng, "forms");
+  const {
+    searchTerm,
+    setSearchTerm,
+    isDropdownOpen,
+    setIsDropdownOpen,
+    filteredSkills,
+    displaySkill,
+  } = useSkillsSearch({ t });
 
   const skillLevels = [
     { value: "beginner", label: "Beginner" },
@@ -25,10 +30,6 @@ export default function SkillForm({ skills, updateData, lng }) {
     { value: "experienced", label: "Experienced" },
     { value: "expert", label: "Expert" },
   ];
-
-  const filteredSkills = allSkills.filter((skill) =>
-    skill.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
 
   const handleSkillChange = (index, field, value) => {
     const updatedSkills = [...skills];
@@ -51,16 +52,7 @@ export default function SkillForm({ skills, updateData, lng }) {
   const resetSkills = () => {
     updateData({ type: "UPDATE", path: ["skills"], value: [] });
   };
-  const hasTranslation = (skill) => {
-    const translation = t(`skills.availableSkills.${skill.name}`, {
-      fallback: null,
-    });
-    if (translation?.startsWith("skills.availableSkills.")) {
-      return skill.name;
-    }
 
-    return translation === null ? skill.name : translation;
-  };
   return (
     <Card>
       <CardContent className="p-6">
@@ -98,19 +90,21 @@ export default function SkillForm({ skills, updateData, lng }) {
                       }
                     }}
                   >
-                    {t(`skills.availableSkills.${skill}`)}
+                    {displaySkill(skill)}
                   </div>
                 ))}
-                <div
-                  className={`px-4 py-2 cursor-pointer hover:bg-gray-100 `}
-                  onClick={() => {
-                    if (!skills.some((s) => s.name === searchTerm)) {
-                      addSkill(searchTerm);
-                    }
-                  }}
-                >
-                  {searchTerm}
-                </div>
+                {searchTerm && !filteredSkills.includes(searchTerm) && (
+                  <div
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    onClick={() => {
+                      if (!skills.some((s) => s.name === searchTerm)) {
+                        addSkill(searchTerm);
+                      }
+                    }}
+                  >
+                    {t("skills.addSkill")} "{searchTerm}"
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -126,8 +120,7 @@ export default function SkillForm({ skills, updateData, lng }) {
             >
               <div className="flex-1">
                 <div className="text-sm font-medium">
-                  {" "}
-                  {hasTranslation(skill)}
+                  {displaySkill(skill.name)}
                 </div>
               </div>
               <div className="w-48">

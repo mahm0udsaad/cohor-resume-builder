@@ -194,7 +194,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\cohr-last\\prisma\\generated\\client",
+      "value": "E:\\resume-builder-last\\prisma\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -208,7 +208,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\cohr-last\\prisma\\schema.prisma",
+    "sourceFilePath": "E:\\resume-builder-last\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

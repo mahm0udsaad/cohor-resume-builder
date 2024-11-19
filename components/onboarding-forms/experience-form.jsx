@@ -6,31 +6,31 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import DatePicker from "@/components/component/datePicker";
-import { useEffect } from "react";
 
-export default function WorkExperienceForm({ control, errors, t }) {
+export default function WorkExperienceForm({ control, formData, errors, t }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "experiences",
   });
+  console.log(fields);
 
-  useEffect(() => {
-    if (fields.length === 0) {
+  if (fields.length === 0) {
+    formData.forEach((experience) => {
       append({
-        jobTitle: "",
-        company: "",
-        startDate: "",
-        endDate: "",
-        isCurrentJob: false,
-        responsibilities: "",
+        jobTitle: experience.jobTitle || "",
+        company: experience.company || "",
+        startDate: experience.startDate || "",
+        endDate: experience.endDate || "",
+        isCurrentJob: experience.isCurrentJob || false,
+        responsibilities: experience.responsibilities || "",
       });
-    }
-  }, []);
+    });
+  }
 
   const watchedExperiences = useWatch({
     control,
     name: "experiences",
-    defaultValue: [],
+    defaultValue: formData,
   });
 
   return (
@@ -59,6 +59,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
               <Controller
                 name={`experiences.${index}.jobTitle`}
                 control={control}
+                defaultValue={formData?.[index]?.jobTitle}
                 rules={{ required: t("required") }}
                 render={({ field }) => (
                   <Input
@@ -82,6 +83,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
               <Controller
                 name={`experiences.${index}.company`}
                 control={control}
+                defaultValue={formData?.[index]?.company}
                 rules={{ required: t("required") }}
                 render={({ field }) => (
                   <Input
@@ -103,6 +105,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
             <Controller
               name={`experiences.${index}.startDate`}
               control={control}
+              defaultValue={formData?.[index]?.startDate || ""}
               render={({ field }) => (
                 <DatePicker
                   label={t("workExperience.startDate")}
@@ -115,6 +118,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
               <Controller
                 name={`experiences.${index}.endDate`}
                 control={control}
+                defaultValue={formData?.[index]?.endDate || ""}
                 render={({ field }) => (
                   <DatePicker
                     label={t("workExperience.endDate")}
@@ -130,6 +134,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
             <Controller
               name={`experiences.${index}.isCurrentJob`}
               control={control}
+              defaultValue={formData?.[index]?.isCurrentJob || false}
               render={({ field: { onChange, value } }) => (
                 <div className="flex items-center gap-2 mt-6">
                   <Checkbox
@@ -158,6 +163,7 @@ export default function WorkExperienceForm({ control, errors, t }) {
             <Controller
               name={`experiences.${index}.responsibilities`}
               control={control}
+              defaultValue={formData?.[index]?.responsibilities || ""}
               render={({ field }) => (
                 <Textarea
                   {...field}

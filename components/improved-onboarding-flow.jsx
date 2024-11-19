@@ -40,37 +40,46 @@ export default function OnboardingFlow({ lng, user }) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [formData, setFormData] = useState({
-    personalInfo: {
-      name: "",
-      jobTitle: "",
-      phoneNumber: "",
-      summary: "",
-      contact: [""],
-      imageUrl: "",
-    },
-    experiences: [
-      {
+  const [formData, setFormData] = useState(() => {
+    // Initialize formData from sessionStorage or default values
+    if (typeof window !== "undefined") {
+      const savedData = sessionStorage.getItem("onboardingFormData");
+      if (savedData) {
+        return JSON.parse(savedData);
+      }
+    }
+    return {
+      personalInfo: {
+        name: "",
         jobTitle: "",
-        company: "",
-        startDate: "",
-        endDate: "",
-        responsibilities: "",
+        phoneNumber: "",
+        summary: "",
+        contact: ["", ""],
+        imageUrl: "",
       },
-    ],
-    educations: [
-      {
-        degree: "",
-        institution: "",
-        graduationDate: "",
-        gpaType: "none",
-        numericGpa: "",
-        descriptiveGpa: "",
-      },
-    ],
-    skills: [],
-    languages: [{ name: "", proficiency: "" }],
-    courses: [{ name: "", institution: "", completionDate: "" }],
+      experiences: [
+        {
+          jobTitle: "",
+          company: "",
+          startDate: "",
+          endDate: "",
+          responsibilities: "",
+        },
+      ],
+      educations: [
+        {
+          degree: "",
+          institution: "",
+          graduationDate: "",
+          gpaType: "none",
+          numericGpa: "",
+          descriptiveGpa: "",
+        },
+      ],
+      skills: [],
+      languages: [{ name: "", proficiency: "" }],
+      courses: [{ name: "", institution: "", completionDate: "" }],
+    };
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -80,34 +89,42 @@ export default function OnboardingFlow({ lng, user }) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    let updatedFormData = { ...formData };
-    switch (currentStep) {
-      case 0:
-        updatedFormData.personalInfo = data;
-        break;
-      case 1:
-        updatedFormData.experiences = data.experiences;
-        break;
-      case 2:
-        updatedFormData.educations = data.educations;
-        break;
-      case 3:
-        updatedFormData.skills = data.skills;
-        break;
-      case 4:
-        updatedFormData.languages = data.languages;
-        break;
-      case 5:
-        updatedFormData.courses = data.courses;
-        break;
+  // Save data to sessionStorage whenever formData changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      console.log(formData);
+
+      sessionStorage.setItem("onboardingFormData", JSON.stringify(formData));
+      sessionStorage.setItem("onboardingCurrentStep", currentStep.toString());
     }
-    setFormData(updatedFormData);
+  }, [currentStep]);
+
+  const onSubmit = async (data) => {
+    setFormData((prevFormData) => {
+      switch (currentStep) {
+        case 0:
+          return { ...prevFormData, personalInfo: data };
+        case 1:
+          return { ...prevFormData, experiences: data.experiences };
+        case 2:
+          return { ...prevFormData, educations: data.educations };
+        case 3:
+          return { ...prevFormData, skills: data.skills };
+        case 4:
+          return { ...prevFormData, languages: data.languages };
+        case 5:
+          return { ...prevFormData, courses: data.courses };
+        default:
+          return prevFormData; // fallback for safety
+      }
+    });
 
     if (currentStep < steps.length - 1) {
       goToNextStep();
     } else {
       setIsSubmitting(true);
+
+      console.log(formData.courses);
       const result = await saveOnboardingData(user.email, formData);
       if (result.success) {
         completeOnboarding(user.email);
@@ -118,6 +135,14 @@ export default function OnboardingFlow({ lng, user }) {
       setIsCompleted(true);
     }
   };
+
+  // Clear sessionStorage when onboarding is completed
+  useEffect(() => {
+    if (isCompleted && typeof window !== "undefined") {
+      sessionStorage.removeItem("onboardingFormData");
+      sessionStorage.removeItem("onboardingCurrentStep");
+    }
+  }, [isCompleted]);
 
   const goToNextStep = () => {
     if (currentStep < steps.length - 1) {

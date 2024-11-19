@@ -6,21 +6,24 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import DatePicker from "@/components/component/datePicker";
 
-export default function EducationForm({ control, errors, t }) {
+export default function EducationForm({ control, formData, errors, t }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "educations",
   });
+
   const watchedEducations = useWatch({ control, name: "educations" }) || [];
 
   if (fields.length === 0) {
-    append({
-      degree: "",
-      institution: "",
-      graduationDate: "",
-      gpaType: "none",
-      numericGpa: "",
-      descriptiveGpa: "",
+    formData.forEach((experience) => {
+      append({
+        degree: experience.degree,
+        institution: experience.institution,
+        graduationDate: experience.graduationDate,
+        gpaType: experience.gpaType,
+        numericGpa: experience.numericGpa,
+        descriptiveGpa: experience.descriptiveGpa,
+      });
     });
   }
 
@@ -28,8 +31,13 @@ export default function EducationForm({ control, errors, t }) {
   const handleGpaTypeChange = (index, onChange, value) => {
     onChange(value);
     // Clear both GPA fields when changing type
-    control._formValues.educations[index].numericGpa = "";
-    control._formValues.educations[index].descriptiveGpa = "";
+    const updatedEducations = [...control._formValues.educations];
+    updatedEducations[index] = {
+      ...updatedEducations[index],
+      numericGpa: "",
+      descriptiveGpa: "",
+    };
+    control._formValues.educations = updatedEducations;
   };
 
   const renderGpaInput = (index, gpaType) => {
@@ -43,6 +51,7 @@ export default function EducationForm({ control, errors, t }) {
             <Controller
               name={`educations.${index}.numericGpa`}
               control={control}
+              defaultValue={formData?.[index]?.numericGpa || ""}
               render={({ field }) => (
                 <Input
                   {...field}
@@ -73,6 +82,7 @@ export default function EducationForm({ control, errors, t }) {
             <Controller
               name={`educations.${index}.numericGpa`}
               control={control}
+              defaultValue={formData?.[index]?.numericGpa || ""}
               render={({ field }) => (
                 <Input
                   {...field}
@@ -110,6 +120,7 @@ export default function EducationForm({ control, errors, t }) {
               variant="ghost"
               size="icon"
               className="text-red-500 hover:text-red-700"
+              disabled={fields.length === 1}
             >
               <Trash2 className="h-5 w-5" />
             </Button>
@@ -121,6 +132,7 @@ export default function EducationForm({ control, errors, t }) {
               <Controller
                 name={`educations.${index}.degree`}
                 control={control}
+                defaultValue={formData?.[index]?.degree || ""}
                 rules={{ required: t("required") }}
                 render={({ field }) => (
                   <Input
@@ -144,6 +156,7 @@ export default function EducationForm({ control, errors, t }) {
               <Controller
                 name={`educations.${index}.institution`}
                 control={control}
+                defaultValue={formData?.[index]?.institution || ""}
                 rules={{ required: t("required") }}
                 render={({ field }) => (
                   <Input
@@ -165,6 +178,7 @@ export default function EducationForm({ control, errors, t }) {
           <Controller
             name={`educations.${index}.graduationDate`}
             control={control}
+            defaultValue={formData?.[index]?.graduationDate || ""}
             render={({ field }) => (
               <DatePicker label={t("education.graduationDate")} {...field} />
             )}
@@ -177,6 +191,7 @@ export default function EducationForm({ control, errors, t }) {
             <Controller
               name={`educations.${index}.gpaType`}
               control={control}
+              defaultValue={formData?.[index]?.gpaType || "none"}
               render={({ field }) => (
                 <RadioGroup
                   onValueChange={(value) =>

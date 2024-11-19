@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-export default function PersonalInfoForm({ control, errors, t }) {
+export default function PersonalInfoForm({ control, formData, errors, t }) {
   return (
     <div className="space-y-2">
       <div className="grid grid-cols-2 gap-6">
@@ -13,6 +13,7 @@ export default function PersonalInfoForm({ control, errors, t }) {
           <Label htmlFor="name">{t("personalInfo.fullName")}</Label>
           <Controller
             name="name"
+            defaultValue={formData?.name || ""}
             control={control}
             rules={{ required: t("required") }}
             render={({ field }) => (
@@ -32,6 +33,7 @@ export default function PersonalInfoForm({ control, errors, t }) {
           <Label htmlFor="jobTitle">{t("personalInfo.jobTitle")}</Label>
           <Controller
             name="jobTitle"
+            defaultValue={formData?.jobTitle || ""}
             control={control}
             render={({ field }) => (
               <Input
@@ -47,7 +49,7 @@ export default function PersonalInfoForm({ control, errors, t }) {
         <Controller
           name="contact"
           control={control}
-          defaultValue={["", ""]}
+          defaultValue={formData?.contact}
           render={({ field: { onChange, value } }) => (
             <>
               {value.map((contact, index) => (
@@ -129,6 +131,7 @@ export default function PersonalInfoForm({ control, errors, t }) {
         <Label htmlFor="summary">{t("personalInfo.summary")}</Label>
         <Controller
           name="summary"
+          defaultValue={formData?.summary || ""}
           control={control}
           render={({ field }) => (
             <Textarea

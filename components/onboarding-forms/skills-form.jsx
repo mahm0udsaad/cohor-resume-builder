@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -11,8 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { allSkills } from "@/data/data";
-
+import { useSkillsSearch } from "@/hooks/use-skill-search";
 const skillLevels = [
   { value: "beginner", label: "skills.beginner" },
   { value: "skillful", label: "skills.skillful" },
@@ -20,19 +18,21 @@ const skillLevels = [
   { value: "expert", label: "skills.expert" },
 ];
 
-export default function SkillsForm({ control, t }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const filteredSkills = allSkills.filter((skill) =>
-    skill.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+export default function SkillsForm({ control, formData, t }) {
+  const {
+    searchTerm,
+    setSearchTerm,
+    isDropdownOpen,
+    setIsDropdownOpen,
+    filteredSkills,
+    displaySkill,
+  } = useSkillsSearch({ t });
 
   return (
     <Controller
       name="skills"
       control={control}
-      defaultValue={[]}
+      defaultValue={formData}
       render={({ field: { value, onChange } }) => (
         <div className="space-y-6">
           <div className="">
@@ -69,21 +69,22 @@ export default function SkillsForm({ control, t }) {
                         setSearchTerm("");
                       }}
                     >
-                      {t(`skills.availableSkills.${skill}`)}
+                      {displaySkill(skill)}
                     </div>
                   ))}
                   {searchTerm && !filteredSkills.includes(searchTerm) && (
                     <div
                       className="px-4 py-2 cursor-pointer hover:bg-gray-100"
                       onClick={() => {
+                        const skillToAdd = handleCustomSkillAddition();
                         onChange([
                           ...value,
-                          { name: searchTerm, level: "beginner" },
+                          { name: skillToAdd, level: "beginner" },
                         ]);
                         setSearchTerm("");
                       }}
                     >
-                      {t("skills.add")} "{searchTerm}"
+                      {t("skills.addSkill")} "{searchTerm}"
                     </div>
                   )}
                 </div>
@@ -103,8 +104,7 @@ export default function SkillsForm({ control, t }) {
               >
                 <div className="flex-1">
                   <div className="text-sm font-medium">
-                    {" "}
-                    {t(`skills.availableSkills.${skill.name}`)}
+                    {displaySkill(skill.name)}
                   </div>
                 </div>
                 <div className="w-48">

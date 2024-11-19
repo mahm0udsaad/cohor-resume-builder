@@ -44,6 +44,7 @@ import DatePicker from "@/components/component/datePicker";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Checkbox } from "../ui/checkbox";
 import { ToastAction } from "../ui/toast";
+import { useSkillsSearch } from "@/hooks/use-skill-search";
 function SectionHeader({ icon: Icon, title }) {
   return (
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -860,6 +861,7 @@ const skillLevels = [
   { value: "experienced", label: "Experienced" },
   { value: "expert", label: "Expert" },
 ];
+
 function SkillsSection({ t, control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({
@@ -867,12 +869,14 @@ function SkillsSection({ t, control, errors }) {
     name: "skills",
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const filteredSkills = allSkills.filter((skill) =>
-    skill.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const {
+    searchTerm,
+    setSearchTerm,
+    isDropdownOpen,
+    setIsDropdownOpen,
+    filteredSkills,
+    displaySkill,
+  } = useSkillsSearch({ t });
 
   const handleAddSkill = (skillName) => {
     if (!fields.some((field) => field.name === skillName)) {
@@ -913,7 +917,7 @@ function SkillsSection({ t, control, errors }) {
                       }`}
                       onClick={() => handleAddSkill(skill)}
                     >
-                      {t(`skills.availableSkills.${skill}`) || skill}
+                      {displaySkill(skill)}
                     </div>
                   ))}
                   {searchTerm && !filteredSkills.includes(searchTerm) && (
@@ -922,7 +926,6 @@ function SkillsSection({ t, control, errors }) {
                       onClick={() => handleAddSkill(searchTerm)}
                     >
                       {t("skills.addSkill")} "{searchTerm}"{" "}
-                      {t("skills.as_new_skill")}
                     </div>
                   )}
                 </div>
@@ -941,7 +944,9 @@ function SkillsSection({ t, control, errors }) {
             >
               {isEditing ? (
                 <>
-                  <div className="font-medium min-w-[120px]">{field.name}</div>
+                  <div className="font-medium min-w-[120px]">
+                    {displaySkill(field.name)}
+                  </div>
                   <Controller
                     name={`skills.${index}.level`}
                     control={control}
@@ -974,7 +979,7 @@ function SkillsSection({ t, control, errors }) {
                 </>
               ) : (
                 <Badge variant="outline" className="text-sm">
-                  {field.name} - {field.level}
+                  {displaySkill(field.name)} - {t(`skills.${field.level}`)}
                 </Badge>
               )}
             </div>
@@ -987,6 +992,7 @@ function SkillsSection({ t, control, errors }) {
     </Card>
   );
 }
+
 function LanguagesSection({ t, control, errors }) {
   const { isEditing } = useEditingContext();
   const { fields, append, remove } = useFieldArray({

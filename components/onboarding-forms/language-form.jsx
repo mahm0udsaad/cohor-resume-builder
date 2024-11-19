@@ -13,7 +13,7 @@ import {
 
 const proficiencyLevels = ["Beginner", "Intermediate", "Advanced", "Native"];
 
-export default function LanguagesForm({ control, errors, t }) {
+export default function LanguagesForm({ control, formData, errors, t }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "languages",
@@ -43,6 +43,7 @@ export default function LanguagesForm({ control, errors, t }) {
             <Controller
               name={`languages.${index}.name`}
               control={control}
+              defaultValue={formData?.[index]?.name || ""}
               rules={{ required: t("reviewResume.required") }}
               render={({ field }) => (
                 <Input
@@ -66,6 +67,7 @@ export default function LanguagesForm({ control, errors, t }) {
             <Controller
               name={`languages.${index}.proficiency`}
               control={control}
+              defaultValue={formData?.[index]?.proficiency || ""}
               rules={{ required: t("reviewResume.required") }}
               render={({ field }) => (
                 <Select

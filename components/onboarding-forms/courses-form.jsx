@@ -5,12 +5,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import DatePicker from "@/components/component/datePicker";
 
-export default function CoursesForm({ control, errors, t }) {
+export default function CoursesForm({ control, formData, errors, t }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "courses",
   });
-  console.log(fields);
 
   return (
     <div className="space-y-6">
@@ -37,7 +36,7 @@ export default function CoursesForm({ control, errors, t }) {
             <Controller
               name={`courses.${index}.name`}
               control={control}
-              defaultValue={field.name}
+              defaultValue={formData?.[index]?.name}
               rules={{ required: t("required") }}
               render={({ field }) => (
                 <Input
@@ -61,7 +60,7 @@ export default function CoursesForm({ control, errors, t }) {
             <Controller
               name={`courses.${index}.institution`}
               control={control}
-              defaultValue={field.institution}
+              defaultValue={formData?.[index]?.institution}
               render={({ field }) => (
                 <Input
                   {...field}
@@ -75,7 +74,7 @@ export default function CoursesForm({ control, errors, t }) {
           <Controller
             name={`courses.${index}.completionDate`}
             control={control}
-            defaultValue={field.completionDate}
+            defaultValue={formData?.[index]?.completionDate}
             render={({ field }) => (
               <DatePicker label={t("reviewResume.completionDate")} {...field} />
             )}

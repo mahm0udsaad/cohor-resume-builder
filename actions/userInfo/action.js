@@ -377,6 +377,8 @@ export async function updateExperience(
 
 export async function saveOnboardingData(email, data) {
   try {
+    console.log("Saving onboarding data:", data.courses);
+
     // Transform dates in experiences
     const transformedExperiences =
       data.experiences?.map((exp) => ({
@@ -414,6 +416,7 @@ export async function saveOnboardingData(email, data) {
             ? parseDate(course.completionDate)
             : null,
         })) || [];
+    console.log("Transformed Courses:", transformedCourses);
 
     // Update user with all the information
     const updatedUser = await prisma.user.update({
