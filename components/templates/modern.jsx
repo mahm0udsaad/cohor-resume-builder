@@ -144,9 +144,19 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
           <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-4 mb-2">
             {t.skills} {/* Translated Skills */}
           </h2>
-          <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
+          <ul className="text-sm w-11/12 mx-auto text-gray-700 grid grid-cols-2 gap-2">
             {resumeData.skills?.map((skill, index) => (
-              <li key={index}>
+              <li key={index} className="relative">
+                <span
+                  className={
+                    resumeData.lng === "ar"
+                      ? "absolute right-0"
+                      : "absolute -left-3"
+                  }
+                  style={{ marginRight: "-1rem" }} // Adjust as needed
+                >
+                  •
+                </span>
                 {t.availableSkills[`${skill.name}`] || skill.name} - (
                 {t.levels[skill.level.toLowerCase()]})
               </li>
@@ -159,9 +169,19 @@ const ModernTemplate = ({ resumeData, selectedTheme, className }) => {
             <h2 className="text-2xl font-semibold text-gray-700 border-b-2 border-gray-300 pb-4 mb-2">
               {t.languages} {/* Translated Languages */}
             </h2>
-            <ul className="list-disc list-inside text-sm text-gray-700 grid grid-cols-2 gap-2">
+            <ul className="text-sm w-11/12 mx-auto text-gray-700 grid grid-cols-2 gap-2">
               {resumeData.languages?.map((lang, index) => (
-                <li key={index}>
+                <li key={index} className="relative">
+                  <span
+                    className={
+                      resumeData.lng === "ar"
+                        ? "absolute right-0"
+                        : "absolute -left-3"
+                    }
+                    style={{ marginRight: "-1rem" }} // Adjust as needed
+                  >
+                    •
+                  </span>
                   {lang.name} - ({t[lang.proficiency.toLowerCase()]})
                 </li>
               ))}

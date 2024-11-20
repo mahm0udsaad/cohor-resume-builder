@@ -9,13 +9,12 @@ import {
 } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
-
 // Create styles
 const createStyles = (isRTL) =>
   StyleSheet.create({
     page: {
       fontFamily: isRTL ? "IBM Plex Sans Arabic" : "",
-      flexDirection: isRTL ? "row-reverse" : "row", // RTL Support
+      flexDirection: isRTL ? "row-reverse" : "row",
       backgroundColor: "white",
     },
     sidebar: {

@@ -1,20 +1,9 @@
 "use client";
 import React from "react";
-import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { DeleteConfirmation } from "../btns/delete-dialog";
-import { Skeleton } from "../ui/skeleton";
 import { getResumeTemplate } from "@/helper/get-resume-engin";
 import { useTranslation } from "@/app/i18n/client";
 import { Font } from "@react-pdf/renderer";
-import { Button } from "../ui/button";
-import { Edit } from "lucide-react";
+import ResumePreviewCard from "./../cards/resume-prev";
 
 const ResumeCard = ({ resume, user, isNewCard = false, list, lng }) => {
   const { t } = useTranslation(lng, "common");
@@ -61,44 +50,22 @@ const ResumeCard = ({ resume, user, isNewCard = false, list, lng }) => {
   };
 
   return (
-    <Card className=" block bg-white shadow-md hover:shadow-lg transition-shadow">
-      <CardHeader>
-        <CardDescription>
-          {t("lastUpdated")}: {new Date().toLocaleDateString()}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Link href={`/review/${resume.name}`}>
-          <div className="flex justify-center overflow-hidden">
-            {error ? (
-              <div className="text-red-500 p-4 text-center">
-                {t("templateLoadError")}
-              </div>
-            ) : ResumeTemplate ? (
-              <ResumeTemplate
-                resumeData={resumeData}
-                selectedTheme={resumeData.theme || null}
-                className={
-                  list
-                    ? "max-h-[300px] overflow-hidden"
-                    : "h-full w-4/5 mx-auto"
-                }
-              />
-            ) : (
-              <Skeleton className="w-full h-[300px]" />
-            )}
-          </div>
-        </Link>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Link href={`/edit/${resume.name}`}>
-          <Button variant="outline" className="mx-2">
-            <Edit className="size-6" />
-          </Button>
-        </Link>
-        <DeleteConfirmation lng={lng} email={user.email} resumeId={resume.id} />
-      </CardFooter>
-    </Card>
+    <dev className=" block bg-white shadow-md hover:shadow-lg transition-shadow">
+      <ResumePreviewCard
+        lng={lng}
+        user={user}
+        resume={resume}
+        content={
+          <ResumeTemplate
+            resumeData={resumeData}
+            selectedTheme={resumeData.theme || null}
+            className={
+              list ? "max-h-[300px] overflow-hidden" : "h-full w-4/5 mx-auto"
+            }
+          />
+        }
+      />
+    </dev>
   );
 };
 

@@ -108,7 +108,7 @@ export default function BlueHorizonPDF({ resumeData }) {
 
   return (
     <Document>
-      <Page wrap={false} size="A4" style={styles.page}>
+      <Page debug wrap={false} size="A4" style={styles.page}>
         {/* Sidebar */}
         <View style={styles.container}>
           <View style={styles.sidebar}>

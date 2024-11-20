@@ -11,7 +11,6 @@ import {
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 
-// Create styles function for dynamic theming
 const createStyles = (theme, isArabic) =>
   StyleSheet.create({
     page: {
