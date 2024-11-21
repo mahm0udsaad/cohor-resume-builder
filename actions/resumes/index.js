@@ -254,83 +254,176 @@ const formatResumeData = (data) => {
     })),
   };
 };
-
 export const updateUserResumeData = async (
   userEmail,
   resumeName,
   updatedResumeData,
 ) => {
-  try {
-    // Input validation
-    if (!userEmail) throw new Error("User email is required");
-    if (!resumeName) throw new Error("Resume name is required");
-    validateResumeData(updatedResumeData);
+  const MAX_RETRIES = 3;
+  const RETRY_DELAY = 500; // 500 milliseconds
 
-    // Format data upfront
-    const formattedResumeData = formatResumeData(updatedResumeData);
-    const themeData = updatedResumeData.theme;
+  const isRetryableError = (error) => {
+    // Generic error detection strategy
+    const retryableErrorPatterns = [
+      "database is locked",
+      "write conflict",
+      "transaction",
+      "connection",
+      "timeout",
+      "busy",
+      "ECONNRESET",
+      "already closed",
+      "could not perform operation",
+    ];
 
-    // Attempt to perform the entire operation in a single transaction
-    const resume = await prisma.$transaction(
-      async (prisma) => {
-        // Find user first - use findUnique with more robust error handling
-        const user = await prisma.user.findUnique({
-          where: { email: userEmail },
-          select: { id: true },
-        });
+    const errorMessage = error.message.toLowerCase();
 
-        if (!user) throw new Error("User not found");
-
-        // Delete existing resume and related data
-        await prisma.resume.deleteMany({
-          where: {
-            userId: user.id,
-            name: resumeName,
-          },
-        });
-
-        // Create new resume with all related data
-        return await tx.resume.create({
-          data: {
-            name: resumeName,
-            userId: user.id,
-            ...formattedResumeData,
-            ...themeData,
-            modifiedAt: new Date(),
-          },
-          include: {
-            personalInfo: true,
-            experiences: true,
-            educations: true,
-            skills: true,
-            languages: true,
-            courses: true,
-            theme: true,
-          },
-        });
-      },
-      {
-        maxWait: 5000, // 5 seconds max waiting time
-        timeout: 10000, // 10 seconds total transaction time
-      },
+    return retryableErrorPatterns.some((pattern) =>
+      errorMessage.includes(pattern),
     );
+  };
 
-    // Revalidate path after successful transaction
-    revalidatePath("/dashboard");
+  const getErrorType = (error) => {
+    // Comprehensive error type detection
+    if (error.name === "PrismaClientKnownRequestError") {
+      return "Prisma Known Request Error";
+    }
 
-    return {
-      success: true,
-      resume,
-    };
-  } catch (error) {
-    console.error("Resume update error:", error);
-    return {
-      success: false,
-      error:
-        error instanceof Error ? error.message : "Failed to update resume data",
-      details: error instanceof Error ? error.stack : error,
-    };
+    if (error.name === "PrismaClientUnknownRequestError") {
+      return "Prisma Unknown Request Error";
+    }
+
+    if (error.name === "PrismaClientInitializationError") {
+      return "Prisma Initialization Error";
+    }
+
+    if (error.name === "PrismaClientValidationError") {
+      return "Prisma Validation Error";
+    }
+
+    return "Unknown Error";
+  };
+
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      // Input validation
+      if (!userEmail) throw new Error("User email is required");
+      if (!resumeName) throw new Error("Resume name is required");
+      validateResumeData(updatedResumeData);
+
+      // Format data upfront
+      const formattedResumeData = formatResumeData(updatedResumeData);
+      const themeData = updatedResumeData.theme;
+
+      // Perform transaction
+      const resume = await prisma.$transaction(
+        async (prismaTransaction) => {
+          // Get user in the transaction
+          const user = await prismaTransaction.user.findUnique({
+            where: { email: userEmail },
+            select: { id: true },
+          });
+
+          if (!user) throw new Error("User not found");
+
+          // Delete existing resume
+          await prismaTransaction.resume.deleteMany({
+            where: {
+              userId: user.id,
+              name: resumeName,
+            },
+          });
+
+          // Create new resume
+          return await prismaTransaction.resume.create({
+            data: {
+              name: resumeName,
+              userId: user.id,
+              ...formattedResumeData,
+              ...themeData,
+              modifiedAt: new Date(),
+            },
+            include: {
+              personalInfo: true,
+              experiences: true,
+              educations: true,
+              skills: true,
+              languages: true,
+              courses: true,
+              theme: true,
+            },
+          });
+        },
+        {
+          maxWait: 10000, // 10 seconds
+          timeout: 15000, // 15 seconds
+        },
+      );
+
+      // Revalidate path after successful transaction
+      revalidatePath("/dashboard");
+
+      return {
+        success: true,
+        resume,
+      };
+    } catch (error) {
+      // Enhanced error logging
+      const errorType = getErrorType(error);
+      const isRetryable = isRetryableError(error);
+
+      console.error(`Resume update attempt ${attempt} failed:`, {
+        message: error.message,
+        name: error.name,
+        type: errorType,
+        isRetryable,
+        stack: error.stack,
+      });
+
+      lastError = error;
+
+      // Retry logic
+      if (isRetryable && attempt < MAX_RETRIES) {
+        // Exponential backoff with jitter
+        const jitter = Math.random() * 200;
+        const delay = RETRY_DELAY * Math.pow(2, attempt) + jitter;
+
+        console.log(
+          `Retrying due to ${errorType}. Attempt ${attempt}. Waiting ${delay}ms`,
+        );
+
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        continue;
+      }
+
+      // Detailed error response
+      return {
+        success: false,
+        error: error.message || "Failed to update resume data",
+        errorType,
+        isRetryable,
+        details: {
+          name: error.name,
+          stack: error.stack,
+        },
+      };
+    }
   }
+
+  // Fallback if all attempts fail
+  return {
+    success: false,
+    error: "Maximum retry attempts exceeded",
+    details: lastError
+      ? {
+          message: lastError.message,
+          name: lastError.name,
+          type: getErrorType(lastError),
+        }
+      : "Unknown error",
+  };
 };
 
 export async function saveSkills(userId, skills) {

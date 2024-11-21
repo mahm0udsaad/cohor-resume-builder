@@ -55,7 +55,7 @@ const SimpleFormalTemplatePDF = ({ resumeData }) => {
       marginBottom: 15,
     },
     sectionTitle: {
-      fontSize: 22,
+      fontSize: 18,
       fontWeight: "bold",
       color: theme.primaryColor,
       borderBottom: `2px solid ${theme.primaryColor}`,
@@ -237,8 +237,19 @@ const SimpleFormalTemplatePDF = ({ resumeData }) => {
                 {resumeData.languages.map((lang, index) => (
                   <Text key={index} style={styles.languages}>
                     <View>
-                      <Text style={{ fontSize: 16 }}>{lang.name}:</Text>
-                      <Text style={{ fontSize: 12 }}>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                        }}
+                      >
+                        {lang.name}
+                      </Text>
+                      <Text>:</Text>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                        }}
+                      >
                         {t[lang.proficiency.toLowerCase()] || lang.proficiency}
                       </Text>
                     </View>
@@ -250,10 +261,15 @@ const SimpleFormalTemplatePDF = ({ resumeData }) => {
           <View style={styles.column}>
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>{t.skills}</Text>
-              <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              <View
+                style={{
+                  flexDirection: isArabic ? "row-reverse" : "row",
+                  flexWrap: "wrap",
+                }}
+              >
                 {resumeData.skills.map((skill, index) => (
                   <Text key={index} style={styles.skillItem}>
-                    {skill.name} (
+                    {t.availableSkills[`${skill.name}`] || skill.name} (
                     {t.levels[skill.level.toLowerCase()] || skill.level})
                   </Text>
                 ))}

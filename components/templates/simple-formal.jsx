@@ -158,7 +158,8 @@ const SimpleFormalTemplate = ({ resumeData, selectedTheme, className }) => {
             <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
               {resumeData.skills.map((skill, index) => (
                 <span key={index} style={styles.skillItem}>
-                  {skill.name} ({skill.level})
+                  {t.availableSkills[`${skill.name}`] || skill.name}(
+                  {t.levels[skill.level.toLowerCase()]}
                 </span>
               ))}
             </div>
@@ -170,7 +171,8 @@ const SimpleFormalTemplate = ({ resumeData, selectedTheme, className }) => {
             <h2 style={styles.sectionTitle}>{t.languages}</h2>
             {resumeData.languages.map((lang, index) => (
               <p key={index}>
-                <strong>{lang.name}:</strong> {lang.proficiency}
+                <strong>{lang.name}:</strong>{" "}
+                {t[lang.proficiency.toLowerCase()]}
               </p>
             ))}
           </section>
