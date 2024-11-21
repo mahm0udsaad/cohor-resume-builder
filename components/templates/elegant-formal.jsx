@@ -141,7 +141,7 @@ export default function ElegantFormalTemplate({
       </div>
 
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>About</h2>
+        <h2 style={styles.sectionTitle}>{t.profile}</h2>
         <p style={styles.summary}>{resumeData.personalInfo.summary}</p>
       </section>
 

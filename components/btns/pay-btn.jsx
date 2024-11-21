@@ -6,7 +6,9 @@ import { useState } from "react";
 export default function PaymentBtn({ plan, user, lng }) {
   const { t } = useTranslation(lng, "common");
   const [loading, setLoading] = useState(false);
+
   const handlePayment = async () => {
+    const currentUrl = window.location.href;
     setLoading(true);
     try {
       const res = await fetch("/api/paymob-intention", {
@@ -14,15 +16,15 @@ export default function PaymentBtn({ plan, user, lng }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: plan.price,
+          plan: plan.name,
           currency: "EGP",
           userEmail: user.email,
           userFirstName: user.name.split(" ")[0],
-          userLastName: user.name.split(" ")[1],
-          return_url: window.location.href,
+          userLastName: user.name.split(" ")[1] || "user",
+          return_url: currentUrl,
         }),
       });
       const data = await res.json();
-      console.log(data);
 
       setLoading(false);
 

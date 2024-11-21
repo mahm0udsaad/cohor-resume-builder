@@ -148,7 +148,7 @@ export default function ElegantFormalTemplatePDF({ resumeData }) {
         {/* About Section */}
         <View style={[styles.section, styles.sectionBorder]}>
           <View style={styles.sectionTitleContainer}>
-            <Text style={styles.sectionTitle}>About</Text>
+            <Text style={styles.sectionTitle}>{t.profile}</Text>
           </View>
           <Text style={styles.text}>{resumeData.personalInfo.summary}</Text>
         </View>
