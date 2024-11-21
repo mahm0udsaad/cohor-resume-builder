@@ -290,31 +290,13 @@ export const updateUserResumeData = async (
         });
 
         // Create new resume with all related data
-        return await prisma.resume.create({
+        return await tx.resume.create({
           data: {
             name: resumeName,
             userId: user.id,
             ...formattedResumeData,
             ...themeData,
             modifiedAt: new Date(),
-            personalInfo: {
-              create: formattedResumeData.personalInfo,
-            },
-            experiences: {
-              create: formattedResumeData.experiences,
-            },
-            educations: {
-              create: formattedResumeData.educations,
-            },
-            skills: {
-              create: formattedResumeData.skills,
-            },
-            languages: {
-              create: formattedResumeData.languages,
-            },
-            courses: {
-              create: formattedResumeData.courses,
-            },
           },
           include: {
             personalInfo: true,
@@ -323,6 +305,7 @@ export const updateUserResumeData = async (
             skills: true,
             languages: true,
             courses: true,
+            theme: true,
           },
         });
       },
