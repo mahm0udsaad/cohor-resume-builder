@@ -216,7 +216,7 @@ export function QualityUpgradeModal({
                     </>
                   )}
                 </Button>
-                <Button
+                {/* <Button
                   variant="outline"
                   className="w-full sm:w-auto mt-2 sm:mt-0"
                   onClick={() => {
@@ -225,7 +225,7 @@ export function QualityUpgradeModal({
                   }}
                 >
                   {t("continueWithBasic")}
-                </Button>
+                </Button> */}
               </DialogFooter>
             </div>
           </motion.div>

@@ -131,12 +131,11 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
 
   const isRTL = resumeData.lng === "ar"; // RTL detection for Arabic
   const t = translations[resumeData.lng] || translations.en;
-  if (isRTL) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+  Font.register({
+    family: "IBM Plex Sans Arabic",
+    src: "/fonts/Rubik-Regular.ttf",
+  });
+
   const styles = createStyles(theme, isRTL);
 
   return (

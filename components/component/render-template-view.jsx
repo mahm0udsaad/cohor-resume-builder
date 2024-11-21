@@ -4,19 +4,16 @@ import { templateComponents } from "@/helper/get-resume-engin";
 import Confetti from "react-confetti";
 import dynamic from "next/dynamic";
 
-const DownloadBtn = dynamic(
-  () => import("../btns/download-pdf").then((mod) => mod.DownloadBtn),
-  {
-    ssr: false,
-  },
-);
-const DownloadWithWatermarkBtn = dynamic(
-  () =>
-    import("../btns/download-pdf-watermark").then(
-      (mod) => mod.DownloadWithWatermarkBtn,
-    ),
-  { ssr: false },
-);
+const DownloadBtn = dynamic(() => import("../btns/download-pdf"), {
+  ssr: false,
+});
+// const DownloadWithWatermarkBtn = dynamic(
+//   () =>
+//     import("../btns/download-pdf-watermark").then(
+//       (mod) => mod.DownloadWithWatermarkBtn,
+//     ),
+//   { ssr: false },
+// );
 
 const ResumePreviewSkeleton = () => (
   <div className="animate-pulse space-y-4">
@@ -31,10 +28,7 @@ export default function ClientResumeTemplate({
   plan,
   lng,
 }) {
-  const ResumeComponent = useMemo(
-    () => templateComponents[template],
-    [template],
-  );
+  const ResumeComponent = templateComponents[template];
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [isConfettiActive, setIsConfettiActive] = useState(false);
 
@@ -76,19 +70,19 @@ export default function ClientResumeTemplate({
     <div className="sm:flex w-full items-start overflow-auto notfs bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-lg min-h-[80dvh] max-h-screen shadow-lg">
       <div className="flex justify-between items-start mb-4 sticky top-0">
         <div className="flex flex-col items-center gap-4 ">
-          {plan === "free" ? (
+          {/* {plan === "free" ? (
             <DownloadWithWatermarkBtn
               resumeData={resumeData}
               templateName={template}
             />
-          ) : (
-            <DownloadBtn
-              data={resumeData}
-              lng={lng}
-              templateName={template}
-              userName={resumeData.personalInfo?.name}
-            />
-          )}
+          ) : ( */}
+          <DownloadBtn
+            data={resumeData}
+            lng={lng}
+            templateName={template}
+            userName={resumeData.personalInfo?.name}
+          />
+          {/* )} */}
         </div>
       </div>
       {isConfettiActive && (

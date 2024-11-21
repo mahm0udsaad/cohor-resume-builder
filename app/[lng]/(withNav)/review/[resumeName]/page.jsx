@@ -13,7 +13,6 @@ export default async function ReviewPage({ params: { lng, resumeName } }) {
   const { user } = session;
   const resume = await getResume(user.email, resumeName);
   const userInfo = await getUser(user.email);
-  console.log("plan", userInfo?.user.plan);
 
   return (
     <div className="bg-gray-50 min-h-[90dvh] overflow-x-hidden">

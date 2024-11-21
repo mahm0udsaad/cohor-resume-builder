@@ -11,17 +11,14 @@ import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 import React from "react";
 
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Rubik-Regular.ttf",
+});
 export default function ProfessionalSidebarPDF({ resumeData }) {
   const isArabic = resumeData.lng === "ar"; // Detect Arabic for RTL layout
   const { lng } = resumeData;
   const t = translations[lng] || translations["en"]; // Fallback to English if translation isn't available
-
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
 
   const defaultTheme = {
     primaryColor: "#009688",

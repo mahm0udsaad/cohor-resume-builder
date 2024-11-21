@@ -9,6 +9,11 @@ import {
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Rubik-Regular.ttf",
+});
+
 // Assuming data, t, formatDate, and isArabic are passed in as props
 export default function ModernFormalResumeTemplatePDF({ resumeData }) {
   const isArabic = resumeData.lng === "ar";
@@ -26,12 +31,7 @@ export default function ModernFormalResumeTemplatePDF({ resumeData }) {
         return "30%";
     }
   };
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+
   const theme = resumeData.theme || {
     backgroundColor: "#ffffff",
     primaryColor: "#3498db",

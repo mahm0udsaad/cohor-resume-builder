@@ -21,7 +21,7 @@ import { useTranslation } from "@/app/i18n/client";
 import { getPlansWithPrices } from "@/actions/resumes/plans";
 
 export function SubscriptionModal({
-  currentPlan = "free",
+  currentPlan = "pro",
   user,
   onSuccess,
   lng,
@@ -37,19 +37,6 @@ export function SubscriptionModal({
 
   const { t } = useTranslation(lng, "common");
   const plans = {
-    free: {
-      name: t("plans.free.name"),
-      price: 0,
-      period: t("plans.free.period"),
-      features: [
-        { text: t("plans.free.features.basicTheming"), icon: Paintbrush },
-        { text: t("plans.free.features.templatesAvailable"), icon: Layout },
-        { text: t("plans.free.features.watermark"), icon: ImageIcon },
-      ],
-      buttonText: t("plans.free.buttonText"),
-      icon: Zap,
-      gradient: "from-blue-400 to-blue-600",
-    },
     pro: {
       name: t("plans.pro.name"),
       price: plansPrices[1]?.price,
@@ -231,7 +218,7 @@ export function SubscriptionModal({
         value={activeTab}
         onValueChange={setActiveTab}
       >
-        <TabsList className="grid w-full grid-cols-3 bg-[#3b51a3]/10 p-1 rounded-lg">
+        <TabsList className="grid w-full grid-cols-2 bg-[#3b51a3]/10 p-1 rounded-lg">
           {Object.entries(plans).map(([key, plan]) => (
             <TabsTrigger
               key={key}

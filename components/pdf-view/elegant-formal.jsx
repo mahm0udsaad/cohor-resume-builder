@@ -9,269 +9,277 @@ import {
 } from "@react-pdf/renderer";
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
-
+import { formatGPA } from "@/utils/gpa";
 Font.register({
   family: "IBM Plex Sans Arabic",
   src: "/fonts/Rubik-Regular.ttf",
 });
 
-const ElegantFormalTemplatePDF = ({ resumeData }) => {
+export default function ElegantFormalTemplatePDF({ resumeData }) {
   const isArabic = resumeData.lng === "ar";
   const { lng } = resumeData;
   const t = translations[lng] || translations["en"];
   const theme = resumeData.theme || {
-    primaryColor: "2c3e50",
+    primaryColor: "#2c3e50",
     backgroundColor: "#ecf0f1",
   };
+
   const styles = StyleSheet.create({
     page: {
-      fontFamily: isArabic ? "IBM Plex Sans Arabic" : "Helvetica",
-      backgroundColor: "#ffffff",
-      padding: 20,
       textAlign: isArabic ? "right" : "left",
+      padding: 20,
+      backgroundColor: "#FFFFFF",
+      fontFamily: "IBM Plex Sans Arabic",
+      color: "#333",
     },
     header: {
-      borderBottom: `2px solid ${theme.primaryColor}`,
-      paddingBottom: 20,
+      textAlign: "center",
       marginBottom: 20,
-      textAlign: isArabic ? "right" : "left",
+      borderBottomWidth: 2,
+      borderBottomColor: theme.primaryColor,
+      borderBottomStyle: "solid",
+      paddingBottom: 10,
     },
     name: {
-      fontSize: 32,
-      fontWeight: "extrabold",
+      fontSize: 28,
+      fontWeight: "bold",
       color: theme.primaryColor,
-      marginBottom: 5,
     },
     jobTitle: {
-      fontSize: 18,
-      color: "#7f8c8d",
-      marginBottom: 14,
+      fontSize: 16,
+      color: "#4a5568",
     },
     contact: {
-      fontSize: 14,
-      color: "#34495e",
+      marginBottom: 20,
+      fontSize: 12,
+      textAlign: "center",
+      flexDirection: isArabic ? "row-reverse" : "row",
+      gap: 5,
+      flexWrap: "wrap",
+      justifyContent: "center",
+      alignItems: "center",
     },
     section: {
-      marginBottom: 15,
+      marginBottom: 30,
+      paddingTop: 20,
+      position: "relative",
+    },
+    sectionTitleContainer: {
+      position: "absolute",
+      top: -15,
+      left: isArabic ? "auto" : 20,
+      right: isArabic ? 20 : "auto",
+      paddingHorizontal: 10,
     },
     sectionTitle: {
-      fontSize: 22,
+      fontSize: 18,
       fontWeight: "bold",
       color: theme.primaryColor,
-      borderLeft: isArabic ? "none" : `4px solid ${theme.primaryColor}`,
-      borderRight: isArabic ? `4px solid ${theme.primaryColor}` : "none",
-      paddingLeft: isArabic ? 0 : 10,
-      paddingRight: isArabic ? 10 : 0,
-      marginBottom: 15,
+      textTransform: "uppercase",
+    },
+    sectionBorder: {
+      borderTopWidth: 1,
+      borderTopColor: theme.primaryColor,
+      borderTopStyle: "solid",
+    },
+    text: {
+      fontSize: 12,
+      lineHeight: 1.5,
     },
     experienceItem: {
-      marginBottom: 20,
-      position: "relative",
-      paddingLeft: isArabic ? 0 : 10,
-      paddingRight: isArabic ? 10 : 0,
-      display: "flex",
+      marginBottom: 15,
     },
-    bullet: {
-      position: "absolute",
-      marginTop: 3,
-      left: resumeData.lng === "ar" ? "" : -4,
-      right: resumeData.lng === "ar" ? -4 : "",
-      top: resumeData.lng === "ar" ? 3 : 1,
-      width: "10px",
-      height: "10px",
-      backgroundColor: theme.primaryColor,
-      borderRadius: "50%",
+    jobHeader: {
+      flexDirection: isArabic ? "row-reverse" : "row",
+      justifyContent: "space-between",
     },
-    skillItem: {
-      backgroundColor: theme.backgroundColor,
-      color: theme.primaryColor,
-      padding: "5px 10px",
-      borderRadius: 3,
-      fontSize: 14,
-      border: `1px solid ${theme.primaryColor}`,
-      marginBottom: 5,
-      marginRight: 5,
-    },
-    languages: {
-      marginBottom: 10,
-    },
-    subtitle: {
-      fontSize: 16,
+    company: {
       fontWeight: "bold",
-      color: "#34495e",
-      marginBottom: 5,
+      fontSize: 12,
     },
     dates: {
-      marginBottom: 2,
-      marginTop: 2,
-      fontSize: 12,
-      color: "#7f8c8d",
+      fontSize: 10,
+      color: "#666",
     },
-    bodyText: {
-      fontSize: 14,
-      color: "#333",
-      marginBottom: 5,
+    skillsContainer: {
+      flexDirection: isArabic ? "row-reverse" : "row",
+      flexWrap: "wrap",
+      gap: 5,
+    },
+    skillItem: {
+      padding: 5,
+      width: "30%",
+      backgroundColor: "#f0f4f8",
+      borderRadius: 4,
+      fontSize: 10,
+    },
+    progressBarContainer: {
+      width: "100%",
+      height: 8,
+      backgroundColor: "#e2e2e2",
+      borderRadius: 4,
+    },
+    progressBar: {
+      height: "100%",
+      borderRadius: 2,
+    },
+    languageRow: {
+      width: "45%",
+      padding: 5,
+      marginBottom: "10px",
     },
   });
 
   return (
     <Document>
-      <Page wrap={false} size="A4" style={styles.page}>
+      <Page wrap={false} size={"A4"} style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>{resumeData.personalInfo.name}</Text>
           <Text style={styles.jobTitle}>
             {resumeData.personalInfo.jobTitle}
           </Text>
-          <Text style={styles.contact}>
-            {resumeData.personalInfo.contact.join(" | ")}
-          </Text>
+        </View>
+        <View style={styles.contact}>
+          {resumeData.personalInfo.contact.map((contact, index) => (
+            <Text key={index}>{contact}</Text>
+          ))}
+        </View>
+        {/* About Section */}
+        <View style={[styles.section, styles.sectionBorder]}>
+          <View style={styles.sectionTitleContainer}>
+            <Text style={styles.sectionTitle}>About</Text>
+          </View>
+          <Text style={styles.text}>{resumeData.personalInfo.summary}</Text>
         </View>
 
-        {/* Summary Section */}
-        <View style={styles.section}>
-          <Text style={styles.bodyText}>{resumeData.personalInfo.summary}</Text>
+        {/* Education Section */}
+        <View style={[styles.section, styles.sectionBorder]}>
+          <View style={styles.sectionTitleContainer}>
+            <Text style={styles.sectionTitle}>{t.education}</Text>
+          </View>
+          {resumeData.educations.map((edu, index) => (
+            <View key={index} style={styles.experienceItem}>
+              <View style={styles.jobHeader}>
+                <Text>{edu.degree}</Text>
+                <View>
+                  <Text style={styles.dates}>
+                    {formatDate(edu.graduationDate)}
+                  </Text>
+                  <Text style={styles.dates}>
+                    {formatGPA(edu.gpaType, edu.numericGpa, t, isArabic)}
+                  </Text>
+                </View>
+              </View>
+              <Text style={styles.company}>{edu.institution}</Text>
+            </View>
+          ))}
         </View>
 
         {/* Work Experience Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{t.workExperience}</Text>
+        <View style={[styles.section, styles.sectionBorder]}>
+          <View style={styles.sectionTitleContainer}>
+            <Text style={styles.sectionTitle}>{t.workExperience}</Text>
+          </View>
           {resumeData.experiences.map((exp, index) => (
             <View key={index} style={styles.experienceItem}>
-              <View style={styles.bullet}></View>
-              <View>
-                <Text style={styles.subtitle}>{exp.jobTitle}</Text>
-                <Text style={styles.bodyText}>{exp.company}</Text>
+              <View style={styles.jobHeader}>
                 <View
                   style={{
                     flexDirection: isArabic ? "row-reverse" : "row",
-                    display: "flex",
-                    gap: 2,
+                    alignItems: "center",
+                  }}
+                >
+                  <Text>{exp.company}</Text>
+                  <Text>-</Text>
+                  <Text style={styles.company}>{exp.jobTitle}</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: isArabic ? "row-reverse" : "row",
+                    alignItems: "center",
                   }}
                 >
                   <Text style={styles.dates}>{formatDate(exp.startDate)}</Text>
                   <Text style={styles.dates}>-</Text>
                   <Text style={styles.dates}>
-                    {exp.isCurrentJob
-                      ? t.present
-                      : formatDate(exp.endDate, resumeData.lng)}
+                    {formatDate(exp.endDate, lng)}
                   </Text>
                 </View>
-                <Text style={styles.bodyText}>{exp.responsibilities}</Text>
               </View>
+              <Text style={styles.text}>{exp.responsibilities}</Text>
             </View>
           ))}
         </View>
 
-        {/* Education Section */}
-        {resumeData.educations.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t.education}</Text>
-            {resumeData.educations.map((edu, index) => (
-              <View style={{ marginBottom: 10 }} key={index}>
-                <Text style={styles.subtitle}>{edu.degree}</Text>
-                <Text style={styles.bodyText}>{edu.institution}</Text>
-                <Text style={styles.dates}>
-                  {formatDate(edu.graduationDate)}
-                </Text>
-                {edu.gpaType === "percentage" && (
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      textAlign: isArabic ? "right" : "left",
-                    }}
-                  >
-                    {t.gpa}: {edu.numericGpa}%
-                  </Text>
-                )}
-                {edu.gpaType === "outOf4" && (
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      textAlign: isArabic ? "right" : "left",
-                    }}
-                  >
-                    {t.gpa}: {edu.numericGpa}/4
-                  </Text>
-                )}
-                {edu.gpaType === "outOf5" && (
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      textAlign: isArabic ? "right" : "left",
-                    }}
-                  >
-                    {t.gpa}: {edu.numericGpa}/5
-                  </Text>
-                )}
-              </View>
-            ))}
-          </View>
-        )}
-
         {/* Skills Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{t.skills}</Text>
-          <View
-            style={{
-              flexDirection: isArabic ? "row-reverse" : "row",
-              flexWrap: "wrap",
-            }}
-          >
+        <View style={[styles.section, styles.sectionBorder]}>
+          <View style={styles.sectionTitleContainer}>
+            <Text style={styles.sectionTitle}>{t.skills}</Text>
+          </View>
+          <View style={styles.skillsContainer}>
             {resumeData.skills.map((skill, index) => (
               <Text key={index} style={styles.skillItem}>
-                {t.availableSkills[`${skill.name}`] || skill.name}(
-                {t.levels[skill.level.toLowerCase()] || skill.level})
+                {t.availableSkills[`${skill.name}`] || skill.name} -{" "}
+                {t.levels[skill.level.toLowerCase()] || skill.level}
               </Text>
             ))}
           </View>
         </View>
-
-        {/* Languages Section */}
-        {resumeData.languages.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t.languages}</Text>
-            {resumeData.languages.map((lang, index) => (
-              <Text key={index} style={styles.languages}>
-                <View
-                  style={{ flexDirection: isArabic ? "row-reverse" : "row" }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      marginBottom: 5,
-                    }}
-                  >
-                    {lang.name}:
-                  </Text>
-                  <Text style={{ fontSize: 10 }}>
-                    {t[lang.proficiency.toLowerCase()] || lang.proficiency}
-                  </Text>
+        {resumeData.courses.length > 0 && (
+          <View style={[styles.section, styles.sectionBorder]}>
+            <View style={styles.sectionTitleContainer}>
+              <Text style={styles.sectionTitle}>{t.courses}</Text>
+            </View>
+            {resumeData.courses.map((course, index) => (
+              <View key={index} style={styles.experienceItem}>
+                <View style={styles.jobHeader}>
+                  <Text>{course.name}</Text>
+                  <View>
+                    <Text style={styles.dates}>
+                      {formatDate(course.completionDate)}
+                    </Text>
+                  </View>
                 </View>
-              </Text>
+                <Text style={styles.company}>{course.institution}</Text>
+              </View>
             ))}
           </View>
         )}
-
-        {/* Courses Section */}
-        {resumeData.courses.length > 0 &&
-          resumeData.courses[0].name.trim() !== "" && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t.courses}</Text>
-              {resumeData.courses.map((course, index) => (
-                <View style={{ marginBottom: 5 }} key={index}>
-                  <Text style={styles.subtitle}>{course.name}</Text>
-                  <Text style={styles.dates}>
-                    {course.institution} - {formatDate(course.completionDate)}
-                  </Text>
+        {/* Languages Section */}
+        <View style={[styles.section, styles.sectionBorder]}>
+          <View style={styles.sectionTitleContainer}>
+            <Text style={styles.sectionTitle}>{t.languages}</Text>
+          </View>
+          <View style={styles.skillsContainer}>
+            {resumeData.languages.map((lang, index) => (
+              <View key={index} style={styles.languageRow}>
+                <Text style={[styles.text, { paddingBottom: "3px" }]}>
+                  {lang.name}
+                </Text>
+                <View style={styles.progressBarContainer}>
+                  <View
+                    style={{
+                      ...styles.progressBar,
+                      width:
+                        lang.proficiency === "native"
+                          ? "100%"
+                          : lang.proficiency === "fluent"
+                          ? "80%"
+                          : lang.proficiency === "intermediate"
+                          ? "60%"
+                          : lang.proficiency === "beginner"
+                          ? "40%"
+                          : "20%",
+                      backgroundColor: "#666",
+                    }}
+                  ></View>
                 </View>
-              ))}
-            </View>
-          )}
+              </View>
+            ))}
+          </View>
+        </View>
       </Page>
     </Document>
   );
-};
-
-export default ElegantFormalTemplatePDF;
+}

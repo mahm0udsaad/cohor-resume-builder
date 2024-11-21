@@ -16,18 +16,6 @@ const PricingSection = async ({ t, lng }) => {
   const session = await auth();
   const user = session?.user;
   const plans = {
-    free: {
-      name: t("plans.free.name"),
-      price: 0,
-      period: t("plans.free.period"),
-      features: [
-        { text: t("plans.free.features.basicTheming") },
-        { text: t("plans.free.features.templatesAvailable") },
-        { text: t("plans.free.features.watermark") },
-      ],
-      buttonText: t("plans.free.buttonText"),
-      gradient: "from-blue-400 to-blue-600",
-    },
     pro: {
       name: t("plans.pro.name"),
       highlighted: true,
@@ -60,7 +48,7 @@ const PricingSection = async ({ t, lng }) => {
         <h2 className="text-3xl font-bold text-center mb-12 text-[#3b51a3]">
           {t("pricingTitle")}
         </h2>
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           {Object.values(plans).map((plan, index) => (
             <Card
               key={index}

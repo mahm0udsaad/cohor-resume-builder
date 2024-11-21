@@ -94,12 +94,11 @@ const Classic = ({ resumeData }) => {
   const isArabic = resumeData.lng === "ar";
   const styles = createStyles(isArabic, theme);
 
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+  Font.register({
+    family: "IBM Plex Sans Arabic",
+    src: "/fonts/Rubik-Regular.ttf",
+  });
+
   // Get translations based on the current language
   const t = isArabic ? translations.ar : translations.en;
 

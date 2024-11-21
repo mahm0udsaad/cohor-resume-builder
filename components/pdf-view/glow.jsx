@@ -10,6 +10,11 @@ import {
 import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Rubik-Regular.ttf",
+});
+
 // Define the styles for React-PDF
 const styles = (theme, lng) =>
   StyleSheet.create({
@@ -81,12 +86,7 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
     primaryColor: "#2c3e50",
     backgroundColor: "#f5f5f5",
   };
-  if (resumeData.lng === "ar") {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+
   const t = translations[resumeData.lng] || translations.en; // Translation handling
 
   const lng = resumeData.lng;

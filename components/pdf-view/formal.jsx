@@ -10,7 +10,10 @@ import {
 } from "@react-pdf/renderer";
 import { translations } from "@/data/data"; // Import your translations
 import { formatDate } from "@/helper/date"; // Assume a date formatter utility
-
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Rubik-Regular.ttf",
+});
 const ProfessionalResume = ({ resumeData }) => {
   const isArabic = resumeData.lng === "ar";
   const { lng } = resumeData;
@@ -22,12 +25,7 @@ const ProfessionalResume = ({ resumeData }) => {
     backgroundColor: "#ECDFCC",
     accentColor: "#697565",
   };
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+
   const theme = resumeData.theme || defaultTheme;
 
   // React PDF styles

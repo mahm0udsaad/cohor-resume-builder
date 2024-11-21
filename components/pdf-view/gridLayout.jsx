@@ -11,17 +11,17 @@ import { translations } from "@/data/data";
 import { formatDate } from "@/helper/date";
 import React from "react";
 
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Rubik-Regular.ttf",
+});
+
 export default function GridLayoutResumePDF({ resumeData }) {
   const isArabic = resumeData.lng === "ar"; // Detect Arabic for RTL layout
   const { lng } = resumeData;
   const t = translations[lng] || translations["en"]; // Use fallback to English if translation isn't available
   const direction = isArabic ? "right" : "left"; // RTL for Arabic, LTR for others
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+
   const theme = resumeData.theme || {
     primaryColor: "#000000cc",
     backgroundColor: "#ededed",

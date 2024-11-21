@@ -42,6 +42,18 @@ export async function createTemplate(template, plan) {
   const existingPlan = await prisma.plan.findUnique({
     where: { name: plan },
   });
+  const templatesToDelete = ["elegantformal"];
+
+  const updatedTemplates = existingPlan.templates.filter(
+    (temp) => !templatesToDelete.includes(temp),
+  );
+
+  await prisma.plan.update({
+    where: { name: plan },
+    data: {
+      templates: updatedTemplates,
+    },
+  });
 
   if (!existingPlan.templates.includes(template)) {
     try {

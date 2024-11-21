@@ -165,16 +165,15 @@ const createStyles = (isArabic, theme) =>
     },
   });
 
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Rubik-Regular.ttf",
+});
 const MinimalTemplate = ({ resumeData }) => {
   const lng = resumeData.lng;
   const isArabic = lng === "ar";
   const styles = createStyles(isArabic, resumeData.theme);
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+
   const t = translations[lng] || translations["en"]; // Default to English if the language is not found
 
   return (

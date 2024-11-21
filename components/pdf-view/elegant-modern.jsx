@@ -9,7 +9,10 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Rubik-Regular.ttf",
+});
 // Define styles using react-pdf's StyleSheet
 const createStyles = (theme, isArabic) =>
   StyleSheet.create({
@@ -110,12 +113,6 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
   };
   const styles = createStyles(theme, isArabic);
   const t = translations[resumeData.lng] || translations.en;
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
 
   return (
     <Document>

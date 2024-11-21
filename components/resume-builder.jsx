@@ -71,14 +71,14 @@ export function ResumeBuilder({ initialData, resumeName, user, lng }) {
   const { activeTab, handleTabChange, handleNextTab, handlePreviousTab, tabs } =
     useFormTabs({ user, router });
 
-  const checkModalShown = () => {
-    if (typeof window !== "undefined") {
-      return (
-        sessionStorage.getItem(`qualityModalShown_${user?.email}`) === "true"
-      );
-    }
-    return false;
-  };
+  // const checkModalShown = () => {
+  //   if (typeof window !== "undefined") {
+  //     return (
+  //       sessionStorage.getItem(`qualityModalShown_${user?.email}`) === "true"
+  //     );
+  //   }
+  //   return false;
+  // };
 
   const handleReview = async () => {
     if (plan !== "free") {
@@ -124,12 +124,8 @@ export function ResumeBuilder({ initialData, resumeName, user, lng }) {
         setLoading(false);
       }
       return;
-    }
-
-    const modalShown = checkModalShown();
-    if (!modalShown) {
+    } else if (plan === "free") {
       setIsModalOpen(true);
-      sessionStorage.setItem(`qualityModalShown_${user?.email}`, "true");
     } else {
       handleContinue();
     }

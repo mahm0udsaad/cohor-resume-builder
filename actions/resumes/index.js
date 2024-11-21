@@ -270,44 +270,67 @@ export const updateUserResumeData = async (
     const formattedResumeData = formatResumeData(updatedResumeData);
     const themeData = updatedResumeData.theme;
 
-    // Use transaction to ensure atomicity
-    const resume = await prisma.$transaction(async (tx) => {
-      // Get userId - this query is still necessary
-      const user = await tx.user.findUnique({
-        where: { email: userEmail },
-        select: { id: true },
-      });
+    // Attempt to perform the entire operation in a single transaction
+    const resume = await prisma.$transaction(
+      async (prisma) => {
+        // Find user first - use findUnique with more robust error handling
+        const user = await prisma.user.findUnique({
+          where: { email: userEmail },
+          select: { id: true },
+        });
 
-      if (!user) throw new Error("User not found");
+        if (!user) throw new Error("User not found");
 
-      // Delete existing resume and all related data in one operation
-      await tx.resume.deleteMany({
-        where: {
-          userId: user.id,
-          name: resumeName,
-        },
-      });
+        // Delete existing resume and related data
+        await prisma.resume.deleteMany({
+          where: {
+            userId: user.id,
+            name: resumeName,
+          },
+        });
 
-      // Create new resume with all data
-      return await tx.resume.create({
-        data: {
-          name: resumeName,
-          userId: user.id,
-          ...formattedResumeData,
-          ...themeData,
-          modifiedAt: new Date(),
-        },
-        include: {
-          personalInfo: true,
-          experiences: true,
-          educations: true,
-          skills: true,
-          languages: true,
-          courses: true,
-          theme: true,
-        },
-      });
-    });
+        // Create new resume with all related data
+        return await prisma.resume.create({
+          data: {
+            name: resumeName,
+            userId: user.id,
+            ...formattedResumeData,
+            ...themeData,
+            modifiedAt: new Date(),
+            personalInfo: {
+              create: formattedResumeData.personalInfo,
+            },
+            experiences: {
+              create: formattedResumeData.experiences,
+            },
+            educations: {
+              create: formattedResumeData.educations,
+            },
+            skills: {
+              create: formattedResumeData.skills,
+            },
+            languages: {
+              create: formattedResumeData.languages,
+            },
+            courses: {
+              create: formattedResumeData.courses,
+            },
+          },
+          include: {
+            personalInfo: true,
+            experiences: true,
+            educations: true,
+            skills: true,
+            languages: true,
+            courses: true,
+          },
+        });
+      },
+      {
+        maxWait: 5000, // 5 seconds max waiting time
+        timeout: 10000, // 10 seconds total transaction time
+      },
+    );
 
     // Revalidate path after successful transaction
     revalidatePath("/dashboard");
@@ -320,8 +343,9 @@ export const updateUserResumeData = async (
     console.error("Resume update error:", error);
     return {
       success: false,
-      error: error.message || "Failed to update resume data",
-      details: error.cause || error.stack,
+      error:
+        error instanceof Error ? error.message : "Failed to update resume data",
+      details: error instanceof Error ? error.stack : error,
     };
   }
 };

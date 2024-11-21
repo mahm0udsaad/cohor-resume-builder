@@ -149,12 +149,10 @@ const BoldTemplate = ({ resumeData }) => {
   const isArabic = resumeData.lng === "ar";
   const styles = createStyles(isArabic);
 
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+  Font.register({
+    family: "IBM Plex Sans Arabic",
+    src: "/fonts/Rubik-Regular.ttf",
+  });
 
   return (
     <Document>

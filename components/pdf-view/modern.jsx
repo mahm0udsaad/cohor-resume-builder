@@ -106,16 +106,16 @@ const createStyles = (isRTL) =>
     },
   });
 
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Rubik-Regular.ttf",
+});
+
 const Modern = ({ resumeData }) => {
   const t = translations[resumeData.lng] || translations.en; // Get translations
   const isRTL = resumeData.lng === "ar"; // Checking if the language is Arabic for RTL
   const styles = createStyles(isRTL); // Pass RTL flag to styles
-  if (isRTL) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+
   const selectedTheme = resumeData.theme || null;
   const primaryColor = selectedTheme?.primaryColor || "#F97316"; // Fallback color
   const isArabic = resumeData.lng === "ar";

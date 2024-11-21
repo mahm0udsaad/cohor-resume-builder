@@ -148,7 +148,7 @@ export const templates = [
   // { name: "minimalist", Component: MinimalistModernResumeTemplate },
   // { name: "dynamicModern", Component: DynamicModernResume },
   // { name: "infographic", Component: InfographicResume },
-  { name: "simpleformal", Component: SimpleFormalTemplate },
+  { name: "elegantFormal", Component: ElegantFormalTemplate },
 ];
 
 export const getResumeTemplate = (templateName) => {

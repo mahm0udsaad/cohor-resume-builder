@@ -36,7 +36,6 @@ export default async function TemplatePage({ params: { template, lng } }) {
 
   // Fetch user-specific data
   const data = await getUserWithDetails(session.user.email);
-  console.log(data);
 
   return (
     <div className="bg-gray-25">
@@ -45,7 +44,7 @@ export default async function TemplatePage({ params: { template, lng } }) {
           initialData={data}
           resumeName={template}
           lng={lng}
-          user={session.user}
+          user={data.user}
         />
       </Suspense>
     </div>

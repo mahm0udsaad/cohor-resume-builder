@@ -11,6 +11,11 @@ import {
 import { formatDate } from "@/helper/date";
 import { translations } from "@/data/data";
 
+Font.register({
+  family: "IBM Plex Sans Arabic",
+  src: "/fonts/Rubik-Regular.ttf",
+});
+
 const createStyles = (theme, isArabic) =>
   StyleSheet.create({
     page: {
@@ -114,12 +119,7 @@ const ElegantResume = ({ resumeData }) => {
   const styles = createStyles(theme, isArabic);
   // Get translations based on the current language
   const t = isArabic ? translations.ar : translations.en;
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+
   return (
     <Document>
       <Page wrap={false} size="A4" style={styles.page}>

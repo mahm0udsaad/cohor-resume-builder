@@ -14,12 +14,11 @@ export default function BlueHorizonPDF({ resumeData }) {
   const isArabic = resumeData.lng === "ar";
   const t = translations[resumeData.lng] || translations["en"];
 
-  if (isArabic) {
-    Font.register({
-      family: "IBM Plex Sans Arabic",
-      src: "/fonts/Rubik-Regular.ttf",
-    });
-  }
+  Font.register({
+    family: "IBM Plex Sans Arabic",
+    src: "/fonts/Rubik-Regular.ttf",
+  });
+
   // Default theme values in case selectedTheme is undefined
   const defaultTheme = {
     primaryColor: "#2b2d2e",

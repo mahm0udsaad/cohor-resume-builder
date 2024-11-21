@@ -542,19 +542,18 @@ export const allSkills = [
 
 export const templates = [
   { name: "minimalist", image: "/templates/minimalist.png" },
-  { name: "elegantformal", image: "/templates/elegantformal.png" },
   {
     category: "ProfessionalSidebar",
     name: "ProfessionalSidebar",
     image: "/templates/ProfessionalSidebar.png",
   },
+  { name: "elegantFormal", image: "/templates/elegantFormal.png" },
   { name: "dynamicModern", image: "/templates/dynamicModern.png" },
   {
     category: "BlueHorizon",
     name: "BlueHorizon",
     image: "/templates/BlueHorizon.png",
   },
-  { name: "infographic", image: "/templates/infographic.png" },
   {
     name: "elegantModern",
     image: "/templates/elegantModern.png",
@@ -587,11 +586,6 @@ export const templates = [
     category: "gridLayout",
     name: "gridLayout",
     image: "/templates/gridLayout.png",
-  },
-
-  {
-    name: "creative",
-    image: "/templates/creative.png",
   },
   {
     name: "formal",
