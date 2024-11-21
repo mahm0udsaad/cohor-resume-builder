@@ -59,6 +59,7 @@ const SimpleFormalTemplatePDF = ({ resumeData }) => {
       fontWeight: "bold",
       color: theme.primaryColor,
       borderBottom: `2px solid ${theme.primaryColor}`,
+      backgroundColor: "#ecf0f1",
       marginBottom: 15,
     },
     experienceItem: {
