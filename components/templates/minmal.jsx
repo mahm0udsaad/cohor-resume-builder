@@ -186,17 +186,17 @@ const MinimalTemplate = ({ resumeData, className, selectedTheme }) => {
                     {formatDate(edu.graduationDate)}
                   </p>
                   {edu.gpaType === "percentage" && (
-                    <p className="text-sm text-gray-200">
+                    <p className="text-sm text-gray-400">
                       {t.gpa}: {edu.numericGpa}%
                     </p>
                   )}
                   {edu.gpaType === "outOf4" && (
-                    <p className="text-sm text-gray-200">
+                    <p className="text-sm text-gray-400">
                       {t.gpa}: `4/{edu.numericGpa}`
                     </p>
                   )}
                   {edu.gpaType === "outOf5" && (
-                    <p className="text-sm text-gray-200">
+                    <p className="text-sm text-gray-400">
                       {t.gpa}: `5/{edu.numericGpa}`
                     </p>
                   )}
