@@ -547,7 +547,7 @@ export const templates = [
     name: "ProfessionalSidebar",
     image: "/templates/ProfessionalSidebar.png",
   },
-  { name: "elegantFormal", image: "/templates/elegantFormal.png" },
+  { name: "elegantFormal", image: "/templates/elegantformal.png" },
   { name: "dynamicModern", image: "/templates/dynamicModern.png" },
   {
     category: "BlueHorizon",
