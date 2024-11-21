@@ -3,9 +3,7 @@ import {
   Palette,
   Sparkles,
   Star,
-  Zap,
   Layout,
-  Paintbrush,
   Wand2,
   Crown,
   ImageIcon,
@@ -223,7 +221,7 @@ export function SubscriptionModal({
             <TabsTrigger
               key={key}
               value={key}
-              className={`data-[state=active]:bg-gradient-to-r ${plan.gradient} data-[state=active]:text-white transition-all duration-300`}
+              className={`data-[state=active]:bg-gradient-to-r ${plan?.gradient} data-[state=active]:text-white transition-all duration-300`}
             >
               {t(`subscription.plans.${key === "proPlus" ? "pro+" : key}.name`)}
             </TabsTrigger>
@@ -233,12 +231,12 @@ export function SubscriptionModal({
           <TabsContent key={key} value={key} className="mt-4">
             <div className="text-center mb-6">
               <div
-                className={`inline-block p-3 rounded-full bg-gradient-to-br ${plan.gradient} mb-4`}
+                className={`inline-block p-3 rounded-full bg-gradient-to-br ${plan?.gradient} mb-4`}
               >
                 <plan.icon className="w-8 h-8 text-white" />
               </div>
               <div
-                className={`text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${plan.gradient}`}
+                className={`text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${plan?.gradient}`}
               >
                 ${plan.price}
                 <span className="text-xl font-normal text-gray-600 dark:text-gray-400">
@@ -253,7 +251,7 @@ export function SubscriptionModal({
                   className="flex items-center bg-[#3b51a3]/5 p-2 rounded-md transition-all duration-300 hover:bg-[#3b51a3]/10"
                 >
                   <div
-                    className={`p-1 rounded-full bg-gradient-to-r ${plan.gradient} mx-3`}
+                    className={`p-1 rounded-full bg-gradient-to-r ${plan?.gradient} mx-3`}
                   >
                     <feature.icon className="h-4 w-4 text-white" />
                   </div>
@@ -272,7 +270,7 @@ export function SubscriptionModal({
       <Button
         disabled={loading || activeTab === "free" || activeTab === currentPlan}
         onClick={handlePayment}
-        className={`w-full bg-gradient-to-r ${plans[activeTab].gradient} text-white hover:opacity-90 transition-opacity duration-300 mt-4`}
+        className={`w-full bg-gradient-to-r ${plans[activeTab]?.gradient} text-white hover:opacity-90 transition-opacity duration-300 mt-4`}
         size="lg"
       >
         {loading ? (

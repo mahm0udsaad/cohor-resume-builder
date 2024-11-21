@@ -24,7 +24,9 @@ const getBorderGradient = (plan) => {
     case "pro":
       return " from-purple-400 to-purple-600";
     case "free":
-      return " from-blue-400 to-blue-600";
+      return "from-blue-400 to-blue-600";
+    default:
+      return "from-blue-400 to-blue-600";
   }
 };
 const UserBtn = ({ lng }) => {
