@@ -1091,7 +1091,6 @@ function CoursesSection({ t, control, errors }) {
     control,
     name: "courses",
   });
-  console.log(fields);
 
   return (
     <Card className="border-t-4 border-t-orange-500 transition-all duration-300 ease-in-out">

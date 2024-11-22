@@ -6,20 +6,7 @@ import { addResumeToUser } from "@/actions/resumes";
 import { ResumeBuilder } from "@/components/resume-builder";
 import { getUserWithDetails } from "@/actions/userInfo/action";
 
-export async function generateStaticParams() {
-  const languages = ["en", "ar"];
-  const templates = ["classic", "modern", "bold"];
-
-  const params = [];
-  for (const lng of languages) {
-    for (const template of templates) {
-      params.push({ lng, template });
-    }
-  }
-
-  return params;
-}
-
+export const dynamic = "force-dynamic";
 export default async function TemplatePage({ params: { template, lng } }) {
   const session = await auth();
 

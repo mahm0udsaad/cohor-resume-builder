@@ -46,13 +46,14 @@ export function QualityUpgradeModal({
     localStorage.setItem("currentUrl", currentUrl);
     setLoading(true);
     setError(null);
+    console.log(plansPrices);
 
     try {
       const res = await fetch("/api/paymob-intention", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: plansPrices[1].price, // Pro plan price
+          amount: plansPrices[1].price,
           currency: "EGP",
           userEmail: user.email,
           userFirstName: user.name?.split(" ")[0] || "User",
