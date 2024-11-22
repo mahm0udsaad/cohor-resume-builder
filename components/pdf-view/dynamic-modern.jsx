@@ -174,7 +174,7 @@ export default function DynamicModernResume({ resumeData }) {
         {/* Header Section */}
         <View style={styles.header}>
           <Image
-            src={resumeData.personalInfo.imageUrl}
+            source={resumeData.personalInfo.imageUrl}
             style={styles.profileImage}
           />
           <View style={styles.nameTitle}>

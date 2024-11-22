@@ -29,11 +29,9 @@ export async function POST(req) {
         }),
       },
     );
-    console.log("Order ID:", process.env.PAYMOB_API_KEY);
 
     const authData = await authResponse.json();
     const paymentToken = authData.token;
-    console.log("Order ID:", paymentToken);
 
     // Step 2: Create order (same as before)
     const orderResponse = await fetch(
@@ -88,8 +86,6 @@ export async function POST(req) {
         }),
       },
     );
-    console.log(userEmail);
-    console.log(return_url);
 
     const paymentKeyData = await paymentKeyResponse.json();
     const paymentKey = paymentKeyData.token;

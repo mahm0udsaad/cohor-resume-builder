@@ -117,7 +117,7 @@ const FormalResumeTemplate = ({ resumeData }) => {
           </View>
           {resumeData.personalInfo?.imageUrl && (
             <Image
-              src={resumeData.personalInfo.imageUrl}
+              source={resumeData.personalInfo.imageUrl}
               style={{
                 width: 80,
                 height: 80,
