@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,43 +10,29 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import {
-  Download,
-  Sparkles,
-  AlertTriangle,
-  Check,
-  X,
-  Loader2,
-} from "lucide-react";
+import { Sparkles, AlertTriangle, Check, X, Loader2 } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
-import { getPlansWithPrices } from "@/actions/resumes/plans";
 
 export function QualityUpgradeModal({
+  plansPrices,
   lng,
   user,
   isOpen,
   setIsOpen,
-  onContinue,
 }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState(null);
   const { t } = useTranslation(lng, "common");
-  const [plansPrices, setPlansPrices] = useState([]);
-
-  useEffect(() => {
-    getPlansWithPrices().then((plans) => setPlansPrices(plans));
-  }, []);
+  console.log(plansPrices);
 
   const handlePayment = async () => {
     const currentUrl = window.location.href;
     localStorage.setItem("currentUrl", currentUrl);
     setLoading(true);
     setError(null);
-    console.log(plansPrices);
 
     try {
       const res = await fetch("/api/paymob-intention", {

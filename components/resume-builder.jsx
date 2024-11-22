@@ -55,7 +55,7 @@ const DynamicReviewForm = dynamic(
   },
 );
 
-export function ResumeBuilder({ initialData, resumeName, user, lng }) {
+export function ResumeBuilder({ plans, initialData, resumeName, user, lng }) {
   const router = useRouter();
   const plan = user?.plan;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -302,6 +302,7 @@ export function ResumeBuilder({ initialData, resumeName, user, lng }) {
             isOpen={isModalOpen}
             setIsOpen={setIsModalOpen}
             onContinue={handleContinue}
+            plansPrices={plans}
             lng={lng}
             user={user}
           />
