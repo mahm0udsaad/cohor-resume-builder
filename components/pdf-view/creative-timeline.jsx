@@ -144,7 +144,7 @@ function CreativeTimelineResumeTemplatePDF({ resumeData }) {
         {/* Header */}
         <View style={styles.header}>
           <Image
-            source={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
+            src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
             style={styles.headerImage}
           />
           <Text style={{ fontSize: "25px" }}>

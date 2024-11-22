@@ -230,7 +230,7 @@ export default function InfographicResume({ resumeData }) {
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <Image
-              source={resumeData.personalInfo.imageUrl}
+              src={resumeData.personalInfo.imageUrl}
               style={styles.profileImage}
             />
             <View>

@@ -111,7 +111,7 @@ export default function MinimalistTwoColorResumeTemplate({ resumeData }) {
             </Text>
           </View>
           <Image
-            source={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
+            src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
             alt={resumeData.personalInfo.name}
             style={{
               width: 60,

@@ -158,7 +158,7 @@ const CreativeResumeTemplate = ({ resumeData }) => {
               }}
             >
               <Image
-                source={resumeData.personalInfo.imageUrl}
+                src={resumeData.personalInfo.imageUrl}
                 style={styles.profileImage}
               />
             </View>

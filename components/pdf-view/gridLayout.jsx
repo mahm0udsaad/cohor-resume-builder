@@ -141,7 +141,7 @@ export default function GridLayoutResumePDF({ resumeData }) {
       <Page wrap={false} size="A4" style={styles.page}>
         <View style={styles.header}>
           <Image
-            source={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
+            src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
             style={styles.avatar}
           />
           <View style={styles.headerInfo}>

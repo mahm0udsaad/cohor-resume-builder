@@ -129,7 +129,7 @@ const ElegantModernResumeTemplatePDF = ({ resumeData }) => {
           </View>
           {resumeData.personalInfo.imageUrl && (
             <Image
-              source={resumeData.personalInfo.imageUrl}
+              src={resumeData.personalInfo.imageUrl}
               style={styles.profileImage}
             />
           )}
