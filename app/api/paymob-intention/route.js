@@ -29,9 +29,11 @@ export async function POST(req) {
         }),
       },
     );
+    console.log("Order ID:", process.env.PAYMOB_API_KEY);
 
     const authData = await authResponse.json();
     const paymentToken = authData.token;
+    console.log("Order ID:", paymentToken);
 
     // Step 2: Create order (same as before)
     const orderResponse = await fetch(
@@ -82,15 +84,15 @@ export async function POST(req) {
             street: "90th Street, 5th District, New Cairo",
           },
           integration_id: process.env.PAYMOB_INTEGRATION_ID,
-          return_url: return_url, // Add the return_url here
+          return_url: return_url,
         }),
       },
     );
-    console.log("Paymob Intention Id:", process.env.PAYMOB_INTEGRATION_ID);
+    console.log(userEmail);
+    console.log(return_url);
 
     const paymentKeyData = await paymentKeyResponse.json();
     const paymentKey = paymentKeyData.token;
-    console.log(paymentKey);
 
     return new Response(JSON.stringify({ payment_key: paymentKey }), {
       status: 200,
