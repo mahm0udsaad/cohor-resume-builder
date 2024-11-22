@@ -105,7 +105,7 @@ export default function ProfessionalSidebarPDF({ resumeData }) {
             }}
           >
             <Image
-              src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
+              source={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
               style={styles.avatar}
             />
           </View>

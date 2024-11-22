@@ -143,7 +143,7 @@ const ProfessionalResume = ({ resumeData }) => {
         <View style={styles.header}>
           <View style={styles.headerContent}>
             <Image
-              src={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
+              source={resumeData.personalInfo.imageUrl || "/placeholder.svg"}
               style={styles.avatar}
             />
             <View>
