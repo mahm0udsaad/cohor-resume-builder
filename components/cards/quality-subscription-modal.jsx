@@ -26,7 +26,6 @@ export function QualityUpgradeModal({
   const [error, setError] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState(null);
   const { t } = useTranslation(lng, "common");
-  console.log(plansPrices);
 
   const handlePayment = async () => {
     const currentUrl = window.location.href;

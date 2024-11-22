@@ -86,9 +86,11 @@ export async function POST(req) {
         }),
       },
     );
+    console.log("Paymob Intention Id:", process.env.PAYMOB_INTEGRATION_ID);
 
     const paymentKeyData = await paymentKeyResponse.json();
     const paymentKey = paymentKeyData.token;
+    console.log(paymentKey);
 
     return new Response(JSON.stringify({ payment_key: paymentKey }), {
       status: 200,

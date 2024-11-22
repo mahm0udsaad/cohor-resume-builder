@@ -23,7 +23,11 @@ function getLocale(request) {
 export function middleware(request) {
   const pathname = request.nextUrl.pathname;
 
-  if (pathname.startsWith("/api") || pathname.startsWith("/fonts")) {
+  if (
+    pathname.startsWith("/actions") ||
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/fonts")
+  ) {
     return NextResponse.next();
   }
 
