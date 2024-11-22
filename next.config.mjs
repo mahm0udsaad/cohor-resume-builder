@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "cloud.sooqsquare.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "cloud.cohr.sa",
+        pathname: "**",
+      },
     ],
   },
 };
