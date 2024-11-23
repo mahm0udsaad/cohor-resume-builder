@@ -17,7 +17,6 @@ import { useToast } from "@/hooks/use-toast";
 import { updateUserResumeData } from "@/actions/resumes";
 import { ToastAction } from "./ui/toast";
 import { QualityUpgradeModal } from "./cards/quality-subscription-modal";
-import { useSession } from "next-auth/react";
 const DynamicLanguagesForm = dynamic(() => import("./forms/lang-form"), {
   loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
 });
@@ -69,7 +68,7 @@ export function ResumeBuilder({ plans, initialData, resumeName, user, lng }) {
   const { t } = useTranslation(lng, "builder");
 
   const { activeTab, handleTabChange, handleNextTab, handlePreviousTab, tabs } =
-    useFormTabs({ user, router });
+    useFormTabs({ router, resumeData, t, resumeName });
 
   // const checkModalShown = () => {
   //   if (typeof window !== "undefined") {

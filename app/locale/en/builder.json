@@ -1,5 +1,31 @@
 {
   "review": "Review",
+  "validation": {
+    "incomplete": "Incomplete Information",
+    "pleaseComplete": "Please complete the following in {{tab}}:",
+    "fields": {
+      "profileImage": "Profile Image",
+      "name": "Name",
+      "jobTitle": "Job Title",
+      "summary": "Summary",
+      "company": "Company",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "responsibilities": "Responsibilities",
+      "degree": "Degree",
+      "institution": "Institution",
+      "graduationDate": "Graduation Date"
+    },
+    "messages": {
+      "atLeastOneExperience": "At least one work experience entry",
+      "atLeastOneEducation": "At least one education entry",
+      "atLeastOneSkill": "At least one skill",
+      "atLeastOneLanguage": "At least one language",
+      "experienceField": "Experience {{index}}: {{field}}",
+      "educationField": "Education {{index}}: {{field}}",
+      "languageField": "Language {{index}}: name and proficiency"
+    }
+  },
   "notifications": {
     "errorAddingResume": "An error occurred. Please try again.",
     "tryAgainButton": "Try Again",

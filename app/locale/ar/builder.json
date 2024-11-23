@@ -1,5 +1,31 @@
 {
   "review": "مراجعه",
+  "validation": {
+    "incomplete": "معلومات غير مكتملة",
+    "pleaseComplete": "يرجى إكمال ما يلي في {{tab}}:",
+    "fields": {
+      "name": "الاسم",
+      "jobTitle": "المسمى الوظيفي",
+      "profileImage": "الصورة الشخصية",
+      "summary": "الملخص",
+      "company": "الشركة",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء",
+      "responsibilities": "المسؤوليات",
+      "degree": "الدرجة العلمية",
+      "institution": "المؤسسة",
+      "graduationDate": "تاريخ التخرج"
+    },
+    "messages": {
+      "atLeastOneExperience": "إدخال خبرة عملية واحدة على الأقل",
+      "atLeastOneEducation": "إدخال تعليم واحد على الأقل",
+      "atLeastOneSkill": "مهارة واحدة على الأقل",
+      "atLeastOneLanguage": "لغة واحدة على الأقل",
+      "experienceField": "الخبرة {{index}}: {{field}}",
+      "educationField": "التعليم {{index}}: {{field}}",
+      "languageField": "اللغة {{index}}: الاسم والكفاءة"
+    }
+  },
   "notifications": {
     "errorAddingResume": "حدث خطأ ما",
     "tryAgainButton": "محاوله مرة اخرى",
