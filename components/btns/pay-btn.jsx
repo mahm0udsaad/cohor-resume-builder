@@ -28,8 +28,8 @@ export default function PaymentBtn({ plan, user, lng }) {
 
       setLoading(false);
 
-      if (data.payment_key) {
-        window.location.href = `https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${data.payment_key}`;
+      if (data) {
+        window.location.href = `https://ksa.paymob.com/unifiedcheckout/?publicKey=${data.public_key}&clientSecret=${data.client_secret}`;
       }
     } catch (error) {
       console.log(error);

@@ -189,8 +189,8 @@ export function SubscriptionModal({
 
       const data = await res.json();
 
-      if (data.payment_key) {
-        setPaymentKey(data.payment_key);
+      if (data) {
+        window.location.href = `https://ksa.paymob.com/unifiedcheckout/?publicKey=${data.public_key}&clientSecret=${data.client_secret}`;
       } else {
         throw new Error("Please try again.");
       }

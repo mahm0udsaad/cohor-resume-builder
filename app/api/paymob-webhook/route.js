@@ -19,36 +19,56 @@ const verifySignature = (rawBody, signature) => {
   try {
     const data = JSON.parse(rawBody);
     const obj = data.obj;
-
-    // Construct the string according to PayMob's specification
     const hmacString = [
+      obj.amount_cents, // "1199"
+      obj.created_at, // "2024-11-25T13:44:11.820913+03:00"
+      obj.currency, // "SAR"
+      obj.error_occured, // true
+      obj.has_parent_transaction, // false
+      obj.id, // "37645"
+      obj.integration_id, // "7140"
+      obj.is_3d_secure, // false
+      obj.is_auth, // false
+      obj.is_capture, // false
+      obj.is_refunded, // false
+      obj.is_standalone_payment, // true
+      obj.is_voided, // false
+      obj.order.id, // "67601"
+      obj.owner, // "5311"
+      obj.pending, // false
+      obj.source_data?.pan || "", // "2346"
+      obj.source_data?.sub_type || "", // "MasterCard"
+      obj.source_data?.type || "", // "card"
+      obj.success, // false
+    ].join("");
+
+    // Fixed HMAC string construction
+    const fixedHmacString = [
       obj.amount_cents,
       obj.created_at,
       obj.currency,
-      obj.error_occured,
-      obj.has_parent_transaction,
+      obj.error_occured.toString(), // Convert boolean to string
+      obj.has_parent_transaction.toString(), // Convert boolean to string
       obj.id,
       obj.integration_id,
-      obj.is_3d_secure,
-      obj.is_auth,
-      obj.is_capture,
-      obj.is_refunded,
-      obj.is_standalone_payment,
-      obj.is_voided,
+      obj.is_3d_secure.toString(), // Convert boolean to string
+      obj.is_auth.toString(), // Convert boolean to string
+      obj.is_capture.toString(), // Convert boolean to string
+      obj.is_refunded.toString(), // Convert boolean to string
+      obj.is_standalone_payment.toString(), // Convert boolean to string
+      obj.is_voided.toString(), // Convert boolean to string
       obj.order.id,
       obj.owner,
-      obj.pending,
+      obj.pending.toString(), // Convert boolean to string
       obj.source_data?.pan || "",
       obj.source_data?.sub_type || "",
       obj.source_data?.type || "",
-      obj.success,
+      obj.success.toString(), // Convert boolean to string
     ].join("");
-
-    console.log("Constructed HMAC string:", hmacString);
 
     const calculatedHmac = crypto
       .createHmac("sha512", process.env.PAYMOB_HMAC_SECRET)
-      .update(hmacString)
+      .update(fixedHmacString)
       .digest("hex");
 
     console.log("HMAC Debug:", {
@@ -94,6 +114,7 @@ export async function POST(req) {
     // Get raw body
     const rawBody = await req.text();
 
+    console.log(rawBody);
     // Verify signature
     if (!verifySignature(rawBody, hmacSignature)) {
       return NextResponse.json(
@@ -199,7 +220,7 @@ export async function POST(req) {
       await tx.subscription.deleteMany({
         where: { userId: user.id },
       });
-
+      // Create subscription record
       const subscription = await tx.subscription.create({
         data: {
           userId: user.id,

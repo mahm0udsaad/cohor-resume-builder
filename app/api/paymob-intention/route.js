@@ -1,99 +1,113 @@
 // app/api/paymob-intention/route.js
-export async function POST(req) {
+import axios from "axios";
+
+export async function POST(request) {
   try {
-    const { amount, plan, currency, userEmail, userFirstName, userLastName } =
-      await req.json();
+    // Parse the request body
+    const {
+      amount,
+      plan,
+      currency,
+      userEmail,
+      userFirstName,
+      userLastName,
+      return_url,
+    } = await request.json();
 
-    // Step 1: Authentication Request
-    const authResponse = await fetch("https://ksa.paymob.com/api/auth/tokens", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    // Validate required fields
+    if (!amount || !userEmail || !userFirstName) {
+      return new Response(
+        JSON.stringify({
+          message: "Missing required fields",
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    }
+
+    // Prepare intention data
+    const intentionData = {
+      amount: Math.round(amount * 100), // Convert to smallest currency unit
+      currency: currency || "SAR",
+      payment_methods: [5981],
+      items: [
+        {
+          name: `Subscription Plan: ${plan}`,
+          amount: Math.round(amount * 100),
+          description: `Subscription plan payment for ${plan}`,
+          quantity: 1,
+        },
+      ],
+      billing_data: {
+        apartment: "NA",
+        first_name: userFirstName,
+        last_name: userLastName || "User",
+        street: "NA",
+        building: "NA",
+        phone_number: "+966500000000", // Default Saudi phone number
+        city: "NA",
+        country: "SA",
+        email: userEmail,
+        floor: "NA",
+        state: "NA",
       },
-      body: JSON.stringify({
-        api_key: process.env.PAYMOB_API_KEY,
+      extras: {
+        plan_type: plan,
+      },
+    };
+
+    // Make API call using Axios
+    const response = await axios.post(
+      "https://ksa.paymob.com/v1/intention/",
+      intentionData,
+      {
+        headers: {
+          Authorization: `Token ${process.env.PAYMOB_SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    // Extract payment key and other required information
+    const paymentKeys = response.data.payment_keys?.[0];
+
+    if (!paymentKeys) {
+      throw new Error("No payment keys received from PayMob");
+    }
+
+    // Return successful response matching client-side expectations
+    return new Response(
+      JSON.stringify({
+        payment_key: paymentKeys.key,
+        client_secret: response.data.client_secret,
+        api_key: paymentKeys.key, // Adding api_key to match client-side expectation
+        id: response.data.id,
+        public_key: process.env.PAYMOB_PUBLIC_KEY,
       }),
-    });
-
-    const authData = await authResponse.json();
-    const token = authData.token;
-
-    // Step 2: Order Registration
-    const orderResponse = await fetch(
-      "https://ksa.paymob.com/api/ecommerce/orders",
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          auth_token: token,
-          delivery_needed: false,
-          amount_cents: parseFloat((amount * 100).toFixed(2)),
-          currency: currency,
-          items: [
-            {
-              name: plan,
-              amount_cents: parseFloat((amount * 100).toFixed(2)),
-              quantity: 1,
-            },
-          ],
-        }),
+        status: 200,
+        headers: { "Content-Type": "application/json" },
       },
     );
-
-    const orderData = await orderResponse.json();
-
-    // Step 3: Payment Key Generation
-    const paymentKeyResponse = await fetch(
-      "https://ksa.paymob.com/api/acceptance/payment_keys",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          auth_token: token,
-          amount_cents: parseFloat((amount * 100).toFixed(2)),
-          integration_id: 7138,
-          expiration: 3600,
-          order_id: orderData.id,
-          billing_data: {
-            email: userEmail,
-            first_name: userFirstName,
-            last_name: userLastName,
-            phone_number: "+201000000000",
-            apartment: "NA",
-            floor: "NA",
-            street: "NA",
-            building: "NA",
-            shipping_method: "NA",
-            postal_code: "NA",
-            city: "NA",
-            country: "NA",
-            state: "NA",
-          },
-          currency: "SAR",
-          lock_order_when_paid: true,
-        }),
-      },
-    );
-
-    const paymentKeyData = await paymentKeyResponse.json();
-
-    return Response.json({
-      payment_key: paymentKeyData.token,
-      order_id: orderData.id,
-    });
   } catch (error) {
-    console.error("Payment intention error:", error);
-    return Response.json(
+    // Log the full error for debugging
+    console.error("PayMob Intention Error:", {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+    });
+
+    // Return error response
+    return new Response(
+      JSON.stringify({
+        message: "Failed to initialize payment",
+        details: error.response?.data || error.message,
+      }),
       {
-        error: "Failed to create payment intention",
-      },
-      {
-        status: 500,
+        status: error.response?.status || 500,
+        headers: { "Content-Type": "application/json" },
       },
     );
   }

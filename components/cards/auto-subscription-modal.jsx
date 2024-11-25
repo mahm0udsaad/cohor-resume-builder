@@ -92,11 +92,8 @@ export default function AutoSubscriptionModal({ user, lng }) {
       }
 
       const data = await res.json();
-      if (data.payment_key) {
-        setPaymentKey(data.payment_key);
-        setRedirectUrl(
-          `https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${data.payment_key}`,
-        );
+      if (data) {
+        window.location.href = `https://ksa.paymob.com/unifiedcheckout/?publicKey=${data.public_key}&clientSecret=${data.client_secret}`;
       } else {
         throw new Error("No payment key received");
       }
