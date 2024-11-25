@@ -39,7 +39,7 @@ export function QualityUpgradeModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: plansPrices[1].price,
-          currency: "EGP",
+          currency: "SAR",
           userEmail: user.email,
           userFirstName: user.name?.split(" ")[0] || "User",
           userLastName: user.name?.split(" ")[1] || "Name",

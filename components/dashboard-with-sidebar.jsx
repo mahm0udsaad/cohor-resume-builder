@@ -7,11 +7,13 @@ import ResumeList from "./component/resume-list";
 import { useTranslation } from "@/app/i18n/client";
 import Link from "next/link";
 import InformationTab from "./dashoard/information-tab";
+import UserSubscriptions from "./subscriptionTab";
 export function DashboardWithSidebarComponent({
   lng,
   user,
   resumes,
   resumeData,
+  subscriptions,
 }) {
   const [expandedSections, setExpandedSections] = useState({
     experiences: true,
@@ -76,6 +78,7 @@ export function DashboardWithSidebarComponent({
         resumes={resumes}
         user={user}
         resumeData={resumeData}
+        subscriptions={subscriptions}
         activeTab={activeTab}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
@@ -94,6 +97,7 @@ function MainContent({
   lng,
   user,
   resumes,
+  subscriptions,
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -127,6 +131,14 @@ function MainContent({
 
         {activeTab === "Resumes" && (
           <ResumeList lng={lng} resumes={resumes} user={user} />
+        )}
+
+        {activeTab === "Subscriptions" && (
+          <UserSubscriptions
+            userEmail={user.email}
+            subscription={subscriptions}
+            lng={lng}
+          />
         )}
       </div>
     </div>

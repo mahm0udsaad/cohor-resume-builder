@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { auth } from "@/lib/auth";
 import BuilderSkeleton from "@/components/skeleton/builder-loader";
 import { redirect } from "next/navigation";
-import { addResumeToUser } from "@/actions/resumes";
 import { ResumeBuilder } from "@/components/resume-builder";
 import { getUserWithDetails } from "@/actions/userInfo/action";
 import { getPlansWithPrices } from "@/actions/resumes/plans";
@@ -13,13 +12,6 @@ export default async function TemplatePage({ params: { template, lng } }) {
   const plans = await getPlansWithPrices();
   if (!session) {
     redirect("/auth");
-  }
-
-  // Add resume to the user's collection (conditionally)
-  try {
-    await addResumeToUser(session.user.email, template);
-  } catch (error) {
-    console.error("Failed to add resume:", error);
   }
 
   // Fetch user-specific data

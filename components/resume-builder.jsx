@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChevronLeft, Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2, Subscript } from "lucide-react";
 
 import { useResumeData } from "@/hooks/use-resume-data";
 import { useTheme } from "@/hooks/use-theme";
@@ -17,6 +17,13 @@ import { useToast } from "@/hooks/use-toast";
 import { updateUserResumeData } from "@/actions/resumes";
 import { ToastAction } from "./ui/toast";
 import { QualityUpgradeModal } from "./cards/quality-subscription-modal";
+const SubscriptionModal = dynamic(
+  () => import("@/components/cards/subscription-modal"),
+  {
+    loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
+  },
+);
+
 const DynamicLanguagesForm = dynamic(() => import("./forms/lang-form"), {
   loading: () => <Skeleton className={"w-full h-[25rem] bg-gray-200"} />,
 });
@@ -100,6 +107,22 @@ export function ResumeBuilder({ plans, initialData, resumeName, user, lng }) {
           updatedResumeData,
         );
         if (!res.success) {
+          if (res.isSubscriptionError) {
+            toast({
+              title: t("notifications.subscriptionExpired"),
+              description: t("notifications.subscriptionExpiredDesc"),
+              variant: "destructive",
+              action: (
+                <ToastAction
+                  onClick={() => setIsModalOpen(true)}
+                  altText="Purchase Plan"
+                >
+                  {t("notifications.purchasePlanButton")}
+                </ToastAction>
+              ),
+            });
+            return;
+          }
           toast({
             title: t("notifications.errorAddingResume"),
             variant: "destructive",

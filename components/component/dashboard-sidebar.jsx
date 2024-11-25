@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { X, File, Layout } from "lucide-react";
+import { X, File, Layout, Wallet } from "lucide-react";
 import { SubscriptionModal } from "@/components/cards/subscription-modal";
 import { useTranslation } from "@/app/i18n/client";
 import { DashUserBtn } from "./userBtn";
@@ -90,6 +90,23 @@ export default function Sidebar({
               }`}
             />
             {t("dashboard.tabs.myResumes")}
+          </button>
+          <button
+            className={`border flex justify-start items-center w-full rounded-md p-4 hover:bg-[#2c3e7a] ${
+              activeTab === "Subscriptions" ? "bg-white text-black" : ""
+            }`}
+            onClick={() => {
+              setActiveTab("Subscriptions");
+              setIsSidebarOpen(false);
+            }}
+          >
+            <Wallet
+              size={20}
+              className={`${isRTL ? "ml-2" : "mr-2"} ${
+                activeTab === "Subscriptions" ? "text-[#2c3e7a]" : "text-white"
+              }`}
+            />
+            {t("dashboard.tabs.Subscriptions")}
           </button>
         </nav>
 

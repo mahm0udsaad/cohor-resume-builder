@@ -27,6 +27,9 @@
     }
   },
   "notifications": {
+    "subscriptionExpired": "انتهى الاشتراك",
+    "subscriptionExpiredDesc": "انتهى اشتراكك. يرجى تجديد خطتك للمتابعة.",
+    "purchasePlanButton": "شراء خطة",
     "errorAddingResume": "حدث خطأ ما",
     "tryAgainButton": "محاوله مرة اخرى",
     "resumeAddedSuccess": "تم إضافة السيرة الذاتية بنجاح",

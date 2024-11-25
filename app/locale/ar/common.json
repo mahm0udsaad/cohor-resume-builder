@@ -1,4 +1,20 @@
 {
+  "your_subscription": "اشتراكك",
+  "no_plan_message": "لم تقم بشراء أي خطة بعد.",
+  "explore_plans": "استعرض الخطط",
+  "your_package": "باقتك",
+  "plan_label": "خطة {{plan}}",
+  "status": "الحالة",
+  "transaction_id": "معرّف المعاملة:",
+  "amount": "المبلغ:",
+  "payment_date": "تاريخ الدفع:",
+  "end_date": "تاريخ الانتهاء:",
+  "time_remaining": "الوقت المتبقي",
+  "days": "أيام",
+  "hours": "ساعات",
+  "minutes": "دقائق",
+  "seconds": "ثوانٍ",
+  "manage_subscription": "إدارة الاشتراك",
   "SAR": "ريال",
   "Back_to_Editing": "الرجوع للتعديل",
   "loadingText": "يرجى الانتظار بينما نقوم بإعداد المحتوى الخاص بك.",
@@ -105,7 +121,8 @@
     "createNewResume": "إنشاء سيرة ذاتية جديدة",
     "tabs": {
       "myResumes": "سيرتي الذاتية",
-      "myInformation": "معلوماتي"
+      "myInformation": "معلوماتي",
+      "Subscriptions": "الباقات"
     }
   },
   "footer": {
@@ -205,7 +222,7 @@
       "period": "شهر",
       "features": {
         "advancedThemes": "قوالب متقدمة",
-        "templatesAvailable": "أكثر من 50 قالب",
+        "templatesAvailable": "9 قالب",
         "noWatermark": "بدون علامة مائية"
       },
       "buttonText": "الترقية إلى محترف"
@@ -215,7 +232,7 @@
       "period": "شهر",
       "features": {
         "premiumThemes": "قوالب مميزة",
-        "templatesAvailable": "أكثر من 100 قالب",
+        "templatesAvailable": "18 قالب",
         "aiSuggestions": "اقتراحات الذكاء الاصطناعي"
       },
       "buttonText": "الترقية إلى محترف+"

@@ -1,4 +1,20 @@
 {
+  "your_subscription": "Your Subscription",
+  "no_plan_message": "You haven't purchased any plan yet.",
+  "explore_plans": "Explore Plans",
+  "your_package": "Your Package",
+  "plan_label": "{plan} Plan",
+  "status": "Status",
+  "transaction_id": "Transaction ID:",
+  "amount": "Amount:",
+  "payment_date": "Payment Date:",
+  "end_date": "End Date:",
+  "time_remaining": "Time Remaining",
+  "days": "Days",
+  "hours": "Hours",
+  "minutes": "Minutes",
+  "seconds": "Seconds",
+  "manage_subscription": "Manage Subscription",
   "loadingText": "Please wait while we prepare your content.",
   "Back_to_Editing": "Back to Editing",
   "upgradeAlert": {
@@ -118,7 +134,8 @@
     "createNewResume": "Create New Resume",
     "tabs": {
       "myResumes": "My Resumes",
-      "myInformation": "My Information"
+      "myInformation": "My Information",
+      "Subscriptions": "Subscriptions"
     }
   },
   "footer": {
@@ -218,7 +235,7 @@
       "period": "month",
       "features": {
         "advancedThemes": "Advanced Themes",
-        "templatesAvailable": "50+ Templates",
+        "templatesAvailable": "9 Templates",
         "noWatermark": "No Watermark"
       },
       "buttonText": "Upgrade to PRO"
@@ -228,7 +245,7 @@
       "period": "month",
       "features": {
         "premiumThemes": "Premium Themes",
-        "templatesAvailable": "100+ Templates",
+        "templatesAvailable": "18 Templates",
         "aiSuggestions": "AI Suggestions"
       },
       "buttonText": "Upgrade to PRO+"

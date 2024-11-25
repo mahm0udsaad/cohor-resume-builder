@@ -74,6 +74,7 @@ export default function ElegantFormalTemplatePDF({ resumeData }) {
     sectionTitle: {
       fontSize: 18,
       fontWeight: "bold",
+      backgroundColor: "#FFFFFF",
       color: theme.primaryColor,
       textTransform: "uppercase",
     },

@@ -37,7 +37,7 @@ const ExperienceFields = ({
   const handleCurrentJobToggle = (checked) => {
     handleFieldChange("isCurrentJob", checked);
     if (checked) {
-      handleFieldChange("endDate", "");
+      handleFieldChange("endDate", "Present");
     }
   };
 

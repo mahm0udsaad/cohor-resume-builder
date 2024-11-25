@@ -12,7 +12,7 @@ export default function PaymentBtn({ plan, user, lng }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: plan.price,
-          currency: "EGP",
+          currency: "SAR",
           userEmail: user.email,
           userFirstName: user.name.split(" ")[0],
           userLastName: user.name.split(" ")[1],

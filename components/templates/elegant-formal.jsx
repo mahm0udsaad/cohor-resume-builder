@@ -25,7 +25,7 @@ export default function ElegantFormalTemplate({
     header: {
       textAlign: "center",
       marginBottom: "30px",
-      borderBottom: "2px solid #2c3e50",
+      borderBottom: `2px solid ${theme.primaryColor}`,
     },
     name: {
       fontSize: "28px",
@@ -47,7 +47,7 @@ export default function ElegantFormalTemplate({
     },
     section: {
       marginBottom: "30px",
-      borderTop: "1px solid #1a365d",
+      borderTop: `1px solid ${theme.primaryColor}`,
       paddingTop: "30px",
       position: "relative",
     },

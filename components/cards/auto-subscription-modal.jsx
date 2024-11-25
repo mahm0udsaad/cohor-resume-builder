@@ -62,7 +62,7 @@ export default function AutoSubscriptionModal({ user, lng }) {
       setPlansPrices(plans);
     })();
 
-    const timer = setTimeout(() => setIsOpen(true), 10000);
+    const timer = setTimeout(() => setIsOpen(true), 5000);
     return () => clearTimeout(timer);
   }, [user?.plan]);
 
@@ -78,7 +78,7 @@ export default function AutoSubscriptionModal({ user, lng }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: selectedPlan.price,
-          currency: "EGP",
+          currency: "SAR",
           userEmail: user.email,
           userFirstName: user.name?.split(" ")[0] || "User",
           userLastName: user.name?.split(" ")[1] || "Name",

@@ -4,7 +4,7 @@ import { parseDate } from "@/helper/date";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { getUserWithDetails } from "../userInfo/action";
-
+import { checkSubscriptionStatus } from "@/actions/subscriptions";
 export async function getUserPlanTemplates(planName) {
   try {
     const userPlan = await prisma.plan.findUnique({
@@ -95,15 +95,12 @@ export async function addResumeToUser(email, resumeName) {
     await prisma.$disconnect();
   }
 }
-
 export async function getUserResumes(email) {
   try {
     // First, let's verify we can find the user
     const userExists = await prisma.user.findUnique({
       where: { email },
     });
-
-    console.log("User exists:", userExists);
 
     const resumes = await prisma.resume.findMany({
       where: {
@@ -119,7 +116,6 @@ export async function getUserResumes(email) {
     await prisma.$disconnect();
   }
 }
-
 export async function getResume(email, resumeName) {
   try {
     const user = await prisma.user.findUnique({
@@ -138,16 +134,7 @@ export async function getResume(email, resumeName) {
       return { success: false, error: "Resume not found" };
     }
 
-    // Map through experiences and convert null endDates to "present"
-    const formattedResume = {
-      ...resume,
-      experiences: resume.experiences?.map((experience) => ({
-        ...experience,
-        endDate: experience.endDate === null ? "present" : experience.endDate,
-      })),
-    };
-
-    return formattedResume;
+    return { user: user, success: true, resume: resume };
   } catch (error) {
     console.error("Error getting resume:", error);
     return { success: false, error: error.message };
@@ -155,7 +142,6 @@ export async function getResume(email, resumeName) {
     await prisma.$disconnect();
   }
 }
-
 export async function deleteResume(resumeId, email) {
   try {
     if (!resumeId || !email) {
@@ -192,7 +178,6 @@ export async function deleteResume(resumeId, email) {
     await prisma.$disconnect();
   }
 }
-
 // Validation helper
 const validateResumeData = (data) => {
   if (!data) throw new Error("Resume data is required");
@@ -229,7 +214,6 @@ const validateResumeData = (data) => {
     throw new Error("Invalid course completion date format");
   }
 };
-
 // Format resume data helper
 const formatResumeData = (data) => {
   return {
@@ -260,8 +244,15 @@ export const updateUserResumeData = async (
   updatedResumeData,
 ) => {
   const MAX_RETRIES = 3;
-  const RETRY_DELAY = 500; // 500 milliseconds
-
+  const RETRY_DELAY = 500;
+  const subscriptionCheck = await checkSubscriptionStatus(userEmail);
+  if (!subscriptionCheck.success) {
+    return {
+      success: false,
+      error: subscriptionCheck.error,
+      isSubscriptionError: true, // Add this flag to identify subscription errors
+    };
+  }
   const isRetryableError = (error) => {
     // Generic error detection strategy
     const retryableErrorPatterns = [
@@ -342,7 +333,7 @@ export const updateUserResumeData = async (
               name: resumeName,
               userId: user.id,
               ...formattedResumeData,
-              ...themeData,
+              theme: themeData,
               modifiedAt: new Date(),
             },
             include: {
@@ -425,7 +416,6 @@ export const updateUserResumeData = async (
       : "Unknown error",
   };
 };
-
 export async function saveSkills(userId, skills) {
   try {
     const updatedUser = await prisma.user.update({

@@ -32,7 +32,7 @@ export async function createOrder(token, price) {
       body: JSON.stringify({
         payment_token: token,
         amount: price,
-        currency: "EGP",
+        currency: "SAR",
         integration_id: process.env.PAYMOB_INTEGRATION_ID,
       }),
     },

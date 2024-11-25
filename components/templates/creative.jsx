@@ -4,7 +4,7 @@ import { formatDate } from "@/helper/date"; // Import date formatter
 import { cn } from "@/lib/utils";
 
 function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
-  const t = translations[resumeData.lng] || translations.en; // Apply translation based on language
+  const t = translations[resumeData.lng] || translations.en;
   const theme = selectedTheme || {
     id: "original",
     name: "Original",
@@ -243,7 +243,7 @@ function CreativeResumeTemplate({ resumeData, selectedTheme, className }) {
           </section>
 
           {/* Additional Courses */}
-          {resumeData.courses[0]?.name.trim() !== "" && (
+          {resumeData.courses?.length > 0 && (
             <section>
               <h3
                 style={{

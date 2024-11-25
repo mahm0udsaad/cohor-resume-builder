@@ -195,7 +195,11 @@ export async function POST(req) {
 
     // Process subscription in transaction
     const result = await prisma.$transaction(async (tx) => {
-      // Create subscription record
+      // Delete all user's previous subscriptions
+      await tx.subscription.deleteMany({
+        where: { userId: user.id },
+      });
+
       const subscription = await tx.subscription.create({
         data: {
           userId: user.id,
@@ -204,9 +208,9 @@ export async function POST(req) {
           amount: amount_cents / 100,
           status: "active",
           plan: plan,
+          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         },
       });
-      console.log(plan, "subscription created");
       // Update user's plan
       await tx.user.update({
         where: { id: user.id },

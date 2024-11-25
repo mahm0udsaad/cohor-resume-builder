@@ -27,6 +27,9 @@
     }
   },
   "notifications": {
+    "subscriptionExpired": "Subscription Expired",
+    "subscriptionExpiredDesc": "Your subscription has expired. Please renew your plan to continue.",
+    "purchasePlanButton": "Purchase Plan",
     "errorAddingResume": "An error occurred. Please try again.",
     "tryAgainButton": "Try Again",
     "resumeAddedSuccess": "Resume added successfully",

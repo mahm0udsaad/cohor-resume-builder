@@ -11,8 +11,7 @@ export default async function ReviewPage({ params: { lng, resumeName } }) {
   const session = await auth();
   if (!session) redirect("/auth");
   const { user } = session;
-  const resume = await getResume(user.email, resumeName);
-  const userInfo = await getUser(user.email);
+  const data = await getResume(user.email, resumeName);
 
   return (
     <div className="bg-gray-50 min-h-[90dvh] overflow-x-hidden">
@@ -25,12 +24,12 @@ export default async function ReviewPage({ params: { lng, resumeName } }) {
             {t("Back_to_Editing")}
           </Link>
         </div>
-        {resume && (
+        {data && (
           <ClientResumeTemplate
             lng={lng}
-            plan={userInfo?.user?.plan}
+            plan={data?.user?.plan}
             template={resumeName}
-            resumeData={resume}
+            resumeData={data.resume}
           />
         )}
       </div>

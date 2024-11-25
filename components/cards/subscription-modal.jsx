@@ -175,7 +175,6 @@ export function SubscriptionModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: plans[activeTab].price,
-          currency: "EGP",
           userEmail: user.email,
           userFirstName: user.name?.split(" ")[0] || "User",
           userLastName: user.name?.split(" ")[1] || "Name",
@@ -185,14 +184,15 @@ export function SubscriptionModal({
       });
 
       if (!res.ok) {
-        throw new Error("Failed to initialize payment");
+        throw new Error("Failed to initialize payment Please Try Again");
       }
 
       const data = await res.json();
+
       if (data.payment_key) {
         setPaymentKey(data.payment_key);
       } else {
-        throw new Error("No payment key received");
+        throw new Error("Please try again.");
       }
     } catch (error) {
       setError(
@@ -238,9 +238,9 @@ export function SubscriptionModal({
               <div
                 className={`text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${plan?.gradient}`}
               >
-                ${plan.price}
+                {plan.price}
                 <span className="text-xl font-normal text-gray-600 dark:text-gray-400">
-                  /{t("subscription.period")}
+                  {t("SAR")} /{t("subscription.period")}
                 </span>
               </div>
             </div>
@@ -304,7 +304,7 @@ export function SubscriptionModal({
         <X className="h-4 w-4" />
       </Button>
       <iframe
-        src={`https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${paymentKey}`}
+        src={`https://ksa.paymob.com/api/acceptance/iframes/${process.env.NEXT_PUBLIC_IFRAME_ID}?payment_token=${paymentKey}`}
         className="w-full h-full border-none"
         title="Payment Frame"
       />

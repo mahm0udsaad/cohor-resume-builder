@@ -1,103 +1,100 @@
-// /api/paymob-intention/route.js
+// app/api/paymob-intention/route.js
 export async function POST(req) {
-  const {
-    amount,
-    currency,
-    userEmail,
-    userFirstName,
-    userLastName,
-    return_url,
-  } = await req.json();
-
-  if (!return_url) {
-    return new Response(JSON.stringify({ error: "Return URL is required" }), {
-      status: 400,
-    });
-  }
-
   try {
-    // Step 1: Get authentication token (same as before)
-    const authResponse = await fetch(
-      "https://accept.paymobsolutions.com/api/auth/tokens",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          api_key: process.env.PAYMOB_API_KEY,
-        }),
+    const { amount, plan, currency, userEmail, userFirstName, userLastName } =
+      await req.json();
+
+    // Step 1: Authentication Request
+    const authResponse = await fetch("https://ksa.paymob.com/api/auth/tokens", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        api_key: process.env.PAYMOB_API_KEY,
+      }),
+    });
 
     const authData = await authResponse.json();
-    const paymentToken = authData.token;
+    const token = authData.token;
 
-    // Step 2: Create order (same as before)
+    // Step 2: Order Registration
     const orderResponse = await fetch(
-      "https://accept.paymobsolutions.com/api/ecommerce/orders",
+      "https://ksa.paymob.com/api/ecommerce/orders",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          auth_token: paymentToken,
+          auth_token: token,
           delivery_needed: false,
-          amount_cents: Math.round(amount * 100),
-          currency,
-          merchant_order_id: Date.now(),
+          amount_cents: parseFloat((amount * 100).toFixed(2)),
+          currency: currency,
+          items: [
+            {
+              name: plan,
+              amount_cents: parseFloat((amount * 100).toFixed(2)),
+              quantity: 1,
+            },
+          ],
         }),
       },
     );
 
     const orderData = await orderResponse.json();
-    const orderId = orderData.id;
 
-    // Step 3: Create payment key with return URL for 3D Secure
+    // Step 3: Payment Key Generation
     const paymentKeyResponse = await fetch(
-      "https://accept.paymobsolutions.com/api/acceptance/payment_keys",
+      "https://ksa.paymob.com/api/acceptance/payment_keys",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          auth_token: paymentToken,
-          amount_cents: Math.round(amount * 100),
-          currency,
-          order_id: orderId,
+          auth_token: token,
+          amount_cents: parseFloat((amount * 100).toFixed(2)),
+          integration_id: 7138,
+          expiration: 3600,
+          order_id: orderData.id,
           billing_data: {
-            apartment: "803",
-            building: "8028",
-            city: "Cairo",
-            country: "EGY",
             email: userEmail,
-            floor: "8",
             first_name: userFirstName,
             last_name: userLastName,
-            phone_number: "+20123456789",
-            postal_code: "11511",
-            state: "Cairo",
-            street: "90th Street, 5th District, New Cairo",
+            phone_number: "+201000000000",
+            apartment: "NA",
+            floor: "NA",
+            street: "NA",
+            building: "NA",
+            shipping_method: "NA",
+            postal_code: "NA",
+            city: "NA",
+            country: "NA",
+            state: "NA",
           },
-          integration_id: process.env.PAYMOB_INTEGRATION_ID,
-          return_url: return_url,
+          currency: "SAR",
+          lock_order_when_paid: true,
         }),
       },
     );
 
     const paymentKeyData = await paymentKeyResponse.json();
-    const paymentKey = paymentKeyData.token;
 
-    return new Response(JSON.stringify({ payment_key: paymentKey }), {
-      status: 200,
+    return Response.json({
+      payment_key: paymentKeyData.token,
+      order_id: orderData.id,
     });
   } catch (error) {
-    console.error("Payment Error:", error);
-    return new Response(
-      JSON.stringify({ error: "Payment processing failed" }),
-      { status: 500 },
+    console.error("Payment intention error:", error);
+    return Response.json(
+      {
+        error: "Failed to create payment intention",
+      },
+      {
+        status: 500,
+      },
     );
   }
 }
