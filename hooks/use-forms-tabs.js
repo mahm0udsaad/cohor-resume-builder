@@ -24,6 +24,16 @@ const templatesWithImages = [
   "dynamicModern",
 ];
 
+// Helper function to safely check if a value is empty
+const isEmpty = (value) => {
+  if (value === null || value === undefined) return true;
+  if (typeof value === "string") return value.trim() === "";
+  if (typeof value === "number") return false;
+  if (Array.isArray(value)) return value.length === 0;
+  if (typeof value === "object") return Object.keys(value).length === 0;
+  return !value;
+};
+
 export function useFormTabs({ router, resumeData, t, resumeName }) {
   const { toast } = useToast();
   const searchParams = useSearchParams();
@@ -63,13 +73,11 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
   const validatePersonalInfo = (data) => {
     const required = ["name", "jobTitle", "summary"];
     const missing = required
-      .filter((field) => !data[field]?.trim())
+      .filter((field) => isEmpty(data[field]))
       .map((field) => getFieldTranslation(field));
 
-    // Check if template requires image and validate image presence
     if (templatesWithImages.includes(resumeName)) {
-      const hasImage = data.imageUrl && data.imageUrl.trim();
-      if (!hasImage) {
+      if (isEmpty(data.imageUrl)) {
         missing.push(getFieldTranslation("profileImage"));
       }
     }
@@ -81,7 +89,7 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
   };
 
   const validateExperience = (experiences) => {
-    if (!experiences.length) {
+    if (!Array.isArray(experiences) || experiences.length === 0) {
       return {
         isValid: false,
         missing: [t("validation.messages.atLeastOneExperience")],
@@ -92,8 +100,17 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
     const missing = [];
 
     experiences.forEach((exp, index) => {
+      if (!exp || typeof exp !== "object") {
+        missing.push(
+          t("validation.messages.invalidExperience", {
+            index: index + 1,
+          }),
+        );
+        return;
+      }
+
       required.forEach((field) => {
-        if (!exp[field]?.trim()) {
+        if (isEmpty(exp[field])) {
           missing.push(
             t("validation.messages.experienceField", {
               index: index + 1,
@@ -102,7 +119,8 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
           );
         }
       });
-      if (!exp.isCurrentJob && !exp.endDate) {
+
+      if (!exp.isCurrentJob && isEmpty(exp.endDate)) {
         missing.push(
           t("validation.messages.experienceField", {
             index: index + 1,
@@ -119,7 +137,7 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
   };
 
   const validateEducation = (educations) => {
-    if (!educations.length) {
+    if (!Array.isArray(educations) || educations.length === 0) {
       return {
         isValid: false,
         missing: [t("validation.messages.atLeastOneEducation")],
@@ -130,8 +148,17 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
     const missing = [];
 
     educations.forEach((edu, index) => {
+      if (!edu || typeof edu !== "object") {
+        missing.push(
+          t("validation.messages.invalidEducation", {
+            index: index + 1,
+          }),
+        );
+        return;
+      }
+
       required.forEach((field) => {
-        if (!edu[field]?.trim()) {
+        if (isEmpty(edu[field])) {
           missing.push(
             t("validation.messages.educationField", {
               index: index + 1,
@@ -149,6 +176,12 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
   };
 
   const validateSkills = (skills) => {
+    if (!Array.isArray(skills))
+      return {
+        isValid: false,
+        missing: [t("validation.messages.invalidSkills")],
+      };
+
     return {
       isValid: skills.length > 0,
       missing:
@@ -157,7 +190,7 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
   };
 
   const validateLanguages = (languages) => {
-    if (!languages.length) {
+    if (!Array.isArray(languages) || languages.length === 0) {
       return {
         isValid: false,
         missing: [t("validation.messages.atLeastOneLanguage")],
@@ -166,7 +199,16 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
 
     const missing = [];
     languages.forEach((lang, index) => {
-      if (!lang.name?.trim() || !lang.proficiency?.trim()) {
+      if (!lang || typeof lang !== "object") {
+        missing.push(
+          t("validation.messages.invalidLanguage", {
+            index: index + 1,
+          }),
+        );
+        return;
+      }
+
+      if (isEmpty(lang.name) || isEmpty(lang.proficiency)) {
         missing.push(
           t("validation.messages.languageField", {
             index: index + 1,
@@ -181,6 +223,7 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
     };
   };
 
+  // Rest of the code remains the same...
   const validateCurrentTab = () => {
     switch (activeTab) {
       case "personal":
@@ -215,14 +258,12 @@ export function useFormTabs({ router, resumeData, t, resumeName }) {
     const currentIndex = tabs.findIndex((tab) => tab.id === activeTab);
     const newIndex = tabs.findIndex((tab) => tab.id === value);
 
-    // Allow moving backwards without validation
     if (newIndex < currentIndex) {
       setActiveTab(value);
       router.push(`?${createQueryString("tab", value)}`, { scroll: false });
       return;
     }
 
-    // Validate current tab before moving forward
     const validation = validateCurrentTab();
     if (!validation.isValid) {
       toast({
