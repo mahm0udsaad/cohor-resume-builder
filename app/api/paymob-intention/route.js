@@ -31,7 +31,7 @@ export async function POST(request) {
     const intentionData = {
       amount: Math.round(amount * 100), // Convert to smallest currency unit
       currency: currency || "SAR",
-      payment_methods: [5981],
+      payment_methods: [7140],
       items: [
         {
           name: `Subscription Plan: ${plan}`,
