@@ -94,7 +94,7 @@ const validateTransaction = (transaction) => {
     !transaction.is_refunded &&
     !transaction.is_void &&
     !transaction.error_occured &&
-    transaction.currency === "EGP"
+    transaction.currency === "SAR"
   );
 };
 
@@ -206,6 +206,7 @@ export async function POST(req) {
     const user = await prisma.user.findUnique({
       where: { email },
     });
+    console.log("User found:", user);
 
     if (!user) {
       return NextResponse.json(
