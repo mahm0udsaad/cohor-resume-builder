@@ -75,7 +75,7 @@ export default function UserSubscriptions({ subscription, lng }) {
           <div className="flex justify-between items-center">
             <span className="text-gray-600">{t("amount")}</span>
             <span className="font-medium">
-              ${subscription.amount.toFixed(2)}
+              {t("SAR")} {subscription.amount.toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between items-center">
