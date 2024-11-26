@@ -1,5 +1,4 @@
 "use server";
-import { formatDate } from "@/helper/date";
 import prisma from "@/lib/prisma";
 
 export async function getUserSubscription(email) {
@@ -44,7 +43,6 @@ export async function getUserSubscription(email) {
 
 export async function checkSubscriptionStatus(userEmail) {
   try {
-    // Find the user and their most recent active subscription
     const user = await prisma.user.findUnique({
       where: {
         email: userEmail,
@@ -63,50 +61,39 @@ export async function checkSubscriptionStatus(userEmail) {
     }
 
     const currentSubscription = user.subscriptions[0];
-    console.log(currentSubscription);
 
     // If no subscription exists
     if (!currentSubscription) {
       return { success: false, error: "No subscription found" };
     }
 
-    if (currentSubscription.status === "inActive") {
-      return { success: false, error: "Subscription is inactive" };
-    }
     // Check if subscription has ended
     if (
       currentSubscription.endDate &&
       currentSubscription.endDate < new Date()
     ) {
-      // Update the subscription status to inactive
-      await prisma.subscription.update({
+      // Update the subscription status to inactive when it has expired
+      const updatedSubscription = await prisma.subscription.update({
         where: {
           id: currentSubscription.id,
         },
         data: {
-          status: "inactive",
-        },
-      });
-
-      // Also update the user's plan to free
-      await prisma.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          plan: "free",
-          planExpiryDate: null,
+          status: "inActive",
         },
       });
 
       return {
         success: false,
         error: `Subscription ended on ${currentSubscription.endDate.toLocaleDateString()}`,
+        subscription: updatedSubscription,
       };
     }
 
-    // If all checks pass, return the active subscription
-    return currentSubscription;
+    // If subscription is active and not ended, return success
+    return {
+      success: true,
+      subscription: currentSubscription,
+    };
   } catch (error) {
     if (error instanceof Error) {
       throw error;

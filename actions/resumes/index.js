@@ -250,7 +250,7 @@ export const updateUserResumeData = async (
     return {
       success: false,
       error: subscriptionCheck.error,
-      isSubscriptionError: true, // Add this flag to identify subscription errors
+      isSubscriptionError: true,
     };
   }
   const isRetryableError = (error) => {
