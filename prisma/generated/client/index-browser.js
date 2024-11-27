@@ -173,6 +173,7 @@ exports.Prisma.PlanScalarFieldEnum = {
   id: 'id',
   name: 'name',
   price: 'price',
+  discount: 'discount',
   templates: 'templates',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

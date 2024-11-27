@@ -8,7 +8,8 @@ export async function getDashboardData() {
   const session = await auth();
   if (
     ![
-      "Jawad@cohr.sa",
+      "Cv@cohr.sa",
+      "cv@cohr.sa",
       "saad123mn123@gmail.com",
       "jawad.1990@live.com",
     ].includes(session?.user?.email)
@@ -33,6 +34,7 @@ export async function getDashboardData() {
       templates: plan.templates,
       resumes: planResumes,
       price: plan.price,
+      discount: plan.discount,
     };
   }
 
@@ -75,7 +77,6 @@ export async function createTemplate(template, plan) {
 
   return existingPlan;
 }
-
 export async function getAllTemplates() {
   const proPlusPlan = await prisma.plan.findUnique({
     where: { name: "proPlus" },

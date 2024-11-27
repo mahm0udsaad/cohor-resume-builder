@@ -18,10 +18,6 @@ export default function RootLayout({ children, params: { lng } }) {
     <AuthProvider lng={lng}>
       <html lang={lng} dir={dir(lng)}>
         <head>
-          <meta
-            name="google-site-verification"
-            content="Y7QC4_bxx1FQWJ3b1Mkyr07tM6WvGPlPcnQmQg7tuiM"
-          />
           <link rel="icon" href="/favicon.ico" />
         </head>
         <body>

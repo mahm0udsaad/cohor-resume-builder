@@ -17,6 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useTranslation } from "@/app/i18n/client";
 import { getPlansWithPrices } from "@/actions/resumes/plans";
+import { calculateDiscountedPrice } from "@/utils/getDiscount";
 
 export function SubscriptionModal({
   currentPlan = "pro",
@@ -37,7 +38,12 @@ export function SubscriptionModal({
   const plans = {
     pro: {
       name: t("plans.pro.name"),
-      price: plansPrices[1]?.price,
+      originalPrice: plansPrices[1]?.price,
+      price: calculateDiscountedPrice(
+        plansPrices[1]?.price,
+        plansPrices[1]?.discount,
+      ),
+      discount: plansPrices[1]?.discount || 0,
       period: t("plans.pro.period"),
       features: [
         { text: t("plans.pro.features.advancedThemes"), icon: Palette },
@@ -50,7 +56,12 @@ export function SubscriptionModal({
     },
     proPlus: {
       name: t("plans.proPlus.name"),
-      price: plansPrices[2]?.price,
+      originalPrice: plansPrices[2]?.price,
+      price: calculateDiscountedPrice(
+        plansPrices[2]?.price,
+        plansPrices[2]?.discount,
+      ),
+      discount: plansPrices[2]?.discount || 0,
       period: t("plans.proPlus.period"),
       features: [
         { text: t("plans.proPlus.features.premiumThemes"), icon: Crown },
@@ -164,6 +175,7 @@ export function SubscriptionModal({
       setError("An error occurred while processing the payment.");
     }
   };
+
   const handlePayment = async () => {
     const currentUrl = window.location.href;
     localStorage.setItem("currentUrl", currentUrl);
@@ -174,7 +186,7 @@ export function SubscriptionModal({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: plans[activeTab].price,
+          amount: plans[activeTab]?.price,
           userEmail: user.email,
           userFirstName: user.name?.split(" ")[0] || "User",
           userLastName: user.name?.split(" ")[1] || "Name",
@@ -235,13 +247,32 @@ export function SubscriptionModal({
               >
                 <plan.icon className="w-8 h-8 text-white" />
               </div>
-              <div
-                className={`text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${plan?.gradient}`}
-              >
-                {plan.price}
-                <span className="text-xl font-normal text-gray-600 dark:text-gray-400">
-                  {t("SAR")} /{t("subscription.period")}
-                </span>
+              <div className="mb-6">
+                <div className="items-baseline">
+                  <span
+                    className={`text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${plan?.gradient}`}
+                  >
+                    {plan.price}
+                    <span className="text-xl font-bold text-[#3b51a3]">
+                      {t("SAR")}
+                    </span>
+                    <span className="text-sm ml-1 text-gray-600">
+                      /{t(`subscription.period`)}
+                    </span>
+                  </span>
+                  {plan.discount > 0 && (
+                    <p className="text-sm ml-2 line-through text-gray-400">
+                      {plan.originalPrice} {t("SAR")}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  {plan.discount > 0 && (
+                    <span className="ml-2 text-green-600 text-sm">
+                      {plan.discount}% {t("discount")}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             <ul className="space-y-3 mb-6">

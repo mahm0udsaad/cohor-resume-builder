@@ -10,16 +10,23 @@ import {
 import { Check } from "lucide-react";
 import PaymentBtn from "../btns/pay-btn";
 import { auth } from "@/lib/auth";
+import { calculateDiscountedPrice } from "@/utils/getDiscount";
 
 const PricingSection = async ({ t, lng }) => {
   const plansPrices = await getPlansWithPrices();
   const session = await auth();
   const user = session?.user;
+
   const plans = {
     pro: {
       name: t("plans.pro.name"),
       highlighted: true,
-      price: plansPrices[1]?.price,
+      originalPrice: plansPrices[1]?.price,
+      discount: plansPrices[1]?.discount || 0,
+      price: calculateDiscountedPrice(
+        plansPrices[1]?.price,
+        plansPrices[1]?.discount,
+      ),
       period: t("plans.pro.period"),
       features: [
         { text: t("plans.pro.features.advancedThemes") },
@@ -31,7 +38,12 @@ const PricingSection = async ({ t, lng }) => {
     },
     proPlus: {
       name: t("plans.proPlus.name"),
-      price: plansPrices[2]?.price,
+      originalPrice: plansPrices[2]?.price,
+      discount: plansPrices[2]?.discount || 0,
+      price: calculateDiscountedPrice(
+        plansPrices[2]?.price,
+        plansPrices[2]?.discount,
+      ),
       period: t("plans.proPlus.period"),
       features: [
         { text: t("plans.proPlus.features.premiumThemes") },
@@ -42,6 +54,7 @@ const PricingSection = async ({ t, lng }) => {
       gradient: "from-pink-400 to-pink-600",
     },
   };
+
   return (
     <section id="pricing" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -68,12 +81,19 @@ const PricingSection = async ({ t, lng }) => {
                 <CardDescription>{plan.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
-                <p className="text-4xl font-bold text-[#3b51a3] mb-4">
-                  {`${plan.price}`}
-                  <span className="text-xl font-bold text-[#3b51a3]">
-                    {`/${t("SAR")}`}
-                  </span>
-                </p>
+                <div className=" items-baseline mb-4">
+                  <p className="text-4xl font-bold text-[#3b51a3]">
+                    {`${plan.price}`}
+                    <span className="text-xl font-bold text-[#3b51a3]">
+                      {`/${t("SAR")}`}
+                    </span>
+                  </p>
+                  {plan.discount > 0 && (
+                    <p className="ml-2 text-sm line-through text-gray-400">
+                      {`${plan.originalPrice} ${t("SAR")}`}
+                    </p>
+                  )}
+                </div>
                 <ul className="space-y-2">
                   {plan.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center">

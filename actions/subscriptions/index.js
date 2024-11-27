@@ -31,6 +31,7 @@ export async function getUserSubscription(email) {
     return {
       transactionId: subscription.transactionId,
       amount: subscription.amount,
+      status: subscription.status,
       paymentDate: subscription.paymentDate,
       plan: subscription.plan,
       endDate: subscription.endDate,

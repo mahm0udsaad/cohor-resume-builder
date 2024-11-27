@@ -6031,16 +6031,19 @@ export namespace Prisma {
 
   export type PlanAvgAggregateOutputType = {
     price: number | null
+    discount: number | null
   }
 
   export type PlanSumAggregateOutputType = {
     price: number | null
+    discount: number | null
   }
 
   export type PlanMinAggregateOutputType = {
     id: string | null
     name: string | null
     price: number | null
+    discount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6049,6 +6052,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     price: number | null
+    discount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6057,6 +6061,7 @@ export namespace Prisma {
     id: number
     name: number
     price: number
+    discount: number
     templates: number
     createdAt: number
     updatedAt: number
@@ -6066,16 +6071,19 @@ export namespace Prisma {
 
   export type PlanAvgAggregateInputType = {
     price?: true
+    discount?: true
   }
 
   export type PlanSumAggregateInputType = {
     price?: true
+    discount?: true
   }
 
   export type PlanMinAggregateInputType = {
     id?: true
     name?: true
     price?: true
+    discount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6084,6 +6092,7 @@ export namespace Prisma {
     id?: true
     name?: true
     price?: true
+    discount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6092,6 +6101,7 @@ export namespace Prisma {
     id?: true
     name?: true
     price?: true
+    discount?: true
     templates?: true
     createdAt?: true
     updatedAt?: true
@@ -6188,6 +6198,7 @@ export namespace Prisma {
     id: string
     name: string
     price: number
+    discount: number
     templates: string[]
     createdAt: Date
     updatedAt: Date
@@ -6216,6 +6227,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     price?: boolean
+    discount?: boolean
     templates?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6226,6 +6238,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     price?: boolean
+    discount?: boolean
     templates?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6239,6 +6252,7 @@ export namespace Prisma {
       id: string
       name: string
       price: number
+      discount: number
       templates: string[]
       createdAt: Date
       updatedAt: Date
@@ -6637,6 +6651,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Plan", 'String'>
     readonly name: FieldRef<"Plan", 'String'>
     readonly price: FieldRef<"Plan", 'Float'>
+    readonly discount: FieldRef<"Plan", 'Float'>
     readonly templates: FieldRef<"Plan", 'String[]'>
     readonly createdAt: FieldRef<"Plan", 'DateTime'>
     readonly updatedAt: FieldRef<"Plan", 'DateTime'>
@@ -8851,6 +8866,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     price: 'price',
+    discount: 'discount',
     templates: 'templates',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -9338,6 +9354,7 @@ export namespace Prisma {
     id?: StringFilter<"Plan"> | string
     name?: StringFilter<"Plan"> | string
     price?: FloatFilter<"Plan"> | number
+    discount?: FloatFilter<"Plan"> | number
     templates?: StringNullableListFilter<"Plan">
     createdAt?: DateTimeFilter<"Plan"> | Date | string
     updatedAt?: DateTimeFilter<"Plan"> | Date | string
@@ -9347,6 +9364,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     templates?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9359,6 +9377,7 @@ export namespace Prisma {
     OR?: PlanWhereInput[]
     NOT?: PlanWhereInput | PlanWhereInput[]
     price?: FloatFilter<"Plan"> | number
+    discount?: FloatFilter<"Plan"> | number
     templates?: StringNullableListFilter<"Plan">
     createdAt?: DateTimeFilter<"Plan"> | Date | string
     updatedAt?: DateTimeFilter<"Plan"> | Date | string
@@ -9368,6 +9387,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     templates?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9385,6 +9405,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Plan"> | string
     name?: StringWithAggregatesFilter<"Plan"> | string
     price?: FloatWithAggregatesFilter<"Plan"> | number
+    discount?: FloatWithAggregatesFilter<"Plan"> | number
     templates?: StringNullableListFilter<"Plan">
     createdAt?: DateTimeWithAggregatesFilter<"Plan"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Plan"> | Date | string
@@ -9945,6 +9966,7 @@ export namespace Prisma {
     id?: string
     name: string
     price: number
+    discount?: number
     templates?: PlanCreatetemplatesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9954,6 +9976,7 @@ export namespace Prisma {
     id?: string
     name: string
     price: number
+    discount?: number
     templates?: PlanCreatetemplatesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9962,6 +9985,7 @@ export namespace Prisma {
   export type PlanUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
+    discount?: FloatFieldUpdateOperationsInput | number
     templates?: PlanUpdatetemplatesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9970,6 +9994,7 @@ export namespace Prisma {
   export type PlanUncheckedUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
+    discount?: FloatFieldUpdateOperationsInput | number
     templates?: PlanUpdatetemplatesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9979,6 +10004,7 @@ export namespace Prisma {
     id?: string
     name: string
     price: number
+    discount?: number
     templates?: PlanCreatetemplatesInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9987,6 +10013,7 @@ export namespace Prisma {
   export type PlanUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
+    discount?: FloatFieldUpdateOperationsInput | number
     templates?: PlanUpdatetemplatesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9995,6 +10022,7 @@ export namespace Prisma {
   export type PlanUncheckedUpdateManyInput = {
     name?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
+    discount?: FloatFieldUpdateOperationsInput | number
     templates?: PlanUpdatetemplatesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10725,6 +10753,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     templates?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10732,12 +10761,14 @@ export namespace Prisma {
 
   export type PlanAvgOrderByAggregateInput = {
     price?: SortOrder
+    discount?: SortOrder
   }
 
   export type PlanMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10746,12 +10777,14 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     price?: SortOrder
+    discount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type PlanSumOrderByAggregateInput = {
     price?: SortOrder
+    discount?: SortOrder
   }
 
   export type VerificationTokenIdentifierTokenCompoundUniqueInput = {

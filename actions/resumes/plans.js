@@ -78,6 +78,7 @@ export async function getPlansWithPrices() {
       select: {
         name: true,
         price: true,
+        discount: true,
       },
       orderBy: {
         price: "asc",

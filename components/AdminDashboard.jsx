@@ -45,6 +45,9 @@ export default function AdminDashboard({ initialData, allTemplates, lng }) {
   const [editingPrice, setEditingPrice] = useState(false);
   const [newPrice, setNewPrice] = useState("");
   const [planData, setPlanData] = useState(initialData);
+  const [newDiscount, setNewDiscount] = useState("");
+  console.log(initialData);
+
   const [selectedTemplates, setSelectedTemplates] = useState(() => {
     const initial = {};
     Object.entries(initialData).forEach(([plan, data]) => {
@@ -61,10 +64,23 @@ export default function AdminDashboard({ initialData, allTemplates, lng }) {
 
   const handlePriceUpdate = async (plan) => {
     setLoading(true);
-    const result = await updatePlanPrice(plan, parseFloat(newPrice));
+    const result = await updatePlanPrice(
+      plan,
+      parseFloat(newPrice),
+      newDiscount ? parseFloat(newDiscount) : undefined,
+    );
     if (result.success) {
       setEditingPrice(false);
       setLoading(false);
+      // Update local state
+      setPlanData((prev) => ({
+        ...prev,
+        [plan]: {
+          ...prev[plan],
+          price: parseFloat(newPrice),
+          discount: newDiscount ? parseFloat(newDiscount) : undefined,
+        },
+      }));
     }
   };
 
@@ -83,6 +99,7 @@ export default function AdminDashboard({ initialData, allTemplates, lng }) {
       setLoading(false);
     }
   };
+
   const handleTemplateToggle = (plan, template) => {
     setSelectedTemplates((prev) => {
       const currentTemplates = prev[plan] || [];
@@ -210,9 +227,19 @@ export default function AdminDashboard({ initialData, allTemplates, lng }) {
                         <Input
                           type="number"
                           value={newPrice}
+                          placeholder={t("Price")}
                           onChange={(e) => setNewPrice(e.target.value)}
                           step="0.01"
                           min="0"
+                        />
+                        <Input
+                          type="number"
+                          value={newDiscount}
+                          onChange={(e) => setNewDiscount(e.target.value)}
+                          step="1"
+                          min="0"
+                          max="100"
+                          placeholder={t("discount")}
                         />
                         <DialogFooter>
                           <Button
@@ -232,8 +259,9 @@ export default function AdminDashboard({ initialData, allTemplates, lng }) {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-[#3b51a3]">
-                    {data.price}
-                    <span className="text-sm text-gray-500">{t("SAR")}</span>
+                    {data.price} {data.discount > 0 && `-${data.discount}%`}
+                    {data.discount > 0 &&
+                      ` = ${data.price * (1 - data.discount / 100)}`}
                   </div>
                 </CardContent>
               </Card>

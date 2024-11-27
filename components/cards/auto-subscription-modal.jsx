@@ -16,6 +16,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "@/app/i18n/client";
 import { getPlansWithPrices } from "@/actions/resumes/plans";
+import { calculateDiscountedPrice } from "@/utils/getDiscount";
 
 export default function AutoSubscriptionModal({ user, lng }) {
   const { t } = useTranslation(lng, "common");
@@ -25,10 +26,16 @@ export default function AutoSubscriptionModal({ user, lng }) {
   const [error, setError] = useState(null);
   const [plansPrices, setPlansPrices] = useState([]);
   const [redirectUrl, setRedirectUrl] = useState(null);
+
   const plans = [
     {
       key: "pro",
-      price: plansPrices[1]?.price,
+      originalPrice: plansPrices[1]?.price,
+      discount: plansPrices[1]?.discount || 0,
+      price: calculateDiscountedPrice(
+        plansPrices[1]?.price,
+        plansPrices[1]?.discount,
+      ),
       periodKey: "period",
       features: [
         { textKey: t("plans.pro.features.advancedThemes"), icon: Palette },
@@ -40,7 +47,12 @@ export default function AutoSubscriptionModal({ user, lng }) {
     },
     {
       key: "proPlus",
-      price: plansPrices[2]?.price,
+      originalPrice: plansPrices[2]?.price,
+      discount: plansPrices[2]?.discount || 0,
+      price: calculateDiscountedPrice(
+        plansPrices[2]?.price,
+        plansPrices[2]?.discount,
+      ),
       periodKey: "period",
       features: [
         { textKey: t("plans.proPlus.features.premiumThemes"), icon: Crown },
@@ -174,15 +186,29 @@ export default function AutoSubscriptionModal({ user, lng }) {
                       <plan.icon className="w-8 h-8 text-[#3b51a3]" />
                     </div>
                     <div className="mb-6">
-                      <span className="text-4xl font-bold text-[#3b51a3]">
-                        {plan.price}
-                        <span className="text-xl font-bold text-[#3b51a3]">
-                          {t("SAR")}
+                      <div className="items-baseline">
+                        <span className="text-4xl font-bold text-[#3b51a3]">
+                          {plan.price}
+                          <span className="text-xl font-bold text-[#3b51a3]">
+                            {t("SAR")}
+                          </span>
+                          <span className="text-sm ml-1 text-gray-600">
+                            /{t(`subscription.${plan.periodKey}`)}
+                          </span>
                         </span>
-                      </span>
-                      <span className="text-sm ml-1 text-gray-600">
-                        /{t(`subscription.${plan.periodKey}`)}
-                      </span>
+                        {plan.discount > 0 && (
+                          <p className="text-sm ml-2 line-through text-gray-400">
+                            {plan.originalPrice} {t("SAR")}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        {plan.discount > 0 && (
+                          <span className="ml-2 text-green-600 text-sm">
+                            {plan.discount}% {t("discount")}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <ul className="space-y-3 mb-6">
                       {plan.features.map((feature, idx) => (

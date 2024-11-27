@@ -3,7 +3,7 @@
   "no_plan_message": "You haven't purchased any plan yet.",
   "explore_plans": "Explore Plans",
   "your_package": "Your Package",
-  "plan_label": "{plan} Plan",
+  "plan_label": "{{plan}} Plan",
   "status": "Status",
   "transaction_id": "Transaction ID:",
   "amount": "Amount:",

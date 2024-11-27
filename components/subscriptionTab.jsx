@@ -10,6 +10,7 @@ import { useTranslation } from "@/app/i18n/client";
 export default function UserSubscriptions({ subscription, lng }) {
   const { t } = useTranslation(lng, "common");
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
   if (!subscription) {
     return (
       <div className="container mx-auto p-6 max-w-11/12">
@@ -22,19 +23,22 @@ export default function UserSubscriptions({ subscription, lng }) {
       </div>
     );
   }
+  console.log(subscription);
 
   function calculateTimeLeft() {
-    const difference = differenceInSeconds(
-      new Date(subscription?.endDate),
-      new Date(),
-    );
-    if (difference > 0) {
+    const now = new Date();
+    const endDate = new Date(subscription?.endDate);
+    const difference = differenceInSeconds(endDate, now);
+
+    if (difference > 0 && subscription.status === "active") {
       const days = Math.floor(difference / (60 * 60 * 24));
       const hours = Math.floor((difference % (60 * 60 * 24)) / (60 * 60));
       const minutes = Math.floor((difference % (60 * 60)) / 60);
       const seconds = difference % 60;
       return { days, hours, minutes, seconds };
     }
+
+    // If the subscription is inactive or expired
     return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   }
 
@@ -44,7 +48,7 @@ export default function UserSubscriptions({ subscription, lng }) {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [subscription?.endDate]);
+  }, [subscription?.endDate, subscription?.status]);
 
   const formatDate = (date) => {
     return format(new Date(date), "MMMM d, yyyy HH:mm:ss");
@@ -61,9 +65,18 @@ export default function UserSubscriptions({ subscription, lng }) {
             {t("plan_label", { plan: subscription.plan })}
           </span>
           <Badge
-            variant={subscription.status === "active" ? "default" : "secondary"}
+            variant={
+              subscription.status === "active" &&
+              differenceInSeconds(new Date(subscription.endDate), new Date()) >
+                0
+                ? "default"
+                : "secondary"
+            }
           >
-            {t(subscription.status)}
+            {subscription.status === "active" &&
+            differenceInSeconds(new Date(subscription.endDate), new Date()) > 0
+              ? t("active")
+              : t("inactive")}
           </Badge>
         </div>
         <Separator />

@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, AlertTriangle, Check, X, Loader2 } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
+import { calculateDiscountedPrice } from "@/utils/getDiscount";
 
 export function QualityUpgradeModal({
   plansPrices,
@@ -26,7 +27,7 @@ export function QualityUpgradeModal({
   const [error, setError] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState(null);
   const { t } = useTranslation(lng, "common");
-
+  const plan = plansPrices[1];
   const handlePayment = async () => {
     const currentUrl = window.location.href;
     localStorage.setItem("currentUrl", currentUrl);
@@ -38,7 +39,10 @@ export function QualityUpgradeModal({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: plansPrices[1].price,
+          amount: calculateDiscountedPrice(
+            plansPrices[1]?.price,
+            plansPrices[1]?.discount,
+          ),
           currency: "SAR",
           userEmail: user.email,
           userFirstName: user.name?.split(" ")[0] || "User",
@@ -109,6 +113,7 @@ export function QualityUpgradeModal({
                   <AlertTriangle className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-300 flex-shrink-0" />
                   <span>{t("enhanceResumeQuality")}</span>
                 </DialogTitle>
+
                 <DialogDescription className="text-gray-100 text-sm sm:text-base">
                   {t("upgradeDescription")}
                 </DialogDescription>
@@ -155,6 +160,28 @@ export function QualityUpgradeModal({
                   <h4 className="font-medium text-base sm:text-lg text-gray-800">
                     {t("upgradedVersion")}
                   </h4>
+                  <div className="mb-6">
+                    <div className="items-baseline">
+                      <span className="text-4xl font-bold text-[#3b51a3]">
+                        {calculateDiscountedPrice(plan?.price, plan?.discount)}
+                        <span className="text-xl font-bold text-[#3b51a3]">
+                          {t("SAR")}
+                        </span>
+                      </span>
+                      {plan.discount > 0 && (
+                        <p className="text-sm ml-2 line-through text-gray-400">
+                          {plan.price} {t("SAR")}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      {plan.discount > 0 && (
+                        <span className="ml-2 text-green-600 text-sm">
+                          {plan.discount}% {t("discount")}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                   <ul className="space-y-2 text-xs sm:text-sm text-gray-600">
                     <li className="flex items-start sm:items-center gap-2">
                       <Check className="h-4 w-4 mt-0.5 sm:mt-0 text-[#3b51a3] flex-shrink-0" />
