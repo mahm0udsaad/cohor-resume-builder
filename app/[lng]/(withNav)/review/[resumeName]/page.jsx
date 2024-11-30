@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getUser } from "@/actions/userInfo/action";
 import ClientResumeTemplate from "@/components/component/render-template-view";
 import { useTranslation } from "@/app/i18n";
+import { dummyData } from "@/data/data";
 
 export default async function ReviewPage({ params: { lng, resumeName } }) {
   const { t } = await useTranslation(lng, "common");
@@ -29,7 +30,7 @@ export default async function ReviewPage({ params: { lng, resumeName } }) {
             lng={lng}
             plan={data?.user?.plan}
             template={resumeName}
-            resumeData={data.resume}
+            resumeData={dummyData}
           />
         )}
       </div>

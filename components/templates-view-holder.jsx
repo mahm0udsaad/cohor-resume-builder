@@ -19,6 +19,8 @@ import InfographicResume from "./pdf-view/infographic";
 import FormalOneColumnResume from "./pdf-view/one-col-formal";
 import ElegantFormalTemplate from "./pdf-view/elegant-formal";
 import SimpleFormalTemplatePDF from "./pdf-view/simple-formal";
+import CompactElegancePDF from "./pdf-view/compact-elegance";
+import DotedTemplatePDF from "./pdf-view/dotes";
 
 export const templateViewComponents = {
   modern: modern,
@@ -46,4 +48,6 @@ export const templateViewComponents = {
   elegantFormal: ElegantFormalTemplate,
   simpleFormal: SimpleFormalTemplatePDF,
   simpleformal: SimpleFormalTemplatePDF,
+  compactelegance: CompactElegancePDF,
+  dotes: DotedTemplatePDF,
 };

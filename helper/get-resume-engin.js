@@ -1,4 +1,11 @@
 import dynamic from "next/dynamic";
+const CompactElegance = dynamic(
+  () => import("../components/templates/compact-elegance"),
+  { ssr: false },
+);
+const DotedTemplate = dynamic(() => import("@/components/templates/dotes"), {
+  ssr: false,
+});
 const InfographicResume = dynamic(
   () => import("@/components/templates/infographic"),
   { ssr: false },
@@ -124,6 +131,8 @@ export const templateComponents = {
   elegantFormal: ElegantFormalTemplate,
   onColFormal: FormalOneColumnResume,
   simpleformal: SimpleFormalTemplate,
+  compactelegance: CompactElegance,
+  dotes: DotedTemplate,
 };
 export const templates = [
   // { name: "professional", Component: ProfessionalResume },
@@ -148,7 +157,7 @@ export const templates = [
   // { name: "minimalist", Component: MinimalistModernResumeTemplate },
   // { name: "dynamicModern", Component: DynamicModernResume },
   // { name: "infographic", Component: InfographicResume },
-  { name: "elegantFormal", Component: ElegantFormalTemplate },
+  { name: "compactelegance", Component: CompactElegance },
 ];
 
 export const getResumeTemplate = (templateName) => {

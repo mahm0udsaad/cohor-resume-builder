@@ -10,19 +10,7 @@ import {
   BookOpen,
   LanguagesIcon,
 } from "lucide-react";
-
-const templatesWithImages = [
-  "elegantModern",
-  "creativeTimeLine",
-  "professional",
-  "gridLayout",
-  "creative",
-  "glow",
-  "formal",
-  "ProfessionalSidebar",
-  "infographic",
-  "dynamicModern",
-];
+import { templatesWithImages } from "@/data/data";
 
 // Helper function to safely check if a value is empty
 const isEmpty = (value) => {

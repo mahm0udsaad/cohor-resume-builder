@@ -7,19 +7,7 @@ import { Image } from "lucide-react";
 import { useTranslation } from "@/app/i18n/client";
 import { uploadToCloud } from "@/lib/cloud";
 import { usePathname } from "next/navigation";
-
-const allowedTemplates = [
-  "elegantModern",
-  "creativeTimeLine",
-  "professional",
-  "gridLayout",
-  "creative",
-  "glow",
-  "formal",
-  "ProfessionalSidebar",
-  "infographic",
-  "dynamicModern",
-];
+import { templatesWithImages } from "@/data/data";
 
 export default function UploadBtn({ lng, updateImageUrl }) {
   const { t } = useTranslation(lng, "forms");
@@ -29,7 +17,7 @@ export default function UploadBtn({ lng, updateImageUrl }) {
 
   if (
     pathname.split("/")[2] !== "onboarding" &&
-    !allowedTemplates.includes(pathname.split("/")[3])
+    !templatesWithImages.includes(pathname.split("/")[3])
   )
     return;
 

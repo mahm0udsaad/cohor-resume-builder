@@ -558,7 +558,10 @@ export const templates = [
     name: "elegantModern",
     image: "/templates/elegantModern.png",
   },
-
+  {
+    name: "compactelegance",
+    image: "/templates/compactelegance.png",
+  },
   {
     name: "modernFormal",
     image: "/templates/modernFormal.png",
@@ -609,4 +612,17 @@ export const templates = [
     name: "classic",
     image: "/templates/classic.png",
   },
+];
+export const templatesWithImages = [
+  "elegantModern",
+  "creativeTimeLine",
+  "professional",
+  "gridLayout",
+  "creative",
+  "glow",
+  "formal",
+  "ProfessionalSidebar",
+  "infographic",
+  "dynamicModern",
+  "compactelegance",
 ];

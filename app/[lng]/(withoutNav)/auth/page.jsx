@@ -62,7 +62,7 @@ export default async function AuthPage({ params: { lng }, searchParams }) {
               </div>
             </div>
 
-            <div className="mt-6 grid gap-y-3">
+            {/* <div className="mt-6 grid gap-y-3">
               <form
                 action={async () => {
                   "use server";
@@ -71,7 +71,7 @@ export default async function AuthPage({ params: { lng }, searchParams }) {
               >
                 <GoogleSignInButton lng={lng} />
               </form>
-            </div>
+            </div> */}
           </div>
 
           <div className="mt-6 text-center text-sm">
