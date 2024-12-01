@@ -30,7 +30,7 @@ export default async function ReviewPage({ params: { lng, resumeName } }) {
             lng={lng}
             plan={data?.user?.plan}
             template={resumeName}
-            resumeData={dummyData}
+            resumeData={data.resume}
           />
         )}
       </div>

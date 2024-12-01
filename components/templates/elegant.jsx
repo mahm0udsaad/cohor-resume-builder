@@ -81,7 +81,7 @@ const ElegantResume = ({ resumeData, selectedTheme, className }) => {
           style={{ color: theme.primaryColor }}
           className="text-2xl font-semibold border-b-2 border-gray-300 pb-2 mb-6 sm:text-xl sm:mb-4"
         >
-          {t.experience}
+          {t.workExperience}
         </h3>
         {resumeData.experiences?.map((job, index) => (
           <div key={index} className="mb-6 sm:mb-4">
