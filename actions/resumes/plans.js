@@ -97,17 +97,25 @@ export async function getPlanFromAmount(amountInCents) {
   const amountInDecimal = amountInCents / 100;
 
   try {
-    // Query the plan that matches the price
-    const plan = await prisma.plan.findFirst({
-      where: {
-        price: amountInDecimal,
-      },
+    // Query all plans and find the matching one considering discounts
+    const plans = await prisma.plan.findMany({
       select: {
         name: true,
+        price: true,
+        discount: true,
       },
     });
 
-    return plan?.name || null;
+    // Find a plan where the amount matches either original or discounted price
+    const matchingPlan = plans.find((plan) => {
+      const discountedPrice = plan.discount
+        ? plan.price * (1 - plan.discount / 100)
+        : plan.price;
+
+      return Math.abs(discountedPrice - amountInDecimal) < 0.01; // Allow small floating point differences
+    });
+
+    return matchingPlan?.name || null;
   } catch (error) {
     console.error("Error finding plan:", error);
     throw new Error("Failed to find matching plan");
