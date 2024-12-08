@@ -10,6 +10,8 @@ import {
   Loader2,
   CheckCircle,
   X,
+  Paintbrush,
+  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -20,7 +22,7 @@ import { getPlansWithPrices } from "@/actions/resumes/plans";
 import { calculateDiscountedPrice } from "@/utils/getDiscount";
 
 export function SubscriptionModal({
-  currentPlan = "pro",
+  currentPlan = "free",
   user,
   onSuccess,
   lng,
@@ -36,6 +38,19 @@ export function SubscriptionModal({
 
   const { t } = useTranslation(lng, "common");
   const plans = {
+    free: {
+      name: t("plans.free.name"),
+      price: 0,
+      period: t("plans.free.period"),
+      features: [
+        { text: t("plans.free.features.basicTheming"), icon: Paintbrush },
+        { text: t("plans.free.features.templatesAvailable"), icon: Layout },
+        { text: t("plans.free.features.watermark"), icon: ImageIcon },
+      ],
+      buttonText: t("plans.free.buttonText"),
+      icon: Zap,
+      gradient: "from-blue-400 to-blue-600",
+    },
     pro: {
       name: t("plans.pro.name"),
       originalPrice: plansPrices[1]?.price,
@@ -228,7 +243,7 @@ export function SubscriptionModal({
         value={activeTab}
         onValueChange={setActiveTab}
       >
-        <TabsList className="grid w-full grid-cols-2 bg-[#3b51a3]/10 p-1 rounded-lg">
+        <TabsList className="grid w-full grid-cols-3 bg-[#3b51a3]/10 p-1 rounded-lg">
           {Object.entries(plans).map(([key, plan]) => (
             <TabsTrigger
               key={key}
@@ -253,10 +268,8 @@ export function SubscriptionModal({
                     className={`text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${plan?.gradient}`}
                   >
                     {plan.price}
-                    <span className="text-xl font-bold text-[#3b51a3]">
-                      {t("SAR")}
-                    </span>
-                    <span className="text-sm ml-1 text-gray-600">
+                    <span className="text-xl font-bold ">{t("SAR")}</span>
+                    <span className="text-sm ml-1 ">
                       /{t(`subscription.period`)}
                     </span>
                   </span>

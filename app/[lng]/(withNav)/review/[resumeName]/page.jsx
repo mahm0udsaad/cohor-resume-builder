@@ -2,10 +2,8 @@ import { getResume } from "@/actions/resumes";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getUser } from "@/actions/userInfo/action";
 import ClientResumeTemplate from "@/components/component/render-template-view";
 import { useTranslation } from "@/app/i18n";
-import { dummyData } from "@/data/data";
 
 export default async function ReviewPage({ params: { lng, resumeName } }) {
   const { t } = await useTranslation(lng, "common");
@@ -25,6 +23,13 @@ export default async function ReviewPage({ params: { lng, resumeName } }) {
             {t("Back_to_Editing")}
           </Link>
         </div>
+        {data?.user?.plan === "free" && (
+          <div className="p-4 my-2 bg-yellow-100 rounded-lg border border-yellow-300">
+            <p className="text-sm text-yellow-800">
+              {t("Free_Plan_Limitation_Description")}
+            </p>
+          </div>
+        )}
         {data && (
           <ClientResumeTemplate
             lng={lng}

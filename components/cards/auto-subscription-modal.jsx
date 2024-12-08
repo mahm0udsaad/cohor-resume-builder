@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "@/app/i18n/client";
 import { getPlansWithPrices } from "@/actions/resumes/plans";
 import { calculateDiscountedPrice } from "@/utils/getDiscount";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AutoSubscriptionModal({ user, lng }) {
   const { t } = useTranslation(lng, "common");
@@ -26,7 +27,8 @@ export default function AutoSubscriptionModal({ user, lng }) {
   const [error, setError] = useState(null);
   const [plansPrices, setPlansPrices] = useState([]);
   const [redirectUrl, setRedirectUrl] = useState(null);
-
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const plans = [
     {
       key: "pro",
@@ -68,7 +70,14 @@ export default function AutoSubscriptionModal({ user, lng }) {
   ];
 
   useEffect(() => {
-    if (user?.plan === "proPlus") return;
+    const showPricing = searchParams.get("showPricing");
+    if (user?.plan === "proPlus" || showPricing) {
+      setIsOpen(true);
+      if (!isOpen) {
+        router.push("/gallery");
+      }
+      return;
+    }
     (async () => {
       const plans = await getPlansWithPrices();
       setPlansPrices(plans);
@@ -76,7 +85,7 @@ export default function AutoSubscriptionModal({ user, lng }) {
 
     const timer = setTimeout(() => setIsOpen(true), 5000);
     return () => clearTimeout(timer);
-  }, [user?.plan]);
+  }, [user?.plan, searchParams]);
 
   const handlePayment = async (planName) => {
     const currentUrl = window.location.href;

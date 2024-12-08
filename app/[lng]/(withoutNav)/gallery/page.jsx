@@ -64,7 +64,7 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
                         {t("upgradeAlert.description")}
                       </span>
                       <Link
-                        href="/#pricing"
+                        href="?showPricing=true"
                         className="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 transition-colors"
                       >
                         <span>{t("upgradeAlert.actionText")}</span>
@@ -110,17 +110,21 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
               </Link>
             ))}
             {lockedTemplates.map((template) => (
-              <div
+              <Link
                 key={template.name}
-                className="cursor-not-allowed relative group"
+                href="?showPricing=true"
+                prefetch={false}
+                className="cursor-pointer relative group transition-all duration-300"
               >
-                <div className="overflow-hidden rounded-lg bg-background shadow transition-all opacity-75">
+                <div className="overflow-hidden rounded-lg bg-background shadow  ">
                   <div className="aspect-[3/4] overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gray-900/50 flex flex-col items-center justify-center z-10">
-                      <Lock className="w-8 h-8 text-white mb-2" />
-                      <span className="text-white font-medium text-sm">
-                        Upgrade to unlock
-                      </span>
+                    <div className="absolute inset-0 group-hover:bg-transparent bg-gray-900/50 flex flex-col items-center justify-center z-10">
+                      <div className="flex flex-col items-center group-hover:bg-blue-500 rounded-md p-2">
+                        <Lock className="w-8 h-8 text-white  mb-2" />
+                        <span className="text-white font-medium  text-sm">
+                          Upgrade to unlock
+                        </span>
+                      </div>
                     </div>
                     <Image
                       src={template.image}
@@ -128,11 +132,11 @@ async function TemplateGallery({ params: { lng }, searchParams }) {
                       loading="lazy"
                       width={400}
                       height={300}
-                      className="filter grayscale"
+                      className="filter grayscale group-hover:grayscale-0 duration-300"
                     />
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

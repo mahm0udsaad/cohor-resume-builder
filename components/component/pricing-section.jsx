@@ -18,6 +18,18 @@ const PricingSection = async ({ t, lng }) => {
   const user = session?.user;
 
   const plans = {
+    free: {
+      name: t("plans.free.name"),
+      price: 0,
+      period: t("plans.free.period"),
+      features: [
+        { text: t("plans.free.features.basicTheming") },
+        { text: t("plans.free.features.templatesAvailable") },
+        { text: t("plans.free.features.watermark") },
+      ],
+      buttonText: t("plans.free.buttonText"),
+      gradient: "from-blue-400 to-blue-600",
+    },
     pro: {
       name: t("plans.pro.name"),
       highlighted: true,
@@ -61,7 +73,7 @@ const PricingSection = async ({ t, lng }) => {
         <h2 className="text-3xl font-bold text-center mb-12 text-[#3b51a3]">
           {t("pricingTitle")}
         </h2>
-        <div className="w-4/5 mx-auto grid md:grid-cols-2 gap-4">
+        <div className="w-4/5 mx-auto grid md:grid-cols-3 gap-4">
           {Object.values(plans).map((plan, index) => (
             <Card
               key={index}
@@ -84,13 +96,13 @@ const PricingSection = async ({ t, lng }) => {
                 <div className=" items-baseline mb-4">
                   <p className="text-4xl font-bold text-[#3b51a3]">
                     {`${plan.price}`}
-                    <span className="text-xl font-bold text-[#3b51a3]">
-                      {`/${t("SAR")}`}
+                    <span className="text-lg text-[#3b51a3]">
+                      {`/ ${t("SAR")}`}
                     </span>
                   </p>
                   {plan.discount > 0 && (
                     <p className="ml-2 text-sm line-through text-gray-400">
-                      {`${plan.originalPrice} ${t("SAR")}`}
+                      {`${plan.originalPrice} / ${t("SAR")}`}
                     </p>
                   )}
                 </div>
@@ -104,7 +116,9 @@ const PricingSection = async ({ t, lng }) => {
                 </ul>
               </CardContent>
               <CardFooter>
-                <PaymentBtn lng={lng} plan={plan} user={user} />
+                {plan.price !== 0 && (
+                  <PaymentBtn lng={lng} plan={plan} user={user} />
+                )}
               </CardFooter>
             </Card>
           ))}

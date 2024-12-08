@@ -1,6 +1,6 @@
 import { Suspense, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { LanguagesIcon, LayoutTemplate, SquareX } from "lucide-react";
+import { LanguagesIcon } from "lucide-react";
 import { ThemeSelector } from "@/components/theme-selector";
 import dynamic from "next/dynamic";
 import { templateComponents } from "@/helper/get-resume-engin";
@@ -42,11 +42,6 @@ export function ResumePreview({
     () => templateComponents[template],
     [template],
   );
-
-  // Memoize the handlers to prevent unnecessary re-renders
-  const handleTemplateToggle = useCallback(() => {
-    setShowTemplates((prev) => !prev);
-  }, [setShowTemplates]);
 
   // Memoize the content to prevent unnecessary re-renders
   const content = useMemo(() => {

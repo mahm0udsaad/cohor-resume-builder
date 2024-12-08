@@ -22,6 +22,7 @@ export function QualityUpgradeModal({
   user,
   isOpen,
   setIsOpen,
+  onContinue,
 }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -78,7 +79,7 @@ export function QualityUpgradeModal({
         className={
           redirectUrl
             ? "bg-[#F2F2F2] max-w-6xl p-0 overflow-hidden border-none"
-            : "sm:max-w-[600px] p-0 overflow-hidden max-h-[90vh] w-[95vw]"
+            : "sm:max-w-[600px] p-0 overflow-hidden max-h-[95vh] w-[95vw]"
         }
       >
         {redirectUrl ? (
@@ -206,9 +207,6 @@ export function QualityUpgradeModal({
                   </ul>
                 </div>
               </div>
-              <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-gray-600">
-                {t("upgradeMessage")}
-              </div>
               <DialogFooter className="mt-6 sm:mt-8 gap-2 flex-col sm:flex-row">
                 <Button
                   variant="default"
@@ -227,6 +225,16 @@ export function QualityUpgradeModal({
                       <span>{t("upgradeToPro")}</span>
                     </>
                   )}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto mt-2 sm:mt-0"
+                  onClick={() => {
+                    onContinue();
+                    setIsOpen(false);
+                  }}
+                >
+                  {t("continueWithBasic")}
                 </Button>
               </DialogFooter>
             </div>

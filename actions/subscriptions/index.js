@@ -56,12 +56,18 @@ export async function checkSubscriptionStatus(userEmail) {
         },
       },
     });
-
     if (!user) {
       throw new Error("User not found");
     }
+    if (user.plan === "free") {
+      return {
+        success: true,
+        subscription: null,
+      };
+    }
 
     const currentSubscription = user.subscriptions[0];
+    console.log(currentSubscription);
 
     // If no subscription exists
     if (!currentSubscription) {

@@ -77,14 +77,14 @@ export function ResumeBuilder({ plans, initialData, resumeName, user, lng }) {
   const { activeTab, handleTabChange, handleNextTab, handlePreviousTab, tabs } =
     useFormTabs({ router, resumeData, t, resumeName });
 
-  // const checkModalShown = () => {
-  //   if (typeof window !== "undefined") {
-  //     return (
-  //       sessionStorage.getItem(`qualityModalShown_${user?.email}`) === "true"
-  //     );
-  //   }
-  //   return false;
-  // };
+  const checkModalShown = () => {
+    if (typeof window !== "undefined") {
+      return (
+        sessionStorage.getItem(`qualityModalShown_${user?.email}`) === "true"
+      );
+    }
+    return false;
+  };
 
   const handleReview = async () => {
     if (plan !== "free") {
@@ -107,22 +107,6 @@ export function ResumeBuilder({ plans, initialData, resumeName, user, lng }) {
           updatedResumeData,
         );
         if (!res.success) {
-          if (res.isSubscriptionError) {
-            toast({
-              title: t("notifications.subscriptionExpired"),
-              description: t("notifications.subscriptionExpiredDesc"),
-              variant: "destructive",
-              action: (
-                <ToastAction
-                  onClick={() => setIsModalOpen(true)}
-                  altText="Purchase Plan"
-                >
-                  {t("notifications.purchasePlanButton")}
-                </ToastAction>
-              ),
-            });
-            return;
-          }
           toast({
             title: t("notifications.errorAddingResume"),
             variant: "destructive",
@@ -146,8 +130,12 @@ export function ResumeBuilder({ plans, initialData, resumeName, user, lng }) {
         setLoading(false);
       }
       return;
-    } else if (plan === "free") {
+    }
+
+    const modalShown = checkModalShown();
+    if (!modalShown) {
       setIsModalOpen(true);
+      sessionStorage.setItem(`qualityModalShown_${user?.email}`, "true");
     } else {
       handleContinue();
     }
